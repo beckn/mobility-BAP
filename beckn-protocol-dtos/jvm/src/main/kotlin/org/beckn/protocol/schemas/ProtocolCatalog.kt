@@ -23,5 +23,4 @@ data class ProtocolProviderCatalog @Default constructor(
   val tags: Map<String, String>? = null,
   val exp: LocalDateTime? = null,
   val matched: Boolean? = null,
-  @JsonProperty("@ondc/org/fssai_license_no") val ondcFssaiLicenseNo: String
 )

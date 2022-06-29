@@ -43,7 +43,7 @@ data class ProtocolSelectMessageSelectedOffers @Default constructor(
 )
 
 data class ProtocolCancellation @Default constructor(
-  val type: OndcCancellationType? = null,
+  val type: ProtocolCancellationType? = null,
   val refId: String? = null,
   val policies: ProtocolPolicy? = null,
   val time: java.time.OffsetDateTime? = null,
@@ -52,7 +52,7 @@ data class ProtocolCancellation @Default constructor(
   val selectedReason: ProtocolSelectedReason? = null,
   val additionalDescription: ProtocolDescriptor? = null,
 ) {
-  enum class OndcCancellationType(val value: String) {
+  enum class ProtocolCancellationType(val value: String) {
     @JsonProperty(" full")
     FULL("full"),
     @JsonProperty("partial")
@@ -60,9 +60,7 @@ data class ProtocolCancellation @Default constructor(
   }
 }
 
-data class ProtocolOndcLinkedOrders @Default constructor(
-  val id: String
-)
+
 data class ProtocolSelectedReason @Default constructor(
   val id: String
 )
