@@ -9,19 +9,7 @@ data class ProtocolPayment @Default constructor(
   val type: Type? = null,
   val status: Status? = null,
   val time: ProtocolTime? = null,
-  val collectedBy: CollectedBy? = null,
-  @JsonProperty("@ondc/org/collected_by_status") val collectedByStatus: CollectedByStatus? = null,
-  @JsonProperty("@ondc/org/buyer_app_finder_fee_type") val buyerAppFinderFeeType: BuyerAppFinderFeeType? = null,
-  @JsonProperty("@ondc/org/buyer_app_finder_fee_amount") val buyerAppFinderFeeAmount: String? = null,
-  @JsonProperty("@ondc/org/withholding_amount") val withHoldingAmount: String? = null,
-  @JsonProperty("@ondc/org/withholding_amount_status") val withHoldingAmountStatus: CollectedByStatus? = null,
-  @JsonProperty("@ondc/org/return_window") val returnWindow: String? = null,
-  @JsonProperty("@ondc/org/return_window_status") val returnWindowStatus: CollectedByStatus? = null,
-  @JsonProperty("@ondc/org/settlement_basis") val settlementBasis: String? = null,
-  @JsonProperty("@ondc/org/settlement_basis_status") val settlementBasisStatus: CollectedByStatus? = null,
-  @JsonProperty("@ondc/org/settlement_window") val settlementWindow: String? = null,
-  @JsonProperty("@ondc/org/settlement_window_status") val settlementWindowStatus: CollectedByStatus? = null,
-  @JsonProperty("@ondc/org/settlement_details") val settlementDetails: List<SettlementDetails>? = null,
+  val collectedBy: CollectedBy? = null
 
 ) {
 
@@ -52,6 +40,7 @@ data class ProtocolPayment @Default constructor(
   }
 
   enum class Status(val value: String) {
+    @JsonProperty("PAID")
     PAID("PAID"),
     @JsonProperty("NOT-PAID")
     NOTPAID("NOT-PAID");

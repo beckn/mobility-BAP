@@ -7,7 +7,9 @@ data class ProtocolCatalog @Default constructor(
   @JsonProperty("bpp/descriptor") val bppDescriptor: ProtocolDescriptor? = null,
   @JsonProperty("bpp/providers") val bppProviders: List<ProtocolProviderCatalog>? = null,
   @JsonProperty("bpp/categories") val bppCategories: List<ProtocolCategory>? = null,
-  val id: String? = null,
+  @JsonProperty("bpp/fulfillments") val bppFulfillments: List<ProtocolFulfillment>? = null,
+  @JsonProperty("bpp/payments") val bppPayments: List<ProtocolPayment>? = null,
+  @JsonProperty("bpp/offers") val bppOffers: List<ProtocolOffer>? = null,
   val exp: LocalDateTime? = null
 )
 

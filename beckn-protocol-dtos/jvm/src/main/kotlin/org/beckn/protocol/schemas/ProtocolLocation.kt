@@ -10,8 +10,9 @@ data class ProtocolLocation @Default constructor(
   val country: ProtocolCountry? = null,
   val circle: ProtocolCircle? = null,
   val polygon: String? = null,
-  val `3dspace`: String? = null
-)
+  val `3dspace`: String? = null,
+  val time: ProtocolTime? = null,
+  )
 
 data class ProtocolCity @Default constructor(
   val name: String? = null,
@@ -24,7 +25,8 @@ data class ProtocolCountry @Default constructor(
 )
 
 data class ProtocolCircle @Default constructor(
-  val radius: ProtocolScalar? = null
+  val radius: ProtocolScalar,
+  val gps: String
 )
 
 data class ProtocolScalar @Default constructor(
@@ -35,7 +37,6 @@ data class ProtocolScalar @Default constructor(
   val computedValue: java.math.BigDecimal? = null,
   val range: ProtocolScalarRange? = null
 ) {
-
   enum class Type(val value: String) {
     CONSTANT("CONSTANT"),
     VARIABLE("VARIABLE");

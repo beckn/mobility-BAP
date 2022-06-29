@@ -9,8 +9,6 @@ data class ProtocolOnSelectMessageSelected @Default constructor(
   val addOns: List<ProtocolAddOn>? = null,
   val offers: List<ProtocolOffer>? = null,
   val quote: ProtocolQuotation? = null,
-  @JsonProperty("@ondc/org/cancellation") val ondcCancellation: ProtocolOndcOrderCancellation? = null,
-  @JsonProperty("@ondc/org/linked_orders") val ondcLinkedOrders: List<ProtocolOndcLinkedOrders>? = null,
 )
 
 data class ProtocolSelectMessageSelected @Default constructor(
@@ -32,14 +30,6 @@ data class ProtocolOnSelectedItem @Default constructor(
   val time: ProtocolTime? = null,
   val tags: Map<String, String>? = null,
   val quantity: ProtocolItemQuantity,
-  @JsonProperty("@ondc/org/returnable") val ondcReturnable: Boolean? = true,
-  @JsonProperty("@ondc/org/cancellable") val ondcCancellable: Boolean? = true,
-  @JsonProperty("@ondc/org/seller_pickup_return") val ondcSellerPickupReturn: Boolean? = true,
-  @JsonProperty("@ondc/org/return_window") val ondcReturnWindow: String?,
-  @JsonProperty("@ondc/org/time_to_ship") val ondcTimeToShip: String? = null,
-  @JsonProperty("@ondc/org/available_on_cod") val ondcAvailableOnCod: Boolean? = true,
-  @JsonProperty("@ondc/org/statutory_reqs_packaged_commodities") val ondcStatutoryPackagedCommodities: OndcStatutoryPackagedCommodities?,
-  @JsonProperty("@ondc/org/statutory_reqs_prepackaged_food") val ondcStatutoryPackagedFood: OndcStatutoryPackagedFood?,
 )
 
 data class ProtocolSelectedItem @Default constructor(
@@ -52,14 +42,6 @@ data class ProtocolSelectedItem @Default constructor(
   val time: ProtocolTime? = null,
   val tags: Map<String, String>? = null,
   val quantity: ProtocolItemQuantityAllocated,
-  @JsonProperty("@ondc/org/returnable") val ondcReturnable: Boolean? = true,
-  @JsonProperty("@ondc/org/cancellable") val ondcCancellable: Boolean? = true,
-  @JsonProperty("@ondc/org/seller_pickup_return") val ondcSellerPickupReturn: Boolean? = true,
-  @JsonProperty("@ondc/org/return_window") val ondcReturnWindow: String?,
-  @JsonProperty("@ondc/org/time_to_ship") val ondcTimeToShip: String? = null,
-  @JsonProperty("@ondc/org/available_on_cod") val ondcAvailableOnCod: Boolean? = true,
-  @JsonProperty("@ondc/org/statutory_reqs_packaged_commodities") val ondcStatutoryPackagedCommodities: OndcStatutoryPackagedCommodities?,
-  @JsonProperty("@ondc/org/statutory_reqs_prepackaged_food") val ondcStatutoryPackagedFood: OndcStatutoryPackagedFood?,
 )
 
 data class ProtocolItemQuantity @Default constructor(

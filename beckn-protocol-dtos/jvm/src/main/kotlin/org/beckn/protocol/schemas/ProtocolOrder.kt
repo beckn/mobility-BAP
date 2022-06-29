@@ -15,10 +15,7 @@ data class ProtocolOrder @Default constructor(
   val state: String? = null,
   val createdAt: java.time.OffsetDateTime? = null,
   val updatedAt: java.time.OffsetDateTime? = null,
-  @JsonProperty("@ondc/org/cancellation") val ondcCancellation: ProtocolOndcOrderCancellation? = null,
-  @JsonProperty("@ondc/org/linked_orders") val ondcLinkedOrders: List<ProtocolOndcLinkedOrders>? = null,
-
-)
+  )
 
 
 data class ProtocolSelectMessageSelectedProvider @Default constructor(
@@ -39,21 +36,13 @@ data class ProtocolSelectMessageSelectedAddOns @Default constructor(
 data class ProtocolSelectMessageSelectedItems @Default constructor(
   val id: String,
   val quantity: ProtocolItemQuantityAllocated,
-  @JsonProperty("@ondc/org/returnable") val ondcReturnable: Boolean? = true,
-  @JsonProperty("@ondc/org/cancellable") val ondcCancellable: Boolean? = true,
-  @JsonProperty("@ondc/org/seller_pickup_return") val ondcSellerPickupReturn: Boolean? = true,
-  @JsonProperty("@ondc/org/return_window") val ondcReturnWindow: String?,
-  @JsonProperty("@ondc/org/time_to_ship") val ondcTimeToShip: String? = null,
-  @JsonProperty("@ondc/org/available_on_cod") val ondcAvailableOnCod: Boolean? = true,
-  @JsonProperty("@ondc/org/statutory_reqs_packaged_commodities") val ondcStatutoryPackagedCommodities: OndcStatutoryPackagedCommodities?,
-  @JsonProperty("@ondc/org/statutory_reqs_prepackaged_food") val ondcStatutoryPackagedFood: OndcStatutoryPackagedFood?,
 )
 
 data class ProtocolSelectMessageSelectedOffers @Default constructor(
   val id: String? = null
 )
 
-data class ProtocolOndcOrderCancellation @Default constructor(
+data class ProtocolCancellation @Default constructor(
   val type: OndcCancellationType? = null,
   val refId: String? = null,
   val policies: ProtocolPolicy? = null,
@@ -78,9 +67,14 @@ data class ProtocolSelectedReason @Default constructor(
   val id: String
 )
 
-data class ProtocolPolicy @Default constructor(
+data class  ProtocolPolicy @Default constructor(
   val id: String?= null,
   val parentPolicyId: String?= null,
   val descriptor: ProtocolDescriptor? = null,
   val time: ProtocolTime? = null,
+)
+
+data class ProtocolPage @Default constructor(
+  val id: String?= null,
+  val nextId: String?= null,
 )

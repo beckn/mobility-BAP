@@ -32,7 +32,9 @@ data class ProtocolPerson @Default constructor(
   val dob: java.time.LocalDate? = null,
   val gender: String? = null,
   val cred: String? = null,
-  val tags: Map<String, String>? = null
+  val tags: Map<String, String>? = null,
+  val phone: String? = null,
+  val email: String? = null
 )
 
 data class ProtocolVehicle @Default constructor(
