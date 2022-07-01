@@ -1,0 +1,30 @@
+port: 3000
+db:
+  url: mongodb://localhost:27017/protocol
+app:
+  mode: bap
+
+  actions:
+    - search
+    - init
+
+  privateKey: "RUp8sKmyp0C3IBapYH3BUeQi5GN7zcQgM6Hvn7Y4oGE="
+  publicKey: "X+jgcPXHD4kFzvcbb3eaxWRA5UwB8Mm6IykeTPADofU="
+
+  subscriberId: "dev.bap.protocol-server.com"
+  subscriberUri: "https://ayush.free.beeceptor.com/"
+  
+  registryUrl: https://registry.becknprotocol.io/subscribers
+  auth: true
+  uniqueKey: "dev.bap.protocol-server.key"
+  
+  city: "std:080"
+  country: "IND"
+
+  ttl: "P1M"
+  lookupCacheTTL: "PT10S"
+
+  httpTimeout: 3000
+  httpRetryCount: 2
+  
+  clientUrl: "https://b998-103-170-55-145.ngrok.io/"
