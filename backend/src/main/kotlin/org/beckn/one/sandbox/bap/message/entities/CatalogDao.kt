@@ -1,5 +1,6 @@
 package org.beckn.one.sandbox.bap.message.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.beckn.protocol.schemas.Default
 import java.time.LocalDateTime
 
@@ -9,6 +10,9 @@ data class CatalogDao @Default constructor(
   val bppCategories: List<CategoryDao>? = null,
   val exp: LocalDateTime? = null,
   val bppId: String? = null,
+  val bppFulfillments: List<FulfillmentDao>? = null,
+  val bppPayments: List<PaymentDao>? = null,
+  val bppOffers: List<OfferDao>? = null,
 )
 
 data class ProviderCatalogDao @Default constructor(

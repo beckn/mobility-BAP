@@ -12,8 +12,6 @@ data class OnInitMessageInitializedDao @Default constructor(
   val fulfillment: FulfillmentDao? = null,
   val quote: QuotationDao? = null,
   val payment: PaymentDao? = null,
-  val ondcCancellation: OndcOrderCancellationDao? = null,
-  val ondcLinkedOrders: List<OndcLinkedOrdersDao>?= null,
 )
 
 data class OnInitMessageInitializedProviderLocationDao @Default constructor(

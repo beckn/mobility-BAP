@@ -11,18 +11,6 @@ data class PaymentDao  @Default constructor(
   val status: Status? = null,
   val time: TimeDao? = null,
   val collectedBy: CollectedBy? = null,
-  val ondcCollectedByStatus: CollectedByStatus? = null,
-  val ondcBuyerAppFinderFeeType: BuyerAppFinderFeeType? = null,
-  val ondcBuyerAppFinderFeeAmount: String? = null,
-  val ondcWithHoldingAmount: String? = null,
-  val ondcWithHoldingAmountStatus: CollectedByStatus? = null,
-  val ondcReturnWindow: String? = null,
-  val ondcReturnWindowStatus: CollectedByStatus? = null,
-  val ondcSettlementBasis: String? = null,
-  val ondcSettlementBasisStatus:CollectedByStatus? = null,
-  val ondcSettlementWindow: String? = null,
-  val ondcSettlementWindowStatus: CollectedByStatus? = null,
-  val ondcSettlementDetails: List<SettlementDetailsDao>? = null,
 ) {
 
   /**

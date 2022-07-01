@@ -12,7 +12,8 @@ data class LocationDao @Default constructor(
   val country: CountryDao? = null,
   val circle: CircleDao? = null,
   val polygon: String? = null,
-  val `3dspace`: String? = null
+  val `3dspace`: String? = null,
+  val time: TimeDao? = null,
 )
 
 data class CityDao @Default constructor(
@@ -26,7 +27,8 @@ data class CountryDao @Default constructor(
 )
 
 data class CircleDao @Default constructor(
-  val radius: ScalarDao? = null
+  val radius: ScalarDao,
+  val gps: String
 )
 
 data class ScalarDao @Default constructor(

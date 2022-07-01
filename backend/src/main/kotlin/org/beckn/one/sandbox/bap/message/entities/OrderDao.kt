@@ -24,9 +24,7 @@ data class OrderDao @Default constructor(
   override var userId: String?,
   var transactionId: String? = null,
   var messageId: String? = null,
-  var parentOrderId:String? = null,
-  val ondcCancellation: OndcOrderCancellationDao? = null,
-  val ondcLinkedOrders: List<OndcLinkedOrdersDao>?= null,
+  var parentOrderId:String? = null
 ):BecknResponseDao
 
 
@@ -48,41 +46,12 @@ data class SelectMessageSelectedAddOnsDao @Default constructor(
 data class SelectMessageSelectedItemsDao @Default constructor(
   val id: String,
   val quantity: ItemQuantityAllocatedDao,
-  val ondcReturnable: Boolean? = true,
-  val ondcCancellable: Boolean? = true,
-  val ondcSellerPickupReturn: Boolean? = true,
-  val ondcReturnWindow: String? = null,
-  val ondcTimeToShip: String? = null,
-  val ondcAvailableOnCod: Boolean? = true,
-  val ondcStatutoryPackagedCommodities: OndcStatutoryPackagedCommoditiesDao? = null,
-  val ondcStatutoryPackagedFood: OndcStatutoryPackagedFoodDao? = null,
   )
 
 data class SelectMessageSelectedOffersDao @Default constructor(
   val id: String
 )
 
-data class OndcOrderCancellationDao @Default constructor(
-  val type: OndcCancellationType? = null,
-  val refId: String? = null,
-  val policies: PolicyDao? = null,
-  val time: java.time.OffsetDateTime? = null,
-  val cancelledBy: String? = null,
-  val reasons: OptionDao? = null,
-  val selectedReason: SelectedReasonDao? = null,
-  val additionalDescription: DescriptorDao? = null,
-) {
-  enum class OndcCancellationType(val value: String) {
-    @JsonProperty(" full")
-    FULL("full"),
-    @JsonProperty("partial")
-    PARTIAL("partial");
-  }
-}
-
-data class OndcLinkedOrdersDao @Default constructor(
-  val id: String
-)
 data class SelectedReasonDao @Default constructor(
   val id: String
 )

@@ -9,8 +9,6 @@ data class OnSelectMessageSelectedDao @Default constructor(
   val addOns: List<AddOnDao>? = null,
   val offers: List<OfferDao>? = null,
   val quote: QuotationDao? = null,
-  val ondcCancellation: OndcOrderCancellationDao? = null,
-  val ondcLinkedOrders: List<OndcLinkedOrdersDao>?= null,
 )
 
 data class SelectedItemDao @Default constructor(

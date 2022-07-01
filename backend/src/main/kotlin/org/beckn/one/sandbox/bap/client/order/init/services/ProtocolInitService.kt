@@ -61,8 +61,7 @@ class ProtocolInitService @Autowired constructor(
               locations = listOf(ProtocolSelectMessageSelectedProviderLocations(id = it?.locations?.first() ?: "" ))
             )
           },
-          items = order.items!!.map { ProtocolSelectMessageSelectedItems(id = it.id, quantity = it.quantity, ondcReturnWindow = null,
-            ondcStatutoryPackagedFood = null, ondcStatutoryPackagedCommodities = null) },
+          items = order.items!!.map { ProtocolSelectMessageSelectedItems(id = it.id, quantity = it.quantity) },
           billing = order.billingInfo,
           fulfillment = ProtocolFulfillment(
             end = ProtocolFulfillmentEnd(

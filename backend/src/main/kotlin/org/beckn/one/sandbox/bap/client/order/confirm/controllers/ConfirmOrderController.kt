@@ -101,9 +101,7 @@ class ConfirmOrderController @Autowired constructor(
                     userId = SecurityUtil.getSecuredUserDetail()?.uid,
                     messageId = resultContext?.messageId ,
                     transactionId = null,
-                    parentOrderId =  parentOrderId,
-                    ondcCancellation = null,
-                    ondcLinkedOrders = null
+                    parentOrderId =  parentOrderId
                   )
                 ).fold(
                   { updateError->
