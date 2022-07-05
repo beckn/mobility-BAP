@@ -171,7 +171,7 @@ export default {
     const openHamburger = false;
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
-      toggleLocationDrop();
+      // toggleLocationDrop();
       updateLocation({
         latitude: latitude,
         longitude: longitude,

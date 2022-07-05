@@ -1,7 +1,7 @@
 <!-- <button @click="isShow = !isShow">click Me</button> -->
 
 <template>
-  <div v-if="!isShow">
+  <div v-if="!isShow" >
     <div class="popover-bg">
       <div class="popover-content position-relative">
         <h3>Device location is not enabled</h3>
@@ -41,10 +41,16 @@
             </template>
           </div>
         </div>
+        <div  class="btn"  @click="$emit('toggleLocationDrop')" ><SfButton id="btn">   <span class="sf-vector__icon">
+                  <SfIcon color="#000" size="20px" icon="marker" />
+                </span>ENABLE LOCATION</SfButton> </div>
+         
         <!-- <ModalComponent class="modalclass" /> -->
       </div>
+      
     </div>
-  </div>
+    </div>
+
 </template>
 
 <script>
@@ -80,5 +86,14 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+}
+.btn{
+display: flex;
+align-items: center;
+justify-content: center;
+}
+#btn{
+  border-radius: 4px
+  
 }
 </style>
