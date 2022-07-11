@@ -62,7 +62,7 @@ class ProtocolSearchService @Autowired constructor(
       StringUtils.hasText(criteria.deliveryLocation) ->
         ProtocolFulfillment(
           start = ProtocolFulfillmentStart(location = ProtocolLocation(gps=criteria.pickupLocation)),
-          end = ProtocolFulfillmentEnd(location = ProtocolLocation(gps = criteria.deliveryLocation))
+          end = ProtocolFulfillmentEnd(location = ProtocolLocation(gps = criteria.dropLocation))
         )
       else -> null
     }

@@ -30,10 +30,10 @@ class SearchController @Autowired constructor(
   @ResponseBody
   fun searchV1(@RequestBody request: SearchRequestDto): ResponseEntity<ProtocolAckResponse> {
     val protocolContext =
-      contextFactory.create(transactionId = request.context.transactionId, bppId = request.context.bppId, action = ProtocolContext.Action.SEARCH)
+      contextFactory.create(transactionId = request.context.transactionId, action = ProtocolContext.Action.SEARCH)
     val loggerRequest = loggingFactory.create(messageId = protocolContext.messageId,
       transactionId = protocolContext.transactionId, contextTimestamp = protocolContext.timestamp.toString(),
-      action = protocolContext.action, bppId = protocolContext.bppId
+      action = protocolContext.action
     )
     loggingService.postLog(loggerRequest)
     return searchService.search(protocolContext, request.message.criteria)

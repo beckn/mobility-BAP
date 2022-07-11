@@ -13,10 +13,11 @@ data class SearchRequestMessageDto @Default constructor(
 
 data class SearchCriteria @Default constructor(
   val searchString: String? = null,
-  val deliveryLocation: String? = null,
+  val deliveryLocation: String,
   val providerId: String? = null,
   val categoryId: String? = null,
-  val pickupLocation: String? = null,
+  val pickupLocation: String,
+  val dropLocation: String,
   val providerName : String? = null,
   val categoryName : String? = null
 )

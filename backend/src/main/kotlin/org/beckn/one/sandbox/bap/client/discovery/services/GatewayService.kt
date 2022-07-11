@@ -58,7 +58,7 @@ class GatewayService @Autowired constructor(
           ),
           fulfillment = ProtocolFulfillment(
             start = ProtocolFulfillmentStart(location = ProtocolLocation(gps=criteria.pickupLocation)),
-            end = ProtocolFulfillmentEnd(location = ProtocolLocation(gps = criteria.deliveryLocation))),
+            end = ProtocolFulfillmentEnd(location = ProtocolLocation(gps = criteria.dropLocation))),
         )
       )
     )
