@@ -43,7 +43,7 @@ gateway_service:
 bpp_registry_service:
   url: ${BPP_URL:https://registry.becknprotocol.io/subscribers/}
 protocol_adapter_service:
-  url: ${PROTOCOL_HELPER_URL:http://localhost:3000/}
+  url: ${PROTOCOL_HELPER_URL:https://mobilityreferencebap.becknprotocol.io/}
   retry:
     max_attempts: ${PROTOCOL_RETRY_MAX_ATTEMPTS:3}
     initial_interval_in_millis: ${PROTOCOL_RETRY_INTERVAL:2000}
@@ -70,7 +70,7 @@ context:
   city: ${BAP_CITY_CODE:std:080}
   country: ${BAP_COUNTRY_CODE:IND}
   bap_id: ${BAP_ID:mobilityreferencebap.becknprotocol.io}
-  bap_uri: ${BAP_URL:http://localhost:9001/client/v1/}
+  bap_uri: ${BAP_URL:https://mobilityreferencebap.becknprotocol.io/client/v1/}
   ttl_seconds: ${BAP_TTL:20}
 
 beckn:
