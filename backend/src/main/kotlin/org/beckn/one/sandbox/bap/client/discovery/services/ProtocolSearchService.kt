@@ -59,7 +59,7 @@ class ProtocolSearchService @Autowired constructor(
 
   private fun getFulfillmentFilter(criteria: SearchCriteria) =
     when {
-      StringUtils.hasText(criteria.deliveryLocation) ->
+      StringUtils.hasText(criteria.pickupLocation) ->
         ProtocolFulfillment(
           start = ProtocolFulfillmentStart(location = ProtocolLocation(gps=criteria.pickupLocation)),
           end = ProtocolFulfillmentEnd(location = ProtocolLocation(gps = criteria.dropLocation))
