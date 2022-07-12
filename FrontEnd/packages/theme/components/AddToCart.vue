@@ -8,8 +8,8 @@
         link=""
         @click="changeItemNumber('add')"
       >
-        <SfIcon icon="add_to_cart" size="xs" color="white" :coverage="1" /> Add
-        to Cart
+        <!--<SfIcon size="xs" color="white" :coverage="1" />-->
+         Select
       </button>
       <div v-else class="item-counter">
         <button
@@ -88,5 +88,12 @@ export default {
   .quantity-value {
     margin-top: 10px;
   }
+}
+.s-p-addcart{
+  width: 139px;
+  box-sizing: border-box;
+  height: 40px;
+  border-radius: 3px;
+  //border: 1px solid #F37A20;
 }
 </style>

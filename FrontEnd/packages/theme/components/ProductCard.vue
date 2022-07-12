@@ -6,14 +6,15 @@
           @click="$emit('goToProduct')"
           :src="_pImage"
           alt="product img"
-          :width="horizontalView ? 85 : 75"
-          :height="90"
+          :width="horizontalView ? 66.7 : 56.7"
+          :height="60"
         />
       </div>
       <div class="s-p-details">
         <div class="price-verified">
           <div @click="$emit('goToProduct')" class="s-p-name">{{ _pName }}</div>
         </div>
+        <div class="p-distance">{{providerGetters.getProviderDistance(provider)}} min away</div> 
         <!-- <div class="s-p-weight">{{ _pWieght }}</div> -->
         <div
           class="price-increase"
@@ -79,7 +80,7 @@
 <script>
 import { SfImage, SfIcon } from '@storefront-ui/vue';
 import AddToCart from './AddToCart.vue';
-import { productGetters } from '@vue-storefront/beckn';
+import { productGetters , providerGetters} from '@vue-storefront/beckn';
 import { ref, computed } from '@vue/composition-api';
 
 export default {
@@ -126,6 +127,7 @@ export default {
 
     return {
       productGetters,
+      providerGetters,
       _pName,
       _pWieght,
       _pPrice,
@@ -190,5 +192,20 @@ export default {
       cursor: pointer;
     }
   }
+}
+.s-p-name{
+  line-height: 12px;
+  min-height: 0;
+  font-size: 10px;
+  font-family: 'Roboto';
+}
+.s-p-price{
+  line-height: 19px;
+}
+.p-distance{
+  //line-height: 14px;
+  padding-bottom: 5px;
+  color: #8A8D8E;
+  font-family: 'Roboto';
 }
 </style>

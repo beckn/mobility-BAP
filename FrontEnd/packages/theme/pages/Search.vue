@@ -2,7 +2,7 @@
   <div class="search-page">
     <div class="search-bar side-padding">
       <SfSearchBar
-        placeholder="Search for items"
+        placeholder="Search for anything"
         aria-label="Search"
         :icon="null"
         :value="searchKey"
@@ -33,6 +33,7 @@
         </template>
       </SfSearchBar>
     </div>
+
     <div class="details">
       <transition-group name="sf-fade" mode="out-in">
         <div
@@ -40,7 +41,7 @@
           class="search__wrapper-results"
           key="results"
         >
-          <div class="side-padding result-num">
+          <div class="side-padding result-num res">
             <span
               ><span v-e2e="'total-result'">{{
                 totalResults(pollResults)
@@ -48,6 +49,7 @@
               results found</span
             >
           </div>
+          <!--<hr>-->
           <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
             <div
               v-for="(provider, prIndex) in bpp.bpp_providers"
@@ -73,14 +75,21 @@
                           providerGetters.getProviderName(provider, provider)
                         }}
                       </div>
-                      <div class="text-padding">
+                      <!--<div class="text-padding">
                         <span class="p-distance">by</span>
                         <span>{{
                           providerGetters.getProviderBpp(bpp.bpp_descriptor)
                         }}</span>
-                      </div>
+                      </div>-->
                     </div>
-                    <!-- <div class="p-distance">{{providerGetters.getProviderDistance(provider)}} km</div> -->
+                    <span class="flexy">
+                      <span class="rating-css">
+                        {{providerGetters.getProviderDistance(provider) }} 
+                      </span>
+                      <span class="sf-rating__icon">
+                        <SfIcon color="#FADB14" size="16px" icon="star" />
+                      </span>
+                    </span> 
                   </div>
                 </div>
                 <div class="exp-provider" @click="openProvider(bpp, provider)">
@@ -151,13 +160,14 @@
   </div>
 </template>
 <script>
-import { SfIcon, SfSearchBar, SfButton, SfImage } from '@storefront-ui/vue';
+import { SfIcon, SfSearchBar, SfButton, SfImage, SfBottomModal } from '@storefront-ui/vue';
 import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import LoadingCircle from '~/components/LoadingCircle';
 import ProductCard from '~/components/ProductCard';
 import Footer from '~/components/Footer';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
+import Filterpage from '~/pages/Filterpage';
 import {
   productGetters,
   providerGetters,
@@ -170,7 +180,9 @@ import {
 export default {
   name: 'Search',
   components: {
+    Filterpage,
     LoadingCircle,
+    SfBottomModal,
     SfIcon,
     SfSearchBar,
     SfButton,
@@ -191,7 +203,6 @@ export default {
     const goBack = () => {
       context.root.$router.back();
     };
-
     const { addItem, cart, isInCart, load } = useCart();
     const data = context.root.$route.params.searchKey;
     console.log(data);
@@ -390,10 +401,21 @@ export default {
       footerClick,
       totalResults,
       goToProduct,
-      openProvider
+      openProvider,
     };
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.rating-css{
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #37474F;
+  height: 20px;
+  //font-weight: bold;
+  //width: 10px;
+  font-family: 'SF Pro Text';
+}
+</style>
