@@ -1,13 +1,14 @@
 package org.beckn.protocol.schemas
 
-data class ProtocolIntent(
-  val fulfillment: ProtocolFulfillment?,
+data class ProtocolIntent (
+  val fulfillment: ProtocolFulfillment?= null,
   val item: ProtocolIntentItem? = null,
-  val provider: ProtocolProvider?,
+  val provider: ProtocolProvider? = null,
   val category: ProtocolCategory? = null,
   val tags: Map<String, String>? = null,
   val payment: ProtocolPayment? = null,
   val offer: ProtocolOffer? = null,
+  val descriptor: ProtocolDescriptor? = null,
 )
 
 data class ProtocolIntentItem(

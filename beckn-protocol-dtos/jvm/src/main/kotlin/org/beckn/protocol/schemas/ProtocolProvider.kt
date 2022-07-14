@@ -14,4 +14,5 @@ data class ProtocolProvider @Default constructor(
   val offers: List<ProtocolOffer>? = null,
   val items: List<ProtocolItem>? = null,
   val exp: java.time.OffsetDateTime? = null,
+  val rateable: Boolean?= null,
 )

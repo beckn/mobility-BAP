@@ -15,6 +15,7 @@ data class ProtocolOrder @Default constructor(
   val state: String? = null,
   val createdAt: java.time.OffsetDateTime? = null,
   val updatedAt: java.time.OffsetDateTime? = null,
+  val documents: ProtocolDocument? = null,
   )
 
 

@@ -7,6 +7,10 @@ data class ProtocolRating @Default constructor(
   val unit: String? = null,
   val max_value: Int? = null,
   val direction: ProtocolDirection? = null,
+  val ratingCategory: String? = null,
+  val id: String? = null,
+  val feedbackForm: ProtocolFeedbackForm? = null,
+  val feedbackId: String? = null,
 ){
   enum class ProtocolDirection {
     @JsonProperty("UP")
@@ -15,3 +19,8 @@ data class ProtocolRating @Default constructor(
     DOWN
   }
 }
+
+data class ProtocolRatingAck @Default constructor(
+  val feedbackAck: Boolean ?= null,
+  val ratingAck: Boolean ? = null,
+)
