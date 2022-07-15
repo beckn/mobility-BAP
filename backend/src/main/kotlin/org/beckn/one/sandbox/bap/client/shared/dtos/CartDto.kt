@@ -19,6 +19,7 @@ data class CartDto @Default constructor(
 
 data class CartItemDto @Default constructor(
   val id: String,
+  val fulfillmentId: String,
   val quantity: CartSelectedItemQuantity,
   val bppId: String,
   val provider: CartItemProviderDto,
