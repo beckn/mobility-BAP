@@ -8,6 +8,10 @@ data class RatingDao @Default constructor(
   val unit: String? = null,
   val max_value: Int? = null,
   val direction: DirectionDao? = null,
+  val ratingCategory: String? = null,
+  val id: String? = null,
+  val feedbackForm: DirectionDao? = null,
+  val feedbackId: String? = null,
 ) {
   enum class DirectionDao {
     @JsonProperty("UP")
@@ -17,4 +21,9 @@ data class RatingDao @Default constructor(
     DOWN
   }
 }
+
+data class RatingAckDao @Default constructor(
+  val feedbackAck: Boolean ?= null,
+  val ratingAck: Boolean ? = null,
+)
 

@@ -8,10 +8,13 @@ data class ItemDao @Default constructor(
   val descriptor: DescriptorDao? = null,
   val price: PriceDao? = null,
   val categoryId: String? = null,
+  val fulfillmentId: String? = null,
   val locationId: String? = null,
   val time: TimeDao? = null,
   val matched: Boolean? = null,
   val related: Boolean? = null,
   val recommended: Boolean? = null,
   val tags: Map<String, String>? = null,
+  val rating: Int? = null,
+  val rateable: Boolean? = null,
 )

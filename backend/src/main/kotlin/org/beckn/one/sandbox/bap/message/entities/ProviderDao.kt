@@ -16,4 +16,5 @@ data class ProviderDao @Default constructor(
   val offers: List<OfferDao>? = null,
   val items: List<ItemDao>? = null,
   val exp: java.time.OffsetDateTime? = null,
+  val rateable: Boolean?= null,
 )

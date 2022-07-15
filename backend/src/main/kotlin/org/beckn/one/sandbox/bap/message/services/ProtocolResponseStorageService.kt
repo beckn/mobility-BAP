@@ -26,6 +26,7 @@ class ProtocolResponseStorageServiceImpl<Proto : ProtocolResponse, Entity : Beck
     Either
       .catch {
         log.info("Saving protocol response: {}", protoResponse)
+        log.info("Saving protocol mapped response: {}",mapper.protocolToEntity(protoResponse) )
         responseRepo.insertOne(mapper.protocolToEntity(protoResponse))
       }
       .bimap(

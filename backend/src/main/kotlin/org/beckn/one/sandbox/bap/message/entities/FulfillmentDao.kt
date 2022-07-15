@@ -15,7 +15,10 @@ data class FulfillmentDao  @Default constructor(
   val customer: CustomerDao? = null,
   val tags: Map<String, String>? = null,
   val phone: String? = null,
-  val email: String? = null
+  val email: String? = null,
+  val rating: Int? = null,
+  val contact: ContactDao? = null,
+  val rateable: Boolean? = null,
 )
 
 
