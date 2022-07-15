@@ -17,8 +17,9 @@ data class ProtocolSelectMessageSelected @Default constructor(
   val items: List<ProtocolSelectedItem>? = null,
   val addOns: List<ProtocolAddOn>? = null,
   val offers: List<ProtocolOffer>? = null,
-  val quote: ProtocolQuotation? = null
-)
+  val quote: ProtocolQuotation? = null,
+  val fulfillment: ProtocolFulfillment? = null,
+  )
 
 data class ProtocolOnSelectedItem @Default constructor(
   val id: String,
@@ -30,7 +31,10 @@ data class ProtocolOnSelectedItem @Default constructor(
   val time: ProtocolTime? = null,
   val tags: Map<String, String>? = null,
   val quantity: ProtocolItemQuantity,
-)
+  val fulfillmentId: String? = null,
+  val rating: Int? = null,
+  val rateable: Boolean? = null,
+  )
 
 data class ProtocolSelectedItem @Default constructor(
   val id: String,
@@ -42,7 +46,8 @@ data class ProtocolSelectedItem @Default constructor(
   val time: ProtocolTime? = null,
   val tags: Map<String, String>? = null,
   val quantity: ProtocolItemQuantityAllocated,
-)
+  val fulfillmentId: String? = null,
+  )
 
 data class ProtocolItemQuantity @Default constructor(
   val allocated: ProtocolItemQuantityAllocated? = null,

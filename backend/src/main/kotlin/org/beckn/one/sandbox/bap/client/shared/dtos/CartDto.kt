@@ -20,9 +20,9 @@ data class CartDto @Default constructor(
 data class CartItemDto @Default constructor(
   val id: String,
   val fulfillmentId: String,
-  val quantity: CartSelectedItemQuantity,
-  val bppId: String,
-  val provider: CartItemProviderDto,
+  val quantity: CartSelectedItemQuantity ?= null,
+  val bppId: String ?= null,
+  val provider: CartItemProviderDto ?= null,
   val quote: ProtocolQuotation? = null
 )
 
