@@ -17,6 +17,7 @@ data class ClientCatalog @Default constructor(
   val bppDescriptor: ProtocolDescriptor? = null,
   val bppProviders: List<ProtocolProviderCatalog>? = null,
   val bppCategories: List<ProtocolCategory>? = null,
+  val bppFulfillments: List<ProtocolFulfillment>? = null,
   val exp: LocalDateTime? = null,
   val bppId: String? = null,
   val bppUri: String? = null,
