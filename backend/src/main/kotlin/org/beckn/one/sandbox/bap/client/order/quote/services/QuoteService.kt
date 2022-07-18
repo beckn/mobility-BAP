@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class QuoteService @Autowired constructor(
-  private val registryService: RegistryService,
   private val bppSelectService: ProtocolSelectService,
   private val selectedItemMapper: SelectedItemMapper,
 ) {
@@ -31,9 +30,26 @@ class QuoteService @Autowired constructor(
       return Either.Right(null)
     }
 
+    if (areMultipleBppItemsSelected(cart.items)) {
+      log.info("Cart contains items from more than one BPP, returning error. Cart: {}", cart)
+      return Either.Left(CartError.MultipleBpps)
+    }
+
+    if (areMultipleProviderItemsSelected(cart.items)) {
+      log.info("Cart contains items from more than one provider, returning error. Cart: {}", cart)
+      return Either.Left(CartError.MultipleProviders)
+    }
     return bppSelectService.select(
       context,
+      providerId = cart.items.first().provider.id,
+      providerLocation = ProtocolLocation(id = cart.items.first().provider.locations?.first()),
       items = cart.items.map { cartItem -> selectedItemMapper.dtoToProtocol(cartItem) }
     )
   }
+
+  private fun areMultipleProviderItemsSelected(items: List<CartItemDto>) =
+    items.distinctBy { it.provider.id }.size > 1
+
+  private fun areMultipleBppItemsSelected(items: List<CartItemDto>) =
+    items.distinctBy { it.bppId }.size > 1
 }
