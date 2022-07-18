@@ -47,6 +47,8 @@ data class ProtocolSelectedItem @Default constructor(
   val tags: Map<String, String>? = null,
   val quantity: ProtocolItemQuantityAllocated,
   val fulfillmentId: String? = null,
+  val rating: Int? = null,
+  val rateable: Boolean? = null,
   )
 
 data class ProtocolItemQuantity @Default constructor(
