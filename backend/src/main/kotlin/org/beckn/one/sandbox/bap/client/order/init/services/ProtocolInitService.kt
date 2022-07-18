@@ -64,14 +64,15 @@ class ProtocolInitService @Autowired constructor(
           items = order.items!!.map { ProtocolSelectMessageSelectedItems(id = it.id, quantity = it.quantity) },
           billing = order.billingInfo,
           fulfillment = ProtocolFulfillment(
-            end = ProtocolFulfillmentEnd(
+            id = order.items.first().fulfillmentId,
+            type = order.deliveryInfo.type,
+            customer = ProtocolCustomer(
+              person = ProtocolPerson(name = order.deliveryInfo.name),
               contact = ProtocolContact(
                 phone = order.deliveryInfo.phone,
                 email = order.deliveryInfo.email
-              ), location = order.deliveryInfo.location
+              )
             ),
-            type = order.deliveryInfo.type,
-            customer = ProtocolCustomer(ProtocolPerson(name = order.deliveryInfo.name)),
             provider_id = order.items?.first()?.provider?.id
           ),
           addOns = emptyList(),

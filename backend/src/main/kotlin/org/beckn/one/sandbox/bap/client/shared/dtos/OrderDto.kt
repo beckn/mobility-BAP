@@ -19,6 +19,7 @@ data class OrderDto @Default constructor(
 
 data class OrderItemDto @Default constructor(
   val id: String,
+  val fulfillmentId: String,
   val bppId: String,
   val quantity: ProtocolItemQuantityAllocated,
   val provider: CartItemProviderDto
