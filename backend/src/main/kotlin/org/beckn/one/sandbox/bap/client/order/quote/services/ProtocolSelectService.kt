@@ -29,15 +29,13 @@ class ProtocolSelectService @Autowired constructor(
 
   fun select(
     context: ProtocolContext,
-    providerId: String,
-    providerLocation: ProtocolLocation,
     items: List<ProtocolSelectedItem>
   ): Either<BppError, ProtocolAckResponse> {
     return Either
       .catch {
         log.info("Invoking Select API on Protocol Server: {}")
         val bppServiceClient = bppServiceClientFactory.getClient(null)
-        val httpResponse = invokeBppSelectApi(bppServiceClient, context, providerId, providerLocation, items)
+        val httpResponse = invokeBppSelectApi(bppServiceClient, context, items)
         log.info("Protocol Server Select API response. Status: {}, Body: {}", httpResponse.code(), httpResponse.body())
         return when {
           httpResponse.isInternalServerError() -> Left(BppError.Internal)
@@ -54,16 +52,12 @@ class ProtocolSelectService @Autowired constructor(
   private fun invokeBppSelectApi(
     bppServiceClient: BppClient,
     context: ProtocolContext,
-    providerId: String,
-    providerLocation: ProtocolLocation,
     items: List<ProtocolSelectedItem>
   ): Response<ProtocolAckResponse> {
     val selectRequest = ProtocolSelectRequest(
       context = context,
       ProtocolSelectRequestMessage(
         order = ProtocolSelectMessageSelected(
-          provider = ProtocolProvider(id = providerId, locations = listOf(providerLocation)),
-          items = items,
           fulfillment = ProtocolFulfillment(id = items.first().fulfillmentId)
         )
       )
