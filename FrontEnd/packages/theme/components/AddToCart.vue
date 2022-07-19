@@ -1,5 +1,6 @@
 <template>
   <div>
+    <nuxt-link :to="localePath('/BookCab')">
     <div class="s-p-addcart">
       <button
         v-if="_value == 0"
@@ -8,35 +9,10 @@
         link=""
         @click="changeItemNumber('add')"
       >
-        <!--<SfIcon size="xs" color="white" :coverage="1" />-->
          Select
       </button>
-      <div v-else class="item-counter">
-        <button
-          class="sf-button--pure sf-quantity-selector__button sf-button"
-          :disabled="false"
-          data-testid="+"
-          @click="changeItemNumber('remove')"
-        >
-          −
-        </button>
-        <div
-          class="quantity-value"
-          :value="_value.value"
-          data-testid="sf-quantity-selector"
-        >
-          {{ _value }}
-        </div>
-        <button
-          class="sf-button--pure sf-quantity-selector__button sf-button"
-          :disabled="false"
-          data-testid="-"
-          @click="changeItemNumber('add')"
-        >
-          +
-        </button>
-      </div>
     </div>
+    </nuxt-link>
   </div>
 </template>
 <script>
@@ -50,29 +26,19 @@ export default {
     SfIcon
   },
   props: {
-    value: { type: Number, default: 0 },
-    maxLimit: { type: Number, default: 100 }
+    value: { type: Number, default: 1 },
+    maxLimit: { type: Number, default: 100 },
+    //bookCab: {type:Boolean, default: false}
   },
   setup(props, { emit}) {
+    //const _BookCab = ref(props.bookCab);
     const _value = ref(props.value);
     const _maxLimit = ref(props.maxLimit);
     const changeItemNumber = (type) => {
-      if (type === 'add') {
-        if (_maxLimit.value) {
-          if (_value.value < _maxLimit.value) {
-            _value.value++;
-          }
-        } else {
-          _value.value++;
-        }
-      } else if (type === 'remove') {
-        if (_value.value > 0) {
-          _value.value--;
-        }
-      }
-      emit('updateItemCount', _value.value);
+     emit('updateItemCount', _value);
     };
     return {
+      //_BookCab,
       _value,
       _maxLimit,
       changeItemNumber
@@ -94,6 +60,5 @@ export default {
   box-sizing: border-box;
   height: 40px;
   border-radius: 3px;
-  //border: 1px solid #F37A20;
 }
 </style>

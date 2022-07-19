@@ -10,30 +10,20 @@
       <div class="layout-container">
         <div class="location-content">
           <client-only>
-            <div class="location-icon">
-              <slot>
-                <div>
-                  <p>{{ locationText }}</p>
-                </div>
-                <div
-                  @click="toggleIsShow"
-                  v-e2e="'app-header-location-input-div'"
-                >
-                  <template>
-                    <SfButton class="button-pos sf-button--pure">
-                      <span class="sf-search-bar__icon">
-                        <SfIcon
-                          color="var(--c-text)"
-                          size="18px"
-                          icon="chevron_down"
-                        />
-                      </span>
-                    </SfButton>
-                  </template>
-                </div>
-              </slot>
-            </div>
-            <div v-if="isLocationSelected">
+              <div class="position-relative">
+            <div  class="btn"  @click="toggleLocationDrop" >
+          <SfButton id="btn">   
+            <span class="sf-vector__icon">
+                  <SfIcon color="#000" size="20px" icon="marker" />
+            </span>
+            ENABLE LOCATION
+          </SfButton> 
+        </div>
+        </div>
+            <div
+                @click="toggleLocationDrop"
+                v-e2e="'app-header-location-modal-input-div'"
+            >
               <input
                 v-model="location"
                 type="text"
@@ -54,13 +44,13 @@
               <SfSidebar
                 :visible="!!isLocationdropOpen"
                 :button="false"
-                title="My Location"
+                title="Set Location"
                 @close="toggleLocationDrop"
                 class="sidebar sf-sidebar--right"
               >
                 <transition name="fade">
                   <client-only>
-                    <LocationSearchBar
+                    <LocationSearch
                       @locationSelected="locationSelected"
                       @toggleLocationDrop="toggleLocationDrop"
                       v-e2e="'app-location-sidebar'"
@@ -72,56 +62,13 @@
           </template>
           <div class="popover-blk">
             <template>
-              <div v-if="!!isShow" @click="toggleIsShow">
-                <ModalComponent
-                  @toggleLocationDrop="toggleLocationDrop"
-                  class="modalclass"
-                  v-e2e="'app-header-location-modal'"
-                />
+              <div  @click="toggleIsShow">
+                
               </div>
             </template>
           </div>
         </div>
-        <div class="user-cart-content">
-          <div class="cart-content">
-            <nuxt-link :to="localePath('/cart')">
-            <!--<nuxt-link :to="localePath('/cart')">-->
-              <SfButton class="button-pos sf-button--pure">
-                <SfIcon icon="empty_cart" />
-              </SfButton>
-            </nuxt-link>
-          </div>
-          <div class="user-content">
-            <nuxt-link :to="localePath('/Login')">
-              <div v-if="isAuthenticatedUser">
-                <div
-                  class="profile-tooltip"
-                  :data-tooltip="this.$fire.auth.currentUser.displayName"
-                >
-                  <div @click="openHamburger = !openHamburger">
-                    <Dropdown>
-                      <SfButton class="button-pos sf-button--pure">
-                        <SfIcon icon="profile" />
-                        <SfIcon
-                          v-if="openHamburger"
-                          icon="chevron_up"
-                          size="xxs"
-                        />
-                        <SfIcon
-                          v-if="!openHamburger"
-                          icon="chevron_down"
-                          size="xxs"
-                        />
-                      </SfButton>
-                      <DropdownContent />
-                    </Dropdown>
-                  </div>
-                </div>
-              </div>
-              <div class="sign-in-text" v-else>sign in</div>
-            </nuxt-link>
-          </div>
-        </div>
+        
       </div>
     </div>
   </no-ssr>
@@ -129,8 +76,8 @@
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import LocationSearchBar from './LocationSearchBar.vue';
-import ModalComponent from './ModalComponent.vue';
+import LocationSearch from '../components/LocationSearch.vue';
+import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
@@ -141,7 +88,7 @@ export default {
     SfButton,
     SfSidebar,
     SfIcon,
-    LocationSearchBar,
+    LocationSearch,
     ModalComponent,
     Dropdown,
     DropdownContent

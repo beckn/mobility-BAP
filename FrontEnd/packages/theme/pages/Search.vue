@@ -145,7 +145,7 @@
         </div>
       </transition-group>
     </div>
-    <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
+   <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
       <Footer
         @buttonClick="footerClick"
         :totalPrice="cartGetters.getTotals(cart).total"
@@ -156,7 +156,7 @@
           <SfIcon icon="empty_cart" color="white" :coverage="1" />
         </template>
       </Footer>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>

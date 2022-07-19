@@ -41,9 +41,14 @@
             </template>
           </div>
         </div>
-        <div  class="btn"  @click="$emit('toggleLocationDrop')" ><SfButton id="btn">   <span class="sf-vector__icon">
+        <div  class="btn"  @click="$emit('toggleLocationDrop')" >
+          <SfButton id="btn">   
+            <span class="sf-vector__icon">
                   <SfIcon color="#000" size="20px" icon="marker" />
-                </span>ENABLE LOCATION</SfButton> </div>
+            </span>
+            ENABLE LOCATION
+          </SfButton> 
+        </div>
          
         <!-- <ModalComponent class="modalclass" /> -->
       </div>
