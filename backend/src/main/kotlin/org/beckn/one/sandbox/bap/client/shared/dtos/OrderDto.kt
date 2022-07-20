@@ -23,5 +23,4 @@ data class OrderItemDto @Default constructor(
   val bppId: String,
   val quantity: ProtocolItemQuantityAllocated,
   val provider: CartItemProviderDto
-) {
-}
+)
