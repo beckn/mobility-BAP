@@ -50,8 +50,9 @@
           <div>
             <div class="popover-bg">
               <div class="popover-content position-relative">
-                <Selectcab/>
-                <!-- <ModalComponent class="modalclass" /> -->
+                <Select/>
+                <!--<Selectcab/>
+                <!- <ModalComponent class="modalclass" /> -->
               </div>
             </div>
           </div>
@@ -63,7 +64,7 @@
 
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
-import Selectcab from '../pages/selectcab.vue'
+import Select from '../pages/select.vue'
 export default {
   data: () => ({
     location: '',
@@ -89,6 +90,7 @@ export default {
   },
   mounted() {
     this.$refs.locationAutocomplete.focus();
+    this.getLocationDetails(JSON.parse(localStorage.getItem("SourceLocation")));
   },
   methods: {
     reload(){
@@ -101,8 +103,9 @@ export default {
       }
       this.searchResults = predictions;
     },
-
+    
     getLocationDetails(selectedLocation) {
+      //console.log("se",selectedLocation);
       this.location = selectedLocation.description;
       this.geocodeService
         .geocode({ placeId: selectedLocation.place_id })
@@ -152,7 +155,7 @@ export default {
   components: {
     SfButton,
     SfIcon,
-    Selectcab
+    Select,
   }
 };
 </script>

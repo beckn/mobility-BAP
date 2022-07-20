@@ -1,43 +1,15 @@
 <template>
-  <no-ssr>
-    <div class="location-blk d-flex w-100">
-      <SfCircleIcon
-        class="sf-circle-icon--large left-pos"
-        aria-label="marker"
-        icon="marker"
-        icon-size="18px"
-      />
-      <div class="layout-container">
-        <div class="location-content">
+  <no-ssr>  
+    <div class="location-content">
           <client-only>
-              <div class="position-relative">
-            <div  class="btn"  @click="toggleLocationDrop" >
-          <SfButton id="btn">   
-            <span class="sf-vector__icon">
-                  <SfIcon color="#000" size="20px" icon="marker" />
-            </span>
-            ENABLE LOCATION
-          </SfButton> 
-        </div>
-        </div>
-            <div
-                @click="toggleLocationDrop"
-                v-e2e="'app-header-location-modal-input-div'"
-            >
-              <input
-                v-model="location"
-                type="text"
-                aria-label="Select Location"
-                class="
-                  sf-header__search
-                  sf-search-bar
-                  sf-header__search
-                  be-search-location
-                "
-                disabled="isActive"
-                v-e2e="'app-header-location-input'"
-              />
-            </div>
+          <div  class="s-p-addcart" @click="toggleLocationDrop" >
+            <button 
+              class="color-primary sf-button add-btn"
+              @click="changeItemNumber('add')"
+            >   
+              Select
+            </button> 
+          </div>
           </client-only>
           <template>
             <div id="location" class="location-drop">
@@ -45,6 +17,7 @@
                 :visible="!!isLocationdropOpen"
                 :button="false"
                 title="Set Location"
+                @click="goBack"
                 @close="toggleLocationDrop"
                 class="sidebar sf-sidebar--right"
               >
@@ -60,16 +33,6 @@
               </SfSidebar>
             </div>
           </template>
-          <div class="popover-blk">
-            <template>
-              <div  @click="toggleIsShow">
-                
-              </div>
-            </template>
-          </div>
-        </div>
-        
-      </div>
     </div>
   </no-ssr>
 </template>
@@ -97,21 +60,29 @@ export default {
     isDisabled: {
       type: Boolean,
       default: false
-    }
+    },
+    value: { type: Number, default: 1 },
+    maxLimit: { type: Number, default: 100 },
   },
   data() {
     return {
       isActive: false
     };
   },
-  setup(props, { root }) {
+  setup(props, { root, emit}) {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
+    const _value = ref(props.value);
+    const _maxLimit = ref(props.maxLimit);
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
+    };
+    const goBack = () => {
+      root.$router.back();
+      toggleSearchVisible(true);
     };
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
@@ -126,7 +97,14 @@ export default {
         address: address
       });
     };
+    const changeItemNumber = (type) => {
+     emit('updateItemCount', _value);
+     //console.log("updatecount");
+    };
     return {
+      changeItemNumber,
+      _value,
+      _maxLimit,
       isLocationdropOpen,
       toggleLocationDrop,
       isShow,
@@ -134,7 +112,8 @@ export default {
       location,
       locationSelected,
       currentUser,
-      openHamburger
+      openHamburger,
+      goBack
     };
   },
   computed: {
@@ -147,7 +126,12 @@ export default {
     isAuthenticatedUser() {
       return this.currentUser !== null;
     }
-  }
+  },
+ /* mounted:{
+    show() {
+      return  localStorage.removeItem('cartData');
+    }
+  }*/
 };
 </script>
 <style lang="scss" scoped>

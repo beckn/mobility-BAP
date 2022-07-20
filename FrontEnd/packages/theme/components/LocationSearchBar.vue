@@ -113,6 +113,7 @@ export default {
     },
 
     getLocationDetails(selectedLocation) {
+      localStorage.setItem("SourceLocation",JSON.stringify(selectedLocation));
       this.location = selectedLocation.description;
       this.geocodeService
         .geocode({ placeId: selectedLocation.place_id })

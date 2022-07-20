@@ -36,13 +36,13 @@
           alt="delete-icon"
           @click="$emit('deleteItem')"
         />
-        <AddToCart
+        <Bookcab
           v-if="!dropdownCouner"
           v-e2e="'add-to-cart'"
           :value="_pCount"
           @updateItemCount="(data) => $emit('updateItemCount', data)"
         />
-        <div v-if="dropdownCouner" class="dropdown-container d-flex ">
+        <!--<div v-if="dropdownCouner" class="dropdown-container d-flex ">
           <span
             class="avail-unit"
             v-if="!!_updatedCount && _updatedCount !== _pCount"
@@ -72,14 +72,14 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </template>
 <script>
 import { SfImage, SfIcon } from '@storefront-ui/vue';
-import AddToCart from './AddToCart.vue';
+import Bookcab from '../pages/BookCab.vue';
 import { productGetters , providerGetters} from '@vue-storefront/beckn';
 import { ref, computed } from '@vue/composition-api';
 
@@ -87,7 +87,7 @@ export default {
   name: 'ProductCard',
   components: {
     SfImage,
-    AddToCart,
+    Bookcab,
     SfIcon
   },
   props: {
