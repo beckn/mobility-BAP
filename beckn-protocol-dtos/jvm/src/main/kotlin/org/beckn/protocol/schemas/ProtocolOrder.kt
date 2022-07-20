@@ -36,8 +36,11 @@ data class ProtocolSelectMessageSelectedAddOns @Default constructor(
 // TODO similar to OnInitMessageInitializedItems
 data class ProtocolSelectMessageSelectedItems @Default constructor(
   val id: String,
-  val quantity: ProtocolItemQuantityAllocated,
-)
+  val quantity: ProtocolItemQuantityAllocated? = null,
+  val fulfillmentId: String? = null,
+  val categoryId: String? = null,
+  val descriptor: ProtocolDescriptor? = null,
+  )
 
 data class ProtocolSelectMessageSelectedOffers @Default constructor(
   val id: String? = null

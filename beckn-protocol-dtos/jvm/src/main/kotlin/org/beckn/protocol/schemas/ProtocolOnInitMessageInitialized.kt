@@ -25,6 +25,9 @@ data class ProtocolOnInitMessageInitializedProvider @Default constructor(
 data class ProtocolOnInitMessageInitializedItems @Default constructor(
   val id: String? = null,
   val quantity: ProtocolItemQuantityAllocated? = null,
+  val fulfillmentId: String? = null,
+  val categoryId: String? = null,
+  val descriptor: ProtocolDescriptor? = null,
 )
 
 // TODO: Example of inline declaration

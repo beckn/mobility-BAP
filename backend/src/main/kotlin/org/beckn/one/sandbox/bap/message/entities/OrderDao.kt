@@ -45,8 +45,11 @@ data class SelectMessageSelectedAddOnsDao @Default constructor(
 
 // TODO similar to OnInitMessageInitializedItems
 data class SelectMessageSelectedItemsDao @Default constructor(
-  val id: String,
-  val quantity: ItemQuantityAllocatedDao,
+  val id: String? = null,
+  val quantity: ItemQuantityAllocatedDao? = null,
+  val fulfillmentId: String? = null,
+  val categoryId: String? = null,
+  val descriptor: DescriptorDao? = null,
   )
 
 data class SelectMessageSelectedOffersDao @Default constructor(

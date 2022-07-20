@@ -1,6 +1,8 @@
 package org.beckn.one.sandbox.bap.message.entities
 
 import org.beckn.protocol.schemas.Default
+import org.beckn.protocol.schemas.ProtocolDescriptor
+import org.beckn.protocol.schemas.ProtocolItemQuantityAllocated
 
 data class OnInitMessageInitializedDao @Default constructor(
   val provider: OnInitMessageInitializedProviderDao? = null,
@@ -24,7 +26,10 @@ data class OnInitMessageInitializedProviderDao @Default constructor(
 
 data class OnInitMessageInitializedItemsDao @Default constructor(
   val id: String? = null,
-  val quantity: ItemQuantityAllocatedDao? = null
+  val quantity: ItemQuantityAllocatedDao? = null,
+  val fulfillmentId: String? = null,
+  val categoryId: String? = null,
+  val descriptor: DescriptorDao? = null,
 )
 
 // TODO: Example of inline declaration
