@@ -30,7 +30,7 @@ data class ProtocolOnSelectedItem @Default constructor(
   val locationId: String? = null,
   val time: ProtocolTime? = null,
   val tags: Map<String, String>? = null,
-  val quantity: ProtocolItemQuantity,
+  val quantity: ProtocolItemQuantity? = null,
   val fulfillmentId: String? = null,
   val rating: Int? = null,
   val rateable: Boolean? = null,
