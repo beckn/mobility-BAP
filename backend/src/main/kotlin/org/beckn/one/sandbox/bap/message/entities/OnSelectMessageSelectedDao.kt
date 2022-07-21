@@ -20,7 +20,7 @@ data class SelectedItemDao @Default constructor(
   val locationId: String? = null,
   val time: TimeDao? = null,
   val tags: Map<String, String>? = null,
-  val quantity: ItemQuantityDao,
+  val quantity: ItemQuantityDao? = null,
 )
 
 data class ItemQuantityDao @Default constructor(

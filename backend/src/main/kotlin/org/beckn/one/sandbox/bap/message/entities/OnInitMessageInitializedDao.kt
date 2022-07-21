@@ -1,8 +1,6 @@
 package org.beckn.one.sandbox.bap.message.entities
 
 import org.beckn.protocol.schemas.Default
-import org.beckn.protocol.schemas.ProtocolDescriptor
-import org.beckn.protocol.schemas.ProtocolItemQuantityAllocated
 
 data class OnInitMessageInitializedDao @Default constructor(
   val provider: OnInitMessageInitializedProviderDao? = null,
