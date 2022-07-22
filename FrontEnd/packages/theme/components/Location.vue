@@ -84,10 +84,10 @@
             </template>
           </div>
         </div>
-        <!-- <div class="user-cart-content">
+        <div class="user-cart-content">
           <div class="cart-content">
-            <nuxt-link :to="localePath('/cart')">
-            <!--<nuxt-link :to="localePath('/cart')">-->
+            <nuxt-link :to="localePath('/cart')"/>
+            <nuxt-link :to="localePath('/cart')"/>
               <SfButton class="button-pos sf-button--pure">
                 <SfIcon icon="empty_cart" />
               </SfButton>
@@ -123,7 +123,7 @@
               <div class="sign-in-text" v-else>sign in</div>
             </nuxt-link>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </no-ssr>

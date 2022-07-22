@@ -152,6 +152,7 @@ export default {
           // this.getitem= localStorage.getItem('lat')
 
           this.setMap();
+          this.visible= false;
 
           // eslint-disable-next-line no-alert
         })
