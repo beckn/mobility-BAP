@@ -1,51 +1,184 @@
 <template>
   <div>
     <div class="open-search header-top-space">
-      <h3>Open <br /> Commerce</h3>
+      <h3>
+        Open <br />
+        Mobility
+      </h3>
       <h4>for All</h4>
-      <p>A global marketplace to discover and buy anything you need. Just type what you want to buy and we'll take care of the rest.</p>
       <div class="open-search-input">
-        <input v-on:keyup.enter="openSearch" v-model="message" :valid="false" errorMessage="errer" type="text" placeholder="Search for anything" :disabled="!selectedLocation.latitude || !selectedLocation.longitude" v-e2e="'home-search-input'"/>
-        <SfButton class="button-pos sf-button--pure color-primary" :class="{'is-disabled--button':(!selectedLocation.latitude || !selectedLocation.longitude)}" @click="openSearch" :disabled="!selectedLocation.latitude || !selectedLocation.longitude" v-e2e="'home-search-button'">
-          <span class="sf-search-bar__icon">
+        <div class="input1">
+          <SfImage
+            id="icon"
+            src="/icons/Vector.png"
+            alt="Vue Storefront Next"
+          />
+
+          <label>Pickup: </label>
+
+          <!-- v-on:keyup.enter="openSearch" -->
+          <input
+            @click="pickupLocation"
+            v-model="pickup"
+            :valid="false"
+            errorMessage="errer"
+            type="text"
+            placeholder="Enter Pickup"
+            :disabled="
+              !selectedLocation.latitude || !selectedLocation.longitude
+            "
+            
+            v-e2e="'home-search-input'"
+          />
+        </div>
+        <!-- <div class="hr">  <hr style="width:100%;" />
+        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
+        <div class="hr-theme-slash-2">
+          <div class="hr-line"></div>
+          <div class="hr-icon">
+            <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" />
+          </div>
+        </div>
+
+        <div class="input">
+          <SfImage
+            id="icon"
+            src="/icons/Vector.png"
+            alt="Vue Storefront Next"
+          />
+          <label for=""> Dropoff: </label>
+
+          <input
+            @click="dropLocation"
+            v-model="message"
+            v-on:keyup.enter="openSearch"
+            :valid="false"
+            errorMessage="errer"
+            type="text"
+            placeholder="Enter Destination"
+            :disabled="
+              !selectedLocation.latitude || !selectedLocation.longitude
+            "
+            v-e2e="'home-search-input'"
+          />
+        </div>
+
+        <SfButton
+          id="btn"
+          class="button-pos sf-button--pure color-primary"
+          :class="{
+            'is-disabled--button':
+              !selectedLocation.latitude || !selectedLocation.longitude
+          }"
+          @click="openSearch"
+          :disabled="!selectedLocation.latitude || !selectedLocation.longitude"
+          v-e2e="'home-search-button'"
+          >Search Rides
+          <!-- <span class="sf-search-bar__icon">
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
-          </span>
+          </span> -->
         </SfButton>
       </div>
       <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
     </div>
+    <template>
+      <div class="location-blk d-flex w-100">
+        <div class="layout-container">
+          <div id="location" class="location-content">
+            <SfSidebar
+              :visible="!!isLocationdropOpen"
+              :button="false"
+              title="Set Location"
+              @close="toggleLocationDrop"
+              class="sidebar sf-sidebar--right"
+            >
+              <transition name="fade">
+                <client-only>
+                  <LocationSearchBar
+                    :buttonlocation="buttonlocation"
+                    @locationSelected="locationSelected"
+                    @toggleLocationDrop="toggleLocationDrop"
+                    v-e2e="'app-location-sidebar'"
+                  />
+                </client-only>
+              </transition>
+            </SfSidebar>
+          </div>
+        </div>
+      </div>
+    </template>
 
     <div class="sf-footer">
       <SfFooter class="footer">
         <!-- <p><span>By</span> <img src="../assets/images/p-b-phonepe.png" alt="" /> </p> -->
-        <p><span class="powered-by">Powered by</span> <img src="../assets/images/beckn-logo.png" alt="" /> </p>
+        <p>
+          <span class="powered-by">Powered by</span>
+          <img src="../assets/images/beckn-logo.png" alt="" />
+        </p>
       </SfFooter>
     </div>
   </div>
 </template>
+
 <script>
-import {
-  SfButton,
-  SfIcon
-} from '@storefront-ui/vue';
+import { SfButton, SfSidebar, SfIcon, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { SfFooter } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
+import LocationSearchBar from './LocationSearchBar.vue';
 
-const { selectedLocation } = useUiState();
+const { selectedLocation, updateLocation } = useUiState();
 
 export default {
   components: {
     SfButton,
     SfIcon,
-    SfFooter
+    SfFooter,
+    LocationSearchBar,
+    SfSidebar,
+    SfImage
   },
 
   setup(_, context) {
+    const pickup = ref();
+    const buttonlocation = ref(false);
+    // selectedLocation.latitude && selectedLocation.longitude && typeof window !== 'undefined' ? localStorage.getItem('pickup') : ''
+
+    // const pickup=ref();
+    //   if(selectedLocation.latitude || selectedLocation.longitude) {
+    //   pickup.value=localStorage.getItem('pickup');
+    // }
+    const location = ref(true);
     const message = ref('');
     const errorMsg = ref(false);
+    const locationSelected = (latitude, longitude, address) => {
+      if (location.value) {
+        pickup.value = address;
+      } else if (!location.value) {
+        message.value = address;
+      }
+      updateLocation({
+        latitude: latitude,
+        longitude: longitude,
+        address: address
+      });
+    };
 
-    console.log(selectedLocation);
+    // console.log(selectedLocation);
+    const isLocationdropOpen = ref(false);
+    const toggleLocationDrop = () => {
+      isLocationdropOpen.value = !isLocationdropOpen.value;
+    };
+    const pickupLocation = () => {
+      buttonlocation.value = true;
+      location.value = true;
+      isLocationdropOpen.value = !isLocationdropOpen.value;
+    };
+    const dropLocation = () => {
+      buttonlocation.value = false;
+      location.value = false;
+      isLocationdropOpen.value = !isLocationdropOpen.value;
+    };
 
     const openSearch = () => {
       if (message.value) {
@@ -62,10 +195,18 @@ export default {
     };
 
     return {
+      pickupLocation,
       selectedLocation,
       message,
       errorMsg,
-      openSearch
+      openSearch,
+      pickup,
+      isLocationdropOpen,
+      locationSelected,
+      location,
+      dropLocation,
+      toggleLocationDrop,
+      buttonlocation
     };
   }
 };
@@ -81,12 +222,66 @@ export default {
     width: 50%;
     margin: auto;
   }
+  #icon {
+    padding-right: 5px;
+    padding-top: 3px;
+  }
+  #btn {
+    width: 328px;
+    height: 48px;
+    background: #f37a20;
+    border-radius: 3px;
+    width: 100%;
+    
+  }
+
+  .hr-theme-slash-2 {
+    display: flex;
+    margin-bottom: 0px;
+
+    .hr-line {
+      width: 100%;
+      position: relative;
+
+      margin: 11px;
+      border-bottom: 1px solid rgba(196, 196, 196, 0.4);
+    }
+    .hr-icon {
+      position: relative;
+      top: 11px;
+    }
+  }
+
+  .input {
+    display: flex;
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-bottom: 15%;
+  }
+  .input1 {
+    display: flex;
+    padding-top: 15%;
+    padding-right: 5%;
+  }
+  .location-drop input {
+    font-size: 15px;
+    font-weight: 600;
+    height: 35px;
+}
+
   padding: 40px 20px;
   h3 {
-    font-size: 40px;
-    font-weight: 800;
-    color: #f37a20;
-    line-height: 45px;
+   
+    
+font-style: normal;
+font-weight: 800;
+font-size: 40px;
+line-height: 110%;
+/* or 44px */
+
+letter-spacing: -0.03em;
+
+color: #F37A20;
   }
   h4 {
     font-size: 27px;
@@ -101,12 +296,12 @@ export default {
     margin-bottom: 30px;
   }
   .open-search-input {
-    display: flex;
+    // display: flex;
     margin-bottom: 8px;
-    position: relative;
+    // position: relative;
     &.disable {
-      input {
-        border: 1px solid #fff;
+      h4 {
+        padding: 20px;
       }
       button {
         background: #bfbfbf;
@@ -116,30 +311,29 @@ export default {
       }
     }
     input {
-      box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.1);
       border-radius: 6px;
-      border: 1px solid transparent;
-      padding: 22px 10px;
-      width: calc(100% - 22px);
-      font-size: 15px;
-      font-weight: 700;
-      &::placeholder {
-        font-size: 14px;
-        line-height: 17px;
-        color: #dbdbdc;
-      }
-      &:focus {
-        border: 1px solid #f37a20 !important;
-      }
+
+      box-sizing: border-box;
+      border: none;
     }
+    label {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 22px;
+    }
+
     button {
-      position: absolute;
+      width: 100%;
+      position: relative;
       padding: 17px;
       height: 63px;
       top: 0;
+      color: #fbfcff;
       // background: #F37A20;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
+      border-radius: 6px;
+      // border-bottom-right-radius: 6px;
       right: 0;
       .sf-icon {
         --icon-color: #fff !important;
@@ -170,5 +364,10 @@ export default {
       }
     }
   }
+}
+.layout-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 </style>
