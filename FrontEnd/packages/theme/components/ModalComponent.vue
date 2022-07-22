@@ -53,6 +53,7 @@
               
             </template>
           </div>
+<<<<<<< HEAD
           <p>or</p>
           <div class="btn" >
           <div>
@@ -64,6 +65,17 @@
             <h5>ENABLE LOCATION</h5>
           </SfButton>
           </div>
+=======
+        </div>
+        <div  class="btn"  @click="$emit('toggleLocationDrop')" >
+          <SfButton id="btn">   
+            <span class="sf-vector__icon">
+                  <SfIcon color="#000" size="20px" icon="marker" />
+            </span>
+            ENABLE LOCATION
+          </SfButton> 
+        </div>
+>>>>>>> c447f4a1dd7e9a452ddb4dec7ba90a5326af7eed
          
         </div>
         </div>

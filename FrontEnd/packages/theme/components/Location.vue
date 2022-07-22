@@ -87,6 +87,7 @@
         <!-- <div class="user-cart-content">
           <div class="cart-content">
             <nuxt-link :to="localePath('/cart')">
+            <!--<nuxt-link :to="localePath('/cart')">-->
               <SfButton class="button-pos sf-button--pure">
                 <SfIcon icon="empty_cart" />
               </SfButton>
