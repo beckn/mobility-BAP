@@ -140,7 +140,7 @@ export default {
   },
 
   setup(_, context) {
-    const pickup = ref();
+    const pickup = ref('');
     const buttonlocation = ref(false);
     // selectedLocation.latitude && selectedLocation.longitude && typeof window !== 'undefined' ? localStorage.getItem('pickup') : ''
 
@@ -181,12 +181,14 @@ export default {
     };
 
     const openSearch = () => {
+      localStorage.setItem("destinationLocation",JSON.stringify(message.value));
       if (message.value) {
         if (errorMsg.value) errorMsg.value = false;
         context.root.$router.push({
           name: 'Search',
           params: {
-            searchKey: message.value
+            searchKey: message.value,
+            pickuploc: pickup.value
           }
         });
       } else {

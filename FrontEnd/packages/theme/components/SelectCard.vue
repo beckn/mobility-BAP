@@ -63,7 +63,8 @@
                   <SfSearchBar
                     placeholder="Enter Destination"
                     aria-label="Search"
-                    :icon="null"                                               
+                    :icon="null"  
+                    :value="_destloc"                                             
                   >
                   </SfSearchBar>
                 </div>
@@ -109,8 +110,10 @@ export default {
     const _pImage = computed(() => props.pImage);
     const _pCount = computed(() => props.pCount);
     const _SourceLocation=ref(JSON.parse(localStorage.getItem("slocation")));
+    const _destloc=ref(JSON.parse(localStorage.getItem("destinationLocation")));
     return {
       _SourceLocation,
+      _destloc,
       productGetters,
       providerGetters,
       _pName,
