@@ -8,8 +8,8 @@
               class="provide-img"
               :src="_pImage"
               alt=""
-              :width="35"
-              :height="36"
+              :width="37"
+              :height="39"
             />
             <div class="text-padding">
               <div class="aline-center">
@@ -124,7 +124,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
+.search-bar{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .top-bar {
     align-items: center;
     display: flex;
@@ -223,6 +228,9 @@ export default {
     height: 250px;
     width: 100%;
     background-color: antiquewhite;
+  }
+  img{
+    border-radius: 9px;
   }
   /*.sf-search-bar{
     left: ;
