@@ -212,4 +212,5 @@ export default {
   border-top-color: var(--tooltip-color);
   transform-origin: top center;
 }
+
 </style>
