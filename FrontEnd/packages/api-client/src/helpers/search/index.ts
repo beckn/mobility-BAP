@@ -6,15 +6,11 @@ import {
   PollRequest
 } from './../../types/Search';
 
-export const buildSearchRequest = (search?: SearchItemsWhere): SearchRequest => {
+export const buildSearchRequest = (
+  search?: SearchItemsWhere
+): SearchRequest => {
   if (search) {
-    return new SearchRequest(
-      search.itemContains,
-      SearchType.ITEM,
-      search.locationIs,
-      search.limit,
-      search.offset
-    ).toParams();
+    return new SearchRequest(search.drop_location, search.pickup_location);
   }
 };
 

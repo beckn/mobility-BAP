@@ -43,41 +43,47 @@
       </ul>
 
       <div v-if="visible" class="btn">
-        <SfButton id="btn" @click="enableLocation()"><h5> Current-Location</h5></SfButton>
+        <SfButton id="btn" @click="enableLocation()"
+          ><h5>Current-Location</h5></SfButton
+        >
       </div>
-       <template>
-      <div><div id="taxi-map"></div>
-      <div v-if="!show">
-        <div id="location-btn">
-          <div>
-            <div class="popover-bg">
-              <div class="popover-content position-relative">
-                <br />
-                <div>
-                  <h4>Set Location</h4>
-                  <div class="close" @click="$emit('toggleLocationDrop')"></div>
+      <template>
+        <div>
+          <div id="taxi-map"></div>
+          <div v-if="!show">
+            <div id="location-btn">
+              <div>
+                <div class="popover-bg">
+                  <div class="popover-content position-relative">
+                    <br />
+                    <div>
+                      <h4>Set Location</h4>
+                      <div
+                        class="close"
+                        @click="$emit('toggleLocationDrop')"
+                      ></div>
+                    </div>
+
+                    <hr style="width:100%;" />
+                    <h6 style="font-weight:400; padding: 0%;">
+                      <p>Location</p>
+                      {{ this.location }}
+                    </h6>
+                    <hr style="width:100%;" />
+
+                    <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
+                      Set Location</SfButton
+                    >
+
+                    <!-- <ModalComponent class="modalclass" /> -->
+                  </div>
                 </div>
-
-                <hr style="width:100%;" />
-                <h6 style="font-weight:400; padding: 0%;">
-                  <p>Location</p>
-                  {{ this.location }}
-                </h6>
-                <hr style="width:100%;" />
-
-                <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
-                  Set Location</SfButton
-                >
-
-                <!-- <ModalComponent class="modalclass" /> -->
               </div>
             </div>
           </div>
         </div>
-      </div></div>
-    </template>
+      </template>
     </slot>
-   
   </div>
 </template>
 
@@ -134,7 +140,7 @@ export default {
       this.searchResults = predictions;
     },
     getLocationDetails(selectedLocation) {
-      localStorage.setItem("SourceLocation",JSON.stringify(selectedLocation));
+      localStorage.setItem('SourceLocation', JSON.stringify(selectedLocation));
       this.location = selectedLocation.description;
       this.geocodeService
         .geocode({ placeId: selectedLocation.place_id })
@@ -152,7 +158,7 @@ export default {
           // this.getitem= localStorage.getItem('lat')
 
           this.setMap();
-          this.visible= false;
+          this.visible = false;
 
           // eslint-disable-next-line no-alert
         })
@@ -247,8 +253,7 @@ export default {
 div#taxi-map {
   width: 100%;
   height: 450px;
-  overflow: hidden
-;
+  overflow: hidden;
 }
 #btn1 {
   width: 100%;
@@ -260,7 +265,7 @@ div#taxi-map {
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   box-shadow: rgba(50, 50, 50, 0.75);
-   overflow:visible;
+  overflow: visible;
   // height: 10%;
   padding-bottom: 0%;
 }
@@ -294,25 +299,19 @@ div#taxi-map {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-
-
-  
 }
 #btn {
   border-radius: 4px;
   width: 156px;
   height: 22px;
   margin-bottom: 0%;
-  
-  
 }
-h5{
+h5 {
   font-family: 'SF Pro Text';
-font-style: normal;
-font-weight: 600;
-font-size: 12px;
-line-height: 22px;
-padding: 4px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 22px;
+  padding: 4px;
 }
 </style>

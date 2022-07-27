@@ -3,12 +3,8 @@
 
 export const buildSearchItemsWhere = (params) => {
   const paramsObj: { [k: string]: any } = {
-    locationIs: params.locationIs,
-    offset: params.page * params.itemsPerPage,
-    limit: params.itemsPerPage
+    pickup_location: params.pickup_location,
+    drop_location: params.drop_location
   };
-  if (params.term) paramsObj.itemContains = params.term;
-  if (params.providerId) paramsObj.providerId = params.providerId;
   return paramsObj;
 };
-
