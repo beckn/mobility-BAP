@@ -27,7 +27,6 @@
             :disabled="
               !selectedLocation.latitude || !selectedLocation.longitude
             "
-            
             v-e2e="'home-search-input'"
           />
         </div>
@@ -154,9 +153,12 @@ export default {
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
         pickup.value = address;
+        localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
+        localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
       }
+
       updateLocation({
         latitude: latitude,
         longitude: longitude,
@@ -232,7 +234,6 @@ export default {
     background: #f37a20;
     border-radius: 3px;
     width: 100%;
-    
   }
 
   .hr-theme-slash-2 {
@@ -267,21 +268,19 @@ export default {
     font-size: 15px;
     font-weight: 600;
     height: 35px;
-}
+  }
 
   padding: 40px 20px;
   h3 {
-   
-    
-font-style: normal;
-font-weight: 800;
-font-size: 40px;
-line-height: 110%;
-/* or 44px */
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 110%;
+    /* or 44px */
 
-letter-spacing: -0.03em;
+    letter-spacing: -0.03em;
 
-color: #F37A20;
+    color: #f37a20;
   }
   h4 {
     font-size: 27px;

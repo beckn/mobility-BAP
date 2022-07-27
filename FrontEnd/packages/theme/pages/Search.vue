@@ -84,12 +84,12 @@
                     </div>
                     <span class="flexy">
                       <span class="rating-css">
-                        {{providerGetters.getProviderDistance(provider) }} 
+                        {{ providerGetters.getProviderDistance(provider) }}
                       </span>
                       <span class="sf-rating__icon">
                         <SfIcon color="#FADB14" size="16px" icon="star" />
                       </span>
-                    </span> 
+                    </span>
                   </div>
                 </div>
                 <div class="exp-provider" @click="openProvider(bpp, provider)">
@@ -145,7 +145,7 @@
         </div>
       </transition-group>
     </div>
-   <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
+    <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
       <Footer
         @buttonClick="footerClick"
         :totalPrice="cartGetters.getTotals(cart).total"
@@ -160,7 +160,13 @@
   </div>
 </template>
 <script>
-import { SfIcon, SfSearchBar, SfButton, SfImage, SfBottomModal } from '@storefront-ui/vue';
+import {
+  SfIcon,
+  SfSearchBar,
+  SfButton,
+  SfImage,
+  SfBottomModal
+} from '@storefront-ui/vue';
 import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import LoadingCircle from '~/components/LoadingCircle';
 import ProductCard from '~/components/ProductCard';
@@ -230,11 +236,8 @@ export default {
       toggleLoadindBar(false);
 
       await search({
-        term: paramValue,
-        locationIs:
-          selectedLocation?.value?.latitude +
-          ',' +
-          selectedLocation?.value?.longitude
+        pickup_location: localStorage.getItem('pickUpLatAndLong'),
+        drop_location: localStorage.getItem('dropLatAndLong')
       });
 
       localStorage.setItem(
@@ -401,18 +404,18 @@ export default {
       footerClick,
       totalResults,
       goToProduct,
-      openProvider,
+      openProvider
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.rating-css{
+.rating-css {
   font-weight: 700;
   font-size: 14px;
   line-height: 20px;
-  color: #37474F;
+  color: #37474f;
   height: 20px;
   //font-weight: bold;
   //width: 10px;
