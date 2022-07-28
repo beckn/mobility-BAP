@@ -50,7 +50,9 @@ class ProtocolResponseStorageServiceImpl<Proto : ProtocolResponse, Entity : Beck
     }
 
   private fun toSchema(allResponses: List<Entity>) =
-    allResponses.map { response -> mapper.entityToProtocol(response) }
+    allResponses.map {
+        response -> mapper.entityToProtocol(response)
+    }
 
   override fun findByOrderId(id: String): Either<DatabaseError.OnRead, List<Proto>> = Either
   .catch { responseRepo.findByOrderId(id) }

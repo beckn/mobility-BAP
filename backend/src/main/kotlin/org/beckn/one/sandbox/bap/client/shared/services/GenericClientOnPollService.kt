@@ -21,11 +21,11 @@ open class GenericClientOnPollService<Protocol : ProtocolResponse, Output : Clie
     categoryName: String?,
     orderId: String?,
     action: ProtocolContext.Action
-  ): Either<HttpError, Output,> {
+  ): Either<HttpError, Output> {
     log.info("Got fetch request for message id: {}", context.messageId)
     return when (action) {
       ProtocolContext.Action.ON_SEARCH -> {
-        pollForService.findSearchCatalog( context.messageId, providerName, categoryName).flatMap {
+        pollForService.findSearchCatalog(context.messageId, providerName, categoryName).flatMap {
           transformer.transform(it, context)
         }
       }

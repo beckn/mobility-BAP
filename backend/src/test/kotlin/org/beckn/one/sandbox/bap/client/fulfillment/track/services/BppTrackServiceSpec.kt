@@ -75,10 +75,9 @@ internal class BppTrackServiceSpec : DescribeSpec() {
 
   private fun invokeBppTrack(): Either<BppError, ProtocolAckResponse> {
     return bppTrackService.track(
-      bppUri,
       contextFactory.create(action = ProtocolContext.Action.TRACK),
       TrackRequestDto(
-        context = ClientContext(bppId = bppUri, transactionId = uuidFactory.create()),
+        context = ClientContext(bppId = null, transactionId = uuidFactory.create(), bppUri = bppUri),
         message = getProtocolTrackRequest().message
       )
     )

@@ -46,7 +46,7 @@ class RatingControllerSpec @Autowired constructor(
     describe("Rating an item") {
       MockNetwork.startAllSubscribers()
       val context =
-        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl())
+        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl(), bppUri = "https://bpp1.com")
       val ratingRequest = RatingRequestDto(
         context = context,
         message = RatingRequestMessage(

@@ -35,7 +35,7 @@ class ProtocolSearchService @Autowired constructor(
               item = ProtocolIntentItem(descriptor = ProtocolIntentItemDescriptor(name = criteria.searchString)),
               provider = ProtocolProvider(id = criteria.providerId, category_id = criteria.categoryId, descriptor = ProtocolDescriptor(name = criteria.providerName)),
               fulfillment = getFulfillmentFilter(criteria),
-              category = ProtocolCategory(id = criteria.categoryId,descriptor = ProtocolDescriptor(name = criteria.categoryName))
+              category = ProtocolCategory(id = criteria.categoryId, descriptor = ProtocolDescriptor(name = criteria.categoryName))
             )
           )
         )

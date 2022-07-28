@@ -147,7 +147,7 @@ class TrackControllerSpec @Autowired constructor(
 
   private fun getTrackRequestDto(bppId: String = retailBengaluruBpp.baseUrl()): TrackRequestDto {
     return TrackRequestDto(
-      context = ClientContext(bppId = bppId, transactionId = uuidFactory.create()),
+      context = ClientContext(bppId = bppId, transactionId = uuidFactory.create(), bppUri = null),
       message = ProtocolTrackRequestMessage(orderId = "order id 1"),
     )
   }

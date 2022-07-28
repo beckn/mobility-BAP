@@ -24,6 +24,7 @@ class OrderItemDtoFactory {
           id = providerId,
           locations = listOf("13.001581,77.5703686")
         ),
+        fulfillmentId = "1"
       )
 
     private fun getUuid() = UUID.randomUUID().toString()

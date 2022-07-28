@@ -9,9 +9,12 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.beckn.one.sandbox.bap.client.external.bap.ProtocolClient
 import org.beckn.one.sandbox.bap.client.shared.dtos.ClientTrackResponse
+import org.beckn.one.sandbox.bap.client.shared.services.GenericClientOnPollService
+import org.beckn.one.sandbox.bap.client.shared.services.LoggingService
 import org.beckn.one.sandbox.bap.common.factories.MockProtocolBap
 import org.beckn.one.sandbox.bap.errors.database.DatabaseError
 import org.beckn.one.sandbox.bap.factories.ContextFactory
+import org.beckn.one.sandbox.bap.factories.LoggingFactory
 import org.beckn.one.sandbox.bap.message.factories.ProtocolOnTrackMessageTrackingFactory
 import org.beckn.protocol.schemas.ProtocolOnTrack
 import org.beckn.protocol.schemas.ProtocolOnTrackMessage
@@ -36,7 +39,9 @@ internal class OnTrackPollControllerSpec @Autowired constructor(
     private val contextFactory: ContextFactory,
     private val mapper: ObjectMapper,
     private val protocolClient: ProtocolClient,
-    private val mockMvc: MockMvc
+    private val mockMvc: MockMvc,
+    private val loggingFactory: LoggingFactory,
+    private val loggingService: LoggingService
 ) : DescribeSpec() {
 
   val context = contextFactory.create()
@@ -75,10 +80,10 @@ internal class OnTrackPollControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnTrack, ClientTrackResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnTrack, ClientTrackResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
-        val onTrackPollController = OnTrackPollController(mockOnPollService, contextFactory, protocolClient)
+        val onTrackPollController = OnTrackPollController(mockOnPollService, contextFactory, protocolClient, loggingFactory, loggingService)
         it("should respond with failure") {
           val response = onTrackPollController.onTrack(context.messageId)
           response.statusCode shouldBe DatabaseError.OnRead.status()
@@ -111,10 +116,10 @@ internal class OnTrackPollControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing for v2") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnTrack, ClientTrackResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnTrack, ClientTrackResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
-        val onTrackPollController = OnTrackPollController(mockOnPollService, contextFactory, protocolClient)
+        val onTrackPollController = OnTrackPollController(mockOnPollService, contextFactory, protocolClient, loggingFactory, loggingService)
         it("should respond with failure for v2") {
           val response = onTrackPollController.onTrackV2(context.messageId)
           response.body?.get(0)?.error?.code shouldBe "BAP_007"

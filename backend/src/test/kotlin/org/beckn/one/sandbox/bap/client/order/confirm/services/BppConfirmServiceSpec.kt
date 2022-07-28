@@ -79,7 +79,6 @@ internal class BppConfirmServiceSpec : DescribeSpec() {
   private fun invokeBppConfirm(): Either<BppError, ProtocolAckResponse> {
     return bppConfirmService.confirm(
       context = contextFactory.create(),
-      bppUri = bppUri,
       order = OrderDto(
         deliveryInfo = DeliveryDtoFactory.create(),
         billingInfo = ProtocolBillingFactory.create(),

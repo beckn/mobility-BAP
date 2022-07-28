@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service
 @Service
 class ConfirmOrderService @Autowired constructor(
     private val bppConfirmService: ProtocolConfirmService,
-    private val registryService: RegistryService,
     private val log: Logger = LoggerFactory.getLogger(ConfirmOrderService::class.java)
 ) {
   fun confirmOrder(

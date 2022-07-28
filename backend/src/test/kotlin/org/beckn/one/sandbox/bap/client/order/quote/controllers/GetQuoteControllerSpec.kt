@@ -56,7 +56,7 @@ class GetQuoteControllerSpec @Autowired constructor(
   init {
     describe("Get Quote") {
       MockNetwork.startAllSubscribers()
-      val context = ClientContext(transactionId = uuidFactory.create())
+      val context = ClientContext(transactionId = uuidFactory.create(),bppId = null, bppUri = null)
       val cart = CartFactory.create(bpp1Uri = retailBengaluruBpp.baseUrl())
 
       beforeEach {
@@ -230,10 +230,6 @@ class GetQuoteControllerSpec @Autowired constructor(
           items = cart.items?.map {
             ProtocolSelectedItem(
               id = it.id,
-              quantity =
-              ProtocolItemQuantityAllocated(
-                count = it.quantity.count, measure = it.quantity.measure
-              ),
             )
           },
         )

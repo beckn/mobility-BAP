@@ -49,7 +49,7 @@ class OrderStatusControllerSpec @Autowired constructor(
   init {
     describe("Get Order status from BPP") {
       MockNetwork.startAllSubscribers()
-      val context = ClientContext(transactionId = uuidFactory.create(), bppId = retailBengaluruBpp.baseUrl())
+      val context = ClientContext(transactionId = uuidFactory.create(), bppId = retailBengaluruBpp.baseUrl(),bppUri = "https://bpp1.com")
       val orderId = "order id 1"
       beforeEach {
         MockNetwork.resetAllSubscribers()

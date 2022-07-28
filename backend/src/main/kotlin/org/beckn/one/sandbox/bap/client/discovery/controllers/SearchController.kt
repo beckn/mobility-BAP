@@ -40,7 +40,8 @@ class SearchController @Autowired constructor(
       .fold(
         {
           log.error("Error during search. Error: {}", it)
-          val loggerRequest = loggingFactory.create(messageId = protocolContext.messageId, transactionId = protocolContext.transactionId, contextTimestamp = protocolContext.timestamp.toString(),
+          val loggerRequest = loggingFactory.create(messageId = protocolContext.messageId, transactionId = protocolContext.transactionId,
+            contextTimestamp = protocolContext.timestamp.toString(),
             action = protocolContext.action, bppId = protocolContext.bppId, errorMessage = it.error().message, errorCode = it.error().code
           )
           loggingService.postLog(loggerRequest)

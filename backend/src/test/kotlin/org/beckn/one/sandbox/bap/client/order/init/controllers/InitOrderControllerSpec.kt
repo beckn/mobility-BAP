@@ -51,7 +51,7 @@ class InitOrderControllerSpec @Autowired constructor(
   init {
     describe("Initialize order with BPP") {
       MockNetwork.startAllSubscribers()
-      val context = ClientContext(transactionId = uuidFactory.create())
+      val context = ClientContext(transactionId = uuidFactory.create(), null, null)
       val orderRequest = OrderRequestDto(
         context = context,
         message = OrderDtoFactory.create(

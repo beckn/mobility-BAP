@@ -26,31 +26,37 @@ open class AbstractClientOnPollController<Protocol: ProtocolResponse, Output: Cl
     categoryName: String?,
     orderId: String?,
     action: ProtocolContext.Action
-  ): ResponseEntity<out ClientResponse> = onPollService
-    .onPoll(context, providerName, categoryName, orderId, action)
-    .fold(
-      {
-        log.error("Error when finding response by message id. Error: {}", it)
-        val messageId = context.messageId
-        val context = contextFactory.create(messageId = messageId)
-        val loggerRequest = loggingFactory.create(messageId = messageId, transactionId = context.transactionId,
-          contextTimestamp = context.timestamp.toString(),
-          action = action, bppId = context.bppId,errorCode = it.error().code, errorMessage = it.error().code
-        )
-        loggingService.postLog(loggerRequest)
-        ResponseEntity
-          .status(it.status().value())
-          .body(ClientErrorResponse(context = context, error = it.error()))
-      },
-      {
-        val messageId = context.messageId
-        val context = contextFactory.create(messageId = messageId)
-        log.info("Found responses for message {}", messageId)
-        val loggerRequest = loggingFactory.create(messageId = messageId, transactionId = context.transactionId, contextTimestamp = context.timestamp.toString(),
-          action = action, bppId = context.bppId
-        )
-        loggingService.postLog(loggerRequest)
-        ResponseEntity.ok(it)
-      }
-    )
-}
+  ): ResponseEntity<out ClientResponse> {
+    val service = onPollService.onPoll(context, providerName, categoryName, orderId, action)
+      return service.fold(
+        {
+          log.error("Error when finding response by message id. Error: {}", it)
+          val messageId = context.messageId
+          val context = contextFactory.create(messageId = messageId, action =  action)
+          val loggerRequest = loggingFactory.create(
+            messageId = messageId, transactionId = context.transactionId,
+            contextTimestamp = context.timestamp.toString(),
+            action = action, bppId = context.bppId, errorCode = it.error().code, errorMessage = it.error().code
+          )
+          loggingService.postLog(loggerRequest)
+          ResponseEntity
+            .status(it.status().value())
+            .body(ClientErrorResponse(context = context, error = it.error()))
+        },
+        {
+          val messageId = context.messageId
+          val context = contextFactory.create(messageId = messageId, action = action)
+          log.info("Found responses for message {}", messageId)
+          val loggerRequest = loggingFactory.create(
+            messageId = messageId,
+            transactionId = context.transactionId,
+            contextTimestamp = context.timestamp.toString(),
+            action = action,
+            bppId = context.bppId
+          )
+          loggingService.postLog(loggerRequest)
+          ResponseEntity.ok(it)
+        }
+      )
+    }
+  }

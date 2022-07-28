@@ -56,7 +56,7 @@ internal class GenericProtocolClientServiceSpec @Autowired constructor(
         mockProtocolBap.stubFor(
           get("/protocol/response/v1/on_search?messageId=some-message-id").withId(_onSearchStub).willReturn(okJson(mapper.writeValueAsString(searchResponse)))
         )
-        val results = protocolClientService.getResponse(protocolClientBap.getSearchResponsesCall(messageId))
+        val results = protocolClientService.getResponse(protocolClientBap.getSearchResponsesCall(messageId,"",""))
 
         it("should parse a successful response"){
           results shouldBeRight searchResponse
@@ -68,7 +68,7 @@ internal class GenericProtocolClientServiceSpec @Autowired constructor(
         mockProtocolBap.stubFor(
           get("/protocol/response/v1/on_search?messageId=some-message-id").withId(_onSearchStub).withId(_onSearchStub).willReturn(WireMock.serverError())
         )
-        val results = protocolClientService.getResponse(protocolClientBap.getSearchResponsesCall(messageId))
+        val results = protocolClientService.getResponse(protocolClientBap.getSearchResponsesCall(messageId,"", ""))
 
         it("should return Internal error"){
           results shouldBeLeft ProtocolClientError.Internal

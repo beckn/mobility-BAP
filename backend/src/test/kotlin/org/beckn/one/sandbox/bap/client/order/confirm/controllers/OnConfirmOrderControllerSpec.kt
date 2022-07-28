@@ -12,9 +12,12 @@ import org.beckn.one.sandbox.bap.client.external.bap.ProtocolClient
 import org.beckn.one.sandbox.bap.client.order.confirm.services.OnConfirmOrderService
 import org.beckn.one.sandbox.bap.client.shared.dtos.ClientConfirmResponse
 import org.beckn.one.sandbox.bap.client.shared.errors.bpp.BppError
+import org.beckn.one.sandbox.bap.client.shared.services.GenericClientOnPollService
+import org.beckn.one.sandbox.bap.client.shared.services.LoggingService
 import org.beckn.one.sandbox.bap.common.factories.MockProtocolBap
 import org.beckn.one.sandbox.bap.errors.database.DatabaseError
 import org.beckn.one.sandbox.bap.factories.ContextFactory
+import org.beckn.one.sandbox.bap.factories.LoggingFactory
 import org.beckn.one.sandbox.bap.message.factories.ProtocolOrderFactory
 import org.beckn.one.sandbox.bap.message.mappers.OnOrderProtocolToEntityOrder
 import org.beckn.protocol.schemas.ProtocolOnConfirm
@@ -46,7 +49,9 @@ internal class OnConfirmOrderControllerSpec @Autowired constructor(
   private val protocolClient: ProtocolClient,
   private val mockMvc: MockMvc,
   private val mapping: OnOrderProtocolToEntityOrder,
-  private val onConfirmOrderService: OnConfirmOrderService
+  private val onConfirmOrderService: OnConfirmOrderService,
+  private val loggingService: LoggingService,
+  private val loggingFactory: LoggingFactory
 ) : DescribeSpec() {
   val context = contextFactory.create()
   private val protocolOnConfirm = ProtocolOnConfirm(
@@ -85,11 +90,11 @@ internal class OnConfirmOrderControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnConfirm, ClientConfirmResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnConfirm, ClientConfirmResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
         val onConfirmPollController =
-          OnConfirmOrderController(mockOnPollService, contextFactory, protocolClient, mapping, onConfirmOrderService)
+          OnConfirmOrderController(mockOnPollService, contextFactory, protocolClient, mapping, onConfirmOrderService, loggingFactory, loggingService)
         it("should respond with failure") {
           val response = onConfirmPollController.onConfirmOrderV1(context.messageId)
           response.statusCode shouldBe DatabaseError.OnRead.status()
@@ -196,8 +201,8 @@ internal class OnConfirmOrderControllerSpec @Autowired constructor(
       }
       context("when network call success but db update fails") {
         setMockAuthentication()
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnConfirm, ClientConfirmResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnConfirm, ClientConfirmResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(
             Either.Right(ClientConfirmResponse(
               contextFactory.create(),message = entityOnConfirmResults().first().message,error = null
             )))
@@ -212,7 +217,7 @@ internal class OnConfirmOrderControllerSpec @Autowired constructor(
         }
 
         val onConfirmPollController =
-          OnConfirmOrderController(mockOnPollService, contextFactory, protocolClient, mapping, onConfirmServiceProvider)
+          OnConfirmOrderController(mockOnPollService, contextFactory, protocolClient, mapping, onConfirmServiceProvider, loggingFactory, loggingService)
         val onConfirmCallBack = onConfirmPollController.onConfirmOrderV2(context.messageId)
 
         it("should respond with error code when update fails ") {
@@ -224,8 +229,8 @@ internal class OnConfirmOrderControllerSpec @Autowired constructor(
 
       context("when network call success returns no data") {
         setMockAuthentication()
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnConfirm, ClientConfirmResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnConfirm, ClientConfirmResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(
             Either.Right(ClientConfirmResponse(
               contextFactory.create(),message = ProtocolOnConfirmMessage(order = null)
             )))
@@ -241,7 +246,7 @@ internal class OnConfirmOrderControllerSpec @Autowired constructor(
         }
 
         val onConfirmPollController =
-          OnConfirmOrderController(mockOnPollService, contextFactory, protocolClient, mapping, onConfirmServiceProvider)
+          OnConfirmOrderController(mockOnPollService, contextFactory, protocolClient, mapping, onConfirmServiceProvider, loggingFactory, loggingService)
         val onConfirmCallBack = onConfirmPollController.onConfirmOrderV2(context.messageId)
 
         it("should respond with error code when return no data ") {

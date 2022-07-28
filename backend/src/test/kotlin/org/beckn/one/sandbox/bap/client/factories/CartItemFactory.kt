@@ -19,13 +19,7 @@ class CartItemFactory {
         id = providerId,
         locations = providerLocation
       ),
-      quantity = CartSelectedItemQuantity(
-        count = 1,
-        measure = ProtocolScalar(
-          value = BigDecimal.valueOf(1),
-          unit = "kg"
-        )
-      ),
+      fulfillmentId = "1"
     )
 
     fun malgudiCoffee(
@@ -39,13 +33,7 @@ class CartItemFactory {
         id = providerId,
         locations = providerLocation
       ),
-      quantity = CartSelectedItemQuantity(
-        count = 1,
-        measure = ProtocolScalar(
-          value = BigDecimal.valueOf(500),
-          unit = "gm"
-        )
-      ),
+      fulfillmentId = "1"
     )
   }
 }

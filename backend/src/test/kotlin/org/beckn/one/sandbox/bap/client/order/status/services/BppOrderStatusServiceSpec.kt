@@ -73,7 +73,6 @@ internal class BppOrderStatusServiceSpec : DescribeSpec() {
 
   private fun invokeBppGetOrderStatus(): Either<BppError, ProtocolAckResponse> {
     return bppOrderStatusService.getOrderStatus(
-      bppUri,
       contextFactory.create(action = ProtocolContext.Action.STATUS),
       getProtocolOrderStatusRequest().message
     )

@@ -10,9 +10,12 @@ import io.kotest.matchers.shouldNotBe
 import org.beckn.one.sandbox.bap.client.external.bap.ProtocolClient
 import org.beckn.one.sandbox.bap.client.shared.dtos.ClientQuoteResponse
 import org.beckn.one.sandbox.bap.client.shared.errors.bpp.BppError
+import org.beckn.one.sandbox.bap.client.shared.services.GenericClientOnPollService
+import org.beckn.one.sandbox.bap.client.shared.services.LoggingService
 import org.beckn.one.sandbox.bap.common.factories.MockProtocolBap
 import org.beckn.one.sandbox.bap.errors.database.DatabaseError
 import org.beckn.one.sandbox.bap.factories.ContextFactory
+import org.beckn.one.sandbox.bap.factories.LoggingFactory
 import org.beckn.one.sandbox.bap.message.factories.ProtocolOnSelectMessageSelectedFactory
 import org.beckn.protocol.schemas.ProtocolOnSelect
 import org.beckn.protocol.schemas.ProtocolOnSelectMessage
@@ -41,7 +44,9 @@ internal class OnGetQuotePollControllerSpec @Autowired constructor(
   private val contextFactory: ContextFactory,
   private val mapper: ObjectMapper,
   private val protocolClient: ProtocolClient,
-  private val mockMvc: MockMvc
+  private val mockMvc: MockMvc,
+  private val loggingService: LoggingService,
+  private val loggingFactory: LoggingFactory
 ) : DescribeSpec() {
   private val fixedClock = Clock.fixed(
     Instant.parse("2018-11-30T18:35:24.00Z"),
@@ -84,10 +89,10 @@ internal class OnGetQuotePollControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnSelect, ClientQuoteResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnSelect, ClientQuoteResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
-        val onSelectPollController = OnGetQuotePollController(mockOnPollService, contextFactory, protocolClient)
+        val onSelectPollController = OnGetQuotePollController(mockOnPollService, contextFactory, protocolClient, loggingFactory, loggingService)
         it("should respond with failure") {
           val response = onSelectPollController.onGetQuoteV1(context.messageId)
           response.statusCode shouldBe DatabaseError.OnRead.status()
@@ -141,10 +146,10 @@ internal class OnGetQuotePollControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing on quotes v2") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnSelect, ClientQuoteResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnSelect, ClientQuoteResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
-        val onInitPollController = OnGetQuotePollController(mockOnPollService, contextFactory, protocolClient)
+        val onInitPollController = OnGetQuotePollController(mockOnPollService, contextFactory, protocolClient, loggingFactory, loggingService)
         it("should respond with failure") {
           val response = onInitPollController.onGetQuoteV2(context.messageId)
           val responseMessage = response.body

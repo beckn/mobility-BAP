@@ -24,7 +24,7 @@ class RatingServiceSpec : DescribeSpec() {
         val ratingResponse = ratingService.rating(
           context = context,
           request = RatingRequestDto(
-            context = ClientContext(transactionId = UuidFactory().create(), bppId = null),
+            context = ClientContext(transactionId = UuidFactory().create(), bppId = null, bppUri = "https://bpp1.com"),
             message = RatingRequestMessage(refId = "item id 1", value = 5)
           )
         )

@@ -55,7 +55,7 @@ class SupportControllerSpec @Autowired constructor(
     describe("Get support details from BPP") {
       MockNetwork.startAllSubscribers()
       val context =
-        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl())
+        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl(), bppUri = "https://bpp1.com")
       val supportRequest = SupportRequestDto(
         context = context,
         message = SupportRequestMessage(

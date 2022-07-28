@@ -77,9 +77,8 @@ class BppCancelServiceSpec : DescribeSpec() {
 
   private fun invokeBppCancel(): Either<BppError, ProtocolAckResponse> {
     val context =
-      ClientContext(transactionId = uuidFactory.create(), bppId = "https://bpp1.com")
+      ClientContext(transactionId = uuidFactory.create(), bppId = "https://bpp1.com", null)
     return bppCancelService.cancelOrder(
-      bppUri = bppUri,
       context = getContext(context.transactionId, context.bppId),
       orderId = "abc",
       cancellationReasonId = "1"
@@ -88,7 +87,7 @@ class BppCancelServiceSpec : DescribeSpec() {
 
   private fun getCancelRequest(): ProtocolCancelRequest {
     val context =
-      ClientContext(transactionId = uuidFactory.create(), bppId = "https://bpp1.com")
+      ClientContext(transactionId = uuidFactory.create(), bppId = "https://bpp1.com", null)
     return ProtocolCancelRequest(
       context = getContext(context.transactionId, context.bppId),
       ProtocolCancelRequestMessage(

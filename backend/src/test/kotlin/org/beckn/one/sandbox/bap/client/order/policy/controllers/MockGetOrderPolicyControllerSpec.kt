@@ -34,7 +34,7 @@ class MockGetOrderPolicyControllerSpec @Autowired constructor(
   init {
     describe("Get Order Policy") {
       it("should return order policy") {
-        val context = ClientContext()
+        val context = ClientContext(bppUri = null, bppId = null)
 
         val getOrderPolicyResponseBody = invokeGetOrderPolicyApi(context)
           .andExpect(status().isOk)

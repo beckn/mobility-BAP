@@ -15,7 +15,7 @@ object MockNetwork {
   val retailBengaluruBg = WireMockServer(4001)
   val anotherRetailBengaluruBg = WireMockServer(4002)
   val deliveryPuneBg = WireMockServer(4003)
-  val retailBengaluruBpp = WireMockServer(4004)
+  val retailBengaluruBpp = WireMockServer(4011)
   val anotherRetailBengaluruBpp = WireMockServer(4005)
   val deliveryPuneBpp = WireMockServer(4006)
 

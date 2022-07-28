@@ -16,6 +16,7 @@ import org.beckn.one.sandbox.bap.client.factories.OrderDtoFactory
 import org.beckn.one.sandbox.bap.client.order.confirm.services.ConfirmOrderService
 import org.beckn.one.sandbox.bap.client.shared.dtos.*
 import org.beckn.one.sandbox.bap.client.shared.errors.bpp.BppError
+import org.beckn.one.sandbox.bap.client.shared.services.LoggingService
 import org.beckn.one.sandbox.bap.common.City
 import org.beckn.one.sandbox.bap.common.Country
 import org.beckn.one.sandbox.bap.common.Domain
@@ -27,6 +28,7 @@ import org.beckn.one.sandbox.bap.common.factories.ResponseFactory
 import org.beckn.one.sandbox.bap.common.factories.SubscriberDtoFactory
 import org.beckn.one.sandbox.bap.errors.database.DatabaseError
 import org.beckn.one.sandbox.bap.factories.ContextFactory
+import org.beckn.one.sandbox.bap.factories.LoggingFactory
 import org.beckn.one.sandbox.bap.factories.UuidFactory
 import org.beckn.one.sandbox.bap.message.entities.OrderDao
 import org.beckn.one.sandbox.bap.message.services.ResponseStorageService
@@ -56,24 +58,24 @@ class ConfirmOrderControllerSpec @Autowired constructor(
   val objectMapper: ObjectMapper,
   val contextFactory: ContextFactory,
   val uuidFactory: UuidFactory,
-  private val confirmOrderService: ConfirmOrderService,
+  private val confirmOrderService: ConfirmOrderService
   ) : DescribeSpec() {
   init {
     describe("Confirm order with BPP") {
       MockNetwork.startAllSubscribers()
-      val context = ClientContext(transactionId = uuidFactory.create())
+      val context = ClientContext(transactionId = uuidFactory.create(), null, null)
       val orderRequest = OrderRequestDto(
         message = OrderDtoFactory.create(
           bpp1_id = retailBengaluruBpp.baseUrl(),
           provider1_id = "padma coffee works",
-          payment = OrderPayment(100.0, status = OrderPayment.Status.PAID, transactionId = "abc")
+          payment = OrderPayment(100.0, status = OrderPayment.Status.PAID, transactionId = "abc", currency = "Rs")
         ), context = context
       )
       val orderRequestList = listOf(OrderRequestDto(
         message = OrderDtoFactory.create(
           bpp1_id = retailBengaluruBpp.baseUrl(),
           provider1_id = "padma coffee works",
-          payment = OrderPayment(100.0, status = OrderPayment.Status.PAID, transactionId = "abc")
+          payment = OrderPayment(100.0, status = OrderPayment.Status.PAID, transactionId = "abc",currency = "Rs")
         ), context = context
       ))
 
@@ -118,7 +120,7 @@ class ConfirmOrderControllerSpec @Autowired constructor(
           message = OrderDtoFactory.create(
             bpp1_id = retailBengaluruBpp.baseUrl(),
             provider1_id = "padma coffee works",
-            payment = OrderPayment(0.0, status = OrderPayment.Status.NOTPAID, transactionId = "abc")
+            payment = OrderPayment(0.0, status = OrderPayment.Status.NOTPAID, transactionId = "abc",currency = "Rs")
           ), context = context
         )
         retailBengaluruBpp
@@ -146,7 +148,7 @@ class ConfirmOrderControllerSpec @Autowired constructor(
           message = OrderDtoFactory.create(
             bpp1_id = retailBengaluruBpp.baseUrl(),
             provider1_id = "padma coffee works",
-            payment = OrderPayment(100.0, status = OrderPayment.Status.NOTPAID, transactionId = "abc"),
+            payment = OrderPayment(100.0, status = OrderPayment.Status.NOTPAID, transactionId = "abc",currency = "Rs"),
             items = emptyList()
           ), context = context
         )

@@ -48,7 +48,7 @@ class CancelOrderControllerSpec @Autowired constructor(
       MockNetwork.startAllSubscribers()
 
       val context =
-        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl())
+        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl(), null)
       val cancelOrderDto = CancelOrderDto(
         context = context,
         message = CancelOrderRequestMessage(orderId = "abc", cancellationReasonId = "1")
@@ -79,7 +79,7 @@ class CancelOrderControllerSpec @Autowired constructor(
         MockNetwork.retailBengaluruBpp.stubFor(WireMock.post("/cancel").willReturn(WireMock.serverError()))
 
         val cancelOrderDtoWithoutBPPId = CancelOrderDto(
-          context = ClientContext(transactionId = uuidFactory.create()),
+          context = ClientContext(transactionId = uuidFactory.create(), null, null),
           message = CancelOrderRequestMessage(orderId = "abc", cancellationReasonId = "1")
         )
 

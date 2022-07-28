@@ -31,23 +31,13 @@ class SelectedItemMapperSpec @Autowired constructor(
             id = "venugopala stores",
             locations = listOf("13.001581,77.5703686")
           ),
-          quantity = CartSelectedItemQuantity(
-            count = 1,
-            measure = ProtocolScalar(
-              value = BigDecimal.valueOf(1),
-              unit = "kg"
-            )
-          ),
+          fulfillmentId = "1"
         )
 
         val protocol = selectedItemMapper.dtoToProtocol(dto)
 
         protocol shouldBe ProtocolSelectedItem(
           id = dto.id,
-          quantity =
-          ProtocolItemQuantityAllocated(
-            count = dto.quantity.count, measure = dto.quantity.measure
-          )
         )
       }
     }

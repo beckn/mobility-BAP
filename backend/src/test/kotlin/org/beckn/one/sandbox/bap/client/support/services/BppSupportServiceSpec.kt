@@ -77,7 +77,6 @@ internal class BppSupportServiceSpec : DescribeSpec() {
   private fun invokeBppSupport(): Either<BppError, ProtocolAckResponse> {
     return bppSupportService.support(
       context = contextFactory.create(),
-      bppUri = bppUri,
       refId = "abc123"
     )
   }

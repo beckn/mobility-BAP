@@ -8,9 +8,12 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.beckn.one.sandbox.bap.client.external.bap.ProtocolClient
 import org.beckn.one.sandbox.bap.client.shared.dtos.ClientOrderPolicyResponse
+import org.beckn.one.sandbox.bap.client.shared.services.GenericClientOnPollService
+import org.beckn.one.sandbox.bap.client.shared.services.LoggingService
 import org.beckn.one.sandbox.bap.common.factories.MockProtocolBap
 import org.beckn.one.sandbox.bap.errors.database.DatabaseError
 import org.beckn.one.sandbox.bap.factories.ContextFactory
+import org.beckn.one.sandbox.bap.factories.LoggingFactory
 import org.beckn.one.sandbox.bap.message.factories.ProtocolOnCancellationMessageFeedbackFactory
 import org.beckn.protocol.schemas.ProtocolOnCancellationReasons
 import org.mockito.kotlin.any
@@ -34,7 +37,9 @@ internal class OnGetPolicyPollControllerSpec @Autowired constructor(
     private val contextFactory: ContextFactory,
     private val mapper: ObjectMapper,
     private val protocolClient: ProtocolClient,
-    private val mockMvc: MockMvc
+    private val mockMvc: MockMvc,
+    private val loggingService: LoggingService,
+    private val loggingFactory: LoggingFactory
 ) : DescribeSpec() {
 
   val context = contextFactory.create()
@@ -73,10 +78,10 @@ internal class OnGetPolicyPollControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnCancellationReasons, ClientOrderPolicyResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnCancellationReasons, ClientOrderPolicyResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
-        val onGetPolicyPollController = OnGetPolicyPollController(mockOnPollService, contextFactory, protocolClient)
+        val onGetPolicyPollController = OnGetPolicyPollController(mockOnPollService, contextFactory, protocolClient, loggingFactory, loggingService)
         it("should respond with failure") {
           val response = onGetPolicyPollController.onCancellationReasonsV1(context.messageId)
           response.statusCode shouldBe DatabaseError.OnRead.status()

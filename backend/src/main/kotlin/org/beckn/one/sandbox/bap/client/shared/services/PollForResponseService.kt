@@ -18,9 +18,9 @@ open class PollForResponseService<Protocol: ProtocolResponse> constructor(
     return responseStorageService.findByMessageId(messageId)
   }
 
-  open fun findResponsesByOrderId(messageId: String): Either<HttpError, List<Protocol>> {
-    log.info("Got fetch request for order id: {}", messageId)
-    return responseStorageService.findByOrderId(messageId)
+  open fun findResponsesByOrderId(orderId: String): Either<HttpError, List<Protocol>> {
+    log.info("Got fetch request for order id: {}", orderId)
+    return responseStorageService.findByOrderId(orderId)
   }
 
   open fun findSearchCatalog(messageId: String, providerName: String?, categoryName: String?): Either<HttpError, List<Protocol>> {

@@ -45,7 +45,7 @@ class GetPolicyControllerSpec @Autowired constructor(
       MockNetwork.startAllSubscribers()
 
       val context =
-        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl())
+        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl(), bppUri = "https://bpp1.com")
       val protocolContext = contextFactory.create(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl())
       val getOrderPolicyDto = GetOrderPolicyDto(context = context)
 
@@ -107,7 +107,7 @@ class GetPolicyControllerSpec @Autowired constructor(
     describe("Get rating categories") {
 
       val context =
-        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl())
+        ClientContext(transactionId = uuidFactory.create(), bppId = MockNetwork.retailBengaluruBpp.baseUrl(), bppUri = "https://bpp1.com")
       val getOrderPolicyDto = GetOrderPolicyDto(context = context)
 
       beforeEach {

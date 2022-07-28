@@ -13,9 +13,12 @@ import org.beckn.one.sandbox.bap.client.order.status.services.OnOrderStatusServi
 import org.beckn.one.sandbox.bap.client.shared.dtos.ClientOrderStatusResponse
 import org.beckn.one.sandbox.bap.client.shared.dtos.ClientQuoteResponse
 import org.beckn.one.sandbox.bap.client.shared.errors.bpp.BppError
+import org.beckn.one.sandbox.bap.client.shared.services.GenericClientOnPollService
+import org.beckn.one.sandbox.bap.client.shared.services.LoggingService
 import org.beckn.one.sandbox.bap.common.factories.MockProtocolBap
 import org.beckn.one.sandbox.bap.errors.database.DatabaseError
 import org.beckn.one.sandbox.bap.factories.ContextFactory
+import org.beckn.one.sandbox.bap.factories.LoggingFactory
 import org.beckn.one.sandbox.bap.message.factories.ProtocolOrderFactory
 import org.beckn.one.sandbox.bap.message.mappers.OnOrderProtocolToEntityOrder
 import org.beckn.protocol.schemas.ProtocolOnOrderStatus
@@ -48,7 +51,9 @@ internal class OnOrderStatusPollControllerSpec @Autowired constructor(
   val mapping: OnOrderProtocolToEntityOrder,
   private val protocolClient: ProtocolClient,
   private val mockMvc: MockMvc,
-  private val onOrderStatusService: OnOrderStatusService
+  private val onOrderStatusService: OnOrderStatusService,
+  private val loggingFactory: LoggingFactory,
+  private val loggingService: LoggingService
 ) : DescribeSpec() {
 
   val context = contextFactory.create()
@@ -93,11 +98,11 @@ internal class OnOrderStatusPollControllerSpec @Autowired constructor(
       }
 
       context("when failure occurs during request processing") {
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
         val onOrderStatusPollController = OnOrderStatusPollController(mockOnPollService, contextFactory,mapping,
-          protocolClient,onOrderStatusService)
+          protocolClient,onOrderStatusService,loggingFactory, loggingService)
         it("should respond with failure") {
           val response = onOrderStatusPollController.onOrderStatusV1("1001")
           response.statusCode shouldBe DatabaseError.OnRead.status()
@@ -135,14 +140,14 @@ internal class OnOrderStatusPollControllerSpec @Autowired constructor(
         )
         val mockPollResponse = ClientOrderStatusResponse(message =protocolOnOrderStatus.message,context = protocolOnOrderStatus.context!! )
 
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Right(mockPollResponse))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Right(mockPollResponse))
         }
         val onOrderServiceSuccess = mock<OnOrderStatusService> {
           onGeneric { updateOrder(any()) }.thenReturn(Either.Left(DatabaseError.OnWrite))
         }
         val onOrderStatusPollController = OnOrderStatusPollController(mockOnPollService, contextFactory,mapping,
-          protocolClient,onOrderServiceSuccess)
+          protocolClient,onOrderServiceSuccess, loggingFactory, loggingService)
 
         val response = onOrderStatusPollController.onOrderStatusV2("1001")
         response.body?.get(0)?.error shouldNotBe null
@@ -158,12 +163,12 @@ internal class OnOrderStatusPollControllerSpec @Autowired constructor(
           }
           val mockPollResponse = ClientOrderStatusResponse(message =protocolOnOrderStatus.message,context = protocolOnOrderStatus.context!! )
 
-          val mockOnPollService = mock<GenericOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
-            onGeneric { onPoll(any(), any()) }.thenReturn(Either.Right(mockPollResponse))
+          val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
+            onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Right(mockPollResponse))
           }
 
           val onOrderStatusPollController = OnOrderStatusPollController(mockOnPollService, contextFactory,mapping,
-            protocolClient,onOrderServiceSuccess)
+            protocolClient,onOrderServiceSuccess, loggingFactory, loggingService)
 
           val response = onOrderStatusPollController.onOrderStatusV2("1001")
           response.body?.get(0)?.error shouldNotBe null
@@ -193,11 +198,11 @@ internal class OnOrderStatusPollControllerSpec @Autowired constructor(
       }
       context("should respond error on polling for v2 order status") {
         setMockAuthentication()
-        val mockOnPollService = mock<GenericOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
-          onGeneric { onPoll(any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
+        val mockOnPollService = mock<GenericClientOnPollService<ProtocolOnOrderStatus, ClientOrderStatusResponse>> {
+          onGeneric { onPoll(any(), any(), any(), any(), any()) }.thenReturn(Either.Left(DatabaseError.OnRead))
         }
         val onOrderStatusPollController = OnOrderStatusPollController(mockOnPollService, contextFactory,mapping,
-          protocolClient,onOrderStatusService)
+          protocolClient,onOrderStatusService, loggingFactory, loggingService)
         it("should respond with failure for v2") {
           val response = onOrderStatusPollController.onOrderStatusV2("1001")
           response.statusCode shouldBe HttpStatus.OK

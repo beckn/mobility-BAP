@@ -26,7 +26,7 @@ import java.time.ZoneId
 @ActiveProfiles(value = ["test"])
 @TestPropertySource(locations = ["/application-test.yml"])
 internal class GenericOnPollServiceSpec @Autowired constructor(
-  private val onSearchPollService: GenericOnPollService<ProtocolOnSearch, ClientSearchResponse>,
+  private val onSearchPollService: GenericClientOnPollService<ProtocolOnSearch, ClientSearchResponse>,
   private val protocolClient: ProtocolClient,
   private val mapper: ObjectMapper
 ) : DescribeSpec() {
@@ -56,7 +56,7 @@ internal class GenericOnPollServiceSpec @Autowired constructor(
       )
 
       it("should return search results for given message id in context") {
-        val response = onSearchPollService.onPoll(context, protocolClient.getSearchResponsesCall(context.messageId))
+        val response = onSearchPollService.onPoll(context,"","", "",ProtocolContext.Action.ON_SEARCH)
         response.shouldBeRight(
           ClientSearchResponse(
             context = context,

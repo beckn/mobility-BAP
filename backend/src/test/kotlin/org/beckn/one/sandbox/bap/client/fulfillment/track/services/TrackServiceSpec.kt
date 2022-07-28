@@ -27,7 +27,7 @@ class TrackServiceSpec : DescribeSpec() {
         val trackResponse = trackService.track(
           context = context,
           request = TrackRequestDto(
-            context = ClientContext(transactionId = UuidFactory().create(), bppId = null),
+            context = ClientContext(transactionId = UuidFactory().create(), bppId = null, null),
             message = ProtocolTrackRequestMessage(orderId = "Order Id 1")
           )
         )

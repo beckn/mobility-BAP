@@ -77,9 +77,6 @@ internal class BppSelectServiceSpec : DescribeSpec() {
   private fun invokeBppSelect(): Either<BppError, ProtocolAckResponse> {
     return bppSelectService.select(
       contextFactory.create(), //todo: a lot of places where the context factory is used but the action is wrong
-      bppUri,
-      "venugopala stores",
-      ProtocolLocationFactory.idLocation(1),
       IdFactory.forItems(IdFactory.forProvider(1), 1).map { ProtocolSelectedItemFactory.create(it) }
     )
   }

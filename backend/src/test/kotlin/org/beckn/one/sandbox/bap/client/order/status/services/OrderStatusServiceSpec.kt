@@ -27,7 +27,7 @@ class OrderStatusServiceSpec : DescribeSpec() {
         val getOrderStatusResponse = orderStatusService.getOrderStatus(
           context = context,
           request = OrderStatusDto(
-            context = ClientContext(transactionId = UuidFactory().create(), bppId = null),
+            context = ClientContext(transactionId = UuidFactory().create(), bppId = null, bppUri = "https://bpp1.com"),
             message = ProtocolOrderStatusRequestMessage(orderId = "Order Id 1")
           )
         )

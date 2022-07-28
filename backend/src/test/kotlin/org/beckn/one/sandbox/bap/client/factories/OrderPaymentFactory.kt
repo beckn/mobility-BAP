@@ -10,7 +10,8 @@ class OrderPaymentFactory {
       OrderPayment(
         paidAmount = 23.3,
         status = status,
-        transactionId = "abc"
+        transactionId = "abc",
+        currency = "Rs"
       )
   }
 }

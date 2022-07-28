@@ -77,7 +77,6 @@ internal class BppInitServiceSpec : DescribeSpec() {
   private fun invokeBppInit(): Either<BppError, ProtocolAckResponse> {
     return bppInitService.init(
       context = contextFactory.create(),
-      bppUri = bppUri,
       order = OrderDtoFactory.create(
         bpp1_id = bppUri,
         provider1_id = "BppServiceInitSpec padma coffee works",
