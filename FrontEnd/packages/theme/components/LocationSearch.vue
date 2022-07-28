@@ -146,7 +146,7 @@ export default {
           },
           this.displaySuggestions
         );
-        localStorage.setItem('slocation', JSON.stringify(this.location));
+        //localStorage.setItem('slocation', JSON.stringify(this.location));
         
       }
     }

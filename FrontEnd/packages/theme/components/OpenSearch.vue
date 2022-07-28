@@ -153,9 +153,13 @@ export default {
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
         pickup.value = address;
+        //console.log("adds-->",address,latitude,longitude);
+       // localStorage.setItem('SourceLocation', JSON.stringify(pickup.value));
         localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
+        //console.log("adddrop-->",address,latitude,longitude);
+        localStorage.setItem("destinationLocation",JSON.stringify(message.value));
         localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
       }
 
@@ -183,7 +187,6 @@ export default {
     };
 
     const openSearch = () => {
-      localStorage.setItem("destinationLocation",JSON.stringify(message.value));
       if (message.value) {
         if (errorMsg.value) errorMsg.value = false;
         context.root.$router.push({

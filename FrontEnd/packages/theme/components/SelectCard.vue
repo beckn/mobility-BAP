@@ -109,7 +109,7 @@ export default {
     const _pPrice = computed(() => props.pPrice);
     const _pImage = computed(() => props.pImage);
     const _pCount = computed(() => props.pCount);
-    const _SourceLocation=ref(JSON.parse(localStorage.getItem("slocation")));
+    const _SourceLocation=ref(JSON.parse(localStorage.getItem("SourceLocation")));
     const _destloc=ref(JSON.parse(localStorage.getItem("destinationLocation")));
     return {
       _SourceLocation,

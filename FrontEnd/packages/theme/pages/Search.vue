@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <SfSearchBar
+      <!--<SfSearchBar
         placeholder="Search for anything"
         aria-label="Search"
         :icon="null"
@@ -75,7 +75,7 @@
             </span>
           </SfButton>
         </template>
-      </SfSearchBar>
+      </SfSearchBar>-->
     </div>
 
     <div class="details">
@@ -282,9 +282,15 @@ export default {
       if (noSearchFound.value) noSearchFound.value = false;
       toggleLoadindBar(false);
 
-      await search({
+      /*await search({
         pickup_location: localStorage.getItem('pickUpLatAndLong'),
         drop_location: localStorage.getItem('dropLatAndLong')
+      });*/
+      await search({
+        pickup_location: '12.903561,77.5939631',
+        // localStorage.getItem('pickUpLatAndLong'),
+        drop_location:  "12.9175403,77.5890075"
+        // localStorage.getItem('dropLatAndLong')
       });
 
       localStorage.setItem(

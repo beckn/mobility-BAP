@@ -86,8 +86,8 @@
         </div>
         <div class="user-cart-content">
           <div class="cart-content">
-            <nuxt-link :to="localePath('/cart')"/>
-            <nuxt-link :to="localePath('/cart')"/>
+            <nuxt-link :to="localePath('/cart')">
+           <!-- <nuxt-link :to="localePath('/cart')"/>-->
               <SfButton class="button-pos sf-button--pure">
                 <SfIcon icon="empty_cart" />
               </SfButton>
@@ -182,7 +182,7 @@ export default {
       location.value = address;
        selectedLocation.latitude===true
     // this.$eventBus.$emit(`${address}`)
-      localStorage.setItem('pickup', JSON.stringify(address));
+    // localStorage.setItem('pickup', JSON.stringify(address));
     
 
       updateLocation({
