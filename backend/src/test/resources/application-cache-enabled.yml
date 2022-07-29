@@ -13,3 +13,12 @@ security:
 spring:
   cache:
     type: simple
+
+context:
+  domain: ${BAP_DOMAIN:nic2004:60221}
+  city: ${BAP_CITY_CODE:std:080}
+  country: ${BAP_COUNTRY_CODE:IND}
+  bapId: http://host.bap.com
+  bapUri: http://host.bap.com/v1
+  bppId: http://host.bpp.com
+  ttl_seconds: ${BAP_TTL:20}

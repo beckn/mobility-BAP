@@ -41,7 +41,7 @@ class GetQuoteController @Autowired constructor(
         {
           log.error("Error when getting quote: {}", it)
           setLogging(context, it, null)
-          mapToErrorResponseV1(it, null)
+          mapToErrorResponseV1(it, context)
         },
         {
           log.info("Successfully initiated get quote. Message: {}", it)
@@ -70,7 +70,7 @@ class GetQuoteController @Autowired constructor(
             {
               log.error("Error when getting quote: {}", it)
               setLogging(context, it, null)
-              okResponseQuotes.add(ProtocolAckResponse(context = null, message = it.message(), error = it.error()))
+              okResponseQuotes.add(ProtocolAckResponse(context = context, message = it.message(), error = it.error()))
             },
             {
               log.info("`Successfully initiated get quote`. Message: {}", it)
@@ -90,7 +90,7 @@ class GetQuoteController @Autowired constructor(
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(
           listOf(ProtocolAckResponse(
-            context = null,message = ResponseMessage.nack() ,
+            context = contextFactory.create(),message = ResponseMessage.nack() ,
             error = BppError.BadRequestError.error()))
         )
     }

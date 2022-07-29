@@ -2,7 +2,6 @@ package org.beckn.one.sandbox.bap.client.fulfillment.track.services
 
 import arrow.core.Either
 import arrow.core.flatMap
-import org.beckn.one.sandbox.bap.client.order.quote.services.QuoteService
 import org.beckn.one.sandbox.bap.client.shared.dtos.TrackRequestDto
 import org.beckn.one.sandbox.bap.client.shared.services.RegistryService
 import org.beckn.one.sandbox.bap.errors.HttpError
@@ -18,7 +17,7 @@ class TrackService @Autowired constructor(
   private val registryService: RegistryService,
   private val bppTrackService: BppTrackService,
 ) {
-  private val log: Logger = LoggerFactory.getLogger(QuoteService::class.java)
+  private val log: Logger = LoggerFactory.getLogger(TrackService::class.java)
 
   fun track(context: ProtocolContext, request: TrackRequestDto): Either<HttpError, ProtocolAckResponse?> {
     log.info("Got track request. Request: {}", request)
