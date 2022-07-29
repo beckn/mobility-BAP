@@ -55,7 +55,8 @@ const params = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     // debugger;
-    if (customQuery.clearCart) {
+    let _clearCartAlways : boolean = true;
+    if (customQuery.clearCart || _clearCartAlways) {
       localStorage.removeItem('cartData');
       currentCart = {
         items: [],

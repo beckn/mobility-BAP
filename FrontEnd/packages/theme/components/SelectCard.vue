@@ -41,7 +41,7 @@
         <div class="flexy">   
           <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
           <div class="inputs-container location-block">
-            <span>source</span>
+            <span>Source</span>
             <div class="search-bar side-padding">
               <SfSearchBar
                 placeholder="Enter Source"
@@ -109,7 +109,7 @@ export default {
     const _pPrice = computed(() => props.pPrice);
     const _pImage = computed(() => props.pImage);
     const _pCount = computed(() => props.pCount);
-    const _SourceLocation=ref(JSON.parse(localStorage.getItem("SourceLocation")));
+    const _SourceLocation=ref(JSON.parse(localStorage.getItem("slocation")));
     const _destloc=ref(JSON.parse(localStorage.getItem("destinationLocation")));
     return {
       _SourceLocation,

@@ -195,6 +195,7 @@ export default {
   setup(props, { emit, root }) {
     const { addItem, cart, isInCart } = useCart();
     const isSearchOpen = ref(props.visible);
+
     const catalogs = computed(() => props.result);
     const { toggleCartSidebar, clearCartPopup } = useUiState();
     const keyVal = ref(0);

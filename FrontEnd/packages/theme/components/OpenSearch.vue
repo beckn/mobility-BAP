@@ -154,7 +154,7 @@ export default {
       if (location.value) {
         pickup.value = address;
         //console.log("adds-->",address,latitude,longitude);
-       // localStorage.setItem('SourceLocation', JSON.stringify(pickup.value));
+        localStorage.setItem('slocation', JSON.stringify(pickup.value));
         localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
