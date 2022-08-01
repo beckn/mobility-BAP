@@ -15,8 +15,9 @@ export const getProductName = (product: Product): string => product?.descriptor.
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
+  let _price : string | null = product?.price?.value || '0';
   return {
-    regular: parseFloat(product?.price?.value || '0'),
+    regular: Number(parseFloat(_price).toFixed(2)),
     special: product?.price?.minimum_value || 0
   };
 };

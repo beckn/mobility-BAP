@@ -8,7 +8,11 @@ import { buildSearchItemsWhere } from '../helpers/internals/search';
 const factoryParams = {
   poll: async (context: Context, params): Promise<any> => {
     params = params.params;
+    //let json = require('C:/Users/Admin/Downloads/Beckn Taxi BAP/on-search-response.json');
+    //const ackResponse1: AckResponse = json;
     const ackResponse: AckResponse = await context.$beckn.api.onSearch(params);
+    console.log(ackResponse, 'the json obj');
+    //console.log(ackResponse1, 'the json obj 1');
     if (ackResponse?.error) {
       throw new Error('Error in Api');
     }
@@ -29,9 +33,12 @@ const factoryParams = {
         return obj.bpp_descriptor.name;
       });
       const data = catalogs.filter((bpp) => {
-        return !(oldCodes.includes(bpp.bpp_descriptor.name));
+        if(bpp.bpp_descriptor){
+          return !(oldCodes.includes(bpp.bpp_descriptor.name));
+        }
       });
       return [...oldResults, ...data];
+      //return data;
     }
     return oldResults;
   },

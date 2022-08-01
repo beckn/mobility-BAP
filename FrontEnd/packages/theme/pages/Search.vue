@@ -1,8 +1,52 @@
 <template>
   <div class="search-page">
     <div class="search-bar side-padding">
-      <SfSearchBar
-        placeholder="Search for items"
+
+      <div class="open-search-input">
+        <div class="input1">
+          <SfImage
+            id="icon"
+            src="/icons/Vector.png"
+            alt="Vue Storefront Next"
+          />
+
+          <label>Pickup: </label>
+
+          <input
+            :value="pickuploc"
+            errorMessage="errer"
+            type="text"
+            placeholder="Enter Pickup"
+          />
+        </div>
+        <!-- <div class="hr">  <hr style="width:100%;" />
+        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
+        <div class="hr-theme-slash-2">
+          <div class="hr-line"></div>
+          <div class="hr-icon">
+            <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" />
+          </div>
+        </div>
+
+        <div class="input">
+          <SfImage
+            id="icon"
+            src="/icons/Vector.png"
+            alt="Vue Storefront Next"
+          />
+          <label for=""> Dropoff: </label>
+
+          <input
+            :value="searchKey"
+            errorMessage="errer"
+            type="text"
+            placeholder="Enter Destination"
+          />
+        </div>
+      </div>
+
+      <!--<SfSearchBar
+        placeholder="Search for anything"
         aria-label="Search"
         :icon="null"
         :value="searchKey"
@@ -31,8 +75,9 @@
             </span>
           </SfButton>
         </template>
-      </SfSearchBar>
+      </SfSearchBar>-->
     </div>
+
     <div class="details">
       <transition-group name="sf-fade" mode="out-in">
         <div
@@ -40,14 +85,15 @@
           class="search__wrapper-results"
           key="results"
         >
-          <div class="side-padding result-num">
+          <div class="side-padding result-num res">
             <span
               ><span v-e2e="'total-result'">{{
                 totalResults(pollResults)
               }}</span>
-              results found</span
+              results found </span
             >
           </div>
+          <!--<hr>-->
           <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
             <div
               v-for="(provider, prIndex) in bpp.bpp_providers"
@@ -73,14 +119,21 @@
                           providerGetters.getProviderName(provider, provider)
                         }}
                       </div>
-                      <div class="text-padding">
+                      <!--<div class="text-padding">
                         <span class="p-distance">by</span>
                         <span>{{
                           providerGetters.getProviderBpp(bpp.bpp_descriptor)
                         }}</span>
-                      </div>
+                      </div>-->
                     </div>
-                    <!-- <div class="p-distance">{{providerGetters.getProviderDistance(provider)}} km</div> -->
+                    <span class="flexy">
+                      <span class="rating-css">
+                        {{ providerGetters.getProviderDistance(provider) }}
+                      </span>
+                      <span class="sf-rating__icon">
+                        <SfIcon color="#FADB14" size="16px" icon="star" />
+                      </span>
+                    </span>
                   </div>
                 </div>
                 <div class="exp-provider" @click="openProvider(bpp, provider)">
@@ -136,7 +189,7 @@
         </div>
       </transition-group>
     </div>
-    <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
+    <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
       <Footer
         @buttonClick="footerClick"
         :totalPrice="cartGetters.getTotals(cart).total"
@@ -147,17 +200,24 @@
           <SfIcon icon="empty_cart" color="white" :coverage="1" />
         </template>
       </Footer>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
-import { SfIcon, SfSearchBar, SfButton, SfImage } from '@storefront-ui/vue';
+import {
+  SfIcon,
+  SfSearchBar,
+  SfButton,
+  SfImage,
+  SfBottomModal
+} from '@storefront-ui/vue';
 import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import LoadingCircle from '~/components/LoadingCircle';
 import ProductCard from '~/components/ProductCard';
 import Footer from '~/components/Footer';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
+import Filterpage from '~/pages/Filterpage';
 import {
   productGetters,
   providerGetters,
@@ -170,7 +230,9 @@ import {
 export default {
   name: 'Search',
   components: {
+    Filterpage,
     LoadingCircle,
+    SfBottomModal,
     SfIcon,
     SfSearchBar,
     SfButton,
@@ -191,10 +253,12 @@ export default {
     const goBack = () => {
       context.root.$router.back();
     };
-
     const { addItem, cart, isInCart, load } = useCart();
     const data = context.root.$route.params.searchKey;
     console.log(data);
+    const data2 = context.root.$route.params.pickuploc;
+    console.log(data2);
+    const pickuploc = ref(data2);
     const searchKey = ref(data);
     const keyVal = ref(0);
     const { search, result } = useFacet();
@@ -218,12 +282,15 @@ export default {
       if (noSearchFound.value) noSearchFound.value = false;
       toggleLoadindBar(false);
 
+      /*await search({
+        pickup_location: localStorage.getItem('pickUpLatAndLong'),
+        drop_location: localStorage.getItem('dropLatAndLong')
+      });*/
       await search({
-        term: paramValue,
-        locationIs:
-          selectedLocation?.value?.latitude +
-          ',' +
-          selectedLocation?.value?.longitude
+        pickup_location: '12.903561,77.5939631',
+        // localStorage.getItem('pickUpLatAndLong'),
+        drop_location:  "12.9175403,77.5890075"
+        // localStorage.getItem('dropLatAndLong')
       });
 
       localStorage.setItem(
@@ -377,6 +444,7 @@ export default {
       providerGetters,
       cartGetters,
       searchKey,
+      pickuploc,
       keyVal,
       noSearchFound,
       cart,
@@ -396,4 +464,90 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.rating-css {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #37474f;
+  height: 20px;
+  //font-weight: bold;
+  //width: 10px;
+  font-family: 'SF Pro Text';
+}
+
+.open-search-input {
+    // display: flex;
+    margin-bottom: 8px;
+    // position: relative;
+    &.disable {
+      h4 {
+        padding: 20px;
+      }
+      button {
+        background: #bfbfbf;
+        .sf-icon {
+          --icon-color: #fff !important;
+        }
+      }
+    }
+    input {
+      border-radius: 6px;
+
+      box-sizing: border-box;
+      border: none;
+    }
+    label {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    button {
+      width: 100%;
+      position: relative;
+      padding: 17px;
+      height: 63px;
+      top: 0;
+      color: #fbfcff;
+      // background: #F37A20;
+      border-radius: 6px;
+      // border-bottom-right-radius: 6px;
+      right: 0;
+      .sf-icon {
+        --icon-color: #fff !important;
+      }
+    }
+  }
+
+  .input {
+    display: flex;
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-bottom: 15%;
+  }
+  .input1 {
+    display: flex;
+    padding-top: 15%;
+    padding-right: 5%;
+  }
+   .hr-theme-slash-2 {
+    display: flex;
+    margin-bottom: 0px;
+
+    .hr-line {
+      width: 100%;
+      position: relative;
+
+      margin: 11px;
+      border-bottom: 1px solid rgba(196, 196, 196, 0.4);
+    }
+    .hr-icon {
+      position: relative;
+      top: 11px;
+    }
+  }
+
+</style>

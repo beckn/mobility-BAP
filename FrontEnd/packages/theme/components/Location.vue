@@ -54,13 +54,14 @@
               <SfSidebar
                 :visible="!!isLocationdropOpen"
                 :button="false"
-                title="My Location"
+                title="Set Location"
                 @close="toggleLocationDrop"
                 class="sidebar sf-sidebar--right"
               >
                 <transition name="fade">
                   <client-only>
                     <LocationSearchBar
+                      :geolocation="trigger"
                       @locationSelected="locationSelected"
                       @toggleLocationDrop="toggleLocationDrop"
                       v-e2e="'app-location-sidebar'"
@@ -74,6 +75,7 @@
             <template>
               <div v-if="!!isShow" @click="toggleIsShow">
                 <ModalComponent
+                  @currentLocation="currentLocation"
                   @toggleLocationDrop="toggleLocationDrop"
                   class="modalclass"
                   v-e2e="'app-header-location-modal'"
@@ -85,6 +87,7 @@
         <div class="user-cart-content">
           <div class="cart-content">
             <nuxt-link :to="localePath('/cart')">
+           <!-- <nuxt-link :to="localePath('/cart')"/>-->
               <SfButton class="button-pos sf-button--pure">
                 <SfIcon icon="empty_cart" />
               </SfButton>
@@ -127,7 +130,7 @@
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import {  ref } from '@vue/composition-api';
 import LocationSearchBar from './LocationSearchBar.vue';
 import ModalComponent from './ModalComponent.vue';
 import { useUiState } from '~/composables';
@@ -157,12 +160,18 @@ export default {
     };
   },
   setup(props, { root }) {
+    const trigger = ref(true);
+    const currentLocation = () => {
+      isLocationdropOpen.value = !isLocationdropOpen.value;
+      trigger.value = false;
+    };
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
     const toggleLocationDrop = () => {
+      trigger.value = true;
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const toggleIsShow = () => {
@@ -171,7 +180,11 @@ export default {
     const openHamburger = false;
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
-      toggleLocationDrop();
+       selectedLocation.latitude===true
+    // this.$eventBus.$emit(`${address}`)
+    // localStorage.setItem('pickup', JSON.stringify(address));
+    
+
       updateLocation({
         latitude: latitude,
         longitude: longitude,
@@ -186,7 +199,9 @@ export default {
       location,
       locationSelected,
       currentUser,
-      openHamburger
+      openHamburger,
+      trigger,
+      currentLocation
     };
   },
   computed: {

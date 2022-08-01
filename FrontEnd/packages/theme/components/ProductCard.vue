@@ -6,14 +6,15 @@
           @click="$emit('goToProduct')"
           :src="_pImage"
           alt="product img"
-          :width="horizontalView ? 85 : 75"
-          :height="90"
+          :width="horizontalView ? 66.7 : 56.7"
+          :height="60"
         />
       </div>
       <div class="s-p-details">
         <div class="price-verified">
           <div @click="$emit('goToProduct')" class="s-p-name">{{ _pName }}</div>
         </div>
+        <div class="p-distance">{{providerGetters.getProviderDistance(provider)}} min away</div> 
         <!-- <div class="s-p-weight">{{ _pWieght }}</div> -->
         <div
           class="price-increase"
@@ -35,13 +36,13 @@
           alt="delete-icon"
           @click="$emit('deleteItem')"
         />
-        <AddToCart
+        <Bookcab
           v-if="!dropdownCouner"
           v-e2e="'add-to-cart'"
           :value="_pCount"
           @updateItemCount="(data) => $emit('updateItemCount', data)"
         />
-        <div v-if="dropdownCouner" class="dropdown-container d-flex ">
+        <!--<div v-if="dropdownCouner" class="dropdown-container d-flex ">
           <span
             class="avail-unit"
             v-if="!!_updatedCount && _updatedCount !== _pCount"
@@ -71,22 +72,22 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </template>
 <script>
 import { SfImage, SfIcon } from '@storefront-ui/vue';
-import AddToCart from './AddToCart.vue';
-import { productGetters } from '@vue-storefront/beckn';
+import Bookcab from '../pages/BookCab.vue';
+import { productGetters , providerGetters} from '@vue-storefront/beckn';
 import { ref, computed } from '@vue/composition-api';
 
 export default {
   name: 'ProductCard',
   components: {
     SfImage,
-    AddToCart,
+    Bookcab,
     SfIcon
   },
   props: {
@@ -126,6 +127,7 @@ export default {
 
     return {
       productGetters,
+      providerGetters,
       _pName,
       _pWieght,
       _pPrice,
@@ -190,5 +192,20 @@ export default {
       cursor: pointer;
     }
   }
+}
+.s-p-name{
+  line-height: 12px;
+  min-height: 0;
+  font-size: 10px;
+  font-family: 'Roboto';
+}
+.s-p-price{
+  line-height: 19px;
+}
+.p-distance{
+  //line-height: 14px;
+  padding-bottom: 5px;
+  color: #8A8D8E;
+  font-family: 'Roboto';
 }
 </style>
