@@ -56,13 +56,17 @@
       </button>
     </div>
     <ModalSlide :visible="openCancelModal" @close="closeModal">
-      <div class="modal-heading">Cancel Order Reason</div>
-      <div><hr class="sf-divider" /></div>
+      <div v-if="!canceltext">
+        <div class="modal-heading">Cancel Order Reason</div>
+        <div><hr class="sf-divider" /></div>
+      </div>
+
       <div class="modal-body">
-        <div class="option-container">
+        <div v-if="!canceltext" class="option-container">
           <div class="option-head">
             Please select the reason for cancellation
           </div>
+
           <SfRadio
             v-for="value in cancelReasonValues"
             :key="value"
@@ -74,9 +78,32 @@
             @change="selectedReason = value"
           />
         </div>
-        <button class="sf-button color-primary " :class="{'is-disabled--button': !selectedReason}" @click="onConfirm" :disabled="!selectedReason">
+
+        <button
+          v-if="!canceltext"
+          class="sf-button color-primary "
+          :class="{ 'is-disabled--button': !selectedReason }"
+          @click="cancelBox"
+          :disabled="!selectedReason"
+        >
           <div class="f-btn-text">Confirm Cancellation Request</div>
         </button>
+        <div>
+          <h4 v-if="canceltext">Booking Cancelled</h4>
+          <p v-if="canceltext">
+            Refund will be credited to your account as per refund policy
+          </p>
+
+          <button
+            v-if="canceltext"
+            class="sf-button color-primary "
+            :class="{ 'is-disabled--button': !selectedReason }"
+            @click="onConfirm"
+            :disabled="!selectedReason"
+          >
+            <div class="f-btn-text">Okay</div>
+          </button>
+        </div>
       </div>
     </ModalSlide>
   </div>
@@ -97,11 +124,15 @@ export default {
     const openCancelModal = ref(false);
     const selectedReason = ref('');
     const cancelReasonValues = [
-      'Merchant is taking too long',
-      'Order placed by mistake',
-      'Taking too long to get delivery partner',
-      'Selected wrong delivery address'
+      'Plan Changed',
+      'Booked by mistake',
+      'Unable to contact driver',
+      'Driver denied duty'
     ];
+    const canceltext = ref(false);
+    const cancelBox = () => {
+      canceltext.value = true;
+    };
 
     const goBack = () => context.root.$router.back();
     const onConfirm = () => context.root.$router.push('/OrderCancelled');
@@ -109,6 +140,7 @@ export default {
     const closeModal = () => {
       openCancelModal.value = false;
       selectedReason.value = '';
+      canceltext.value = false;
     };
 
     return {
@@ -117,7 +149,9 @@ export default {
       selectedReason,
       goBack,
       onConfirm,
-      closeModal
+      closeModal,
+      cancelBox,
+      canceltext
     };
   }
 };
@@ -184,6 +218,9 @@ export default {
         line-height: 21px;
       }
     }
+  }
+  h4 {
+    text-align: center;
   }
 
   .modal-heading {

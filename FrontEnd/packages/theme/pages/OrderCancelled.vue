@@ -3,16 +3,15 @@
     <div class="top-bar"></div>
     <div class="details">
       <img src="/icons/cancelOrder.svg" alt="" />
-      <div class="head">Order Cancelled</div>
+      <div class="head">Booking Cancelled</div>
       <div class="sub">
-        Your order has been Cancelled, If already paid, will get your refund
-        soon
+        Refund will be credited to your account as per refund policy.
       </div>
       <button class="sf-button color-primary" @click="goBack">
         <div>Go back Home</div>
       </button>
       <button class="sf-button color-light continue" @click="goBack">
-        <div class="f-btn-text">Continue Shopping</div>
+        <div class="f-btn-text">Continue Ride</div>
       </button>
     </div>
   </div>
