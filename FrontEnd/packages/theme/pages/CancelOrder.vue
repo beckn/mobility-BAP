@@ -6,11 +6,11 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div>Cancel Orders</div>
+      <div>Cancel booking</div>
     </div>
     <div class="details">
       <div class="detail-head">
-        <div class="h-main">You have chosen to cancel the order</div>
+        <div class="h-main">You have chosen to cancel the booking</div>
         <div class="h-sub">
           Please accept the provider’s order cancellation policy
         </div>
@@ -57,7 +57,7 @@
     </div>
     <ModalSlide :visible="openCancelModal" @close="closeModal">
       <div v-if="!canceltext">
-        <div class="modal-heading">Cancel Order Reason</div>
+        <div class="modal-heading">Cancel booking Reason</div>
         <div><hr class="sf-divider" /></div>
       </div>
 
