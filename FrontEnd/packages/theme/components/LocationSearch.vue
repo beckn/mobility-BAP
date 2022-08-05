@@ -50,7 +50,12 @@
           <div>
             <div class="popover-bg">
               <div class="popover-content position-relative">
-                <Select/>
+                <div v-if="bName === 'selectcab'">
+                  <Select/>
+                </div>
+                <div v-else-if="bName === 'confirmride'">
+                  <DriverInfo/>
+                </div>
                 <!--<Selectcab/>
                 <!- <ModalComponent class="modalclass" /> -->
               </div>
@@ -64,7 +69,9 @@
 
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
-import Select from '../pages/select.vue'
+import { ref, computed } from '@vue/composition-api';
+import Select from '../pages/select.vue';
+import DriverInfo from '../pages/DriverInfo.vue';
 export default {
   data: () => ({
     location: '',
@@ -151,12 +158,24 @@ export default {
       }
     }
   },
-  name: 'LocationSearchBar',
+  name: 'LocationSearch',
   components: {
     SfButton,
     SfIcon,
     Select,
-  }
+    DriverInfo,
+  },
+  props: {
+    b_name: { type: String, default: '' },
+  },
+  setup(props) {
+    const bName = computed(() => props.b_name);
+    console.log(bName)
+    return {
+      bName,
+    };
+  },
+  
 };
 </script>
 <style lang="scss" scoped>
@@ -170,7 +189,8 @@ export default {
 }
 div#cafe-map {
   width: 100%;
-  height: 280px;
+  //height: 280px;
+  height: 400px;
   position: fixed;
 }
 #btn {
