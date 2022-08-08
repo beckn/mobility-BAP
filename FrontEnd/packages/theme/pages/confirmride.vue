@@ -7,7 +7,7 @@
               class="color-primary sf-button add-btn"
               @click="changeItemNumber('add')"
             >   
-              Select
+              Confirm & Proceed
             </button> 
           </div>
           </client-only>
@@ -16,7 +16,7 @@
               <SfSidebar
                 :visible="!!isLocationdropOpen"
                 :button="false"
-                title="Set Location"
+                title="Ride is Confirmed"
                 @click="goBack"
                 @close="toggleLocationDrop"
                 class="sidebar sf-sidebar--right"
@@ -46,7 +46,7 @@ import { useUiState } from '~/composables';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
 export default {
-  name: 'Location',
+  name: 'ConfirmRide',
   components: {
     SfCircleIcon,
     SfButton,
@@ -78,7 +78,7 @@ export default {
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name=ref("selectcab");
+    const b_name=ref("confirmride");
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };

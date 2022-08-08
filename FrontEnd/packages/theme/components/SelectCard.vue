@@ -1,8 +1,8 @@
 <template>
-  <div >
+  <div class="driver-data" >
     <template>
       <div>
-        <div class="provider-head aline-center side-padding">
+        <div class="provider-head aline-center side-padding ">
           <div class="flexy">
             <img
               class="provide-img"
@@ -33,8 +33,8 @@
         <div>
           <select class="form-select">
             <option selected>Ride Now</option>
-            <option value="Schedule">Schedule</option>
-            <option value="Recurring">Recurring</option>
+            <!--<option value="Schedule">Schedule</option>
+            <option value="Recurring">Recurring</option>-->
           </select>
         </div>
 
@@ -70,11 +70,68 @@
                 </div>
             </div>                 
         </div>
+
+        <!--<div class="provider-head aline-center side-padding">
+          <div class="flexy">
+            <SfButton class="provide-img">
+              <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
+            </SfButton>
+            <!-<img
+              class="provide-img"
+              src="/icons/contactSupport.png"
+              alt=""
+              :width="37"
+              :height="39"
+            />->
+            <div class="text-padding">
+             <div class="aline-center">
+                <div class="p-name">
+                  Source
+                </div>
+              </div>
+              <div class="rating-css">
+                <div>  
+                  <input type="text" :value="_SourceLocation"/>
+                </div>
+              </div> 
+            </div>                                       
+          </div> 
+        </div>
         
+        <div class="provider-head aline-center side-padding">
+          <div class="flexy">
+            <SfButton class="provide-img">
+              <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
+            </SfButton>
+            <!-<img
+              class="provide-img"
+              src="/icons/contactSupport.png"
+              alt=""
+              :width="37"
+              :height="39"
+            />->
+            <div class="text-padding">
+             <div class="aline-center">
+                <div class="p-name">
+                  Destination
+                </div>
+              </div>
+              <div class="rating-css">
+                <div>  
+                  <input type="text" :value="_destloc"/>
+                </div>
+              </div> 
+            </div>                                       
+          </div> 
+        </div>-->
+
+        <br/>
         <div><hr class="sf-divider" /></div>
+          <nuxt-link :to="localePath('/payment')">
           <SfButton  :class="{[_value]:Boolean(_value) ? '' : 'is-disabled--button'}" @click="toggleLocationDrop" id="btn">
             Confirm & Proceed</SfButton>
-        </div>
+          </nuxt-link>
+      </div>
     </template>
   </div>
 </template>
@@ -86,7 +143,7 @@ import { productGetters , providerGetters} from '@vue-storefront/beckn';
 import { ref, computed } from '@vue/composition-api';
 
 export default {
-  name: 'ProductCard',
+  name: 'SelectCard',
   components: {
     SfSearchBar,
     SfButton,
@@ -238,4 +295,15 @@ export default {
   /*.sf-search-bar{
     left: ;
   }*/
+  .driver-data{
+  margin-top: 5px;
+  //border: 2px solid #838281;
+  z-index: 99999;
+  background: #FFFFFF;
+  box-shadow: 0px -5px 40px rgba(0, 0, 0, 0.1);
+  //padding: 15px;
+  border-radius: 5px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
 </style>
