@@ -355,7 +355,7 @@
                   </div>
                   <br/>
                   <div><hr class="sf-divider" /></div>
-                  <!--<nuxt-link :to="localePath('/payment')">-->
+                  
                     <SfButton id="btn">
                       Contact Support
                       <SfIcon class="button-pos">
@@ -368,9 +368,12 @@
                         />
                       </SfIcon>
                     </SfButton>
-                  <!--</nuxt-link>-->
                             
-                  <SfButton id="btn" class="cancel-order">Cancel Order</SfButton>
+                  <nuxt-link :to="localePath('/CancelOrder')">
+                    <div class="cancel-order">
+                      Cancel Order
+                    </div>
+                  </nuxt-link>
                 </BottomSlider>
 
               </div>
@@ -398,7 +401,6 @@ import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import LocationSearchBar from '../components/LocationSearchBar.vue';
-import Driverdata from './DriverData.vue';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
 import BottomSlider from '../components/BottomSlider.vue';
@@ -420,7 +422,6 @@ export default {
     SfInput,
     LoadingCircle,
     LocationSearchBar,
-    Driverdata,
     Dropdown,
     DropdownContent
   },
@@ -544,46 +545,7 @@ export default {
 .collected-product-list {
   flex: 1;
 }
-/*.collected-product {
-  margin: 0 0 var(--spacer-sm) 0;
-  &__properties {
-    margin: var(--spacer-xs) 0 0 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    flex: 2;
-    &:first-child {
-      margin-bottom: 8px;
-    }
-  }
-  &__actions {
-    transition: opacity 150ms ease-in-out;
-  }
-  &__save,
-  &__compare {
-    --button-padding: 0;
-    &:focus {
-      --cp-save-opacity: 1;
-      --cp-compare-opacity: 1;
-    }
-  }
-  &__save {
-    opacity: var(--cp-save-opacity, 0);
-  }
-  &__compare {
-    opacity: var(--cp-compare-opacity, 0);
-  }
-  &:hover {
-    --cp-save-opacity: 1;
-    --cp-compare-opacity: 1;
-    @include for-desktop {
-      .collected-product__properties {
-        display: none;
-      }
-    }
-  }
-}*/
+
 .a{
     background-color: wheat;
     height: 100%;
@@ -739,9 +701,16 @@ input {
 }
 .cancel-order{
   color: #FF5552;
+  display: flex;
+  //line-height: 19px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding: 19px;
+  font-size: 16px;
   font-family: 'SF Pro Text';
-  //position: absolute;
-  background-color: white;
+  font-style: normal;
+  font-weight: 500;
 }
 .contact{
     border-radius: 50%;
