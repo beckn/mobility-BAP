@@ -40,7 +40,7 @@
               </SfButton>
             </template>
           </div>
-          <!-- <p class="p1">or</p>
+          <p class="p1">or</p>
           <div class="btn">
             <div>
               <SfButton id="btn" @click="$emit('currentLocation')">
@@ -55,7 +55,7 @@
                 <h5>ENABLE LOCATION</h5>
               </SfButton>
             </div>
-          </div> -->
+          </div>
         </div>
         <template> </template>
 
