@@ -148,29 +148,24 @@
         </client-only>
           <div >
             <template>
-              <div v-if="!!isShow" @click="toggleIsShow">
+              <!--<div v-if="!!isShow" >-->
                 
-                <BottomSlider :visible="isShow">
+                <BottomSlider :visible="isShow" @close="closeModal">
 
-                  <div
-                    @click="!toggleIsShow"
-                    class=""
-                    v-e2e="'app-header-location-input-div'"
-                  >
-                    <template>
-                        <div class="bar-pos">
-                          <SfButton class="sf-button--pure">
-                              <SfImage
-                                src="/icons/Rectangle-bar.png"
-                                :width="60"
-                                :height="5.5"
-                                alt="Rectangle bar"
-                              />
-                          </SfButton>
-                        </div>
+                  <template>
+                    <div class="bar-pos"  @click="toggleIsShow">
+                      <SfButton class="sf-button--pure">
+                        <SfImage
+                          src="/icons/Rectangle-bar.png"
+                          :width="60"
+                          :height="5.5"
+                          alt="Rectangle bar"
+                        />
+                        </SfButton>
+                    </div>
                     
                         <div>
-                          <div class="" >
+                          <div>
                             <template>
                               <div>
                                 <div class="provider-head aline-center side-padding">
@@ -270,14 +265,8 @@
                                     Hindi & Kannada
                                   </div>    
                                 </div>
-                              </div>
-                            </template>
-                          </div>
-                        </div>
-                    </template>
-                  </div>
 
-                  <div class="provider-head aline-center side-padding">
+                                <div class="provider-head aline-center side-padding">
                     <div class="flexy">
                       <div class="text-padding">
                         <span class="flexy">
@@ -304,79 +293,158 @@
                         </span> 
                       </div>
                     </div>    
-                  </div>
+                                </div>
                                     
-                  <div class="provider-head aline-center side-padding">
-                    <div class="flexy">
-                      <SfButton class="provide-img">
-                        <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
-                      </SfButton>
-                      <div class="text-padding1">
-                        <div class="aline-center">
-                          <div class="p-name">
-                            Source
-                          </div>
-                        </div>
-                        <div class="rating-css">
-                          <div>  
-                          <input type="text" :value="_SourceLocation"/>
-                          </div>
-                        </div> 
-                      </div>
-                                          
-                    </div>
-                    <div class="button-pos text-color" >
-                      Edit
-                    </div>    
-                  </div>
+                                <div class="provider-head aline-center side-padding">
+                                  <div class="flexy">
+                                    <SfButton class="provide-img">
+                                      <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
+                                    </SfButton>
+                                    <div class="text-padding1">
+                                      <div class="aline-center">
+                                        <div class="p-name">
+                                          Source
+                                        </div>
+                                      </div>
+                                      <div class="rating-css">
+                                        <div>  
+                                        <input type="text" :value="_SourceLocation"/>
+                                        </div>
+                                      </div> 
+                                    </div>
+                                                        
+                                  </div>
+                                  <div class="button-pos text-color" >
+                                    Edit
+                                  </div>    
+                                </div>
 
-                  <div class="provider-head aline-center side-padding">
-                    <div class="flexy">
-                      <SfButton class="provide-img">
-                        <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" /> 
-                      </SfButton>
-                      <div class="text-padding1">
-                        <div class="aline-center">
-                          <div class="p-name">
-                            Destination
+                                <div class="provider-head aline-center side-padding">
+                                  <div class="flexy">
+                                    <SfButton class="provide-img">
+                                      <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" /> 
+                                    </SfButton>
+                                    <div class="text-padding1">
+                                      <div class="aline-center">
+                                        <div class="p-name">
+                                          Destination
+                                        </div>
+                                      </div>
+                                      <span class="flexy">
+                                        <div class="rating-css">
+                                          <input type="text" :value="_destloc"/>
+                                        </div>
+                                      </span> 
+                                    </div>
+                                                        
+                                  </div>
+                                  <div class="button-pos text-color" >
+                                    Edit
+                                  </div>    
+                                </div>
+                                <br/>
+                                <div><hr class="sf-divider" /></div>
+                  
+                                <SfButton id="btn" @click="isContactSupport = true">
+                                  Contact Support
+                                  <SfIcon class="button-pos">
+                                    <SfImage
+                                      id="icon"
+                                      src="/icons/contactSupport.png"
+                                      alt="Vue Storefront Next"
+                                      :width="20"
+                                      :height="22"
+                                    />
+                                  </SfIcon>
+                                </SfButton>
+
+                                <nuxt-link :to="localePath('/CancelOrder')">
+                                  <div class="cancel-order">
+                                    Cancel Order
+                                  </div>
+                                </nuxt-link>
+
+                                  <!--<BottomSlider :visible="isContactSupport" >
+                                    <div>
+                                      <div class="modal-heading">Contact Support</div>
+                                      <div><hr class="sf-divider" /></div>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div  class="option-container">
+                                        <div class="option-head">
+                                          you can reach out to one of our customer 
+                                          support executives for any help, queries 
+                                          or feedback to ABC Mart
+                                        </div>
+
+                                        <button
+                                          class="sf-button color-primary "                          
+                                        >
+                                          <div class="f-btn-text">Call us</div>
+                                        </button>
+
+                                        <button
+                                          class="sf-button color-primary "                          
+                                        >
+                                          <div class="f-btn-text">Email us</div>
+                                        </button>
+
+                                        <button
+                                          class="sf-button color-primary "                          
+                                        >
+                                          <div class="f-btn-text">Chat with us</div>
+                                        </button>
+
+                                        <!-<SfRadio
+                                          v-for="value in cancelReasonValues"
+                                          :key="value"
+                                          class="sf-radio--transparent"
+                                          :value="value"
+                                          :label="value"
+                                          :disabled="false"
+                                          :selected="selectedReason"
+                                          @change="selectedReason = value"
+                                        />->
+                                      </div>
+
+                                      <!-<button
+                                        v-if="!canceltext"
+                                        class="sf-button color-primary "
+                                        :class="{ 'is-disabled--button': !selectedReason }"
+                                        @click="cancelBox"
+                                        :disabled="!selectedReason"
+                                      >
+                                        <div class="f-btn-text">Confirm Cancellation Request</div>
+                                      </button>->
+                                      <!-<div>
+                                        <h4 v-if="canceltext">Booking Cancelled</h4>
+                                        <p v-if="canceltext">
+                                          Refund will be credited to your account as per refund policy
+                                        </p>
+
+                                        <button
+                                          v-if="canceltext"
+                                          class="sf-button color-primary "
+                                          :class="{ 'is-disabled--button': !selectedReason }"
+                                          @click="onConfirm"
+                                          :disabled="!selectedReason"
+                                        >
+                                          <div class="f-btn-text">Okay</div>
+                                        </button>
+                                      </div>->
+                                    </div>
+                                  </BottomSlider>-->
+                                  
+                              </div>
+                            </template>
                           </div>
                         </div>
-                        <span class="flexy">
-                          <div class="rating-css">
-                            <input type="text" :value="_destloc"/>
-                          </div>
-                        </span> 
-                      </div>
-                                          
-                    </div>
-                    <div class="button-pos text-color" >
-                      Edit
-                    </div>    
-                  </div>
-                  <br/>
-                  <div><hr class="sf-divider" /></div>
+                  </template>
                   
-                    <SfButton id="btn">
-                      Contact Support
-                      <SfIcon class="button-pos">
-                        <SfImage
-                          id="icon"
-                          src="/icons/contactSupport.png"
-                          alt="Vue Storefront Next"
-                          :width="20"
-                          :height="22"
-                        />
-                      </SfIcon>
-                    </SfButton>
-                            
-                  <nuxt-link :to="localePath('/CancelOrder')">
-                    <div class="cancel-order">
-                      Cancel Order
-                    </div>
-                  </nuxt-link>
+                  
                 </BottomSlider>
 
-              </div>
+              <!--</div>-->
             </template>
       </div>
     </div>
@@ -458,6 +526,7 @@ export default {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const isShow = ref(false);
+    const isContactSupport = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
     const toggleLocationDrop = () => {
@@ -467,6 +536,11 @@ export default {
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
     };
+
+    const contactSupport = () => {
+      isContactSupport.value = !isContactSupport.value;
+    };
+
     const openHamburger = false;
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
@@ -482,7 +556,13 @@ export default {
     const _SourceLocation=ref(JSON.parse(localStorage.getItem("slocation")));
     const _destloc=ref(JSON.parse(localStorage.getItem("destinationLocation")));
     
+    const closeModal = () => {
+      isShow.value = false;
+    };
+
     return {
+      closeModal,
+      contactSupport,
       _SourceLocation,
       _destloc,
       goBack,
@@ -763,4 +843,26 @@ input {
 .text-color{
   color: #f37a20;
 }
+
+.modal-body {
+    padding: 20px;
+    color: #37474f;
+    .option-container {
+      padding: 0 10px 60px;
+      .option-head {
+        font-weight: 400;
+        font-size: 15px;
+        padding-bottom: 20px;
+      }
+      .sf-radio {
+        font-size: 15px;
+      }
+      .sf-button {
+        width: -webkit-fill-available;
+        border-radius: 3px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
 </style>

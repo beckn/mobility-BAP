@@ -5,7 +5,7 @@
           <div  class="s-p-addcart" @click="toggleLocationDrop" >
             <button 
               class="color-primary sf-button add-btn"
-              @click="changeItemNumber('add')"
+              @click="changeItemNumber(add)"
             >   
               Confirm & Proceed
             </button> 
@@ -102,6 +102,7 @@ export default {
     const changeItemNumber = (type) => {
      emit('updateItemCount', _value);
      //console.log("updatecount");
+     //root.$router.push('/LocationSearch');
     };
     return {
       b_name,

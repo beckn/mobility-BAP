@@ -53,13 +53,14 @@
     </div>
     <Footer
       class="footer-fixed"
-      :buttonText="'Confirm'"
+      :buttonText="'Book Now'"
       :buttonEnable="isPayConfirmActive"
       :totalPrice="parseFloat(cartItem.price && cartItem.price.value?cartItem.price.value:'0').toFixed(2)"
       @buttonClick="proceedToConfirm"
     >
       <template v-slot:buttonIcon>
-        <svg
+        
+        <!--<svg
           width="25"
           height="19"
           viewBox="0 0 25 19"
@@ -73,7 +74,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-        </svg>
+        </svg>-->
       </template>
     </Footer>
   </div>
