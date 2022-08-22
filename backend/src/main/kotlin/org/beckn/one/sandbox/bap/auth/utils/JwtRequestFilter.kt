@@ -31,7 +31,7 @@ class JwtRequestFilter : OncePerRequestFilter() {
 
 
   override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-    verifyToken(request)
+//    verifyToken(request)
     filterChain.doFilter(request, response)
   }
 
