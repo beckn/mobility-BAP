@@ -24,7 +24,7 @@
                 >
                 <template>
                     <div class="button-pos1">
-                      <SfButton class="sf-button--pure">
+                      <SfButton class="sf-button--pure rect-bar-style">
                         <!--<span class="sf-search-bar__icon">-->
                           <SfImage
                             src="/icons/Rectangle-bar.png"
@@ -154,7 +154,7 @@
 
                   <template>
                     <div class="bar-pos"  @click="toggleIsShow">
-                      <SfButton class="sf-button--pure">
+                      <SfButton class="sf-button--pure rect-bar-style">
                         <SfImage
                           src="/icons/Rectangle-bar.png"
                           :width="60"
@@ -344,7 +344,7 @@
                                 </div>
                                 <br/>
                                 <div><hr class="sf-divider" /></div>
-                  
+                                <div @click="isShow = false">
                                 <SfButton id="btn" @click="isContactSupport = true">
                                   Contact Support
                                   <SfIcon class="button-pos">
@@ -357,6 +357,7 @@
                                     />
                                   </SfIcon>
                                 </SfButton>
+                                </div>
 
                                 <nuxt-link :to="localePath('/CancelOrder')">
                                   <div class="cancel-order">
@@ -364,89 +365,67 @@
                                   </div>
                                 </nuxt-link>
 
-                                  <!--<BottomSlider :visible="isContactSupport" >
-                                    <div>
-                                      <div class="modal-heading">Contact Support</div>
-                                      <div><hr class="sf-divider" /></div>
-                                    </div>
-                                    <div class="modal-body">
-                                      <div  class="option-container">
-                                        <div class="option-head">
-                                          you can reach out to one of our customer 
-                                          support executives for any help, queries 
-                                          or feedback to ABC Mart
-                                        </div>
-
-                                        <button
-                                          class="sf-button color-primary "                          
-                                        >
-                                          <div class="f-btn-text">Call us</div>
-                                        </button>
-
-                                        <button
-                                          class="sf-button color-primary "                          
-                                        >
-                                          <div class="f-btn-text">Email us</div>
-                                        </button>
-
-                                        <button
-                                          class="sf-button color-primary "                          
-                                        >
-                                          <div class="f-btn-text">Chat with us</div>
-                                        </button>
-
-                                        <!-<SfRadio
-                                          v-for="value in cancelReasonValues"
-                                          :key="value"
-                                          class="sf-radio--transparent"
-                                          :value="value"
-                                          :label="value"
-                                          :disabled="false"
-                                          :selected="selectedReason"
-                                          @change="selectedReason = value"
-                                        />->
-                                      </div>
-
-                                      <!-<button
-                                        v-if="!canceltext"
-                                        class="sf-button color-primary "
-                                        :class="{ 'is-disabled--button': !selectedReason }"
-                                        @click="cancelBox"
-                                        :disabled="!selectedReason"
-                                      >
-                                        <div class="f-btn-text">Confirm Cancellation Request</div>
-                                      </button>->
-                                      <!-<div>
-                                        <h4 v-if="canceltext">Booking Cancelled</h4>
-                                        <p v-if="canceltext">
-                                          Refund will be credited to your account as per refund policy
-                                        </p>
-
-                                        <button
-                                          v-if="canceltext"
-                                          class="sf-button color-primary "
-                                          :class="{ 'is-disabled--button': !selectedReason }"
-                                          @click="onConfirm"
-                                          :disabled="!selectedReason"
-                                        >
-                                          <div class="f-btn-text">Okay</div>
-                                        </button>
-                                      </div>->
-                                    </div>
-                                  </BottomSlider>-->
-                                  
                               </div>
                             </template>
                           </div>
                         </div>
                   </template>
-                  
-                  
+                                    
                 </BottomSlider>
 
               <!--</div>-->
             </template>
-      </div>
+            <div >
+            <template>
+              <ContactSupportSlider :visible="isContactSupport" @close=" isContactSupport = false ">
+                <template>
+                   <div class="bar-pos"  @click="contactSupport">
+                      <SfButton class="sf-button--pure rect-bar-style">
+                        <SfImage
+                          src="/icons/Rectangle-bar.png"
+                          :width="60"
+                          :height="5.5"
+                          alt="Rectangle bar"
+                        />
+                        </SfButton>
+                    </div>
+                <div>
+                  <div class="modal-heading">Contact Support</div>
+                  <div><hr class="sf-divider" /></div>
+                </div>
+                <div class="modal-body">
+                  <div  class="option-container">
+                    <div class="option-head">
+                      you can reach out to one of our customer 
+                      support executives for any help, queries 
+                      or feedback to ABC Mart
+                    </div>
+
+                    <button
+                      class="sf-button color-primary "                          
+                    >
+                      <div class="f-btn-text">Call us</div>
+                    </button>
+
+                    <button
+                      class="sf-button color-primary "                          
+                    >
+                      <div class="f-btn-text">Email us</div>
+                    </button>
+
+                    <button
+                      class="sf-button color-primary "                          
+                    >
+                      <div class="f-btn-text">Chat with us</div>
+                    </button>
+                  </div>
+                </div>
+              
+                </template>
+              </ContactSupportSlider>
+            </template>
+            </div>
+          </div>
     </div>
     </div>
   </div>
@@ -471,12 +450,14 @@ import LoadingCircle from '~/components/LoadingCircle';
 import LocationSearchBar from '../components/LocationSearchBar.vue';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
-import BottomSlider from '../components/BottomSlider.vue';
+import BottomSlider from '../components/ConfirmBottomSlider.vue';
+import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 
 export default {
   name: 'DriverInfo',
   components: {
     BottomSlider,
+    ContactSupportSlider,
     SfCircleIcon,
     SfSidebar,
     SfButton,
@@ -562,6 +543,7 @@ export default {
 
     return {
       closeModal,
+      isContactSupport,
       contactSupport,
       _SourceLocation,
       _destloc,
@@ -792,12 +774,6 @@ input {
   font-style: normal;
   font-weight: 500;
 }
-.contact{
-    border-radius: 50%;
-    background-color: rgba(243, 122, 32, 0.14);
-    height: 50px;
-    width: 50px;
-}
 .location-block{
     margin-left: 25px;
 }
@@ -864,5 +840,10 @@ input {
       }
     }
   }
-
+  .sf-button{
+  width: 100% !important;
+  }
+  .rect-bar-style{
+    padding-top: 5px;
+  }
 </style>

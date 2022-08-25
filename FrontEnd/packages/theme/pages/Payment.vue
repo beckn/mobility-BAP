@@ -51,7 +51,7 @@
         </CardContent>
       </Card>
     </div>
-    <Footer
+    <BookRide
       class="footer-fixed"
       :buttonText="'Book Now'"
       :buttonEnable="isPayConfirmActive"
@@ -76,7 +76,7 @@
           />
         </svg>-->
       </template>
-    </Footer>
+    </BookRide>
   </div>
 </template>
 <script>
@@ -91,7 +91,7 @@ import { useConfirmOrder, cartGetters } from '@vue-storefront/beckn';
 
 import Card from '~/components/Card.vue';
 
-import Footer from '~/components/Footer.vue';
+import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
 import { createConfirmOrderRequest } from '../helpers/helpers';
 const { toggleCartSidebar } = useUiState();
@@ -103,7 +103,7 @@ export default {
     Card,
     CardContent,
     SfRadio,
-    Footer,
+    BookRide,
     LoadingCircle
   },
   methods: {
