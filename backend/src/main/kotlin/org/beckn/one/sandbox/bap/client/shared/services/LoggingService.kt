@@ -32,15 +32,20 @@ class LoggingService(
     request: LoggingRequest
   ): Either<HttpError, LoggingDto> {
     return Either.catch {
-     val json = jacksonObjectMapper().writeValueAsString(request)
-      log.info("Logging request: {}", json)
-      val httpResponse = client.logging(request).execute()
-      log.info("Logging response. Status: {}, Body: {}", httpResponse.code(), httpResponse.body())
+      if (isEnabled) {
+        val json = jacksonObjectMapper().writeValueAsString(request)
+        log.info("Logging request: {}", json)
+        val httpResponse = client.logging(request).execute()
+        log.info("Logging response. Status: {}, Body: {}", httpResponse.code(), httpResponse.body())
         return when {
-        httpResponse.isInternalServerError() -> Left(Internal)
-        noLoggingFound(httpResponse) -> Left(BppError.NullResponse)
-        else -> Right(httpResponse.body()!!)
+          httpResponse.isInternalServerError() -> Left(Internal)
+          noLoggingFound(httpResponse) -> Left(BppError.NullResponse)
+          else -> Right(httpResponse.body()!!)
+        }
+      } else {
+        return Right(LoggingDto(json))
       }
+
     }.mapLeft {
       log.error("Error when logging", it)
       Internal

@@ -61,7 +61,7 @@ class ProtocolConfirmService @Autowired constructor(
               locations = listOf(ProtocolSelectMessageSelectedProviderLocations(id = it?.locations!!.first()))
             )
           },
-          items = order.items!!.map { ProtocolSelectMessageSelectedItems(id = it.id, quantity = it.quantity) },
+          items = order.items!!.map { ProtocolSelectMessageSelectedItems(id = it.id, quantity = it.quantity!!) },
           billing = order.billingInfo,
           fulfillment = ProtocolFulfillment(
             end = ProtocolFulfillmentEnd(

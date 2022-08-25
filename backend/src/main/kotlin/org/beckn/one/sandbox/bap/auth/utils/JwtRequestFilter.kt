@@ -32,7 +32,7 @@ class JwtRequestFilter : OncePerRequestFilter() {
 
   override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
     logger.info("Requested URI : " + request.requestURI)
-//    verifyToken(request)
+    verifyToken(request)
     filterChain.doFilter(request, response)
   }
 
