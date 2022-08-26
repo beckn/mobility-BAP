@@ -51,6 +51,7 @@ class ConfirmOrderService @Autowired constructor(
       return Either.Left(BppError.PendingPayment)
     }
 
+    log.info("Proceeding to confirm order")
     return  bppConfirmService.confirm(
       context,
       order = order

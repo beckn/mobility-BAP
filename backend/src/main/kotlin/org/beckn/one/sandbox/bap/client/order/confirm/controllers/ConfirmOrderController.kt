@@ -77,7 +77,7 @@ class ConfirmOrderController @Autowired constructor(
     log.info(" Order request from client : {}", gsonPretty.toJson(orderRequest))
     var okResponseConfirmOrders: MutableList<ProtocolAckResponse> = ArrayList()
     if (!orderRequest.isNullOrEmpty()) {
-      if (SecurityUtil.getSecuredUserDetail() != null) {
+//      if (SecurityUtil.getSecuredUserDetail() != null) {
         val parentOrderId = Util.getRandomString()
         for (order in orderRequest) {
           val context = getContext(order.context.transactionId, bppUri = order.context.bppUri, bppId = order.context.bppId)
@@ -126,9 +126,9 @@ class ConfirmOrderController @Autowired constructor(
             )
         }
         return ResponseEntity.ok(okResponseConfirmOrders)
-      } else {
-        return mapToErrorResponseV2(BppError.AuthenticationError, null)
-      }
+//      } else {
+//        return mapToErrorResponseV2(BppError.AuthenticationError, null)
+//      }
     } else {
       return mapToErrorResponseV2(BppError.BadRequestError, null)
     }
