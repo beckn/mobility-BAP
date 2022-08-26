@@ -14,11 +14,13 @@ import org.beckn.one.sandbox.bap.errors.HttpError
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import retrofit2.Response
 
 @Service
 class LoggingService(
+  @Value("\${logging_service.isEnabled}") private val isEnabled: Boolean,
   @Autowired private val loggingServiceClient: LoggingServiceClient
 ) {
   private val log: Logger = LoggerFactory.getLogger(RegistryService::class.java)
@@ -32,9 +34,9 @@ class LoggingService(
     request: LoggingRequest
   ): Either<HttpError, LoggingDto> {
     return Either.catch {
+      val json = jacksonObjectMapper().writeValueAsString(request)
+      log.info("Logging request: {}", json)
       if (isEnabled) {
-        val json = jacksonObjectMapper().writeValueAsString(request)
-        log.info("Logging request: {}", json)
         val httpResponse = client.logging(request).execute()
         log.info("Logging response. Status: {}, Body: {}", httpResponse.code(), httpResponse.body())
         return when {
