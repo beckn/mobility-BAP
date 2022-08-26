@@ -52,7 +52,7 @@ class OnConfirmOrderController @Autowired constructor(
   fun onConfirmOrderV2(
     @RequestParam messageIds: String
   ): ResponseEntity<out List<ClientResponse>> {
-//    val user = SecurityUtil.getSecuredUserDetail()
+    val user = SecurityUtil.getSecuredUserDetail()
 //    if (user != null) {
       if (messageIds.isNotEmpty() && messageIds.trim().isNotEmpty()) {
         val messageIdArray = messageIds.split(",")
@@ -78,7 +78,7 @@ class OnConfirmOrderController @Autowired constructor(
                     },{
                       val orderDao: OrderDao = mapping.protocolToEntity(resultResponse.message.order!!)
                       orderDao.transactionId = resultResponse.context?.transactionId
-                      orderDao.userId = user.uid
+                      orderDao.userId = user?.uid
                       orderDao.messageId = resultResponse.context?.messageId
                       orderDao.parentOrderId = it.parentOrderId
                       onConfirmOrderService.updateOrder(orderDao).fold(
