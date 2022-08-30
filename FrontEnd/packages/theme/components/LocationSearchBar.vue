@@ -246,9 +246,11 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+  bottom: 20px
 }
 .sf-search-bar__icon {
-  padding-left: 80%;
+  padding-left: 70%;
+  
 }
 div#taxi-map {
   width: 100%;

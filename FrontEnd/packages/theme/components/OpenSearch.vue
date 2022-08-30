@@ -24,9 +24,7 @@
             errorMessage="errer"
             type="text"
             placeholder="Enter Pickup"
-            :disabled="
-              !selectedLocation.latitude || !selectedLocation.longitude
-            "
+          
             v-e2e="'home-search-input'"
           />
         </div>
@@ -55,9 +53,7 @@
             errorMessage="errer"
             type="text"
             placeholder="Enter Destination"
-            :disabled="
-              !selectedLocation.latitude || !selectedLocation.longitude
-            "
+           
             v-e2e="'home-search-input'"
           />
         </div>
@@ -65,10 +61,7 @@
         <SfButton
           id="btn"
           class="button-pos sf-button--pure color-primary"
-          :class="{
-            'is-disabled--button':
-              !selectedLocation.latitude || !selectedLocation.longitude
-          }"
+        
           @click="openSearch"
           :disabled="!selectedLocation.latitude || !selectedLocation.longitude"
           v-e2e="'home-search-button'"
@@ -83,6 +76,7 @@
     <template>
       <div class="location-blk d-flex w-100">
         <div class="layout-container">
+          
           <div id="location" class="location-content">
             <SfSidebar
               :visible="!!isLocationdropOpen"
@@ -147,6 +141,7 @@ export default {
     //   if(selectedLocation.latitude || selectedLocation.longitude) {
     //   pickup.value=localStorage.getItem('pickup');
     // }
+    
     const location = ref(true);
     const message = ref('');
     const errorMsg = ref(false);

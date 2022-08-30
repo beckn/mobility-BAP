@@ -1,13 +1,19 @@
 <template>
   <no-ssr>  
-    <div class="location-content">
+    <div class="s-footer">
           <client-only>
           <div  class="s-p-addcart" @click="toggleLocationDrop" >
-            <button 
-              class="color-primary sf-button add-btn"
+            <button
+              v-e2e="'footer-button'"
+              :value="buttonText"
+              class="sf-button f-button"
+              :class="{'color-primary ':buttonEnable,'is-disabled--button':!buttonEnable}"
+              :disabled="!buttonEnable"
+              link=""
               @click="changeItemNumber('add')"
-            >   
-              Confirm & Proceed
+            >
+              <slot name="buttonIcon"/>
+              <div class="f-btn-text">{{buttonText}}</div> 
             </button> 
           </div>
           </client-only>
@@ -64,6 +70,11 @@ export default {
     },
     value: { type: Number, default: 1 },
     maxLimit: { type: Number, default: 100 },
+    totalPrice: { type: Number, default: 0 },
+    totalItem: { type: Number, default: 0 },
+    footerEnable: { type: Boolean, default: true },
+    buttonEnable: { type: Boolean, default: true },
+    buttonText: {type: String, default: ''}
   },
   data() {
     return {
@@ -102,6 +113,7 @@ export default {
     const changeItemNumber = (type) => {
      emit('updateItemCount', _value);
      //console.log("updatecount");
+     //root.$router.push('/LocationSearch');
     };
     return {
       b_name,
@@ -215,5 +227,11 @@ export default {
   border-top-color: var(--tooltip-color);
   transform-origin: top center;
 }
-
+.s-footer .sf-button {
+    width: 100% !important;
+    
+}
+.color-def{
+  background: #cacaca;
+}
 </style>

@@ -24,7 +24,7 @@
                 >
                 <template>
                     <div class="button-pos1">
-                      <SfButton class="sf-button--pure">
+                      <SfButton class="sf-button--pure rect-bar-style">
                         <!--<span class="sf-search-bar__icon">-->
                           <SfImage
                             src="/icons/Rectangle-bar.png"
@@ -148,29 +148,24 @@
         </client-only>
           <div >
             <template>
-              <div v-if="!!isShow" @click="toggleIsShow">
+              <!--<div v-if="!!isShow" >-->
                 
-                <BottomSlider :visible="isShow">
+                <BottomSlider :visible="isShow" @close="closeModal">
 
-                  <div
-                    @click="!toggleIsShow"
-                    class=""
-                    v-e2e="'app-header-location-input-div'"
-                  >
-                    <template>
-                        <div class="bar-pos">
-                          <SfButton class="sf-button--pure">
-                              <SfImage
-                                src="/icons/Rectangle-bar.png"
-                                :width="60"
-                                :height="5.5"
-                                alt="Rectangle bar"
-                              />
-                          </SfButton>
-                        </div>
+                  <template>
+                    <div class="bar-pos"  @click="toggleIsShow">
+                      <SfButton class="sf-button--pure rect-bar-style">
+                        <SfImage
+                          src="/icons/Rectangle-bar.png"
+                          :width="60"
+                          :height="5.5"
+                          alt="Rectangle bar"
+                        />
+                        </SfButton>
+                    </div>
                     
                         <div>
-                          <div class="" >
+                          <div>
                             <template>
                               <div>
                                 <div class="provider-head aline-center side-padding">
@@ -270,14 +265,8 @@
                                     Hindi & Kannada
                                   </div>    
                                 </div>
-                              </div>
-                            </template>
-                          </div>
-                        </div>
-                    </template>
-                  </div>
 
-                  <div class="provider-head aline-center side-padding">
+                                <div class="provider-head aline-center side-padding">
                     <div class="flexy">
                       <div class="text-padding">
                         <span class="flexy">
@@ -304,78 +293,139 @@
                         </span> 
                       </div>
                     </div>    
-                  </div>
+                                </div>
                                     
-                  <div class="provider-head aline-center side-padding">
-                    <div class="flexy">
-                      <SfButton class="provide-img">
-                        <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
-                      </SfButton>
-                      <div class="text-padding1">
-                        <div class="aline-center">
-                          <div class="p-name">
-                            Source
-                          </div>
-                        </div>
-                        <div class="rating-css">
-                          <div>  
-                          <input type="text" :value="_SourceLocation"/>
-                          </div>
-                        </div> 
-                      </div>
-                                          
-                    </div>
-                    <div class="button-pos text-color" >
-                      Edit
-                    </div>    
-                  </div>
+                                <div class="provider-head aline-center side-padding">
+                                  <div class="flexy">
+                                    <SfButton class="provide-img">
+                                      <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
+                                    </SfButton>
+                                    <div class="text-padding1">
+                                      <div class="aline-center">
+                                        <div class="p-name">
+                                          Source
+                                        </div>
+                                      </div>
+                                      <div class="rating-css">
+                                        <div>  
+                                        <input type="text" :value="_SourceLocation"/>
+                                        </div>
+                                      </div> 
+                                    </div>
+                                                        
+                                  </div>
+                                  <div class="button-pos text-color" >
+                                    Edit
+                                  </div>    
+                                </div>
 
-                  <div class="provider-head aline-center side-padding">
-                    <div class="flexy">
-                      <SfButton class="provide-img">
-                        <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" /> 
-                      </SfButton>
-                      <div class="text-padding1">
-                        <div class="aline-center">
-                          <div class="p-name">
-                            Destination
+                                <div class="provider-head aline-center side-padding">
+                                  <div class="flexy">
+                                    <SfButton class="provide-img">
+                                      <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" /> 
+                                    </SfButton>
+                                    <div class="text-padding1">
+                                      <div class="aline-center">
+                                        <div class="p-name">
+                                          Destination
+                                        </div>
+                                      </div>
+                                      <span class="flexy">
+                                        <div class="rating-css">
+                                          <input type="text" :value="_destloc"/>
+                                        </div>
+                                      </span> 
+                                    </div>
+                                                        
+                                  </div>
+                                  <div class="button-pos text-color" >
+                                    Edit
+                                  </div>    
+                                </div>
+                                <br/>
+                                <div><hr class="sf-divider" /></div>
+                                <div @click="isShow = false">
+                                <SfButton id="btn" @click="isContactSupport = true">
+                                  Contact Support
+                                  <SfIcon class="button-pos">
+                                    <SfImage
+                                      id="icon"
+                                      src="/icons/contactSupport.png"
+                                      alt="Vue Storefront Next"
+                                      :width="20"
+                                      :height="22"
+                                    />
+                                  </SfIcon>
+                                </SfButton>
+                                </div>
+
+                                <nuxt-link :to="localePath('/CancelOrder')">
+                                  <div class="cancel-order">
+                                    Cancel Order
+                                  </div>
+                                </nuxt-link>
+
+                              </div>
+                            </template>
                           </div>
                         </div>
-                        <span class="flexy">
-                          <div class="rating-css">
-                            <input type="text" :value="_destloc"/>
-                          </div>
-                        </span> 
-                      </div>
-                                          
-                    </div>
-                    <div class="button-pos text-color" >
-                      Edit
-                    </div>    
-                  </div>
-                  <br/>
-                  <div><hr class="sf-divider" /></div>
-                  <!--<nuxt-link :to="localePath('/payment')">-->
-                    <SfButton id="btn">
-                      Contact Support
-                      <SfIcon class="button-pos">
-                        <SfImage
-                          id="icon"
-                          src="/icons/contactSupport.png"
-                          alt="Vue Storefront Next"
-                          :width="20"
-                          :height="22"
-                        />
-                      </SfIcon>
-                    </SfButton>
-                  <!--</nuxt-link>-->
-                            
-                  <SfButton id="btn" class="cancel-order">Cancel Order</SfButton>
+                  </template>
+                                    
                 </BottomSlider>
 
-              </div>
+              <!--</div>-->
             </template>
-      </div>
+            <div >
+            <template>
+              <ContactSupportSlider :visible="isContactSupport" @close=" isContactSupport = false ">
+                <template>
+                   <div class="bar-pos"  @click="contactSupport">
+                      <SfButton class="sf-button--pure rect-bar-style">
+                        <SfImage
+                          src="/icons/Rectangle-bar.png"
+                          :width="60"
+                          :height="5.5"
+                          alt="Rectangle bar"
+                        />
+                        </SfButton>
+                    </div>
+                <div>
+                  <div class="modal-heading">Contact Support</div>
+                  <div><hr class="sf-divider" /></div>
+                </div>
+                <div class="modal-body">
+                  <div  class="option-container">
+                    <div class="option-head">
+                      you can reach out to one of our customer 
+                      support executives for any help, queries 
+                      or feedback to ABC Mart
+                    </div>
+
+                    <button
+                      class="sf-button color-primary "                          
+                    >
+                      <div class="f-btn-text">Call us</div>
+                    </button>
+
+                    <button
+                      class="sf-button color-primary "                          
+                    >
+                      <div class="f-btn-text">Email us</div>
+                    </button>
+
+                    <button
+                      class="sf-button color-primary "                          
+                    >
+                      <div class="f-btn-text">Chat with us</div>
+                    </button>
+                  </div>
+                </div>
+              
+                </template>
+              </ContactSupportSlider>
+            </template>
+            </div>
+          </div>
     </div>
     </div>
   </div>
@@ -398,15 +448,16 @@ import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import LocationSearchBar from '../components/LocationSearchBar.vue';
-import Driverdata from './DriverData.vue';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
-import BottomSlider from '../components/BottomSlider.vue';
+import BottomSlider from '../components/ConfirmBottomSlider.vue';
+import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 
 export default {
   name: 'DriverInfo',
   components: {
     BottomSlider,
+    ContactSupportSlider,
     SfCircleIcon,
     SfSidebar,
     SfButton,
@@ -420,7 +471,6 @@ export default {
     SfInput,
     LoadingCircle,
     LocationSearchBar,
-    Driverdata,
     Dropdown,
     DropdownContent
   },
@@ -457,6 +507,7 @@ export default {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const isShow = ref(false);
+    const isContactSupport = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
     const toggleLocationDrop = () => {
@@ -466,6 +517,11 @@ export default {
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
     };
+
+    const contactSupport = () => {
+      isContactSupport.value = !isContactSupport.value;
+    };
+
     const openHamburger = false;
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
@@ -481,7 +537,14 @@ export default {
     const _SourceLocation=ref(JSON.parse(localStorage.getItem("slocation")));
     const _destloc=ref(JSON.parse(localStorage.getItem("destinationLocation")));
     
+    const closeModal = () => {
+      isShow.value = false;
+    };
+
     return {
+      closeModal,
+      isContactSupport,
+      contactSupport,
       _SourceLocation,
       _destloc,
       goBack,
@@ -544,46 +607,7 @@ export default {
 .collected-product-list {
   flex: 1;
 }
-/*.collected-product {
-  margin: 0 0 var(--spacer-sm) 0;
-  &__properties {
-    margin: var(--spacer-xs) 0 0 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    flex: 2;
-    &:first-child {
-      margin-bottom: 8px;
-    }
-  }
-  &__actions {
-    transition: opacity 150ms ease-in-out;
-  }
-  &__save,
-  &__compare {
-    --button-padding: 0;
-    &:focus {
-      --cp-save-opacity: 1;
-      --cp-compare-opacity: 1;
-    }
-  }
-  &__save {
-    opacity: var(--cp-save-opacity, 0);
-  }
-  &__compare {
-    opacity: var(--cp-compare-opacity, 0);
-  }
-  &:hover {
-    --cp-save-opacity: 1;
-    --cp-compare-opacity: 1;
-    @include for-desktop {
-      .collected-product__properties {
-        display: none;
-      }
-    }
-  }
-}*/
+
 .a{
     background-color: wheat;
     height: 100%;
@@ -739,15 +763,16 @@ input {
 }
 .cancel-order{
   color: #FF5552;
+  display: flex;
+  //line-height: 19px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding: 19px;
+  font-size: 16px;
   font-family: 'SF Pro Text';
-  //position: absolute;
-  background-color: white;
-}
-.contact{
-    border-radius: 50%;
-    background-color: rgba(243, 122, 32, 0.14);
-    height: 50px;
-    width: 50px;
+  font-style: normal;
+  font-weight: 500;
 }
 .location-block{
     margin-left: 25px;
@@ -794,4 +819,31 @@ input {
 .text-color{
   color: #f37a20;
 }
+
+.modal-body {
+    padding: 20px;
+    color: #37474f;
+    .option-container {
+      padding: 0 10px 60px;
+      .option-head {
+        font-weight: 400;
+        font-size: 15px;
+        padding-bottom: 20px;
+      }
+      .sf-radio {
+        font-size: 15px;
+      }
+      .sf-button {
+        width: -webkit-fill-available;
+        border-radius: 3px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .sf-button{
+  width: 100% !important;
+  }
+  .rect-bar-style{
+    padding-top: 5px;
+  }
 </style>

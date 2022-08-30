@@ -1,15 +1,15 @@
 <template>
   <no-ssr>
-    <div class="location-blk d-flex w-100">
-      <SfCircleIcon
+    <div class="location-blk d-flex w-100 ">
+      <!-- <SfCircleIcon
         class="sf-circle-icon--large left-pos"
         aria-label="marker"
         icon="marker"
         icon-size="18px"
-      />
+      /> -->
       <div class="layout-container">
-        <div class="location-content">
-          <client-only>
+        <!-- <div class="location-content"> -->
+          <!-- <client-only>
             <div class="location-icon">
               <slot>
                 <div>
@@ -48,8 +48,8 @@
                 v-e2e="'app-header-location-input'"
               />
             </div>
-          </client-only>
-          <template>
+          </client-only> -->
+          <!-- <template>
             <div id="location" class="location-drop">
               <SfSidebar
                 :visible="!!isLocationdropOpen"
@@ -70,8 +70,8 @@
                 </transition>
               </SfSidebar>
             </div>
-          </template>
-          <div class="popover-blk">
+          </template> -->
+          <!-- <div class="popover-blk">
             <template>
               <div v-if="!!isShow" @click="toggleIsShow">
                 <ModalComponent
@@ -82,7 +82,7 @@
                 />
               </div>
             </template>
-          </div>
+          </div> -->
         </div>
         <div class="user-cart-content">
           <div class="cart-content">
@@ -256,6 +256,7 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 7rem;
+  height: 1rem;
 }
 .profile-tooltip {
   position: relative;

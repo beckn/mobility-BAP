@@ -16,7 +16,7 @@
       <div class="sub-heading">
         <div class="p-name">Payment</div>
       </div>
-      <Card v-if="order.cart">
+      <Card v-if="!!(order && order.cart)">
         <CardContent
           v-for="breakup in order.cart.quote.breakup"
           :key="breakup.title"
@@ -33,9 +33,9 @@
           </div>
         </CardContent>
       </Card>
-      <div class="sub-heading">
+      <!-- <div class="sub-heading">
         <div class="p-name">Other</div>
-      </div>
+      </div> -->
       <Card>
         <CardContent>
           <!-- <div class="address-text color-def">Add Shipping Details</div> -->
@@ -51,16 +51,16 @@
         </CardContent>
       </Card>
     </div>
-    <Footer
+    <BookRide
       class="footer-fixed"
-      :buttonText="'Confirm'"
+      :buttonText="'Book Now'"
       :buttonEnable="isPayConfirmActive"
-      :totalPrice="parseFloat(order.cart.quote.price.value)"
-      :totalItem="cartGetters.getTotalItems(order.cart)"
+      :totalPrice="parseFloat(cartItem.price && cartItem.price.value?cartItem.price.value:'0').toFixed(2)"
       @buttonClick="proceedToConfirm"
     >
       <template v-slot:buttonIcon>
-        <svg
+        
+        <!--<svg
           width="25"
           height="19"
           viewBox="0 0 25 19"
@@ -74,9 +74,9 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-        </svg>
+        </svg>-->
       </template>
-    </Footer>
+    </BookRide>
   </div>
 </template>
 <script>
@@ -91,7 +91,7 @@ import { useConfirmOrder, cartGetters } from '@vue-storefront/beckn';
 
 import Card from '~/components/Card.vue';
 
-import Footer from '~/components/Footer.vue';
+import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
 import { createConfirmOrderRequest } from '../helpers/helpers';
 const { toggleCartSidebar } = useUiState();
@@ -103,7 +103,7 @@ export default {
     Card,
     CardContent,
     SfRadio,
-    Footer,
+    BookRide,
     LoadingCircle
   },
   methods: {
@@ -112,6 +112,7 @@ export default {
     }
   },
   setup(_, context) {
+    const cartItem = JSON.parse(localStorage.getItem('cartData')).items[0];
     const paymentMethod = ref('');
     const order = ref({});
     const isOrderVerified = ref(false);
@@ -177,6 +178,7 @@ export default {
       console.log(order.value);
     });
     return {
+      cartItem,
       paymentMethod,
       changePaymentMethod,
       order,

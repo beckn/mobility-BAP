@@ -1,19 +1,19 @@
 <template>
   <section>
     <SfOverlay :transition="'sf-fade'" :visible="visible"> </SfOverlay>
-    <transition :name="'sf-collapse-bottom'">
-      <div
-        v-if="visible"
-        v-focus-trap
-        v-click-outside="close"
-        class="sf-modal__container modal_main_div"
-      >
-       
-        <div ref="content" class="sf-modal__content content">
-          <slot />
+      <transition :name="'sf-collapse-bottom'">
+        <div
+          v-if="visible"
+          v-focus-trap
+          v-click-outside="close"
+          class="sf-modal__container modal_main_div"
+        >
+        
+          <div ref="content" class="sf-modal__content content">
+            <slot />
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
   </section>
 </template>
 
@@ -42,7 +42,7 @@ export default {
     visible: {
       type: Boolean,
       default: false
-    }
+    },
   },
   setup(props, { root, emit }) {
     const close = () => {
@@ -60,7 +60,7 @@ export default {
     });
 
     return {
-      close
+      close,
     };
   }
 };

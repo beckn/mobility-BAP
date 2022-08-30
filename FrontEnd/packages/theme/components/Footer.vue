@@ -1,6 +1,6 @@
 <template>
   <div class="s-footer">
-    <div class="f-price-container">
+    <!--<div class="f-price-container">
       <div class="holder">
         <div class="f-total">Total</div>
         <div>
@@ -8,7 +8,7 @@
           ><span class="f-items">{{ totalItem }} Items</span>
         </div>
       </div>
-    </div>
+    </div>-->
     <button
       v-e2e="'footer-button'"
       :value="buttonText"
@@ -21,7 +21,7 @@
       <!-- button icon template  -->
       <slot name="buttonIcon"/>
       <div class="f-btn-text">{{buttonText}}</div>
-      <SfIcon icon="chevron_right" color="white" :coverage="1" size="xxs"/>
+      <!--<SfIcon icon="chevron_right" color="white" :coverage="1" size="xxs"/>-->
     </button>
   </div>
 </template>
@@ -48,5 +48,8 @@ export default {
 <style lang="scss" scoped>
 .color-def{
   background: #cacaca;
+}
+.s-footer .sf-button {
+    width: 100% !important;
 }
 </style>

@@ -12,7 +12,7 @@
       <div class="detail-head">
         <div class="h-main">You have chosen to cancel the booking</div>
         <div class="h-sub">
-          Please accept the provider’s order cancellation policy
+          Please accept the provider’s  booking cancellation policy
         </div>
       </div>
       <div><hr class="sf-divider" /></div>
