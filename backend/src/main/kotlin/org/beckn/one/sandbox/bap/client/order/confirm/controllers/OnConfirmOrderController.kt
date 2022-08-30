@@ -53,7 +53,7 @@ class OnConfirmOrderController @Autowired constructor(
     @RequestParam messageIds: String
   ): ResponseEntity<out List<ClientResponse>> {
     val user = SecurityUtil.getSecuredUserDetail()
-    if (user != null) {
+//    if (user != null) {
       if (messageIds.isNotEmpty() && messageIds.trim().isNotEmpty()) {
         val messageIdArray = messageIds.split(",")
         var okResponseConfirmOrder: MutableList<ClientConfirmResponse> = ArrayList()
@@ -78,7 +78,7 @@ class OnConfirmOrderController @Autowired constructor(
                     },{
                       val orderDao: OrderDao = mapping.protocolToEntity(resultResponse.message.order!!)
                       orderDao.transactionId = resultResponse.context?.transactionId
-                      orderDao.userId = user.uid
+                      orderDao.userId = user?.uid
                       orderDao.messageId = resultResponse.context?.messageId
                       orderDao.parentOrderId = it.parentOrderId
                       onConfirmOrderService.updateOrder(orderDao).fold(
@@ -122,11 +122,11 @@ class OnConfirmOrderController @Autowired constructor(
       } else {
         return mapToErrorResponse(BppError.BadRequestError)
       }
-    } else {
-      return mapToErrorResponse(
-        BppError.AuthenticationError
-      )
-    }
+//    } else {
+//      return mapToErrorResponse(
+//        BppError.AuthenticationError
+//      )
+//    }
   }
 
   private fun mapToErrorResponse(it: HttpError, context: ProtocolContext? = null) = ResponseEntity

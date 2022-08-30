@@ -14,11 +14,13 @@ import org.beckn.one.sandbox.bap.errors.HttpError
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import retrofit2.Response
 
 @Service
 class LoggingService(
+  @Value("\${logging_service.isEnabled}") private val isEnabled: Boolean,
   @Autowired private val loggingServiceClient: LoggingServiceClient
 ) {
   private val log: Logger = LoggerFactory.getLogger(RegistryService::class.java)
@@ -32,15 +34,20 @@ class LoggingService(
     request: LoggingRequest
   ): Either<HttpError, LoggingDto> {
     return Either.catch {
-     val json = jacksonObjectMapper().writeValueAsString(request)
+      val json = jacksonObjectMapper().writeValueAsString(request)
       log.info("Logging request: {}", json)
-      val httpResponse = client.logging(request).execute()
-      log.info("Logging response. Status: {}, Body: {}", httpResponse.code(), httpResponse.body())
+      if (isEnabled) {
+        val httpResponse = client.logging(request).execute()
+        log.info("Logging response. Status: {}, Body: {}", httpResponse.code(), httpResponse.body())
         return when {
-        httpResponse.isInternalServerError() -> Left(Internal)
-        noLoggingFound(httpResponse) -> Left(BppError.NullResponse)
-        else -> Right(httpResponse.body()!!)
+          httpResponse.isInternalServerError() -> Left(Internal)
+          noLoggingFound(httpResponse) -> Left(BppError.NullResponse)
+          else -> Right(httpResponse.body()!!)
+        }
+      } else {
+        return Right(LoggingDto(json))
       }
+
     }.mapLeft {
       log.error("Error when logging", it)
       Internal

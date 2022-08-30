@@ -1,5 +1,6 @@
 package org.beckn.one.sandbox.bap.client.order.confirm.controllers
 
+import com.google.gson.GsonBuilder
 import org.beckn.one.sandbox.bap.auth.utils.SecurityUtil
 import org.beckn.one.sandbox.bap.client.order.confirm.services.ConfirmOrderService
 import org.beckn.one.sandbox.bap.client.shared.Util
@@ -39,6 +40,7 @@ class ConfirmOrderController @Autowired constructor(
     @RequestBody orderRequest: OrderRequestDto
   ): ResponseEntity<ProtocolAckResponse> {
     val context = getContext(orderRequest.context.transactionId, bppId = orderRequest.context.bppId, bppUri =  orderRequest.context.bppUri)
+    log.info("Context from request : {}", context)
     return confirmOrderService.confirmOrder(
       context = context,
       order = orderRequest.message
@@ -71,10 +73,11 @@ class ConfirmOrderController @Autowired constructor(
   fun confirmOrderV2(
     @RequestBody orderRequest: List<OrderRequestDto>
   ): ResponseEntity<List<ProtocolAckResponse>> {
-
+    val gsonPretty = GsonBuilder().setPrettyPrinting().create()
+    log.info(" Order request from client : {}", gsonPretty.toJson(orderRequest))
     var okResponseConfirmOrders: MutableList<ProtocolAckResponse> = ArrayList()
     if (!orderRequest.isNullOrEmpty()) {
-      if (SecurityUtil.getSecuredUserDetail() != null) {
+//      if (SecurityUtil.getSecuredUserDetail() != null) {
         val parentOrderId = Util.getRandomString()
         for (order in orderRequest) {
           val context = getContext(order.context.transactionId, bppUri = order.context.bppUri, bppId = order.context.bppId)
@@ -123,9 +126,9 @@ class ConfirmOrderController @Autowired constructor(
             )
         }
         return ResponseEntity.ok(okResponseConfirmOrders)
-      } else {
-        return mapToErrorResponseV2(BppError.AuthenticationError, null)
-      }
+//      } else {
+//        return mapToErrorResponseV2(BppError.AuthenticationError, null)
+//      }
     } else {
       return mapToErrorResponseV2(BppError.BadRequestError, null)
     }
