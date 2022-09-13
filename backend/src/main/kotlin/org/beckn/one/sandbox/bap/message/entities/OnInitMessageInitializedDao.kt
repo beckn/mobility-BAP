@@ -12,6 +12,8 @@ data class OnInitMessageInitializedDao @Default constructor(
   val fulfillment: FulfillmentDao? = null,
   val quote: QuotationDao? = null,
   val payment: PaymentDao? = null,
+  val id: String? = null,
+  val state: String? = null,
 )
 
 data class OnInitMessageInitializedProviderLocationDao @Default constructor(
