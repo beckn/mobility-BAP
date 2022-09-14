@@ -2,7 +2,7 @@
   <transition name="dropdown-content">
     <div v-if="active" class="drop">
       <div class="rahul">
-        <nuxt-link :to="localePath('/orders')"> My Orders </nuxt-link>
+        <nuxt-link :to="localePath('/orders')"> My Rides </nuxt-link>
       </div>
       <div><hr class="sf-divider" /></div>
       <div class="rahul">

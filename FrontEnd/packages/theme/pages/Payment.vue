@@ -1,5 +1,6 @@
 <template>
   <div id="payment">
+    
     <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
       <LoadingCircle :enable="enableLoader" :customText="'confirming order'" />
     </div>
@@ -15,6 +16,7 @@
     <div class="details header-push">
       <div class="sub-heading">
         <div class="p-name">Payment</div>
+        
       </div>
       <Card v-if="!!(order && order.cart)">
         <CardContent
@@ -37,30 +39,46 @@
         <div class="p-name">Other</div>
       </div> -->
       <Card>
-        <CardContent>
-          <!-- <div class="address-text color-def">Add Shipping Details</div> -->
+        <CardContent> 
+        
+        <div class="redo">
+        
           <SfRadio
-            class="sf-radio--transparent"
+          class="sf-radio--transparent"
             :name="'Payment'"
-            :value="'Cash on Delivery'"
-            label="Cash On Delivery"
+            :value="'Cash'"
+            label="cash"
             :disabled="false"
             :selected="paymentMethod"
             @change="changePaymentMethod"
-          />
+            
+         />
+          <img style="padding-top:8px ; padding-left: 0px;" src="/icons/money 2.png" alt="" :width="60" :height="60" />
+          <!-- <label for="">Cash</label> -->
+      
+        </div>
+
+ 
         </CardContent>
       </Card>
+          
+       
+      
+      
     </div>
     <BookRide
       class="footer-fixed"
       :buttonText="'Book Now'"
       :buttonEnable="isPayConfirmActive"
-      :totalPrice="parseFloat(cartItem.price && cartItem.price.value?cartItem.price.value:'0').toFixed(2)"
+      :totalPrice="
+        parseFloat(
+          cartItem.price && cartItem.price.value ? cartItem.price.value : '0'
+        ).toFixed(2)
+      "
       @buttonClick="proceedToConfirm"
     >
-      <template v-slot:buttonIcon>
-        
-        <!--<svg
+      <!-- <template v-slot:buttonIcon>
+        <svg
           width="25"
           height="19"
           viewBox="0 0 25 19"
@@ -74,13 +92,13 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-        </svg>-->
-      </template>
+        </svg>
+      </template> -->
     </BookRide>
   </div>
 </template>
 <script>
-import { SfButton, SfRadio, SfIcon } from '@storefront-ui/vue';
+import { SfButton, SfRadio, SfIcon ,SfImage} from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 
 import { ref, computed, onBeforeMount, watch } from '@vue/composition-api';
@@ -98,6 +116,7 @@ const { toggleCartSidebar } = useUiState();
 export default {
   name: 'Payment',
   components: {
+    SfImage,
     SfButton,
     SfIcon,
     Card,
@@ -214,6 +233,14 @@ export default {
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
 }
+.redo{
+  display: flex;
+  
+}
+.Rbtn{
+  padding-right: 0px;
+}
+
 
 .icon_back {
   position: absolute;
@@ -244,7 +271,10 @@ export default {
   left: 0;
   height: 95vh;
 }
+SfRadio{
+  padding-right:0px;
 
+}
 .flex-space-bw {
   justify-content: space-between;
 }

@@ -24,7 +24,7 @@
         <div class="hr-theme-slash-2">
           <div class="hr-line"></div>
           <div class="hr-icon">
-            <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" />
+            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
           </div>
         </div>
 
@@ -493,7 +493,7 @@ export default {
     }
     input {
       border-radius: 6px;
-
+width: 100%;
       box-sizing: border-box;
       border: none;
     }

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="dv">
     <!--<div class="top-bar">
       <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
         <span class="sf-search-bar__icon">
@@ -17,101 +17,105 @@
         <client-only>
           <div class="location-icon">
             <slot>
-                <div
-                  @click="toggleIsShow"
-                  class=""
-                  v-e2e="'app-header-location-input-div'"
-                >
+              <div
+                @click="toggleIsShow"
+                class=""
+                v-e2e="'app-header-location-input-div'"
+              >
                 <template>
-                    <div class="button-pos1">
-                      <SfButton class="sf-button--pure rect-bar-style">
-                        <!--<span class="sf-search-bar__icon">-->
-                          <SfImage
-                            src="/icons/Rectangle-bar.png"
-                            :width="60"
-                            :height="5.5"
-                            alt="Rectangle bar"
-                          />
-                        <!--</span>-->
-                      </SfButton>
-                    </div>
-                
-                    <div>
-                      <div class="" >
-                        <template>
-                          <div>
-                            <div class="provider-head aline-center side-padding">
-                              <div class="flexy">
-                                <div class="text-padding">
-                                  <div class="aline-center">
-                                    <div class="p-name">
-                                      KA05 AF 6226
-                                    </div>
-                                  </div>
-                                  <span class="flexy">
-                                    <span class="rating-css">
-                                    Toyota Etios, Silver
-                                    </span>
-                                  </span> 
-                                </div>
-                              </div>
-                              <div class="button-pos" >
-                                <div class="text-padding">
-                                  <div class="aline-center">
-                                    <div class="p-name text-color">
-                                      6363
-                                    </div>
-                                  </div>
-                                  <span class="flexy">
-                                    <span class="">
-                                      OTP
-                                    </span>
-                                  </span> 
-                                </div>
-                              </div>    
-                            </div>
-                                    
-                            <div><hr class="sf-divider" /></div>
+                  <div class="button-pos1">
+                    <SfButton class="sf-button--pure rect-bar-style">
+                      <!--<span class="sf-search-bar__icon">-->
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
+                      <!--</span>-->
+                    </SfButton>
+                  </div>
 
-                            <div class="provider-head aline-center side-padding">
-                              <div class="flexy">
-                                <img
-                                  class="provide-img"
-                                  src="/icons/contactSupport.png"
-                                  alt=""
-                                  :width="37"
-                                  :height="39"
-                                />
-                                <div class="text-padding">
-                                  <div class="aline-center">
-                                    <div class="p-name">
-                                      Manjunath Reddy
-                                    </div>
+                  <div>
+                    
+                      <template>
+                        
+                          <div class="provider-head aline-center side-padding">
+                            <div class="flexy">
+                              <div class="text-padding">
+                                <div class="aline-center">
+                                  <div class="p-name">
+                                    KA05 AF 6226
                                   </div>
-                                  <span class="flexy">
-                                    <div class="rating-css">
-                                        4
-                                    </div>
-                                    <span class="sf-rating__icon">
-                                        <SfIcon color="#FADB14" size="16px" icon="star" />
-                                    </span>
-                                  </span> 
                                 </div>
-                                        
+                                <span class="flexy">
+                                  <span class="rating-css">
+                                    SUV- Wifi-AC-Car-Santro
+                                  </span>
+                                </span>
                               </div>
-                              <div class="button-pos" >
-                                <SfButton class="contact">
-                                    <img
-                                        class="contact-img"
-                                        id="icon"
-                                        src="/icons/contact.png"
-                                        alt="Vue Storefront Next"
+                            </div>
+                            <div class="button-pos">
+                              <div class="text-padding">
+                                <div class="aline-center">
+                                  <div class="p-name text-color">
+                                    6363
+                                  </div>
+                                </div>
+                                <span class="flexy">
+                                  <span class="">
+                                    OTP
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- <hr class="sf-divider" /> -->
+                          <div><hr class="sf-divider" /></div>
+
+                          <div class="provider-head aline-center side-padding">
+                            <div class="flexy">
+                              <img
+                              
+                                src="/icons/manjnath.png"
+                                alt=""
+                                :width="37"
+                                :height="39"
+                              />
+                              <div class="text-padding ">
+                                <div class="aline-center">
+                                  <div class="p-name">
+                                    Manjunath Reddy
+                                  </div>
+                                </div>
+                                <span class="flexy">
+                                  <div class="rating-css">
+                                    4
+                                  </div>
+                                  <span class="sf-rating__icon">
+                                    <SfIcon
+                                      color="#FADB14"
+                                      size="16px"
+                                      icon="star"
                                     />
-                                </SfButton>
-                              </div>    
+                                  </span>
+                                </span>
+                              </div>
                             </div>
+                            <div class="button-pos">
+                              <SfButton class="contact">
+                                <img
+                                  class="contact-img"
+                                  id="icon"
+                                  src="/icons/contact.png"
+                                  alt="Vue Storefront Next"
+                                />
+                              </SfButton>
+                            </div>
+                          </div>
 
-                            <div class="provider-head aline-center side-padding">
+                          <!-- <div class="provider-head aline-center side-padding">
                               <div class="t-c-l-data">
                                 Temperature  
                               </div>
@@ -136,297 +140,298 @@
                               <div class="button-pos t-c-l-data" >
                                 Hindi & Kannada
                               </div>    
-                            </div>
-                          </div>
-                        </template>
-                      </div>
-                    </div>
+                            </div> -->
+                        
+                      </template>
+                    
+                  </div>
                 </template>
-                </div>
+              </div>
             </slot>
           </div>
         </client-only>
-          <div >
-            <template>
-              <!--<div v-if="!!isShow" >-->
-                
-                <BottomSlider :visible="isShow" @close="closeModal">
+        <div>
+          <template>
+            <!--<div v-if="!!isShow" >-->
 
-                  <template>
-                    <div class="bar-pos"  @click="toggleIsShow">
-                      <SfButton class="sf-button--pure rect-bar-style">
-                        <SfImage
-                          src="/icons/Rectangle-bar.png"
-                          :width="60"
-                          :height="5.5"
-                          alt="Rectangle bar"
-                        />
-                        </SfButton>
-                    </div>
-                    
-                        <div>
-                          <div>
-                            <template>
-                              <div>
-                                <div class="provider-head aline-center side-padding">
-                                  <div class="flexy">
-                                    <div class="text-padding">
-                                      <div class="aline-center">
-                                        <div class="p-name">
-                                          KA05 AF 6226
-                                        </div>
-                                      </div>
-                                      <span class="flexy">
-                                        <span class="rating-css">
-                                        Toyota Etios, Silver
-                                        </span>
-                                      </span> 
-                                    </div>
-                                  </div>
-                                  <div class="button-pos" >
-                                    <div class="text-padding">
-                                      <div class="aline-center">
-                                        <div class="p-name text-color">
-                                          6363
-                                        </div>
-                                      </div>
-                                      <span class="flexy">
-                                        <span class="">
-                                          OTP
-                                        </span>
-                                      </span> 
-                                    </div>
-                                  </div>    
+            <BottomSlider :visible="isShow" @close="closeModal">
+              <template>
+                <div class="bar-pos" @click="toggleIsShow">
+                  <SfButton class="sf-button--pure rect-bar-style">
+                    <SfImage
+                      src="/icons/Rectangle-bar.png"
+                      :width="60"
+                      :height="5.5"
+                      alt="Rectangle bar"
+                    />
+                  </SfButton>
+                </div>
+
+                <div>
+                  <div>
+                    <template>
+                      <div>
+                        <div class="provider-head aline-center side-padding">
+                          <div class="flexy">
+                            <div class="text-padding">
+                              <div class="aline-center">
+                                <div class="p-name">
+                                  KA05 AF 6226
                                 </div>
-                                        
-                                <div><hr class="sf-divider" /></div>
-
-                                <div class="provider-head aline-center side-padding">
-                                  <div class="flexy">
-                                    <img
-                                      class="provide-img"
-                                      src="/icons/contactSupport.png"
-                                      alt=""
-                                      :width="37"
-                                      :height="39"
-                                    />
-                                    <div class="text-padding">
-                                      <div class="aline-center">
-                                        <div class="p-name">
-                                          Manjunath Reddy
-                                        </div>
-                                      </div>
-                                      <span class="flexy">
-                                        <div class="rating-css">
-                                            4
-                                        </div>
-                                        <span class="sf-rating__icon">
-                                            <SfIcon color="#FADB14" size="16px" icon="star" />
-                                        </span>
-                                      </span> 
-                                    </div>
-                                            
-                                  </div>
-                                  <div class="button-pos" >
-                                    <SfButton class="contact">
-                                        <img
-                                            class="contact-img"
-                                            id="icon"
-                                            src="/icons/contact.png"
-                                            alt="Vue Storefront Next"
-                                        />
-                                    </SfButton>
-                                  </div>    
+                              </div>
+                              <span class="flexy">
+                                <span class="rating-css">
+                                  SUV- Wifi-AC-Car-Santro
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="button-pos">
+                            <div class="text-padding">
+                              <div class="aline-center">
+                                <div class="p-name text-color">
+                                  6363
                                 </div>
+                              </div>
+                              <span class="flexy">
+                                <span class="">
+                                  OTP
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+</div>
+                        <div><hr class="sf-divider" /></div>
+<div>
+                        <div class="provider-head aline-center side-padding">
+                          <div class="flexy">
+                            <img
+                                
+                                src="/icons/manjnath.png"
+                                alt=""
+                                :width="37"
+                                :height="39"
+                              />
+                            <div class="text-padding">
+                              <div class="aline-center">
+                                <div class="p-name">
+                                  Manjunath Reddy
+                                </div>
+                              </div>
+                              <span class="flexy">
+                                <div class="rating-css">
+                                  4
+                                </div>
+                                <span class="sf-rating__icon">
+                                  <SfIcon
+                                    color="#FADB14"
+                                    size="16px"
+                                    icon="star"
+                                  />
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="button-pos">
+                            <SfButton class="contact">
+                              <img
+                                class="contact-img"
+                                id="icon"
+                                src="/icons/contact.png"
+                                alt="Vue Storefront Next"
+                              />
+                            </SfButton>
+                          </div>
+                        </div>
 
-                                <div class="provider-head aline-center side-padding">
+                        <!-- <div class="provider-head aline-center side-padding">
                                   <div class="t-c-l-data">
                                     Temperature  
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     97.3<sup><span>&#176;</span></sup>F
                                   </div>    
-                                </div>
+                                </div> -->
 
-                                <div class="provider-head aline-center side-padding">
+                        <!-- <div class="provider-head aline-center side-padding">
                                   <div class="t-c-l-data">
                                     Last Checked at
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     12:34pm
                                   </div>    
-                                </div>
+                                </div> -->
 
-                                <div class="provider-head aline-center side-padding">
+                        <!-- <div class="provider-head aline-center side-padding">
                                   <div class="t-c-l-data">
                                     Language Known
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     Hindi & Kannada
                                   </div>    
-                                </div>
+                                </div> -->
 
-                                <div class="provider-head aline-center side-padding">
-                    <div class="flexy">
-                      <div class="text-padding">
-                        <span class="flexy">
-                          <span class="rating-css">
-                            Total fare
-                          </span>
-                        </span> 
-                        <div class="aline-center">
-                          <div class="p-name">
-                            ₹80
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="button-pos" >
-                      <div class="text-padding">
-                        <div class="aline-center">
-                          <div>
-                            Payment <span class="p-name">Google Pay</span>
-                          </div>
-                        </div>
-                        <span class="flexy text-color">
-                          change
-                        </span> 
-                      </div>
-                    </div>    
+                        <div class="provider-head aline-center side-padding">
+                          <div class="flexy">
+                            <div class="text-padding">
+                              <span class="flexy">
+                                <span class="rating-css">
+                                  Total fare
+                                </span>
+                              </span>
+                              <div class="aline-center">
+                                <div class="p-name">
+                                  ₹9.88
                                 </div>
-                                    
-                                <div class="provider-head aline-center side-padding">
-                                  <div class="flexy">
-                                    <SfButton class="provide-img">
-                                      <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
-                                    </SfButton>
-                                    <div class="text-padding1">
-                                      <div class="aline-center">
-                                        <div class="p-name">
-                                          Source
-                                        </div>
-                                      </div>
-                                      <div class="rating-css">
-                                        <div>  
-                                        <input type="text" :value="_SourceLocation"/>
-                                        </div>
-                                      </div> 
-                                    </div>
-                                                        
-                                  </div>
-                                  <div class="button-pos text-color" >
-                                    Edit
-                                  </div>    
-                                </div>
-
-                                <div class="provider-head aline-center side-padding">
-                                  <div class="flexy">
-                                    <SfButton class="provide-img">
-                                      <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" /> 
-                                    </SfButton>
-                                    <div class="text-padding1">
-                                      <div class="aline-center">
-                                        <div class="p-name">
-                                          Destination
-                                        </div>
-                                      </div>
-                                      <span class="flexy">
-                                        <div class="rating-css">
-                                          <input type="text" :value="_destloc"/>
-                                        </div>
-                                      </span> 
-                                    </div>
-                                                        
-                                  </div>
-                                  <div class="button-pos text-color" >
-                                    Edit
-                                  </div>    
-                                </div>
-                                <br/>
-                                <div><hr class="sf-divider" /></div>
-                                <div @click="isShow = false">
-                                <SfButton id="btn" @click="isContactSupport = true">
-                                  Contact Support
-                                  <SfIcon class="button-pos">
-                                    <SfImage
-                                      id="icon"
-                                      src="/icons/contactSupport.png"
-                                      alt="Vue Storefront Next"
-                                      :width="20"
-                                      :height="22"
-                                    />
-                                  </SfIcon>
-                                </SfButton>
-                                </div>
-
-                                <nuxt-link :to="localePath('/CancelOrder')">
-                                  <div class="cancel-order">
-                                    Cancel Order
-                                  </div>
-                                </nuxt-link>
-
                               </div>
-                            </template>
+                            </div>
+                          </div>
+                          <div class="button-pos">
+                            <div class="text-padding">
+                              <div class="aline-center">
+                                <div>
+                                  Payment <span class="p-name">Cash</span>
+                                </div>
+                              </div>
+                              <span class="flexy text-color">
+                                change
+                              </span>
+                            </div>
                           </div>
                         </div>
-                  </template>
-                                    
-                </BottomSlider>
 
-              <!--</div>-->
-            </template>
-            <div >
-            <template>
-              <ContactSupportSlider :visible="isContactSupport" @close=" isContactSupport = false ">
-                <template>
-                   <div class="bar-pos"  @click="contactSupport">
-                      <SfButton class="sf-button--pure rect-bar-style">
-                        <SfImage
-                          src="/icons/Rectangle-bar.png"
-                          :width="60"
-                          :height="5.5"
-                          alt="Rectangle bar"
-                        />
-                        </SfButton>
-                    </div>
-                <div>
-                  <div class="modal-heading">Contact Support</div>
-                  <div><hr class="sf-divider" /></div>
-                </div>
-                <div class="modal-body">
-                  <div  class="option-container">
-                    <div class="option-head">
-                      you can reach out to one of our customer 
-                      support executives for any help, queries 
-                      or feedback to ABC Mart
-                    </div>
+                        <div class=" provider-head aline-center side-padding">
+                          <div class="flexy">
+                            <SfIcon
+                              class="locationicon"
+                              color="#f37a20"
+                              size="20px"
+                              icon="marker"
+                            />
 
-                    <button
-                      class="sf-button color-primary "                          
-                    >
-                      <div class="f-btn-text">Call us</div>
-                    </button>
+                            <div class="text-padding1">
+                              <div class="aline-center">
+                                <div class="p-name">
+                                  Source
+                                </div>
+                              </div>
+                              <div class="rating-css">
+                                <div>
+                                  <input type="text" :value="_SourceLocation" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="button-pos text-color" >
+                                    Edit
+                                  </div>     -->
+                        </div>
 
-                    <button
-                      class="sf-button color-primary "                          
-                    >
-                      <div class="f-btn-text">Email us</div>
-                    </button>
+                        <div class="provider-head aline-center side-padding">
+                          <div class="flexy">
+                            <SfIcon
+                              class="locationicon"
+                              color="#2081F3"
+                              size="20px"
+                              icon="marker"
+                            />
 
-                    <button
-                      class="sf-button color-primary "                          
-                    >
-                      <div class="f-btn-text">Chat with us</div>
-                    </button>
+                            <div class="text-padding1">
+                              <div class="aline-center">
+                                <div class="p-name">
+                                  Destination
+                                </div>
+                              </div>
+                              <span class="flexy">
+                                <div class="rating-css">
+                                  <input type="text" :value="_destloc" />
+                                </div>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- <div class="button-pos text-color" >
+                                    Edit
+                                  </div>     -->
+                        </div>
+                        <br />
+                        <div><hr class="sf-divider" /></div>
+                        <div @click="isShow = false">
+                          <SfButton id="btn" @click="isContactSupport = true">
+                            Contact Support
+                            <SfIcon class="button-pos">
+                              <SfImage
+                                id="icon"
+                                src="/icons/contactSupport.png"
+                                alt="Vue Storefront Next"
+                                :width="20"
+                                :height="22"
+                              />
+                            </SfIcon>
+                          </SfButton>
+                        </div>
+
+                        <nuxt-link :to="localePath('/CancelOrder')">
+                          <div class="cancel-order">
+                            Cancel Ride
+                          </div>
+                        </nuxt-link>
+                      </div>
+                    </template>
                   </div>
                 </div>
-              
+              </template>
+            </BottomSlider>
+
+            <!--</div>-->
+          </template>
+          <div>
+            <template>
+              <ContactSupportSlider
+                :visible="isContactSupport"
+                @close="isContactSupport = false"
+              >
+                <template>
+                  <div class="bar-pos" @click="contactSupport">
+                    <SfButton class="sf-button--pure rect-bar-style">
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
+                    </SfButton>
+                  </div>
+                  <div>
+                    <div class="modal-heading">Contact Support</div>
+                    <div><hr class="sf-divider" /></div>
+                  </div>
+                  <div class="modal-body">
+                    <div class="option-container">
+                      <div class="option-head">
+                        you can reach out to one of our customer support
+                        executives for any help, queries or feedback to ABC Mart
+                      </div>
+
+                      <button class="sf-button color-primary ">
+                        <div class="f-btn-text">Call us</div>
+                      </button>
+
+                      <button class="sf-button color-primary ">
+                        <div class="f-btn-text">Email us</div>
+                      </button>
+
+                      <button class="sf-button color-primary ">
+                        <div class="f-btn-text">Chat with us</div>
+                      </button>
+                    </div>
+                  </div>
                 </template>
               </ContactSupportSlider>
             </template>
-            </div>
           </div>
-    </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -494,7 +499,7 @@ export default {
     const { toggleSearchVisible } = useUiState();
     //const isShow = ref(false);
     toggleSearchVisible(false);
-   
+
     const goBack = () => {
       root.$router.back();
       toggleSearchVisible(true);
@@ -525,18 +530,20 @@ export default {
     const openHamburger = false;
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
-       selectedLocation.latitude===true
-    // this.$eventBus.$emit(`${address}`)
-    // localStorage.setItem('pickup', JSON.stringify(address));
+      selectedLocation.latitude === true;
+      // this.$eventBus.$emit(`${address}`)
+      // localStorage.setItem('pickup', JSON.stringify(address));
       updateLocation({
         latitude: latitude,
         longitude: longitude,
         address: address
       });
     };
-    const _SourceLocation=ref(JSON.parse(localStorage.getItem("slocation")));
-    const _destloc=ref(JSON.parse(localStorage.getItem("destinationLocation")));
-    
+    const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
+    const _destloc = ref(
+      JSON.parse(localStorage.getItem('destinationLocation'))
+    );
+
     const closeModal = () => {
       isShow.value = false;
     };
@@ -564,6 +571,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .dv{
+    overflow-x: hidden;
+  }
 
 .top-bar {
   align-items: center;
@@ -608,10 +618,10 @@ export default {
   flex: 1;
 }
 
-.a{
-    background-color: wheat;
-    height: 100%;
-    width: 100%;
+.a {
+  background-color: wheat;
+  height: 100%;
+  width: 100%;
 }
 .sf-circle-icon {
   --icon-color: #f37a20;
@@ -622,7 +632,8 @@ export default {
   width: 100%;
 }
 
-.button-pos1 , .bar-pos{
+.button-pos1,
+.bar-pos {
   display: flex;
   align-items: center;
   align-content: center;
@@ -631,7 +642,7 @@ export default {
   justify-content: center;
 }
 
-.bar-pos{
+.bar-pos {
   padding-left: 0px;
 }
 
@@ -694,40 +705,44 @@ export default {
   border-top-color: var(--tooltip-color);
   transform-origin: top center;
 }
-.mapdata{
+.mapdata {
   height: 350px;
-  width: 100%; 
+  width: 100%;
 }
 /*.popover-blk{
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background: rgb(187, 184, 184);
 }*/
-.contact{
+.contact {
   border-radius: 50%;
   background-color: rgba(243, 122, 32, 0.14);
   height: 50px;
   width: 50px;
 }
-img{
+img {
   border-radius: 9px;
+  padding-right: 10px;
+}
+hr{
+  width: 300%;
 }
 .button-pos {
   position: absolute;
   right: 10px;
   //top: 0;
 }
-.s-p-price{
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    position: absolute; 
-    right: 10%; 
-    width: 100px; 
-    text-align:right;
-    color: #f37a20;
+.s-p-price {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  position: absolute;
+  right: 10%;
+  width: 100px;
+  text-align: right;
+  color: #f37a20;
 }
 #icon {
   height: 15.62504768371582px;
@@ -740,11 +755,12 @@ img{
   align-content: center;
   text-align: center;
 }*/
-.driver-data{
+.driver-data {
   margin-top: 13px;
+  
   //border: 2px solid #838281;
   z-index: 99999;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px -5px 40px rgba(0, 0, 0, 0.1);
   //padding: 15px;
   border-radius: 5px;
@@ -752,17 +768,19 @@ img{
   border-top-right-radius: 20px;
 }
 input {
-  width: 100%;   
+  width: 100%;
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
   border-bottom-style: hidden;
+  // border-bottom: 2px solid
+// rgba(67, 70, 78, 1);
   //border-bottom-style: groove;
   //border-bottom: #000000;
   //background-color: white;
 }
-.cancel-order{
-  color: #FF5552;
+.cancel-order {
+  color: #ff5552;
   display: flex;
   //line-height: 19px;
   align-items: center;
@@ -774,76 +792,76 @@ input {
   font-style: normal;
   font-weight: 500;
 }
-.location-block{
-    margin-left: 25px;
+.location-block {
+  margin-left: 25px;
 }
-.display-map{
-    height: 250px;
-    width: 100%;
-    background-color: antiquewhite;
+.display-map {
+  height: 250px;
+  width: 100%;
+  background-color: antiquewhite;
 }
-.locationicon{
-    left: 10%;
-    width: 30px;
-    height: 30px;
-    margin-right: 20px;
+.locationicon {
+  left: 10%;
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
 }
 #btn {
-    //top:112px;
-    //width: 63px;
-    box-shadow: 0px -5px 40px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    margin-bottom: 0%;
+  //top:112px;
+  //width: 63px;
+  box-shadow: 0px -5px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  margin-bottom: 0%;
 }
-.search-bar{
+.search-bar {
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
 }
-.p-name{
+.p-name {
   font-size: 14px;
   font-weight: 700px;
 }
-.t-c-l-data{
+.t-c-l-data {
   font-size: 15px;
   font-weight: 400px;
-  color:  #000000;
+  color: #000000;
   font-family: 'SF Pro Text';
 }
-.text-padding1{
+.text-padding1 {
   padding-left: 40px;
   width: 80%;
   position: fixed;
 }
-.text-color{
+.text-color {
   color: #f37a20;
 }
 
 .modal-body {
-    padding: 20px;
-    color: #37474f;
-    .option-container {
-      padding: 0 10px 60px;
-      .option-head {
-        font-weight: 400;
-        font-size: 15px;
-        padding-bottom: 20px;
-      }
-      .sf-radio {
-        font-size: 15px;
-      }
-      .sf-button {
-        width: -webkit-fill-available;
-        border-radius: 3px;
-        margin-bottom: 20px;
-      }
+  padding: 20px;
+  color: #37474f;
+  .option-container {
+    padding: 0 10px 60px;
+    .option-head {
+      font-weight: 400;
+      font-size: 15px;
+      padding-bottom: 20px;
+    }
+    .sf-radio {
+      font-size: 15px;
+    }
+    .sf-button {
+      width: -webkit-fill-available;
+      border-radius: 5px;
+      margin-bottom: 20px;
     }
   }
-  .sf-button{
+}
+.sf-button {
   width: 100% !important;
-  }
-  .rect-bar-style{
-    padding-top: 5px;
-  }
+}
+.rect-bar-style {
+  padding-top: 5px;
+}
 </style>

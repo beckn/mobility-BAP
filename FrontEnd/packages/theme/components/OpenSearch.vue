@@ -33,7 +33,7 @@
         <div class="hr-theme-slash-2">
           <div class="hr-line"></div>
           <div class="hr-icon">
-            <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" />
+            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
           </div>
         </div>
 
@@ -72,6 +72,7 @@
         </SfButton>
       </div>
       <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
+      <div v-if="errorMsg2" class="error-msg">Pickup and Drop locations are same!.</div>
     </div>
     <template>
       <div class="location-blk d-flex w-100">
@@ -83,6 +84,7 @@
               :button="false"
               title="Set Location"
               @close="toggleLocationDrop"
+             
               class="sidebar sf-sidebar--right"
             >
               <transition name="fade">
@@ -91,6 +93,7 @@
                     :buttonlocation="buttonlocation"
                     @locationSelected="locationSelected"
                     @toggleLocationDrop="toggleLocationDrop"
+                    @edit="edit"
                     v-e2e="'app-location-sidebar'"
                   />
                 </client-only>
@@ -145,6 +148,18 @@ export default {
     const location = ref(true);
     const message = ref('');
     const errorMsg = ref(false);
+    const errorMsg2=ref(false);
+    const edit=()=>{
+      if(location.value){
+        pickup.value =''
+        isLocationdropOpen.value = !isLocationdropOpen.value;
+      }
+      else if (!location.value){
+        message.value =''
+        isLocationdropOpen.value = !isLocationdropOpen.value;
+
+      }
+    }
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
         pickup.value = address;
@@ -156,6 +171,10 @@ export default {
         //console.log("adddrop-->",address,latitude,longitude);
         localStorage.setItem("destinationLocation",JSON.stringify(message.value));
         localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
+      }
+      else if(pickup.value===message.value){
+        message.value = '';
+
       }
 
       updateLocation({
@@ -182,8 +201,12 @@ export default {
     };
 
     const openSearch = () => {
-      if (message.value) {
+      
+
+      if ((message.value && pickup.value)&&(message.value != pickup.value) ){
         if (errorMsg.value) errorMsg.value = false;
+        if (errorMsg2.value) errorMsg2.value = false;
+
         context.root.$router.push({
           name: 'Search',
           params: {
@@ -191,9 +214,16 @@ export default {
             pickuploc: pickup.value
           }
         });
-      } else {
+      } else if(!message.value || !pickup.value) {
         errorMsg.value = true;
+        errorMsg2.value = false;
       }
+      else if(message.value === pickup.value){
+        errorMsg2.value = true;
+      }
+      
+
+
     };
 
     return {
@@ -201,6 +231,7 @@ export default {
       selectedLocation,
       message,
       errorMsg,
+      errorMsg2,
       openSearch,
       pickup,
       isLocationdropOpen,
@@ -208,7 +239,8 @@ export default {
       location,
       dropLocation,
       toggleLocationDrop,
-      buttonlocation
+      buttonlocation,
+      edit
     };
   }
 };
@@ -311,7 +343,7 @@ export default {
     }
     input {
       border-radius: 6px;
-
+width: 100%;
       box-sizing: border-box;
       border: none;
     }

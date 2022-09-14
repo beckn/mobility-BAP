@@ -60,7 +60,7 @@
                       <h4>Set Location</h4>
                       <div
                         class="close"
-                        @click="$emit('toggleLocationDrop')"
+                        @click="$emit('edit')"
                       ></div>
                     </div>
 

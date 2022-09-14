@@ -32,7 +32,7 @@
           @click="getLocationDetails(result)"
           v-e2e="'app-location-sidebar-input-options'"
         >
-          <SfButton class="button-pos sf-button--pure pos-left">
+          <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="10px" icon="marker" />
             </span>
