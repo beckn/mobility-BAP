@@ -30,22 +30,6 @@
             <option value="Recurring">Recurring</option>-->
           </select>
         </div>
-
-        <!-- <div class="flexy">   
-          <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
-          <div class="inputs-container location-block">
-            <span>Source</span>
-            <div class="search-bar side-padding">
-              <SfSearchBar
-                placeholder="Enter Source"
-                aria-label="Search"
-                :icon="null"  
-                :value="_SourceLocation"                      
-              >
-              </SfSearchBar>
-            </div>
-          </div>
-        </div> -->
         <div class=" provider-head aline-cente side-padding">
           <div class="flexy">
             <SfIcon
@@ -93,82 +77,13 @@
             </div>
           </div>
         </div>
-        <!-- <div class="flexy">
-          <SfIcon color="#2081F3" class="locationicon" size="xxl" icon="marker" />                 
-            <div class="inputs-container location-block">
-              <span>Destination</span>
-                <div class="search-bar side-padding">
-                  <SfSearchBar
-                    placeholder="Enter Destination"
-                    aria-label="Search"
-                    :icon="null"  
-                    :value="_destloc"                                             
-                  >
-                  </SfSearchBar>
-                </div>
-            </div>                 
-        </div> -->
-
-        <!--<div class="provider-head aline-center side-padding">
-          <div class="flexy">
-            <SfButton class="provide-img">
-              <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
-            </SfButton>
-            <!-<img
-              class="provide-img"
-              src="/icons/contactSupport.png"
-              alt=""
-              :width="37"
-              :height="39"
-            />->
-            <div class="text-padding">
-             <div class="aline-center">
-                <div class="p-name">
-                  Source
-                </div>
-              </div>
-              <div class="rating-css">
-                <div>  
-                  <input type="text" :value="_SourceLocation"/>
-                </div>
-              </div> 
-            </div>                                       
-          </div> 
-        </div>
-        
-        <div class="provider-head aline-center side-padding">
-          <div class="flexy">
-            <SfButton class="provide-img">
-              <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" /> 
-            </SfButton>
-            <!-<img
-              class="provide-img"
-              src="/icons/contactSupport.png"
-              alt=""
-              :width="37"
-              :height="39"
-            />->
-            <div class="text-padding">
-             <div class="aline-center">
-                <div class="p-name">
-                  Destination
-                </div>
-              </div>
-              <div class="rating-css">
-                <div>  
-                  <input type="text" :value="_destloc"/>
-                </div>
-              </div> 
-            </div>                                       
-          </div> 
-        </div>-->
 
         <br />
         <div><hr class="sf-divider" /></div>
         <nuxt-link :to="localePath('/payment')">
           <SfButton
             :class="{ [_value]: Boolean(_value) ? '' : 'is-disabled--button' }"
-            @click="toggleLocationDrop"
+            @click="onConfirmProc"
             id="btn"
           >
             Confirm & Proceed</SfButton
@@ -182,9 +97,11 @@
 <script>
 import { SfImage, SfIcon, SfButton, SfSearchBar } from '@storefront-ui/vue';
 //import AddToCart from './AddToCart.vue';
-import { productGetters, providerGetters } from '@vue-storefront/beckn';
-import { ref, computed } from '@vue/composition-api';
-
+import { productGetters, providerGetters, useInitOrder } from '@vue-storefront/beckn';
+import { ref, computed, watch } from '@vue/composition-api';
+import { createInitOrderRequest } from '../helpers/helpers';
+import helpers from '../helpers/helpers';
+/* eslint camelcase: 0 */
 export default {
   name: 'SelectCard',
   components: {
@@ -214,7 +131,46 @@ export default {
     const _destloc = ref(
       JSON.parse(localStorage.getItem('destinationLocation'))
     );
+    const {
+      pollResults: onInitResult,
+      poll: onInitOrder,
+      init,
+      stopPolling
+    } = useInitOrder(); 
+    const quoteItems = JSON.parse(localStorage.getItem("quoteData")).quote;  
+    const onConfirmProc = async() =>{
+      const params = createInitOrderRequest(
+        localStorage.getItem("transactionId"),
+        quoteItems,
+        JSON.parse(localStorage.getItem("cartItem")),
+        '12.9063433,77.5856825'
+      );      
+      const response = await init(params, localStorage.getItem('token'));
+      await onInitOrder({
+        // eslint-disable-next-line camelcase
+        messageIds: response[0].context.message_id
+      }, localStorage.getItem('token'));
+      console.log(onInitResult);
+      
+      watch(
+      () => onInitResult.value,
+      (onInitRes) => {
+          if (onInitRes?.error) {
+          throw 'api fail';
+        }
+        if (!onInitRes) {
+          return;
+        }
+        if (helpers.shouldStopPooling(onInitRes, 'order')) {
+          stopPolling();
+          localStorage.setItem('initResult',JSON.stringify(onInitRes));
+          localStorage.setItem('transactionId',onInitRes[0].context.transaction_id)
+        }
+        }
+      );      
+    }
     return {
+      onConfirmProc,
       _SourceLocation,
       _destloc,
       productGetters,

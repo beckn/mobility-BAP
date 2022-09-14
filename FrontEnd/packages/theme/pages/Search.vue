@@ -298,6 +298,7 @@ export default {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
             toggleLoadindBar(true);
+            localStorage.setItem('cartItem', JSON.stringify(pollResults.value[0]));
           }
         }
       );

@@ -6,93 +6,169 @@ export const calculateDays = (_date1, _date2) => {
   console.log(diffDays + ' days');
   return diffDays;
 };
-
-const helpers = {
-  calculateDays
-};
-
-export const createOrderRequest = (transactionId, cart, shippingAddress, billingAddress, shippingAsBilling, gps) => {
-  const bAddress = shippingAsBilling
-    ? shippingAddress
-    : billingAddress;
-
-  const items: any[] = cart.items.map((item) => {
-    return {
-      id: item.id,
-      quantity: { count: item.quantity },
-      // eslint-disable-next-line camelcase
-      bpp_id: cart.bpp.id,
-      provider: {
-        id: cart.bppProvider.id,
-        locations: [
-          item.location_id
-        ]
-      }
-    };
-  });
-
-  const params = {
-    context: {
-      // eslint-disable-next-line camelcase
-      transaction_id: transactionId
-    },
-    message: {
-      items: items,
-
-      // eslint-disable-next-line camelcase
-      billing_info: {
-        address: {
-          door: bAddress.landmark,
-          country: 'IND',
-          city: bAddress.city,
-          street: bAddress.address,
-
-          // eslint-disable-next-line camelcase
-          area_code: bAddress.pincode,
-          state: bAddress.state,
-          building: bAddress.building
-        },
-        phone: bAddress.mobile,
-        name: bAddress.name,
-        email: ''
-      },
-
-      // eslint-disable-next-line camelcase
-      delivery_info: {
-        type: 'HOME-DELIVERY',
-        name: shippingAddress.name,
-        phone: shippingAddress.mobile,
-        email: '',
-        location: {
-          address: {
-            door: shippingAddress.landmark,
-            country: 'IND',
-            city: shippingAddress.city,
-            street: shippingAddress.address,
-
-            // eslint-disable-next-line camelcase
-            area_code: shippingAddress.pincode,
-            state: shippingAddress.state,
-            building: shippingAddress.building
-          },
-          gps: gps
-        }
-      }
+const shouldStopPooling = (responseArr, stopObjectKey) => {
+  let shouldStopPolling = true;
+  for (const response of responseArr) {
+    if (!response.message?.[stopObjectKey]) {
+      shouldStopPolling = false;
+      break;
     }
-  };
-  return params;
+  }
+
+  return shouldStopPolling;
+};
+const helpers = {
+  calculateDays,
+  shouldStopPooling
 };
 
-export const createConfirmOrderRequest = (transactionId, cart, shippingAddress, billingAddress, shippingAsBilling, gps, paymentInfo) => {
-  const params: any = createOrderRequest(transactionId, cart, shippingAddress, billingAddress, shippingAsBilling, gps);
-  params.message.payment = {
-    // eslint-disable-next-line camelcase
-    paid_amount: paymentInfo.amount,
-    status: paymentInfo.status,
-    // eslint-disable-next-line camelcase
-    transaction_id: paymentInfo.transactionId
-  };
+export const createConfirmOrderRequest = (transactionId, initResult ,quoteData,cartItem) => {
+  //const params: any = createOrderRequest(transactionId, cart, shippingAddress, billingAddress, shippingAsBilling, gps);
+  debugger;
+  const params = {
+          context: {
+            transaction_id: transactionId,            
+            bpp_id: cartItem.bpp_id,
+            bpp_uri: cartItem.bpp_uri
+          },
+        message: {
+            items: [
+                  {
+                    id: initResult.items[0].id,
+                    bpp_id: cartItem.bpp_id,
+                    fulfillment_id: initResult.fulfillment.id,
+                    quantity: {
+                        count: 1
+                      },
+                    descriptor: quoteData.items[0].descriptor,
+                    price: {
+                      currency: "INR",
+                      value: "100.0"
+                  },
+                    category_id: initResult.items[0].category_id,
+                    provider: {
+                        id: initResult.provider.id,
+                        locations: [
+                            "E1"
+                          ]
+                      }
+                  }
+              ],
+            billing_info: {
+              address: {
+                door: "MBT",
+                country: "IND",
+                city: "Bengaluru",
+                area_code: "560078",
+                state: "Karnataka",
+                building: "A33",
+                name: "",
+                locality: ""
+            },
+            phone: "9867654322",
+            name: "RajatKumar",
+            email: "er.rjtkumar@gmail.com"
+            },
+            delivery_info: {
+                type: "HOME-DELIVERY",
+                name: "./Rajat//Kumar///",
+                phone: "9867654322",
+                email: "er.rjtkumar@gmail.com",
+                location: {
+                address: {
+                  name: "./Rajat//Kumar///",
+                  locality: "Bengaluru",
+                  door: "MBT",
+                  country: "IND",
+                  city: "Bengaluru",
+                  street: "Bengaluru, Bangalore Urban, Karnataka",
+                  area_code: "560078",
+                  state: "Karnataka",
+                  building: "A33"
+                },
+                  gps: "12.9063433,77.5856825",
+                }
+            },
+            
+            payment: {
+              paid_amount: "100.0",
+              currency: "INR",
+              status: "PAID",
+              transaction_id: transactionId
+            }
+          }
+        };
+  
   return params;
 };
-
+export const createInitOrderRequest = (transactionId, quoteData, cartItem, gps)=>{
+  const params = [{
+          context: {
+            transaction_id: transactionId,
+            bpp_id: cartItem.bpp_id,
+            bpp_uri: cartItem.bpp_uri
+          },
+          message: {
+              items: [
+                  {
+                    id: quoteData.items[0].id,
+                    bpp_id: cartItem.bpp_id,
+                    fulfillment_id: quoteData.provider.items[0].fulfillment_id,
+                      descriptor:  quoteData.items[0].descriptor,
+                      price: quoteData.quote.price,
+                      category_id:quoteData.provider.items[0].category_id,
+                      provider: {
+                          id: quoteData.provider.id,
+                          locations: [quoteData.provider.locations[0].id]
+                      }
+                  }
+              ],
+              billing_info: {
+                  address: {
+                    door: "MBT",
+                    country: "IND",
+                    city: "Bengaluru",
+                    area_code: "560078",
+                    state: "Karnataka",
+                    building: "A33",
+                    name:"",
+                    locality:""
+                  },
+               phone: "9867654322",
+               name: "RajatKumar",
+               email: "er.rjtkumar@gmail.com"
+              },
+              delivery_info: {
+                  type: "HOME-DELIVERY",
+                  name: "./Rajat//Kumar///",
+                  phone: "9867654322",
+                  email: "er.rjtkumar@gmail.com",
+                  location: {
+                      address: {
+                          name:"./Rajat//Kumar///",
+                          locality:"Bengaluru",
+                          door: "MBT",
+                          country: "IND",
+                          city: "Bengaluru",
+                          street: "Bengaluru, Bangalore Urban, Karnataka",
+                          area_code: "560078",
+                          state: "Karnataka",
+                          building: "A33"
+                          },
+                      gps: gps
+                  }
+              }
+          }
+      }]
+  return params;
+}
+/**
+   * Checks each object in the array if data present or not. If data is present in all of the objects,
+   * then the UI should stop polling for data and so the function will return true or else will return false
+   * and UI should continue polling the data.
+   * @param responseArr Response array received from the api call
+   * @param stopObjectKey the 'key' of the object which we need to check for value present or not
+   * @returns true if all the objects have data or else false
+   */
+ 
 export default helpers;
