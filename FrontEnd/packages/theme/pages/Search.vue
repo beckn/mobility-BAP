@@ -24,7 +24,7 @@
         <div class="hr-theme-slash-2">
           <div class="hr-line"></div>
           <div class="hr-icon">
-            <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" />
+            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
           </div>
         </div>
 
@@ -282,15 +282,9 @@ export default {
       if (noSearchFound.value) noSearchFound.value = false;
       toggleLoadindBar(false);
 
-      /*await search({
-        pickup_location: localStorage.getItem('pickUpLatAndLong'),
-        drop_location: localStorage.getItem('dropLatAndLong')
-      });*/
       await search({
-        pickup_location: '12.903561,77.5939631',
-        // localStorage.getItem('pickUpLatAndLong'),
-        drop_location:  "12.9175403,77.5890075"
-        // localStorage.getItem('dropLatAndLong')
+        pickup_location: localStorage.getItem('pickUpLatAndLong'),
+        drop_location:  localStorage.getItem('dropLatAndLong')
       });
 
       localStorage.setItem(
@@ -493,7 +487,7 @@ export default {
     }
     input {
       border-radius: 6px;
-
+width: 100%;
       box-sizing: border-box;
       border: none;
     }

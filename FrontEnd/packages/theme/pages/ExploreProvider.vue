@@ -37,7 +37,7 @@
     </div>
     <div class="h-padding">
       <SfSearchBar
-        placeholder="Search for items"
+        placeholder="Enter the Destination"
         aria-label="Search"
         :icon="null"
         :value="searchKey"
