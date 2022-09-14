@@ -12,7 +12,10 @@ data class ProtocolOnInitMessageInitialized @Default constructor(
   val fulfillment: ProtocolFulfillment? = null,
   val quote: ProtocolQuotation? = null,
   val payment: ProtocolPayment? = null,
-)
+  val id: String? = null,
+  val state: String? = null,
+
+  )
 
 data class ProtocolOnInitMessageInitializedProviderLocation @Default constructor(
   val id: String? = null
