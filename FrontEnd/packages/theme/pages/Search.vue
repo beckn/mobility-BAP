@@ -284,7 +284,9 @@ export default {
 
       await search({
         pickup_location: localStorage.getItem('pickUpLatAndLong'),
+        
         drop_location:  localStorage.getItem('dropLatAndLong')
+      
       });
 
       localStorage.setItem(
@@ -298,6 +300,7 @@ export default {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
             toggleLoadindBar(true);
+            localStorage.setItem('cartItem', JSON.stringify(pollResults.value[0]));
           }
         }
       );
@@ -472,7 +475,11 @@ export default {
 
 .open-search-input {
     // display: flex;
+    padding-left: 14px;
     margin-bottom: 8px;
+    -webkit-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
+       -moz-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
     // position: relative;
     &.disable {
       h4 {
@@ -487,16 +494,16 @@ export default {
     }
     input {
       border-radius: 6px;
-width: 100%;
       box-sizing: border-box;
       border: none;
     }
     label {
       font-family: 'Inter';
       font-style: normal;
-      font-weight: 500;
+      font-weight: 600;
       font-size: 18px;
       line-height: 22px;
+      padding-left: 7px;
     }
 
     button {
@@ -526,6 +533,7 @@ width: 100%;
     display: flex;
     padding-top: 15%;
     padding-right: 5%;
+    padding-bottom: 5%;
   }
    .hr-theme-slash-2 {
     display: flex;

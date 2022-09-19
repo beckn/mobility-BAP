@@ -37,25 +37,23 @@
                   </div>
 
                   <div>
-                    
-                      <template>
-                        
-                          <div class="provider-head aline-center side-padding">
-                            <div class="flexy">
-                              <div class="text-padding">
-                                <div class="aline-center">
-                                  <div class="p-name">
-                                    KA05 AF 6226
-                                  </div>
-                                </div>
-                                <span class="flexy">
-                                  <span class="rating-css">
-                                    SUV- Wifi-AC-Car-Santro
-                                  </span>
-                                </span>
+                    <template>
+                      <div class="provider-head aline-center side-padding">
+                        <div class="flexy">
+                          <div class="text-padding">
+                            <div class="aline-center">
+                              <div class="p-name">
+                                KA05 AF 6226
                               </div>
                             </div>
-                            <div class="button-pos">
+                            <span class="flexy">
+                              <span class="rating-css">
+                                SUV- Wifi-AC-Car-Santro
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <!-- <div class="button-pos">
                               <div class="text-padding">
                                 <div class="aline-center">
                                   <div class="p-name text-color">
@@ -68,22 +66,150 @@
                                   </span>
                                 </span>
                               </div>
+                            </div> -->
+                      </div>
+
+                      <!-- <hr class="sf-divider" /> -->
+                      <div><hr class=" hr1 sf-divider" /></div>
+
+                      <div class="provider-head aline-center side-padding">
+                        <div class="flexy">
+                          <img
+                            src="/icons/manjnath.png"
+                            alt=""
+                            :width="37"
+                            :height="39"
+                          />
+                          <div class="text-padding ">
+                            <div class="aline-center">
+                              <div class="p-name">
+                                Manjunath Reddy
+                              </div>
                             </div>
+                            <span class="flexy">
+                              <div class="rating-css">
+                                4
+                              </div>
+                              <span class="sf-rating__icon">
+                                <SfIcon
+                                  color="#FADB14"
+                                  size="16px"
+                                  icon="star"
+                                />
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="button-pos">
+                          <SfButton class="contact">
+                            <img
+                              class="contact-img"
+                              id="icon"
+                              src="/icons/contact.png"
+                              alt="Vue Storefront Next"
+                            />
+                          </SfButton>
+                        </div>
+                      </div>
+
+                      <!-- <div class="provider-head aline-center side-padding">
+                              <div class="t-c-l-data">
+                                Temperature  
+                              </div>
+                              <div class="button-pos t-c-l-data" >
+                                97.3<sup><span>&#176;</span></sup>F
+                              </div>    
+                            </div>
+
+                            <div class="provider-head aline-center side-padding">
+                              <div class="t-c-l-data">
+                                Last Checked at
+                              </div>
+                              <div class="button-pos t-c-l-data" >
+                                12:34pm
+                              </div>    
+                            </div>
+
+                            <div class="provider-head aline-center side-padding">
+                              <div class="t-c-l-data">
+                                Language Known
+                              </div>
+                              <div class="button-pos t-c-l-data" >
+                                Hindi & Kannada
+                              </div>    
+                            </div> -->
+                    </template>
+                  </div>
+                </template>
+              </div>
+            </slot>
+          </div>
+        </client-only>
+        <div>
+          <template >
+            <div class="location-content" >
+              <BottomSlider :visible="isShow" @close="closeModal" >
+                <template>
+                  <div class="bar-pos" @click="toggleIsShow">
+                    <SfButton class="sf-button--pure ">
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
+                    </SfButton>
+                  </div>
+
+                  <div>
+                    <div>
+                      <template>
+                        <div>
+                          <div class="provider-head aline-center side-padding ">
+                            <div class="flexy">
+                              <div class="button-pos"></div>
+                              <div class="text-padding">
+                                <div class="aline-center">
+                                  
+                                  <div class="p-name">
+                                    KA05 AF 6226
+                                  </div>
+                                </div>
+                                <span class="flexy">
+                                  <span class="rating-css">
+                                    SUV- Wifi-AC-Car-Santro
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="button-pos">
+                            <!-- <div class="text-padding">
+                              <div class="aline-center">
+                                <div class="p-name text-color">
+                                  6363
+                                </div>
+                              </div>
+                              <span class="flexy">
+                                <span class="">
+                                  OTP
+                                </span>
+                              </span>
+                            </div> -->
+                          </div>
                           </div>
 
-                          <!-- <hr class="sf-divider" /> -->
                           <div><hr class="sf-divider" /></div>
 
                           <div class="provider-head aline-center side-padding">
                             <div class="flexy">
-                              <img
                               
+                              <img
                                 src="/icons/manjnath.png"
                                 alt=""
                                 :width="37"
                                 :height="39"
                               />
-                              <div class="text-padding ">
+                              <div class="text-padding">
                                 <div class="aline-center">
                                   <div class="p-name">
                                     Manjunath Reddy
@@ -115,275 +241,152 @@
                             </div>
                           </div>
 
-                          <!-- <div class="provider-head aline-center side-padding">
-                              <div class="t-c-l-data">
-                                Temperature  
-                              </div>
-                              <div class="button-pos t-c-l-data" >
-                                97.3<sup><span>&#176;</span></sup>F
-                              </div>    
-                            </div>
-
-                            <div class="provider-head aline-center side-padding">
-                              <div class="t-c-l-data">
-                                Last Checked at
-                              </div>
-                              <div class="button-pos t-c-l-data" >
-                                12:34pm
-                              </div>    
-                            </div>
-
-                            <div class="provider-head aline-center side-padding">
-                              <div class="t-c-l-data">
-                                Language Known
-                              </div>
-                              <div class="button-pos t-c-l-data" >
-                                Hindi & Kannada
-                              </div>    
-                            </div> -->
-                        
-                      </template>
-                    
-                  </div>
-                </template>
-              </div>
-            </slot>
-          </div>
-        </client-only>
-        <div>
-          <template>
-            <!--<div v-if="!!isShow" >-->
-
-            <BottomSlider :visible="isShow" @close="closeModal">
-              <template>
-                <div class="bar-pos" @click="toggleIsShow">
-                  <SfButton class="sf-button--pure rect-bar-style">
-                    <SfImage
-                      src="/icons/Rectangle-bar.png"
-                      :width="60"
-                      :height="5.5"
-                      alt="Rectangle bar"
-                    />
-                  </SfButton>
-                </div>
-
-                <div>
-                  <div>
-                    <template>
-                      <div>
-                        <div class="provider-head aline-center side-padding">
-                          <div class="flexy">
-                            <div class="text-padding">
-                              <div class="aline-center">
-                                <div class="p-name">
-                                  KA05 AF 6226
-                                </div>
-                              </div>
-                              <span class="flexy">
-                                <span class="rating-css">
-                                  SUV- Wifi-AC-Car-Santro
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="button-pos">
-                            <div class="text-padding">
-                              <div class="aline-center">
-                                <div class="p-name text-color">
-                                  6363
-                                </div>
-                              </div>
-                              <span class="flexy">
-                                <span class="">
-                                  OTP
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-</div>
-                        <div><hr class="sf-divider" /></div>
-<div>
-                        <div class="provider-head aline-center side-padding">
-                          <div class="flexy">
-                            <img
-                                
-                                src="/icons/manjnath.png"
-                                alt=""
-                                :width="37"
-                                :height="39"
-                              />
-                            <div class="text-padding">
-                              <div class="aline-center">
-                                <div class="p-name">
-                                  Manjunath Reddy
-                                </div>
-                              </div>
-                              <span class="flexy">
-                                <div class="rating-css">
-                                  4
-                                </div>
-                                <span class="sf-rating__icon">
-                                  <SfIcon
-                                    color="#FADB14"
-                                    size="16px"
-                                    icon="star"
-                                  />
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="button-pos">
-                            <SfButton class="contact">
-                              <img
-                                class="contact-img"
-                                id="icon"
-                                src="/icons/contact.png"
-                                alt="Vue Storefront Next"
-                              />
-                            </SfButton>
-                          </div>
-                        </div>
-
-                        <!-- <div class="provider-head aline-center side-padding">
-                                  <div class="t-c-l-data">
+                          <!-- <div class="provider-head aline-center side-padding"> -->
+                                  <!-- <div class="t-c-l-data">
                                     Temperature  
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     97.3<sup><span>&#176;</span></sup>F
-                                  </div>    
-                                </div> -->
+                                  </div>     -->
+                                <!-- </div> -->
 
-                        <!-- <div class="provider-head aline-center side-padding">
-                                  <div class="t-c-l-data">
+                          <!-- <div class="provider-head aline-center side-padding"> -->
+                                  <!-- <div class="t-c-l-data">
                                     Last Checked at
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     12:34pm
-                                  </div>    
-                                </div> -->
+                                  </div>     -->
+                                <!-- </div> -->
 
-                        <!-- <div class="provider-head aline-center side-padding">
-                                  <div class="t-c-l-data">
+                          <!-- <div class="provider-head aline-center side-padding"> -->
+                                  <!-- <div class="t-c-l-data">
                                     Language Known
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     Hindi & Kannada
-                                  </div>    
-                                </div> -->
+                                  </div>     -->
+                                <!-- </div> -->
 
-                        <div class="provider-head aline-center side-padding">
-                          <div class="flexy">
-                            <div class="text-padding">
-                              <span class="flexy">
-                                <span class="rating-css">
-                                  Total fare
+                          <div class="provider-head aline-center side-padding">
+                            <div class="flexy">
+                              
+                              <div class="text-padding">
+                               
+
+                                <span class="flexy">
+                                  <span class="rating-css">
+                                    Total fare
+                                  </span>
                                 </span>
-                              </span>
-                              <div class="aline-center">
-                                <div class="p-name">
-                                  ₹9.88
+                              
+                                <div class="aline-center">
+                                  <div class="p-name">₹9.88 </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="button-pos">
-                            <div class="text-padding">
-                              <div class="aline-center">
-                                <div>
-                                  Payment <span class="p-name">Cash</span>
+                            <div class="button-pos">
+                              <div class="text-padding">
+                                <div class="aline-center">
+                                
+                                    <span class="p-name">Payment</span>
+                                    <span class="p-name">Cash</span>
+                                  
                                 </div>
-                              </div>
-                              <span class="flexy text-color">
+                                <!-- <span class="flexy text-color">
                                 change
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class=" provider-head aline-center side-padding">
-                          <div class="flexy">
-                            <SfIcon
-                              class="locationicon"
-                              color="#f37a20"
-                              size="20px"
-                              icon="marker"
-                            />
-
-                            <div class="text-padding1">
-                              <div class="aline-center">
-                                <div class="p-name">
-                                  Source
-                                </div>
-                              </div>
-                              <div class="rating-css">
-                                <div>
-                                  <input type="text" :value="_SourceLocation" />
-                                </div>
+                              </span> -->
                               </div>
                             </div>
                           </div>
-                          <!-- <div class="button-pos text-color" >
-                                    Edit
-                                  </div>     -->
-                        </div>
 
-                        <div class="provider-head aline-center side-padding">
-                          <div class="flexy">
-                            <SfIcon
-                              class="locationicon"
-                              color="#2081F3"
-                              size="20px"
-                              icon="marker"
-                            />
-
-                            <div class="text-padding1">
-                              <div class="aline-center">
-                                <div class="p-name">
-                                  Destination
-                                </div>
-                              </div>
-                              <span class="flexy">
-                                <div class="rating-css">
-                                  <input type="text" :value="_destloc" />
-                                </div>
-                              </span>
-                            </div>
-                          </div>
-                          <!-- <div class="button-pos text-color" >
-                                    Edit
-                                  </div>     -->
-                        </div>
-                        <br />
-                        <div><hr class="sf-divider" /></div>
-                        <div @click="isShow = false">
-                          <SfButton id="btn" @click="isContactSupport = true">
-                            Contact Support
-                            <SfIcon class="button-pos">
-                              <SfImage
-                                id="icon"
-                                src="/icons/contactSupport.png"
-                                alt="Vue Storefront Next"
-                                :width="20"
-                                :height="22"
+                          <div class=" provider-head aline-center side-padding">
+                            <div class="flexy">
+                              <SfIcon
+                                class="locationicon"
+                                color="#f37a20"
+                                size="20px"
+                                icon="marker"
                               />
-                            </SfIcon>
-                          </SfButton>
-                        </div>
 
-                        <nuxt-link :to="localePath('/CancelOrder')">
-                          <div class="cancel-order">
-                            Cancel Ride
+                              <div class="text-padding1">
+                                <div class="aline-center">
+                                  <div class="p-name">
+                                    Source
+                                  </div>
+                                </div>
+                                <div class="rating-css">
+                                  <div>
+                                    <input
+                                      type="text"
+                                      :value="_SourceLocation"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div class="button-pos text-color" >
+                                    Edit
+                                  </div>     -->
                           </div>
-                        </nuxt-link>
-                      </div>
-                    </template>
-                  </div>
-                </div>
-              </template>
-            </BottomSlider>
 
-            <!--</div>-->
+                          <div class="provider-head aline-center side-padding">
+                            
+                            <div class="flexy">
+                              
+                              <SfIcon
+                                class="locationicon"
+                                color="#2081F3"
+                                size="20px"
+                                icon="marker"
+                              />
+
+                              <div class="text-padding1">
+                                <div class="aline-center">
+                                  <div class="p-name">
+                                    Destination
+                                  </div>
+                                </div>
+                                <span class="flexy">
+                                  <div class="rating-css">
+                                    <input type="text" :value="_destloc" />
+                                  </div>
+                                </span>
+                              </div>
+                            </div>
+                            <!-- <div class="button-pos text-color" >
+                                    Edit
+                                  </div>     -->
+                          </div>
+                          <br />
+                          <div><hr class="sf-divider" /></div>
+                          <div @click="isShow = false">
+                            <SfButton id="btn" @click="isContactSupport = true">
+                              Contact Support
+                              <SfIcon class="button-pos">
+                                <SfImage
+                                  id="icon"
+                                  src="/icons/contactSupport.png"
+                                  alt="Vue Storefront Next"
+                                  :width="40"
+                                  :height="42"
+                                />
+                              </SfIcon>
+                            </SfButton>
+                          </div>
+
+                          <nuxt-link :to="localePath('/CancelOrder')">
+                            <div class="cancel-order">
+                              Cancel Ride
+                            </div>
+                          </nuxt-link>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </BottomSlider>
+            </div>
           </template>
           <div>
             <template>
@@ -540,9 +543,11 @@ export default {
       });
     };
     const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
-    const _destloc = ref(
+    
+    const _destloc =ref(
       JSON.parse(localStorage.getItem('destinationLocation'))
     );
+    
 
     const closeModal = () => {
       isShow.value = false;
@@ -571,11 +576,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .dv{
-    overflow-x: hidden;
-  }
+body {
+  overflow-y: hidden;
+}
 
 .top-bar {
+  overflow-y: hidden;
   align-items: center;
   display: flex;
   font-size: 18px;
@@ -630,6 +636,7 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
+ 
 }
 
 .button-pos1,
@@ -655,6 +662,7 @@ export default {
   line-height: 13px;
   letter-spacing: 0em;
   text-align: left;
+  
 }
 .sign-in-text {
   color: #f37a20;
@@ -724,8 +732,8 @@ img {
   border-radius: 9px;
   padding-right: 10px;
 }
-hr{
-  width: 300%;
+.hr1 {
+  width: 168%;
 }
 .button-pos {
   position: absolute;
@@ -757,7 +765,7 @@ hr{
 }*/
 .driver-data {
   margin-top: 13px;
-  
+
   //border: 2px solid #838281;
   z-index: 99999;
   background: #ffffff;
@@ -768,13 +776,13 @@ hr{
   border-top-right-radius: 20px;
 }
 input {
-  width: 100%;
+
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
   border-bottom-style: hidden;
   // border-bottom: 2px solid
-// rgba(67, 70, 78, 1);
+  // rgba(67, 70, 78, 1);
   //border-bottom-style: groove;
   //border-bottom: #000000;
   //background-color: white;
@@ -787,10 +795,12 @@ input {
   align-content: center;
   justify-content: center;
   padding: 19px;
-  font-size: 16px;
+
   font-family: 'SF Pro Text';
   font-style: normal;
   font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
 }
 .location-block {
   margin-left: 25px;
@@ -809,9 +819,16 @@ input {
 #btn {
   //top:112px;
   //width: 63px;
+  height: 48px;
+  border-radius: 4px;
   box-shadow: 0px -5px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
   margin-bottom: 0%;
+  font-family: 'SF Pro Text';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
 }
 .search-bar {
   padding-top: 0px;

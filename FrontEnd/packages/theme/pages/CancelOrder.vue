@@ -55,7 +55,7 @@
         <div class="f-btn-text">Accept Cancellation Policy</div>
       </button>
     </div>
-    <ModalSlide :visible="openCancelModal" @close="closeModal">
+    <ModalSlide :visible="openCancelModal" @close="goBack()" >
       <div v-if="!canceltext">
         <div class="modal-heading">Cancel booking Reason</div>
         <div><hr class="sf-divider" /></div>
@@ -86,7 +86,8 @@
           @click="cancelBox"
           :disabled="!selectedReason"
         >
-          <div class="f-btn-text">Confirm Cancellation Request</div>
+          <div class="f-btn-text"> <label> Cancel Ride</label>
+           </div>
         </button>
         <div>
           <h4 v-if="canceltext">Booking Cancelled</h4>
@@ -110,7 +111,7 @@
 </template>
 <script>
 import ModalSlide from '~/components/ModalSlide.vue';
-import { ref } from '@vue/composition-api';
+import { ref,onMounted } from '@vue/composition-api';
 import { SfIcon, SfRadio } from '@storefront-ui/vue';
 
 export default {
@@ -133,6 +134,7 @@ export default {
     const cancelBox = () => {
       canceltext.value = true;
     };
+    
 
     const goBack = () => context.root.$router.back();
     const onConfirm = () => context.root.$router.push('/OrderCancelled');
@@ -142,6 +144,9 @@ export default {
       selectedReason.value = '';
       canceltext.value = false;
     };
+    onMounted(() => {
+      openCancelModal.value = true
+})
 
     return {
       openCancelModal,
@@ -162,8 +167,9 @@ export default {
   position: relative;
   height: calc(100vh - 45px);
   .sf-button {
-    width: -webkit-fill-available;
-    border-radius: 3px;
+    width: 100%;
+    border-radius: 4px;
+    height: 48px
   }
   .top-bar {
     align-items: center;
@@ -221,6 +227,13 @@ export default {
   }
   h4 {
     text-align: center;
+  }
+  label{
+    font-family: 'SF Pro Text';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 19px;
   }
 
   .modal-heading {

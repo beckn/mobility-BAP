@@ -65,7 +65,7 @@
           @click="openSearch"
           :disabled="!selectedLocation.latitude || !selectedLocation.longitude"
           v-e2e="'home-search-button'"
-          >Search Rides
+          ><label for="btn">Search Rides</label>
           <!-- <span class="sf-search-bar__icon">
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
           </span> -->
@@ -264,7 +264,7 @@ export default {
     width: 328px;
     height: 48px;
     background: #f37a20;
-    border-radius: 3px;
+    border-radius: 4px;
     width: 100%;
   }
 
@@ -284,7 +284,13 @@ export default {
       top: 11px;
     }
   }
-
+  label{
+    font-family:SF Pro Text;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 19px;
+  }
   .input {
     display: flex;
     padding-top: 5%;

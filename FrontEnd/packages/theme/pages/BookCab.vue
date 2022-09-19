@@ -39,12 +39,14 @@
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, watch } from '@vue/composition-api';
 import LocationSearch from '../components/LocationSearch.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
+import { useQuote } from '@vue-storefront/beckn';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
+import helpers from '../helpers/helpers';
 export default {
   name: 'Location',
   components: {
@@ -82,6 +84,22 @@ export default {
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
+    const { init, poll, pollResults, stopPolling, polling } = useQuote();
+    const cartItems= JSON.parse(localStorage.getItem('cartItem'));
+    //params for getQuote API
+    const getQuoteRequest = [{
+        context: {
+          // eslint-disable-next-line camelcase
+          bpp_id: cartItems.bpp_id,      
+          // eslint-disable-next-line camelcase
+          bpp_uri: cartItems.bpp_uri
+        },
+        message: {
+          cart: {
+            items: cartItems.bpp_providers[0].items
+          }
+        }
+      }];
     const goBack = () => {
       root.$router.back();
       toggleSearchVisible(true);
@@ -99,10 +117,45 @@ export default {
         address: address
       });
     };
+    const getQuote = async () => {
+     const responseQuote = await init(
+      getQuoteRequest,
+      localStorage.getItem('token'));
+      // Loops over the onGetQuote response and checks for error object. If any error then throws 'api fail'
+    const handleOnGetQuoteError = (onGetQuoteRes) => {
+      onGetQuoteRes.forEach((onGetQuoteRes) => {
+        if (onGetQuoteRes.error) {
+          throw 'api fail';
+        }
+      });
+    };
+
+    watch(
+      () => pollResults.value,
+      (onGetQuoteRes) => {
+        if (!polling.value || !onGetQuoteRes) {
+          return;
+        }
+
+        handleOnGetQuoteError(onGetQuoteRes);
+
+        if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
+          stopPolling();
+          localStorage.setItem('quoteData',JSON.stringify(onGetQuoteRes[0].message))
+          localStorage.setItem('transactionId',onGetQuoteRes[0].context.transaction_id)
+        }
+      }
+    );
+      const msgId=responseQuote[0].context.message_id;
+      await poll({ messageIds:msgId  },localStorage.getItem('token'));
+    }   
+    
     const changeItemNumber = (type) => {
      emit('updateItemCount', _value);
      //console.log("updatecount");
+     getQuote();
     };
+     
     return {
       b_name,
       changeItemNumber,
@@ -116,7 +169,8 @@ export default {
       locationSelected,
       currentUser,
       openHamburger,
-      goBack
+      goBack,
+      getQuote
     };
   },
   computed: {
