@@ -132,14 +132,21 @@ export default {
     });
     const confirmRide = async () =>{
       enableLoader.value=true;
-      const params = createConfirmOrderRequest(
-        localStorage.getItem('transactionId'),
-        JSON.parse(localStorage.getItem('initResult'))[0].message.order,
-        JSON.parse(localStorage.getItem("quoteData")).quote,
-        JSON.parse(localStorage.getItem("cartItem")),
+      const transId = localStorage.getItem('transactionId');
+      const initRes = JSON.parse(localStorage.getItem('initResult'));
+      const quoteItems = JSON.parse(localStorage.getItem("quoteData"));
+      const cartItems = JSON.parse(localStorage.getItem("cartItem"));
+      if(transId && initRes && quoteItems && cartItems){
+        const params = createConfirmOrderRequest(
+        transId,
+        initRes[0].message.order,
+        quoteItems.quote,
+        cartItems,
       );
       const response = await init(params, localStorage.getItem('token'));
       await poll({ messageIds: response[0].context.message_id }, localStorage.getItem('token'));
+      }
+      
       watch(
       () => pollResults.value,
       (newValue) => {        

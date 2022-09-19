@@ -539,9 +539,10 @@ export default {
 
     const closeModal = () => {
       isShow.value = false;
-    };
-    const driverInfo = ref(JSON.parse(localStorage.getItem('confirmData')).order);
-  
+    };  
+    var confirmData = JSON.parse(localStorage.getItem('confirmData')); 
+    const driverInfo = ref(confirmData ? confirmData.order : '');
+    
     return {
       driverInfo,
       closeModal,
