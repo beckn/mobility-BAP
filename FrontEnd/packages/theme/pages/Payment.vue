@@ -43,18 +43,19 @@
         
         <div class="redo">
         
-          <SfRadio
-          class="sf-radio--transparent"
+          <input
+          type="radio"
+          class="container"
             :name="'Payment'"
             :value="'Cash'"
-            label="cash"
+            
             :disabled="false"
             :selected="paymentMethod"
             @change="changePaymentMethod"
             
          />
-          <img style="padding-top:8px ; padding-left: 0px;" src="/icons/money 2.png" alt="" :width="60" :height="60" />
-          <!-- <label for="">Cash</label> -->
+          <img style="padding-top:8px; padding-left: 10px;" src="/icons/money 2.png" alt="" :width="30" :height="30" />
+          <label class="cash">Cash</label>
       
         </div>
 
@@ -132,6 +133,7 @@ export default {
   },
   setup(_, context) {
     const cartItem = JSON.parse(localStorage.getItem('cartData')).items[0];
+    
     const paymentMethod = ref('');
     const order = ref({});
     const isOrderVerified = ref(false);
@@ -223,6 +225,15 @@ export default {
 //     position: relative;
 //     padding-bottom: 107px;
 // }
+.container{
+  accent-color:#d77753;
+  
+    width: 0.8rem; 
+}
+.cash{
+  padding-left: 10px;
+  padding-top: 10px;
+}
 .top-bar {
   align-items: center;
   display: flex;

@@ -260,6 +260,12 @@ div#taxi-map {
 #btn1 {
   width: 100%;
   margin-bottom: 0%;
+  font-family: 'SF Pro Text';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 17px;
+height: 63px;
 }
 
 #location-btn {
