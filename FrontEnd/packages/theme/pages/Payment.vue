@@ -76,25 +76,7 @@
           cartItem.price && cartItem.price.value ? cartItem.price.value : '0'
         ).toFixed(2)
       "
-      @buttonClick="proceedToConfirm"
     >
-      <!-- <template v-slot:buttonIcon>
-        <svg
-          width="25"
-          height="19"
-          viewBox="0 0 25 19"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1.0166 7.10181H23.0166M3.0166 1.10181H21.0166C22.1212 1.10181 23.0166 1.99724 23.0166 3.10181V15.1018C23.0166 16.2064 22.1212 17.1018 21.0166 17.1018H3.0166C1.91203 17.1018 1.0166 16.2064 1.0166 15.1018V3.10181C1.0166 1.99724 1.91203 1.10181 3.0166 1.10181Z"
-            stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </template> -->
     </BookRide>
   </div>
 </template>
@@ -112,7 +94,7 @@ import Card from '~/components/Card.vue';
 
 import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
-import { createConfirmOrderRequest } from '../helpers/helpers';
+import helpers,{ createConfirmOrderRequest } from '../helpers/helpers';
 const { toggleCartSidebar } = useUiState();
 export default {
   name: 'Payment',
@@ -139,7 +121,7 @@ export default {
     const isOrderVerified = ref(false);
     const enableLoader = ref(false);
 
-    const { init, poll, pollResults } = useConfirmOrder('confirm-order');
+    const { init, poll, pollResults,stopPolling } = useConfirmOrder('confirm-order');
 
     const changePaymentMethod = (value) => {
       paymentMethod.value = value;
@@ -148,57 +130,42 @@ export default {
     const isPayConfirmActive = computed(() => {
       return paymentMethod.value !== '';
     });
-
-    const proceedToConfirm = async () => {
-      enableLoader.value = true;
-      order.value.paymentMethod = paymentMethod.value;
+    const confirmRide = async () =>{
+      enableLoader.value=true;
       const params = createConfirmOrderRequest(
-        order.value.transactionId,
-        order.value.cart,
-        order.value.shippingAddress,
-        order.value.billingAddress,
-        order.value.shippingAsBilling,
-        '12.9063433,77.5856825',
-        {
-          amount: cartGetters.getTotals(order.value.cart).total,
-          status: 'PAID',
-          transactionId: order.value.transactionId
-        }
+        localStorage.getItem('transactionId'),
+        JSON.parse(localStorage.getItem('initResult'))[0].message.order,
+        JSON.parse(localStorage.getItem("quoteData")).quote,
+        JSON.parse(localStorage.getItem("cartItem")),
       );
-      const response = await init(params);
-      await poll({ messageId: response.context.message_id });
-    };
+      const response = await init(params, localStorage.getItem('token'));
+      await poll({ messageIds: response[0].context.message_id }, localStorage.getItem('token'));
+      watch(
+      () => pollResults.value,
+      (newValue) => {        
+        if (helpers.shouldStopPooling(newValue, 'order')) {
+          stopPolling();
+          localStorage.setItem('confirmData',JSON.stringify(newValue[0].message));
+          localStorage.removeItem('cartItem');
+          localStorage.removeItem('quoteData');          
+          localStorage.removeItem('initResult');
+          localStorage.setItem('transactionId',newValue[0].context.transaction_id);
+        }
+        }
+        );
+    enableLoader.value=false;
+    }
+    
 
     const goBack = () => context.root.$router.back();
 
-    watch(
-      () => pollResults.value,
-      (newValue) => {
-        if (newValue?.message?.order) {
-          order.value.order = newValue?.message?.order;
-
-          const orderHistory =
-            JSON.parse(localStorage.getItem('orderHistory')) ?? [];
-          orderHistory.push(order.value);
-          localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
-          // localStorage.removeItem('orderProgress');
-          // localStorage.removeItem('transactionId');
-
-          context.root.$router.push({
-            path: '/ordersuccess',
-            query: {
-              id: order.value.transactionId
-            }
-          });
-        }
-      }
-    );
-
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
+      await confirmRide();
       order.value = JSON.parse(localStorage.getItem('orderProgress'));
       console.log(order.value);
     });
     return {
+      confirmRide,
       cartItem,
       paymentMethod,
       changePaymentMethod,
@@ -206,7 +173,6 @@ export default {
       cartGetters,
       goBack,
       isPayConfirmActive,
-      proceedToConfirm,
       enableLoader,
       isOrderVerified
     };
