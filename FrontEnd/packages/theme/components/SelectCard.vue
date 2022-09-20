@@ -14,7 +14,7 @@
               </div>
               <span class="flexy">
                 <span class="rating-css">
-                  {{ providerGetters.getProviderDistance(provider) }} min away
+                  8.1 min away
                 </span>
               </span>
             </div>
@@ -137,20 +137,25 @@ export default {
       init,
       stopPolling
     } = useInitOrder(); 
-    const quoteItems = JSON.parse(localStorage.getItem("quoteData")).quote;  
+    const quoteItems = JSON.parse(localStorage.getItem("quoteData"));  
+    const transactionId=localStorage.getItem("transactionId");
+    const cartItem= JSON.parse(localStorage.getItem("cartItem"));
+    
     const onConfirmProc = async() =>{
-      const params = createInitOrderRequest(
-        localStorage.getItem("transactionId"),
-        quoteItems,
-        JSON.parse(localStorage.getItem("cartItem")),
-        '12.9063433,77.5856825'
-      );      
-      const response = await init(params, localStorage.getItem('token'));
-      await onInitOrder({
+      if(quoteItems && transactionId && cartItem){
+          const params = createInitOrderRequest(
+          transactionId,
+          quoteItems.quote,
+          cartItem,
+          '12.9063433,77.5856825'
+        );      
+        const response = await init(params, localStorage.getItem('token'));
+        await onInitOrder({
         // eslint-disable-next-line camelcase
-        messageIds: response[0].context.message_id
-      }, localStorage.getItem('token'));
-      console.log(onInitResult);
+          messageIds: response[0].context.message_id
+        }, localStorage.getItem('token'));
+        //console.log(onInitResult);
+      }      
       
       watch(
       () => onInitResult.value,

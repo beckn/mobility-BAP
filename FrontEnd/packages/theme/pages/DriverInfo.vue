@@ -1,17 +1,5 @@
 <template>
   <div class="dv">
-    <!--<div class="top-bar">
-      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
-        <span class="sf-search-bar__icon">
-          <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
-        </span>
-      </div>
-      <div class="header-push">Ride is Confirmed</div>
-    </div>-->
-
-    <!--<div>
-      <img src="/icons/beckn.png" class="mapdata"/>
-    </div>-->
     <div class="layout-container driver-data">
       <div class="location-content">
         <client-only>
@@ -43,12 +31,12 @@
                           <div class="text-padding">
                             <div class="aline-center">
                               <div class="p-name">
-                                KA05 AF 6226
+                                {{ driverInfo.fulfillment.vehicle.registration }}
                               </div>
                             </div>
                             <span class="flexy">
                               <span class="rating-css">
-                                SUV- Wifi-AC-Car-Santro
+                                {{ driverInfo.items[0].descriptor.name }}
                               </span>
                             </span>
                           </div>
@@ -172,12 +160,12 @@
                                 <div class="aline-center">
                                   
                                   <div class="p-name">
-                                    KA05 AF 6226
+                                    {{ driverInfo.fulfillment.vehicle.registration }}
                                   </div>
                                 </div>
                                 <span class="flexy">
                                   <span class="rating-css">
-                                    SUV- Wifi-AC-Car-Santro
+                                    {{ driverInfo.items[0].descriptor.name }}
                                   </span>
                                 </span>
                               </div>
@@ -281,7 +269,7 @@
                                 </span>
                               
                                 <div class="aline-center">
-                                  <div class="p-name">₹9.88 </div>
+                                  <div class="p-name">₹{{ parseFloat(driverInfo.quote.price.value).toFixed(2) }} </div>
                                 </div>
                               </div>
                             </div>
@@ -551,9 +539,12 @@ export default {
 
     const closeModal = () => {
       isShow.value = false;
-    };
-
+    };  
+    var confirmData = JSON.parse(localStorage.getItem('confirmData')); 
+    const driverInfo = ref(confirmData ? confirmData.order : '');
+    
     return {
+      driverInfo,
       closeModal,
       isContactSupport,
       contactSupport,

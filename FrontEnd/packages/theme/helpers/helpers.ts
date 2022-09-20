@@ -24,50 +24,49 @@ const helpers = {
 
 export const createConfirmOrderRequest = (transactionId, initResult ,quoteData,cartItem) => {
   //const params: any = createOrderRequest(transactionId, cart, shippingAddress, billingAddress, shippingAsBilling, gps);
-  debugger;
-  const params = {
+  const item = {
+    id: initResult.items[0].id,
+    bpp_id: cartItem.bpp_id,
+    fulfillment_id: initResult.fulfillment.id,
+    quantity: {
+        count: 1
+      },
+    descriptor: quoteData.items[0].descriptor,
+    price: {
+      currency: "INR",
+      value: "100.0"
+    },
+    category_id: initResult.items[0].category_id,
+    provider: {
+        id: initResult.provider.id,
+        locations: [
+            "E1"
+          ]
+      }
+  }
+  const billAddress={
+    door: "MBT",
+    country: "IND",
+    city: "Bengaluru",
+    area_code: "560078",
+    state: "Karnataka",
+    building: "A33",
+    name: "",
+    locality: ""
+  }
+  const params = [{
           context: {
             transaction_id: transactionId,            
             bpp_id: cartItem.bpp_id,
             bpp_uri: cartItem.bpp_uri
           },
         message: {
-            items: [
-                  {
-                    id: initResult.items[0].id,
-                    bpp_id: cartItem.bpp_id,
-                    fulfillment_id: initResult.fulfillment.id,
-                    quantity: {
-                        count: 1
-                      },
-                    descriptor: quoteData.items[0].descriptor,
-                    price: {
-                      currency: "INR",
-                      value: "100.0"
-                  },
-                    category_id: initResult.items[0].category_id,
-                    provider: {
-                        id: initResult.provider.id,
-                        locations: [
-                            "E1"
-                          ]
-                      }
-                  }
-              ],
+            items: [item],
             billing_info: {
-              address: {
-                door: "MBT",
-                country: "IND",
-                city: "Bengaluru",
-                area_code: "560078",
-                state: "Karnataka",
-                building: "A33",
-                name: "",
-                locality: ""
-            },
-            phone: "9867654322",
-            name: "RajatKumar",
-            email: "er.rjtkumar@gmail.com"
+              address: billAddress,
+              phone: "9867654322",
+              name: "RajatKumar",
+              email: "er.rjtkumar@gmail.com"
             },
             delivery_info: {
                 type: "HOME-DELIVERY",
@@ -97,7 +96,7 @@ export const createConfirmOrderRequest = (transactionId, initResult ,quoteData,c
               transaction_id: transactionId
             }
           }
-        };
+        }];
   
   return params;
 };
