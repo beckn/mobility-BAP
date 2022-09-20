@@ -14,7 +14,7 @@
               </div>
               <span class="flexy">
                 <span class="rating-css">
-                  {{ providerGetters.getProviderDistance(provider) }} min away
+                  8.1 min away
                 </span>
               </span>
             </div>
