@@ -8,14 +8,14 @@
 
             <div class="text-padding">
               <div class="aline-center">
-                <div class="p-name">
+                <div class="S-name">
                   {{ _pName }}
                 </div>
               </div>
               <span class="flexy">
-                <span class="rating-css">
+                <p clamp="subtext">
                   8.1 min away
-                </span>
+                </p>
               </span>
             </div>
           </div>
@@ -30,6 +30,7 @@
             <option value="Recurring">Recurring</option>-->
           </select>
         </div>
+        <div class="loc">
         <div class=" provider-head aline-cente side-padding">
           <div class="flexy">
             <SfIcon
@@ -41,7 +42,7 @@
 
             <div class="text-padding1">
               <div class="aline-center">
-                <div class="p-name">
+                <div class="s-name">
                   Source
                 </div>
               </div>
@@ -54,7 +55,7 @@
           </div>
         </div>
 
-        <div><hr class="sf-divider" /></div>
+        
         <div class="provider-head aline-center side-padding">
           <div class="flexy">
             <SfIcon
@@ -66,7 +67,7 @@
 
             <div class="">
               <div class="">
-                <div class="p-name">
+                <div class="s-name">
                   Destination
                 </div>
               </div>
@@ -77,6 +78,7 @@
             </div>
           </div>
         </div>
+      </div>
 
         <br />
         <div><hr class="sf-divider" /></div>
@@ -247,8 +249,36 @@ div#cafe-map {
   height: 500px;
   position: fixed;
 }
+.loc{
+  padding-left: 21px;
+}
 input {
-  width: 100%;
+  
+ 
+  width:140%;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #37474F;
+    line-height: 14px;
+}
+@media screen and (max-width: 375px) {
+   input{ width: 100%;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color:#37474F;
+    line-height: 14px;
+  }
+  }
+.subtext{
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    color: #8A8D8E;
 }
 // .text1{
 //   width: 100%;
@@ -266,7 +296,7 @@ input {
   // left: 10%;
   width: 30px;
   height: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 .form-select {
   width: 80%;
@@ -305,6 +335,13 @@ input {
 }
 img {
   border-radius: 9px;
+}
+.s-name{
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    color: #37474F;
 }
 /*.sf-search-bar{
     left: ;
