@@ -32,7 +32,7 @@
           @click="getLocationDetails(result)"
           v-e2e="'app-location-sidebar-input-options'"
         >
-          <SfButton class="button-pos sf-button--pure pos-left">
+          <SfButton class="button-pos sf-button--pure ">
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="10px" icon="marker" />
             </span>
@@ -58,10 +58,7 @@
                     <br />
                     <div>
                       <h4>Set Location</h4>
-                      <div
-                        class="close"
-                        @click="$emit('edit')"
-                      ></div>
+                      <div class="close" @click="$emit('edit')"></div>
                     </div>
 
                     <hr style="width:100%;" />
@@ -246,11 +243,10 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 20px
+  bottom: 20px;
 }
 .sf-search-bar__icon {
   padding-left: 70%;
-  
 }
 div#taxi-map {
   width: 100%;
@@ -261,11 +257,11 @@ div#taxi-map {
   width: 100%;
   margin-bottom: 0%;
   font-family: 'SF Pro Text';
-font-style: normal;
-font-weight: 700;
-font-size: 14px;
-line-height: 17px;
-height: 63px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  height: 63px;
 }
 
 #location-btn {

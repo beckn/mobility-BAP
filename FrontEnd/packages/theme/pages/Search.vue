@@ -288,6 +288,12 @@ export default {
         drop_location:  localStorage.getItem('dropLatAndLong')
       
       });
+      // await search({
+      //   pickup_location: '12.903561,77.5939631',
+      //   // localStorage.getItem('pickUpLatAndLong'),
+      //   drop_location:  "12.9175403,77.5890075"
+      //   // localStorage.getItem('dropLatAndLong')
+      // });
 
       localStorage.setItem(
         'transactionId',
