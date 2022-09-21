@@ -223,7 +223,8 @@ export default {
         this.service.getPlacePredictions(
           {
             input: this.location,
-            types: ['geocode']
+            types: ['geocode'],
+            componentRestrictions: { country: 'in' }
           },
           this.displaySuggestions
         );
