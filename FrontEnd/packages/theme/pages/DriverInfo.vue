@@ -363,11 +363,11 @@
                             </SfButton>
                           </div>
 
-                          <nuxt-link :to="localePath('/CancelOrder')">
-                            <div class="cancel-order">
+                          
+                            <div class="cancel-order" @click="goBack2">
                               Cancel Ride
                             </div>
-                          </nuxt-link>
+                          
                         </div>
                       </template>
                     </div>
@@ -440,7 +440,7 @@ import {
   SfInput
 } from '@storefront-ui/vue';
 import ProductCard from '~/components/ProductCard';
-import { ref, onBeforeMount, watch } from '@vue/composition-api';
+import { ref, onBeforeMount, watch,} from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import LocationSearchBar from '../components/LocationSearchBar.vue';
@@ -486,7 +486,7 @@ export default {
       return this.currentUser !== null;
     }
   },
-  setup(_, { root }) {
+  setup(_,{ root }) {
     const { toggleSearchVisible } = useUiState();
     //const isShow = ref(false);
     toggleSearchVisible(false);
@@ -495,6 +495,11 @@ export default {
       root.$router.back();
       toggleSearchVisible(true);
     };
+    const mytime= setTimeout(()=>{
+        root.$router.push('/orderSuccess')
+      },10*1000)
+    const goBack2=()=>{clearTimeout(mytime); root.$router.push('/CancelOrder') }
+  
     const trigger = ref(true);
     const currentLocation = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
@@ -544,6 +549,7 @@ export default {
     const driverInfo = ref(confirmData ? confirmData.order : '');
     
     return {
+    
       driverInfo,
       closeModal,
       isContactSupport,
@@ -560,7 +566,9 @@ export default {
       currentUser,
       openHamburger,
       trigger,
-      currentLocation
+      currentLocation,
+      goBack2,
+      mytime
     };
   }
 };

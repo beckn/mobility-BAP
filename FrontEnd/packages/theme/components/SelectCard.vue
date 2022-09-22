@@ -54,8 +54,6 @@
             </div>
           </div>
         </div>
-
-        
         <div class="provider-head aline-center side-padding">
           <div class="flexy">
             <SfIcon
@@ -126,8 +124,8 @@ export default {
     const _pName = computed(() => props.pName);
     const _pWieght = computed(() => props.pWieght);
     const _pPrice = computed(() => props.pPrice);
-    // const _pImage = computed(() => props.pImage);
-    const _pImage = '/icons/car.svg';
+    const _pImage = computed(() => props.pImage);
+    // const _pImage = '/icons/car.svg';
     const _pCount = computed(() => props.pCount);
     const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
     const _destloc = ref(

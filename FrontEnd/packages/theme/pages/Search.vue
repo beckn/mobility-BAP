@@ -156,13 +156,15 @@
                   "
                   :pName="productGetters.getName(product)"
                   :pPrice="productGetters.getPrice(product).regular"
-                  :pImage="productGetters.getGallery(product)[0].small[0]"
+                  pImage="/icons/car.png"
                   :pWieght="productGetters.getProductWeight(product) + ' kg'"
                   :pCount="cartGetters.getItemQty(isInCart({ product }))"
                   @updateItemCount="
                     (item) => updateItemCount(item, provider, bpp, pIndex)
                   "
                 />
+
+                
               </div>
               <div>
                 <hr class="sf-divider" />
@@ -190,6 +192,7 @@
       </transition-group>
     </div>
     <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
+      :pImage="productGetters.getGallery(product)[0].small[0]"
       <Footer
         @buttonClick="footerClick"
         :totalPrice="cartGetters.getTotals(cart).total"

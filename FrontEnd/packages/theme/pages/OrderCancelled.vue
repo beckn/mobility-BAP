@@ -2,11 +2,11 @@
   <div class="cancel-page">
     <div class="top-bar"></div>
     <div class="details">
-      <img src="/icons/cancelOrder.svg" alt="" />
+      <!-- <img src="/icons/cancelOrder.svg" alt="" /> -->
       <div class="head">Booking Cancelled</div>
-      <div class="sub">
-        Refund will be credited to your account as per refund policy.
-      </div>
+      <!-- <div class="sub"> -->
+        <!-- Refund will be credited to your account as per refund policy. -->
+      <!-- </div> -->
       <button class="sf-button color-primary" @click="goBack">
         <div>Go back Home</div>
       </button>
