@@ -1,7 +1,6 @@
 <template>
   <div class="search-page">
     <div class="search-bar side-padding">
-
       <div class="open-search-input">
         <div class="input1">
           <SfImage
@@ -90,8 +89,8 @@
               ><span v-e2e="'total-result'">{{
                 totalResults(pollResults)
               }}</span>
-              results found </span
-            >
+              results found
+            </span>
           </div>
           <!--<hr>-->
           <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
@@ -163,8 +162,6 @@
                     (item) => updateItemCount(item, provider, bpp, pIndex)
                   "
                 />
-
-                
               </div>
               <div>
                 <hr class="sf-divider" />
@@ -287,9 +284,8 @@ export default {
 
       await search({
         pickup_location: localStorage.getItem('pickUpLatAndLong'),
-        
-        drop_location:  localStorage.getItem('dropLatAndLong')
-      
+
+        drop_location: localStorage.getItem('dropLatAndLong')
       });
       // await search({
       //   pickup_location: '12.903561,77.5939631',
@@ -309,7 +305,11 @@ export default {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
             toggleLoadindBar(true);
-            localStorage.setItem('cartItem', JSON.stringify(pollResults.value[0]));
+            console.log('pollresults', pollResults);
+            localStorage.setItem(
+              'cartItem',
+              JSON.stringify(pollResults.value[0])
+            );
           }
         }
       );
@@ -483,82 +483,81 @@ export default {
 }
 
 .open-search-input {
-    // display: flex;
-    padding-left: 14px;
-    margin-bottom: 8px;
-    -webkit-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
-       -moz-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
-            box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
-    // position: relative;
-    &.disable {
-      h4 {
-        padding: 20px;
-      }
-      button {
-        background: #bfbfbf;
-        .sf-icon {
-          --icon-color: #fff !important;
-        }
-      }
+  // display: flex;
+  padding-left: 14px;
+  margin-bottom: 8px;
+  -webkit-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
+  // position: relative;
+  &.disable {
+    h4 {
+      padding: 20px;
     }
-    input {
-      border-radius: 6px;
-      box-sizing: border-box;
-      border: none;
-    }
-    label {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 22px;
-      padding-left: 7px;
-    }
-
     button {
-      width: 100%;
-      position: relative;
-      padding: 17px;
-      height: 63px;
-      top: 0;
-      color: #fbfcff;
-      // background: #F37A20;
-      border-radius: 6px;
-      // border-bottom-right-radius: 6px;
-      right: 0;
+      background: #bfbfbf;
       .sf-icon {
         --icon-color: #fff !important;
       }
     }
   }
-
-  .input {
-    display: flex;
-    padding-top: 5%;
-    padding-right: 5%;
-    padding-bottom: 15%;
+  input {
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: none;
   }
-  .input1 {
-    display: flex;
-    padding-top: 15%;
-    padding-right: 5%;
-    padding-bottom: 5%;
+  label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    padding-left: 7px;
   }
-   .hr-theme-slash-2 {
-    display: flex;
-    margin-bottom: 0px;
 
-    .hr-line {
-      width: 100%;
-      position: relative;
-
-      margin: 11px;
-      border-bottom: 1px solid rgba(196, 196, 196, 0.4);
+  button {
+    width: 100%;
+    position: relative;
+    padding: 17px;
+    height: 63px;
+    top: 0;
+    color: #fbfcff;
+    // background: #F37A20;
+    border-radius: 6px;
+    // border-bottom-right-radius: 6px;
+    right: 0;
+    .sf-icon {
+      --icon-color: #fff !important;
     }
-    .hr-icon {
-      position: relative;
-      top: 11px;
-    }
   }
+}
 
+.input {
+  display: flex;
+  padding-top: 5%;
+  padding-right: 5%;
+  padding-bottom: 15%;
+}
+.input1 {
+  display: flex;
+  padding-top: 15%;
+  padding-right: 5%;
+  padding-bottom: 5%;
+}
+.hr-theme-slash-2 {
+  display: flex;
+  margin-bottom: 0px;
+
+  .hr-line {
+    width: 100%;
+    position: relative;
+
+    margin: 11px;
+    border-bottom: 1px solid rgba(196, 196, 196, 0.4);
+  }
+  .hr-icon {
+    position: relative;
+    top: 11px;
+  }
+}
 </style>

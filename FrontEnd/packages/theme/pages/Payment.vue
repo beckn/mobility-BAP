@@ -1,6 +1,5 @@
 <template>
   <div id="payment">
-    
     <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
       <LoadingCircle :enable="enableLoader" :customText="'confirming order'" />
     </div>
@@ -16,7 +15,6 @@
     <div class="details header-push">
       <div class="sub-heading">
         <div class="p-name">Payment</div>
-        
       </div>
       <Card v-if="!!(order && order.cart)">
         <CardContent
@@ -39,33 +37,28 @@
         <div class="p-name">Other</div>
       </div> -->
       <Card>
-        <CardContent> 
-        
-        <div class="redo">
-        
-          <input
-          type="radio"
-          class="container"
-            :name="'Payment'"
-            :value="'Cash'"
-            
-            :disabled="false"
-            :selected="paymentMethod"
-            @change="changePaymentMethod"
-            
-         />
-          <img style="padding-top:8px; padding-left: 10px;" src="/icons/money 2.png" alt="" :width="30" :height="30" />
-          <label class="cash">Cash</label>
-      
-        </div>
-
- 
+        <CardContent>
+          <div class="redo">
+            <input
+              type="radio"
+              class="container"
+              :name="'Payment'"
+              :value="'Cash'"
+              :disabled="false"
+              :selected="paymentMethod"
+              @change="changePaymentMethod"
+            />
+            <img
+              style="padding-top:8px; padding-left: 10px;"
+              src="/icons/money 2.png"
+              alt=""
+              :width="30"
+              :height="30"
+            />
+            <label class="cash">Cash</label>
+          </div>
         </CardContent>
       </Card>
-          
-       
-      
-      
     </div>
     <BookRide
       class="footer-fixed"
@@ -81,7 +74,7 @@
   </div>
 </template>
 <script>
-import { SfButton, SfRadio, SfIcon ,SfImage} from '@storefront-ui/vue';
+import { SfButton, SfRadio, SfIcon, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 
 import { ref, computed, onBeforeMount, watch } from '@vue/composition-api';
@@ -94,7 +87,7 @@ import Card from '~/components/Card.vue';
 
 import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
-import helpers,{ createConfirmOrderRequest } from '../helpers/helpers';
+import helpers, { createConfirmOrderRequest } from '../helpers/helpers';
 const { toggleCartSidebar } = useUiState();
 export default {
   name: 'Payment',
@@ -115,13 +108,15 @@ export default {
   },
   setup(_, context) {
     const cartItem = JSON.parse(localStorage.getItem('cartData')).items[0];
-    
+
     const paymentMethod = ref('');
     const order = ref({});
     const isOrderVerified = ref(false);
     const enableLoader = ref(false);
 
-    const { init, poll, pollResults,stopPolling } = useConfirmOrder('confirm-order');
+    const { init, poll, pollResults, stopPolling } = useConfirmOrder(
+      'confirm-order'
+    );
 
     const changePaymentMethod = (value) => {
       paymentMethod.value = value;
@@ -130,39 +125,292 @@ export default {
     const isPayConfirmActive = computed(() => {
       return paymentMethod.value !== '';
     });
-    const confirmRide = async () =>{
-      enableLoader.value=true;
+    const confirmRide = async () => {
+      enableLoader.value = true;
       const transId = localStorage.getItem('transactionId');
       const initRes = JSON.parse(localStorage.getItem('initResult'));
-      const quoteItems = JSON.parse(localStorage.getItem("quoteData"));
-      const cartItems = JSON.parse(localStorage.getItem("cartItem"));
-      if(transId && initRes && quoteItems && cartItems){
-        const params = createConfirmOrderRequest(
+      const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
+      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
+      console.log('cartItems', cartItems);
+
+      console.log('quoteItems', quoteItems);
+
+      // if (transId && initRes && quoteItems && cartItems) {
+      const params = createConfirmOrderRequest(
         transId,
-        initRes[0].message.order,
-        quoteItems.quote,
-        cartItems,
+        initRes
+          ? initRes[0].message.order
+          : {
+              provider: {
+                id:
+                  './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider'
+              },
+              items: [
+                {
+                  id:
+                    './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                  fulfillment_id:
+                    cartItems.bpp_providers[0].items[0].fulfillment_id,
+                  category_id:
+                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
+                  descriptor: {
+                    name: 'SUV- Wifi-AC-Car-Santro',
+                    code: 'SUV- Wifi-AC-Car-Santro'
+                  }
+                }
+              ],
+              billing: {
+                name: './Rajat/Mr./Rajat/ /Kumar/',
+                phone: '+919867654322',
+                address: {
+                  door: 'MBT',
+                  name: 'RajatKumar',
+                  building: ',A33',
+                  locality: '',
+                  city: 'Bengaluru',
+                  country: 'IND',
+                  area_code: '560078'
+                },
+                email: 'er.rjtkumar@gmail.com'
+              },
+              fulfillment: {
+                id:
+                  './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
+                tracking: false,
+                vehicle: {
+                  registration: 'KA05Z 3910'
+                },
+                start: {
+                  location: {
+                    gps: '12.901073,77.599115'
+                  }
+                },
+                end: {
+                  location: {
+                    gps: '12.906343,77.585683'
+                  }
+                },
+                customer: {
+                  person: {},
+                  contact: {
+                    phone: '+919867654322',
+                    email: 'er.rjtkumar@gmail.com'
+                  }
+                }
+              },
+              quote: {
+                price: {
+                  currency: 'INR',
+                  value: '23.568058651428757'
+                },
+                breakup: [
+                  {
+                    title: 'Fare',
+                    price: {
+                      currency: 'INR',
+                      value: '19.972931060532847'
+                    }
+                  },
+                  {
+                    title: 'Tax',
+                    price: {
+                      currency: 'INR',
+                      value: '3.5951275908959097'
+                    }
+                  }
+                ]
+              },
+              id:
+                './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.order',
+              state: 'Not Confirmed'
+            },
+        quoteItems
+          ? quoteItems.quote
+          : {
+              provider: {
+                id:
+                  './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider',
+                descriptor: {
+                  name: 'Venky Tours'
+                },
+                locations: [
+                  {
+                    id:
+                      './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider_location',
+                    gps: '12.922074,77.651177'
+                  }
+                ],
+                categories: [
+                  {
+                    id:
+                      './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
+                    descriptor: {
+                      name: 'SUV'
+                    }
+                  }
+                ],
+                items: [
+                  {
+                    id:
+                      './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                    fulfillment_id:
+                      cartItems.bpp_providers[0].items[0].fulfillment_id,
+                    descriptor: {
+                      name: 'SUV- Wifi-AC-Car-Santro',
+                      code: 'SUV- Wifi-AC-Car-Santro'
+                    },
+                    price: {
+                      currency: 'INR',
+                      value: '23.568058651428757'
+                    },
+                    category_id:
+                      './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
+                  }
+                ]
+              },
+              items: [
+                {
+                  id:
+                    './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                  descriptor: {
+                    name: 'SUV- Wifi-AC-Car-Santro',
+                    code: 'SUV- Wifi-AC-Car-Santro'
+                  },
+                  price: {
+                    currency: 'INR',
+                    value: '23.568058651428757'
+                  },
+                  category_id:
+                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
+                }
+              ],
+              quote: {
+                price: {
+                  currency: 'INR',
+                  value: '23.568058651428757'
+                },
+                breakup: [
+                  {
+                    title: 'Fare',
+                    price: {
+                      currency: 'INR',
+                      value: '19.972931060532847'
+                    }
+                  },
+                  {
+                    title: 'Tax',
+                    price: {
+                      currency: 'INR',
+                      value: '3.5951275908959097'
+                    }
+                  }
+                ]
+              }
+            },
+        cartItems
+          ? cartItems
+          : {
+              bpp_descriptor: {
+                name: 'taxi.becknprotocol.io',
+                code: 'taxi.becknprotocol.io'
+              },
+              bpp_providers: [
+                {
+                  id:
+                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider',
+                  descriptor: {
+                    name: 'Venky Tours'
+                  },
+                  locations: [
+                    {
+                      id:
+                        './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider_location',
+                      gps: '12.922074,77.651177'
+                    }
+                  ],
+                  categories: [
+                    {
+                      id:
+                        './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
+                      descriptor: {
+                        name: 'SUV'
+                      }
+                    }
+                  ],
+                  items: [
+                    {
+                      id:
+                        './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                      fulfillment_id:
+                        cartItems.bpp_providers[0].items[0].fulfillment_id,
+                      descriptor: {
+                        name: 'SUV- Wifi-AC-Car-Santro',
+                        code: 'SUV- Wifi-AC-Car-Santro'
+                      },
+                      price: {
+                        currency: 'INR',
+                        value: '23.568058651428757'
+                      },
+                      category_id:
+                        './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
+                    }
+                  ]
+                }
+              ],
+              bpp_fulfillments: [
+                {
+                  id:
+                    './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
+                  tracking: false,
+                  vehicle: {
+                    registration: 'KA05Z 3910'
+                  },
+                  start: {
+                    location: {
+                      gps: '12.901073,77.599115'
+                    }
+                  },
+                  end: {
+                    location: {
+                      gps: '12.906343,77.585683'
+                    }
+                  }
+                }
+              ],
+              bpp_id:
+                'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+              bpp_uri:
+                'https://becknify.humbhionline.in/mobility/beckn_open/app1-succinct-in/bpp'
+            }
       );
       const response = await init(params, localStorage.getItem('token'));
-      await poll({ messageIds: response[0].context.message_id }, localStorage.getItem('token'));
-      }
-      
+      await poll(
+        { messageIds: response[0].context.message_id },
+        localStorage.getItem('token')
+      );
+      // }
+
       watch(
-      () => pollResults.value,
-      (newValue) => {        
-        if (helpers.shouldStopPooling(newValue, 'order')) {
-          stopPolling();
-          localStorage.setItem('confirmData',JSON.stringify(newValue[0].message));
-          localStorage.removeItem('cartItem');
-          localStorage.removeItem('quoteData');          
-          localStorage.removeItem('initResult');
-          localStorage.setItem('transactionId',newValue[0].context.transaction_id);
+        () => pollResults.value,
+        (newValue) => {
+          if (helpers.shouldStopPooling(newValue, 'order')) {
+            stopPolling();
+            localStorage.setItem(
+              'confirmData',
+              JSON.stringify(newValue[0].message)
+            );
+            localStorage.removeItem('cartItem');
+            localStorage.removeItem('quoteData');
+            localStorage.removeItem('initResult');
+            localStorage.setItem(
+              'transactionId',
+              newValue[0].context.transaction_id
+            );
+          }
         }
-        }
-        );
-    enableLoader.value=false;
-    }
-    
+      );
+      enableLoader.value = false;
+    };
 
     const goBack = () => context.root.$router.back();
 
@@ -198,12 +446,12 @@ export default {
 //     position: relative;
 //     padding-bottom: 107px;
 // }
-.container{
-  accent-color:#d77753;
-  
-    width: 0.8rem; 
+.container {
+  accent-color: #d77753;
+
+  width: 0.8rem;
 }
-.cash{
+.cash {
   padding-left: 10px;
   padding-top: 10px;
 }
@@ -217,14 +465,12 @@ export default {
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
 }
-.redo{
+.redo {
   display: flex;
-  
 }
-.Rbtn{
+.Rbtn {
   padding-right: 0px;
 }
-
 
 .icon_back {
   position: absolute;
@@ -255,9 +501,8 @@ export default {
   left: 0;
   height: 95vh;
 }
-SfRadio{
-  padding-right:0px;
-
+SfRadio {
+  padding-right: 0px;
 }
 .flex-space-bw {
   justify-content: space-between;
