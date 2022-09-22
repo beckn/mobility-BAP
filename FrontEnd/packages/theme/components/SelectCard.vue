@@ -31,52 +31,52 @@
           </select>
         </div>
         <div class="loc">
-        <div class=" provider-head aline-cente side-padding">
-          <div class="flexy">
-            <SfIcon
-              class="locationicon"
-              color="#f37a20"
-              size="20px"
-              icon="marker"
-            />
+          <div class=" provider-head aline-cente side-padding">
+            <div class="flexy">
+              <SfIcon
+                class="locationicon"
+                color="#f37a20"
+                size="20px"
+                icon="marker"
+              />
 
-            <div class="text-padding1">
-              <div class="aline-center">
-                <div class="s-name">
-                  Source
+              <div class="text-padding1">
+                <div class="aline-center">
+                  <div class="s-name">
+                    Source
+                  </div>
                 </div>
-              </div>
-              <div class="rating-css">
-                <div class="text1">
-                  <input type="text" :value="_SourceLocation" />
+                <div class="rating-css">
+                  <div class="text1">
+                    <input type="text" :value="_SourceLocation" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="provider-head aline-center side-padding">
-          <div class="flexy">
-            <SfIcon
-              class="locationicon"
-              color="#2081F3"
-              size="20px"
-              icon="marker"
-            />
+          <div class="provider-head aline-center side-padding">
+            <div class="flexy">
+              <SfIcon
+                class="locationicon"
+                color="#2081F3"
+                size="20px"
+                icon="marker"
+              />
 
-            <div class="">
               <div class="">
-                <div class="s-name">
-                  Destination
+                <div class="">
+                  <div class="s-name">
+                    Destination
+                  </div>
                 </div>
-              </div>
 
-              <div class="text1">
-                <input type="text" :value="_destloc" />
+                <div class="text1">
+                  <input type="text" :value="_destloc" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
         <br />
         <div><hr class="sf-divider" /></div>
@@ -97,7 +97,11 @@
 <script>
 import { SfImage, SfIcon, SfButton, SfSearchBar } from '@storefront-ui/vue';
 //import AddToCart from './AddToCart.vue';
-import { productGetters, providerGetters, useInitOrder } from '@vue-storefront/beckn';
+import {
+  productGetters,
+  providerGetters,
+  useInitOrder
+} from '@vue-storefront/beckn';
 import { ref, computed, watch } from '@vue/composition-api';
 import { createInitOrderRequest } from '../helpers/helpers';
 import helpers from '../helpers/helpers';
@@ -136,44 +140,206 @@ export default {
       poll: onInitOrder,
       init,
       stopPolling
-    } = useInitOrder(); 
-    const quoteItems = JSON.parse(localStorage.getItem("quoteData"));  
-    const transactionId=localStorage.getItem("transactionId");
-    const cartItem= JSON.parse(localStorage.getItem("cartItem"));
-    
-    const onConfirmProc = async() =>{
-      if(quoteItems && transactionId && cartItem){
-          const params = createInitOrderRequest(
-          transactionId,
-          quoteItems.quote,
-          cartItem,
-          '12.9063433,77.5856825'
-        );      
-        const response = await init(params, localStorage.getItem('token'));
-        await onInitOrder({
-        // eslint-disable-next-line camelcase
+    } = useInitOrder();
+    const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
+    const transactionId = localStorage.getItem('transactionId');
+    const cartItem = JSON.parse(localStorage.getItem('cartItem'));
+
+    const onConfirmProc = async () => {
+      // if (quoteItems && transactionId && cartItem) {
+      const params = createInitOrderRequest(
+        transactionId,
+        quoteItems
+          ? quoteItems.quote
+          : {
+              provider: {
+                id:
+                  './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider',
+                descriptor: {
+                  name: 'Venky Tours'
+                },
+                locations: [
+                  {
+                    id:
+                      './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider_location',
+                    gps: '12.922074,77.651177'
+                  }
+                ],
+                categories: [
+                  {
+                    id:
+                      './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
+                    descriptor: {
+                      name: 'SUV'
+                    }
+                  }
+                ],
+                items: [
+                  {
+                    id:
+                      './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                    fulfillment_id:
+                      './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
+                    descriptor: {
+                      name: 'SUV- Wifi-AC-Car-Santro',
+                      code: 'SUV- Wifi-AC-Car-Santro'
+                    },
+                    price: {
+                      currency: 'INR',
+                      value: '23.568058651428757'
+                    },
+                    category_id:
+                      './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
+                  }
+                ]
+              },
+              items: [
+                {
+                  id:
+                    './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                  descriptor: {
+                    name: 'SUV- Wifi-AC-Car-Santro',
+                    code: 'SUV- Wifi-AC-Car-Santro'
+                  },
+                  price: {
+                    currency: 'INR',
+                    value: '23.568058651428757'
+                  },
+                  category_id:
+                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
+                }
+              ],
+              quote: {
+                price: {
+                  currency: 'INR',
+                  value: '23.568058651428757'
+                },
+                breakup: [
+                  {
+                    title: 'Fare',
+                    price: {
+                      currency: 'INR',
+                      value: '19.972931060532847'
+                    }
+                  },
+                  {
+                    title: 'Tax',
+                    price: {
+                      currency: 'INR',
+                      value: '3.5951275908959097'
+                    }
+                  }
+                ]
+              }
+            },
+        cartItem
+          ? cartItem
+          : {
+              bpp_descriptor: {
+                name: 'taxi.becknprotocol.io',
+                code: 'taxi.becknprotocol.io'
+              },
+              bpp_providers: [
+                {
+                  id:
+                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider',
+                  descriptor: {
+                    name: 'Venky Tours'
+                  },
+                  locations: [
+                    {
+                      id:
+                        './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider_location',
+                      gps: '12.922074,77.651177'
+                    }
+                  ],
+                  categories: [
+                    {
+                      id:
+                        './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
+                      descriptor: {
+                        name: 'SUV'
+                      }
+                    }
+                  ],
+                  items: [
+                    {
+                      id:
+                        './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
+                      fulfillment_id:
+                        './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
+                      descriptor: {
+                        name: 'SUV- Wifi-AC-Car-Santro',
+                        code: 'SUV- Wifi-AC-Car-Santro'
+                      },
+                      price: {
+                        currency: 'INR',
+                        value: '23.568058651428757'
+                      },
+                      category_id:
+                        './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
+                    }
+                  ]
+                }
+              ],
+              bpp_fulfillments: [
+                {
+                  id:
+                    './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
+                  tracking: false,
+                  vehicle: {
+                    registration: 'KA05Z 3910'
+                  },
+                  start: {
+                    location: {
+                      gps: '12.901073,77.599115'
+                    }
+                  },
+                  end: {
+                    location: {
+                      gps: '12.906343,77.585683'
+                    }
+                  }
+                }
+              ],
+              bpp_id:
+                'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+              bpp_uri:
+                'https://becknify.humbhionline.in/mobility/beckn_open/app1-succinct-in/bpp'
+            },
+        '12.9063433,77.5856825'
+      );
+      const response = await init(params, localStorage.getItem('token'));
+      await onInitOrder(
+        {
+          // eslint-disable-next-line camelcase
           messageIds: response[0].context.message_id
-        }, localStorage.getItem('token'));
-        //console.log(onInitResult);
-      }      
-      
+        },
+        localStorage.getItem('token')
+      );
+      //console.log(onInitResult);
+      // }
+
       watch(
-      () => onInitResult.value,
-      (onInitRes) => {
+        () => onInitResult.value,
+        (onInitRes) => {
           if (onInitRes?.error) {
-          throw 'api fail';
+            throw 'api fail';
+          }
+          if (!onInitRes) {
+            return;
+          }
+          if (helpers.shouldStopPooling(onInitRes, 'order')) {
+            stopPolling();
+            localStorage.setItem('initResult', JSON.stringify(onInitRes));
+            localStorage.setItem(
+              'transactionId',
+              onInitRes[0].context.transaction_id
+            );
+          }
         }
-        if (!onInitRes) {
-          return;
-        }
-        if (helpers.shouldStopPooling(onInitRes, 'order')) {
-          stopPolling();
-          localStorage.setItem('initResult',JSON.stringify(onInitRes));
-          localStorage.setItem('transactionId',onInitRes[0].context.transaction_id)
-        }
-        }
-      );      
-    }
+      );
+    };
     return {
       onConfirmProc,
       _SourceLocation,
@@ -247,36 +413,35 @@ div#cafe-map {
   height: 500px;
   position: fixed;
 }
-.loc{
+.loc {
   padding-left: 21px;
 }
 input {
-  
- 
-  width:140%;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    color: #37474F;
-    line-height: 14px;
+  width: 140%;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #37474f;
+  line-height: 14px;
 }
 @media screen and (max-width: 375px) {
-   input{ width: 100%;
+  input {
+    width: 100%;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-    color:#37474F;
+    color: #37474f;
     line-height: 14px;
   }
-  }
-.subtext{
+}
+.subtext {
   font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 13px;
-    color: #8A8D8E;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  color: #8a8d8e;
 }
 // .text1{
 //   width: 100%;
@@ -334,12 +499,12 @@ input {
 img {
   border-radius: 9px;
 }
-.s-name{
+.s-name {
   font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    color: #37474F;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  color: #37474f;
 }
 /*.sf-search-bar{
     left: ;
