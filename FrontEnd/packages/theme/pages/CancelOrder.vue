@@ -92,7 +92,7 @@
         <div>
           <h4 v-if="canceltext">Booking Cancelled</h4>
           <p v-if="canceltext">
-            Refund will be credited to your account as per refund policy
+            <!-- Refund will be credited to your account as per refund policy -->
           </p>
 
           <button
