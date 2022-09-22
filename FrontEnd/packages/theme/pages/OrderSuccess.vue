@@ -3,20 +3,19 @@
     <div class="top-bar header-top"></div>
     <div class="content  header-push">
       <div class="sub-heading">
-        <div ><img src="/icons/ratingSubmitted.svg" /></div>
-        
+        <div><img src="/icons/ratingSubmitted.svg" /></div>
       </div>
       <div class="details">
         <div class="sub-heading dis-block">
           <div class="sub-heading">
-          Your trip has completed
-        </div>
-          <div class="p-name flex-set">Thank you! You have arrived your
-</div>
+            Your trip has completed
+          </div>
+          <div class="p-name flex-set">Thank you! You have arrived your</div>
           <div class="p-name flex-set">
-destination</div>
+            destination
+          </div>
         </div>
-      
+
         <button
           class="sf-button button color-primary"
           link=""
@@ -24,18 +23,14 @@ destination</div>
         >
           <!-- button icon template  -->
           <slot name="buttonIcon" />
-          <div class="f-btn-text">Continue Ride</div>
+          <div class="f-btn-text">Search for another ride</div>
         </button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {
-  SfButton,
-  SfRadio,
-  SfIcon
-} from '@storefront-ui/vue';
+import { SfButton, SfRadio, SfIcon } from '@storefront-ui/vue';
 import { onMounted, onUnmounted } from '@vue/composition-api';
 
 // import { ref, computed } from '@vue/composition-api';
@@ -58,32 +53,31 @@ export default {
     Footer
   },
   setup(_, context) {
-   // const transactionId = context.root.$route.query.id;
+    // const transactionId = context.root.$route.query.id;
 
-    const goToOrderDetails = ()=>{
-
+    const goToOrderDetails = () => {
       context.root.$router.push({
-        path: '/',
+        path: '/'
         // query: {
         //   id: transactionId
         // }
       });
-      
-//       onUnmounted(() => {
-//         console.log("hi guys")
-//           setInterval(goToOrderDetails,3000);
-// })
-// onMounted(() => {
-//   console.log("hi guys")
-//   context.root.$router.push({
-//         path: '/',
-//         // query: {
-//         //   id: transactionId
-//         // }
-//       });
-      
-// }, 2000 )
-   //setTimeout(context.root.$router.push('/'),2000)
+
+      //       onUnmounted(() => {
+      //         console.log("hi guys")
+      //           setInterval(goToOrderDetails,3000);
+      // })
+      // onMounted(() => {
+      //   console.log("hi guys")
+      //   context.root.$router.push({
+      //         path: '/',
+      //         // query: {
+      //         //   id: transactionId
+      //         // }
+      //       });
+
+      // }, 2000 )
+      //setTimeout(context.root.$router.push('/'),2000)
     };
     return {
       goToOrderDetails
@@ -92,10 +86,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  img{
-    padding-top: 15%;
-    padding-right: 5%;
-  }
+img {
+  padding-top: 15%;
+  padding-right: 5%;
+}
 // .header-top{
 //     position: fixed;
 //     width: 100%;
@@ -118,8 +112,8 @@ export default {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
 }
 
-.dis-block{
-    display: block !important;
+.dis-block {
+  display: block !important;
 }
 
 .details {
@@ -131,17 +125,15 @@ export default {
 }
 
 .p-name {
-  
-font-style: normal;
-font-weight: 400;
-font-size: 17px;
-line-height: 21px;
-/* or 124% */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 21px;
+  /* or 124% */
 
-text-align: center;
+  text-align: center;
 
-color: #6C6C6E;
-
+  color: #6c6c6e;
 }
 
 .button {
@@ -159,13 +151,13 @@ color: #6C6C6E;
   display: flex;
   justify-content: space-around;
   font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 25px;
-/* identical to box height, or 104% */
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 25px;
+  /* identical to box height, or 104% */
 
-text-align: center;
+  text-align: center;
 
-color: #37474F;
+  color: #37474f;
 }
 </style>
