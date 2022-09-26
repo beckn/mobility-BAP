@@ -1,41 +1,41 @@
 <template>
-  <no-ssr>  
+  <client-only>
     <div class="location-content">
-          <client-only>
-          <div  class="s-p-addcart" @click="toggleLocationDrop" >
-            <button 
-              class="color-primary sf-button add-btn"
-              @click="changeItemNumber('add')"
-            >   
-              Select
-            </button> 
-          </div>
-          </client-only>
-          <template>
-            <div v-if="isQuoteData" id="location" class="location-drop">
-              <SfSidebar
-                :visible="!!isLocationdropOpen"
-                :button="false"
-                title="Set Location"
-                @click="goBack"
-                @close="toggleLocationDrop"
-                class="sidebar sf-sidebar--right"
-              >
-                <transition name="fade">
-                  <client-only>
-                    <LocationSearch
-                      :b_name="b_name"
-                      @locationSelected="locationSelected"
-                      @toggleLocationDrop="toggleLocationDrop"
-                      v-e2e="'app-location-sidebar'"
-                    />
-                  </client-only>
-                </transition>
-              </SfSidebar>
-            </div>
-          </template>
+      <client-only>
+        <div class="s-p-addcart" @click="toggleLocationDrop">
+          <button
+            class="color-primary sf-button add-btn"
+            @click="changeItemNumber('add')"
+          >
+            Select
+          </button>
+        </div>
+      </client-only>
+      <template>
+        <div v-if="isQuoteData" id="location" class="location-drop">
+          <SfSidebar
+            :visible="!!isLocationdropOpen"
+            :button="false"
+            title="Set Location"
+            @click="goBack"
+            @close="toggleLocationDrop"
+            class="sidebar sf-sidebar--right"
+          >
+            <transition name="fade">
+              <client-only>
+                <LocationSearch
+                  :b_name="b_name"
+                  @locationSelected="locationSelected"
+                  @toggleLocationDrop="toggleLocationDrop"
+                  v-e2e="'app-location-sidebar'"
+                />
+              </client-only>
+            </transition>
+          </SfSidebar>
+        </div>
+      </template>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
@@ -65,14 +65,14 @@ export default {
       default: false
     },
     value: { type: Number, default: 1 },
-    maxLimit: { type: Number, default: 100 },
+    maxLimit: { type: Number, default: 100 }
   },
   data() {
     return {
       isActive: false
     };
   },
-  setup(props, { root, emit}) {
+  setup(props, { root, emit }) {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
@@ -80,13 +80,13 @@ export default {
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name=ref("selectcab");
+    const b_name = ref('selectcab');
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const { init, poll, pollResults, stopPolling, polling } = useQuote();
-    const isQuoteData = ref(false);   
-    
+    const isQuoteData = ref(false);
+
     const goBack = () => {
       root.$router.back();
       toggleSearchVisible(true);
@@ -106,63 +106,71 @@ export default {
     };
     const getQuote = async () => {
       //params for getQuote API
-      const cartItems= JSON.parse(localStorage.getItem('cartItem'));
-    if(cartItems){
-      const getQuoteRequest = [{
-        context: {
-          // eslint-disable-next-line camelcase
-          bpp_id: cartItems.bpp_id,      
-          // eslint-disable-next-line camelcase
-          bpp_uri: cartItems.bpp_uri
-        },
-        message: {
-          cart: {
-            items: cartItems.bpp_providers[0].items
+      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
+      if (cartItems) {
+        const getQuoteRequest = [
+          {
+            context: {
+              // eslint-disable-next-line camelcase
+              bpp_id: cartItems.bpp_id,
+              // eslint-disable-next-line camelcase
+              bpp_uri: cartItems.bpp_uri
+            },
+            message: {
+              cart: {
+                items: cartItems.bpp_providers[0].items
+              }
+            }
+          }
+        ];
+
+        const responseQuote = await init(
+          getQuoteRequest,
+          localStorage.getItem('token')
+        );
+        const msgId = responseQuote[0].context.message_id;
+        await poll({ messageIds: msgId }, localStorage.getItem('token'));
+      }
+      // Loops over the onGetQuote response and checks for error object. If any error then throws 'api fail'
+      const handleOnGetQuoteError = (onGetQuoteRes) => {
+        onGetQuoteRes.forEach((onGetQuoteRes) => {
+          if (onGetQuoteRes.error) {
+            throw 'api fail';
+          }
+        });
+      };
+
+      watch(
+        () => pollResults.value,
+        (onGetQuoteRes) => {
+          if (!polling.value || !onGetQuoteRes) {
+            return;
+          }
+
+          handleOnGetQuoteError(onGetQuoteRes);
+
+          if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
+            stopPolling();
+            localStorage.setItem(
+              'quoteData',
+              JSON.stringify(onGetQuoteRes[0].message)
+            );
+            localStorage.setItem(
+              'transactionId',
+              onGetQuoteRes[0].context.transaction_id
+            );
+            isQuoteData.value = true;
           }
         }
-      }];
-    
-     const responseQuote = await init(
-      getQuoteRequest,
-      localStorage.getItem('token'));
-      const msgId=responseQuote[0].context.message_id;
-      await poll({ messageIds:msgId  },localStorage.getItem('token'));
-    }
-      // Loops over the onGetQuote response and checks for error object. If any error then throws 'api fail'
-    const handleOnGetQuoteError = (onGetQuoteRes) => {
-      onGetQuoteRes.forEach((onGetQuoteRes) => {
-        if (onGetQuoteRes.error) {
-          throw 'api fail';
-        }
-      });
+      );
     };
-  
-    watch(
-      () => pollResults.value,
-      (onGetQuoteRes) => {
-        if (!polling.value || !onGetQuoteRes) {
-          return;
-        }
 
-        handleOnGetQuoteError(onGetQuoteRes);
-
-        if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
-          stopPolling();
-          localStorage.setItem('quoteData',JSON.stringify(onGetQuoteRes[0].message))
-          localStorage.setItem('transactionId',onGetQuoteRes[0].context.transaction_id)
-          isQuoteData.value=true;
-        }
-      }
-    );
-      
-    }   
-    
     const changeItemNumber = (type) => {
-     emit('updateItemCount', _value);
-     //console.log("updatecount");
-     getQuote();
+      emit('updateItemCount', _value);
+      //console.log("updatecount");
+      getQuote();
     };
-     
+
     return {
       isQuoteData,
       b_name,
@@ -191,8 +199,8 @@ export default {
     isAuthenticatedUser() {
       return this.currentUser !== null;
     }
-  },
- /* mounted:{
+  }
+  /* mounted:{
     show() {
       return  localStorage.removeItem('cartData');
     }
@@ -277,5 +285,4 @@ export default {
   border-top-color: var(--tooltip-color);
   transform-origin: top center;
 }
-
 </style>

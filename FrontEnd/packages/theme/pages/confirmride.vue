@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <div class="location-content">
       <client-only>
         <div class="s-p-addcart" @click="toggleLocationDrop">
@@ -35,7 +35,7 @@
         </div>
       </template>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
