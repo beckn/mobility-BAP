@@ -24,7 +24,6 @@
             errorMessage="errer"
             type="text"
             placeholder="Enter Pickup"
-          
             v-e2e="'home-search-input'"
           />
         </div>
@@ -53,7 +52,6 @@
             errorMessage="errer"
             type="text"
             placeholder="Enter Destination"
-           
             v-e2e="'home-search-input'"
           />
         </div>
@@ -61,7 +59,6 @@
         <SfButton
           id="btn"
           class="button-pos sf-button--pure color-primary"
-        
           @click="openSearch"
           :disabled="!selectedLocation.latitude || !selectedLocation.longitude"
           v-e2e="'home-search-button'"
@@ -72,19 +69,19 @@
         </SfButton>
       </div>
       <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
-      <div v-if="errorMsg2" class="error-msg">Pickup and Drop locations are same!.</div>
+      <div v-if="errorMsg2" class="error-msg">
+        Pickup and Drop locations are same!.
+      </div>
     </div>
     <template>
       <div class="location-blk d-flex w-100">
         <div class="layout-container">
-          
           <div id="location" class="location-content">
             <SfSidebar
               :visible="!!isLocationdropOpen"
               :button="false"
               title="Set Location"
               @close="toggleLocationDrop"
-             
               class="sidebar sf-sidebar--right"
             >
               <transition name="fade">
@@ -144,37 +141,36 @@ export default {
     //   if(selectedLocation.latitude || selectedLocation.longitude) {
     //   pickup.value=localStorage.getItem('pickup');
     // }
-    
+
     const location = ref(true);
     const message = ref('');
     const errorMsg = ref(false);
-    const errorMsg2=ref(false);
-    const edit=()=>{
-      if(location.value){
-        pickup.value =''
+    const errorMsg2 = ref(false);
+    const edit = () => {
+      if (location.value) {
+        pickup.value = '';
+        isLocationdropOpen.value = !isLocationdropOpen.value;
+      } else if (!location.value) {
+        message.value = '';
         isLocationdropOpen.value = !isLocationdropOpen.value;
       }
-      else if (!location.value){
-        message.value =''
-        isLocationdropOpen.value = !isLocationdropOpen.value;
-
-      }
-    }
+    };
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
         pickup.value = address;
-        //console.log("adds-->",address,latitude,longitude);
+
         localStorage.setItem('slocation', JSON.stringify(pickup.value));
         localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
-        //console.log("adddrop-->",address,latitude,longitude);
-        localStorage.setItem("destinationLocation",JSON.stringify(message.value));
-        localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
-      }
-      else if(pickup.value===message.value){
-        message.value = '';
 
+        localStorage.setItem(
+          'destinationLocation',
+          JSON.stringify(message.value)
+        );
+        localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
+      } else if (pickup.value === message.value) {
+        message.value = '';
       }
 
       updateLocation({
@@ -201,9 +197,7 @@ export default {
     };
 
     const openSearch = () => {
-      
-
-      if ((message.value && pickup.value)&&(message.value != pickup.value) ){
+      if (message.value && pickup.value && message.value != pickup.value) {
         if (errorMsg.value) errorMsg.value = false;
         if (errorMsg2.value) errorMsg2.value = false;
 
@@ -214,16 +208,12 @@ export default {
             pickuploc: pickup.value
           }
         });
-      } else if(!message.value || !pickup.value) {
+      } else if (!message.value || !pickup.value) {
         errorMsg.value = true;
         errorMsg2.value = false;
-      }
-      else if(message.value === pickup.value){
+      } else if (message.value === pickup.value) {
         errorMsg2.value = true;
       }
-      
-
-
     };
 
     return {
@@ -284,12 +274,12 @@ export default {
       top: 11px;
     }
   }
-  label{
-    font-family:SF Pro Text;
-font-style: normal;
-font-weight: 600;
-font-size: 16px;
-line-height: 19px;
+  label {
+    font-family: SF Pro Text;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
   }
   .input {
     display: flex;
@@ -349,7 +339,7 @@ line-height: 19px;
     }
     input {
       border-radius: 6px;
-width: 100%;
+      width: 100%;
       box-sizing: border-box;
       border: none;
     }

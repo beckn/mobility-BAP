@@ -77,11 +77,7 @@
         >
           Related to your search “{{ setSearchKey }}”
         </div>
-        <div
-          v-if="!enableLoader"
-          key="p-list"
-          class="product-container grid"
-        >
+        <div v-if="!enableLoader" key="p-list" class="product-container grid">
           <ProductCard
             v-for="(product, pIndex) in itemList"
             v-if="pIndex < loadNum"
@@ -95,7 +91,12 @@
             @updateItemCount="(item) => updateItemCount(item, pIndex)"
           />
         </div>
-        <div v-if="itemList.length > loadNum " key="load-more" class="load-more" @click="loadMore">
+        <div
+          v-if="itemList.length > loadNum"
+          key="load-more"
+          class="load-more"
+          @click="loadMore"
+        >
           <button>Load More</button>
         </div>
         <LoadingCircle :enable="enableLoader" key="loding-cir" />
@@ -142,10 +143,14 @@ export default {
     Footer
   },
   setup(_, context) {
-    const { selectedLocation, explorePageData, updateExpPageData } = useUiState();
+    const {
+      selectedLocation,
+      explorePageData,
+      updateExpPageData
+    } = useUiState();
     const enableLoader = ref(false);
     const goBack = () => context.root.$router.back();
-    console.log(explorePageData);
+
     const { addItem, cart, isInCart, load } = useCart();
     // const { bpp, provider, searchValue } = context.root.$route.params;
     const bpp = explorePageData.value.bpp;
@@ -156,8 +161,9 @@ export default {
     const keyVal = ref(0);
     const loadNum = ref(10);
     const { search, result } = useFacet();
-    const { pollResults, poll, polling, stopPolling } = useSearch('search-by-provider');
-    console.log(bpp, provider);
+    const { pollResults, poll, polling, stopPolling } = useSearch(
+      'search-by-provider'
+    );
 
     onBeforeMount(async () => {
       await load();
@@ -165,7 +171,7 @@ export default {
 
     const handleSearch = async (paramValue) => {
       setSearchKey.value = paramValue;
-      console.log(polling.value);
+
       stopPolling();
       if (!enableLoader.value) enableLoader.value = true;
       await search({
@@ -183,9 +189,15 @@ export default {
       watch(
         () => pollResults.value,
         (newValue) => {
-          console.log(newValue);
           if (newValue?.length > 0 && enableLoader.value) {
-            updateExpPageData({...explorePageData.value, provider: { ...explorePageData.value.provider, items: newValue[0].bpp_providers[0].items}, searchValue: searchKey.value});
+            updateExpPageData({
+              ...explorePageData.value,
+              provider: {
+                ...explorePageData.value.provider,
+                items: newValue[0].bpp_providers[0].items
+              },
+              searchValue: searchKey.value
+            });
             itemList.value = newValue[0].bpp_providers[0].items;
             enableLoader.value = false;
             stopPolling();
@@ -206,7 +218,6 @@ export default {
 
     const onSearchChange = (value) => {
       searchKey.value = value;
-      console.log(searchKey.value);
     };
 
     const clearSearch = () => {
@@ -239,23 +250,24 @@ export default {
     const loadMore = () => {
       if (itemList.value.length > loadNum.value) {
         loadNum.value += 10;
-        console.log(loadNum);
       }
     };
 
     const goToProduct = (product, provider, bpp) => {
-      const data = btoa(JSON.stringify({
-        product,
-        bpp: {
-          id: bpp.bpp_id,
-          descriptor: bpp.bpp_descriptor
-        },
-        bppProvider: {
-          id: provider.id,
-          descriptor: provider.descriptor
-        },
-        locations: provider.locations
-      }));
+      const data = btoa(
+        JSON.stringify({
+          product,
+          bpp: {
+            id: bpp.bpp_id,
+            descriptor: bpp.bpp_descriptor
+          },
+          bppProvider: {
+            id: provider.id,
+            descriptor: provider.descriptor
+          },
+          locations: provider.locations
+        })
+      );
       context.root.$router.push({
         path: '/product',
         query: {

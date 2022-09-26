@@ -1,28 +1,41 @@
 <template>
-  <no-ssr>
+  <client-only>
     <div class="location-content">
       <client-only>
         <div class="s-p-addcart" @click="toggleLocationDrop">
-          <button class="color-primary sf-button add-btn" @click="changeItemNumber('add')">
+          <button
+            class="color-primary sf-button add-btn"
+            @click="changeItemNumber('add')"
+          >
             Select
           </button>
         </div>
       </client-only>
       <template>
-        <div id="location" class="location-drop">
-          <SfSidebar :visible="!!isLocationdropOpen" :button="false" title="Set Location" @click="goBack"
-            @close="toggleLocationDrop" class="sidebar sf-sidebar--right">
+        <div v-if="isQuoteData" id="location" class="location-drop">
+          <SfSidebar
+            :visible="!!isLocationdropOpen"
+            :button="false"
+            title="Set Location"
+            @click="goBack"
+            @close="toggleLocationDrop"
+            class="sidebar sf-sidebar--right"
+          >
             <transition name="fade">
               <client-only>
-                <LocationSearch :b_name="b_name" @locationSelected="locationSelected"
-                  @toggleLocationDrop="toggleLocationDrop" v-e2e="'app-location-sidebar'" />
+                <LocationSearch
+                  :b_name="b_name"
+                  @locationSelected="locationSelected"
+                  @toggleLocationDrop="toggleLocationDrop"
+                  v-e2e="'app-location-sidebar'"
+                />
               </client-only>
             </transition>
           </SfSidebar>
         </div>
       </template>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
@@ -52,7 +65,7 @@ export default {
       default: false
     },
     value: { type: Number, default: 1 },
-    maxLimit: { type: Number, default: 100 },
+    maxLimit: { type: Number, default: 100 }
   },
   data() {
     return {
@@ -67,11 +80,12 @@ export default {
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name = ref("selectcab");
+    const b_name = ref('selectcab');
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const { init, poll, pollResults, stopPolling, polling } = useQuote();
+    const isQuoteData = ref(false);
 
     const goBack = () => {
       root.$router.back();
@@ -91,26 +105,29 @@ export default {
       });
     };
     const getQuote = async () => {
-      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
       //params for getQuote API
+      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
       if (cartItems) {
-        const getQuoteRequest = [{
-          context: {
-            // eslint-disable-next-line camelcase
-            bpp_id: cartItems.bpp_id,
-            // eslint-disable-next-line camelcase
-            bpp_uri: cartItems.bpp_uri
-          },
-          message: {
-            cart: {
-              items: cartItems.bpp_providers[0].items
+        const getQuoteRequest = [
+          {
+            context: {
+              // eslint-disable-next-line camelcase
+              bpp_id: cartItems.bpp_id,
+              // eslint-disable-next-line camelcase
+              bpp_uri: cartItems.bpp_uri
+            },
+            message: {
+              cart: {
+                items: cartItems.bpp_providers[0].items
+              }
             }
           }
-        }];
+        ];
+
         const responseQuote = await init(
           getQuoteRequest,
-          localStorage.getItem('token'));
-               
+          localStorage.getItem('token')
+        );
         const msgId = responseQuote[0].context.message_id;
         await poll({ messageIds: msgId }, localStorage.getItem('token'));
       }
@@ -122,7 +139,7 @@ export default {
           }
         });
       };
-      
+
       watch(
         () => pollResults.value,
         (onGetQuoteRes) => {
@@ -134,13 +151,20 @@ export default {
 
           if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
             stopPolling();
-            localStorage.setItem('quoteData', JSON.stringify(onGetQuoteRes[0].message))
-            localStorage.setItem('transactionId', onGetQuoteRes[0].context.transaction_id)
+            localStorage.setItem(
+              'quoteData',
+              JSON.stringify(onGetQuoteRes[0].message)
+            );
+            localStorage.setItem(
+              'transactionId',
+              onGetQuoteRes[0].context.transaction_id
+            );
+            isQuoteData.value = true;
           }
         }
       );
-    }
-    
+    };
+
     const changeItemNumber = (type) => {
       emit('updateItemCount', _value);
       //console.log("updatecount");
@@ -148,6 +172,7 @@ export default {
     };
 
     return {
+      isQuoteData,
       b_name,
       changeItemNumber,
       _value,
@@ -174,37 +199,33 @@ export default {
     isAuthenticatedUser() {
       return this.currentUser !== null;
     }
-  },
+  }
   /* mounted:{
-     show() {
-       return  localStorage.removeItem('cartData');
-     }
-   }*/
+    show() {
+      return  localStorage.removeItem('cartData');
+    }
+  }*/
 };
 </script>
 <style lang="scss" scoped>
 .sf-circle-icon {
   --icon-color: #f37a20;
 }
-
 .layout-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-
 .notShown {
   visibility: hidden !important;
   position: absolute;
 }
-
 .button-pos {
   display: flex;
   align-items: center;
   height: 5px;
   padding-left: 5px;
 }
-
 .location-icon {
   display: flex;
   width: 125px;
@@ -215,25 +236,20 @@ export default {
   letter-spacing: 0em;
   text-align: left;
 }
-
 .sign-in-text {
   color: #f37a20;
 }
-
 .userIcon {
   background-color: #f37a20;
 }
-
 .user-cart-content {
   display: flex;
   justify-content: space-between;
   width: 7rem;
 }
-
 .profile-tooltip {
   position: relative;
 }
-
 .profile-tooltip::before,
 .profile-tooltip::after {
   --scale: 0;
@@ -242,11 +258,11 @@ export default {
   position: absolute;
   top: -0.25rem;
   left: 50%;
-  transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transform: translateX(-50%) translateY(var(--translate-y, 0))
+    scale(var(--scale));
   transition: 150ms transform;
   transform-origin: bottom center;
 }
-
 .profile-tooltip::before {
   --translate-y: calc(-100% - var(--arrow-size));
   content: attr(data-tooltip);
@@ -258,12 +274,10 @@ export default {
   margin-left: -2rem;
   background: var(--tooltip-color);
 }
-
 .profile-tooltip:hover::before,
 .profile-tooltip:hover::after {
   --scale: 1;
 }
-
 .profile-tooltip::after {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';

@@ -1,47 +1,50 @@
 <template>
-  <no-ssr>  
+  <client-only>
     <div class="s-footer">
-          <client-only>
-          <div  class="s-p-addcart" @click="toggleLocationDrop" >
-            <button
-              v-e2e="'footer-button'"
-              :value="buttonText"
-              class="sf-button f-button"
-              :class="{'color-primary ':buttonEnable,'is-disabled--button':!buttonEnable}"
-              :disabled="!buttonEnable"
-              link=""
-              @click="changeItemNumber('add')"
-            >
-              <slot name="buttonIcon"/>
-              <div class="f-btn-text">{{buttonText}}</div> 
-            </button> 
-          </div>
-          </client-only>
-          <template>
-            <div id="location" class="location-drop">
-              <SfSidebar
-                :visible="!!isLocationdropOpen"
-                :button="false"
-                title="Ride is Confirmed"
-                @click="goBack"
-                @close="toggleLocationDrop"
-                class="sidebar sf-sidebar--right"
-              >
-                <transition name="fade">
-                  <client-only>
-                    <LocationSearch
-                      :b_name="b_name"
-                      @locationSelected="locationSelected"
-                      @toggleLocationDrop="toggleLocationDrop"
-                      v-e2e="'app-location-sidebar'"
-                    />
-                  </client-only>
-                </transition>
-              </SfSidebar>
-            </div>
-          </template>
+      <client-only>
+        <div class="s-p-addcart" @click="toggleLocationDrop">
+          <button
+            v-e2e="'footer-button'"
+            :value="buttonText"
+            class="sf-button f-button"
+            :class="{
+              'color-primary ': buttonEnable,
+              'is-disabled--button': !buttonEnable
+            }"
+            :disabled="!buttonEnable"
+            link=""
+            @click="changeItemNumber('add')"
+          >
+            <slot name="buttonIcon" />
+            <div class="f-btn-text">{{ buttonText }}</div>
+          </button>
+        </div>
+      </client-only>
+      <template>
+        <div id="location" class="location-drop">
+          <SfSidebar
+            :visible="!!isLocationdropOpen"
+            :button="false"
+            title="Ride is Confirmed"
+            @click="goBack"
+            @close="toggleLocationDrop"
+            class="sidebar sf-sidebar--right"
+          >
+            <transition name="fade">
+              <client-only>
+                <LocationSearch
+                  :b_name="b_name"
+                  @locationSelected="locationSelected"
+                  @toggleLocationDrop="toggleLocationDrop"
+                  v-e2e="'app-location-sidebar'"
+                />
+              </client-only>
+            </transition>
+          </SfSidebar>
+        </div>
+      </template>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
@@ -74,14 +77,14 @@ export default {
     totalItem: { type: Number, default: 0 },
     footerEnable: { type: Boolean, default: true },
     buttonEnable: { type: Boolean, default: true },
-    buttonText: {type: String, default: ''}
+    buttonText: { type: String, default: '' }
   },
   data() {
     return {
       isActive: false
     };
   },
-  setup(props, { root, emit}) {
+  setup(props, { root, emit }) {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
@@ -89,7 +92,7 @@ export default {
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name=ref("confirmride");
+    const b_name = ref('confirmride');
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
@@ -111,9 +114,9 @@ export default {
       });
     };
     const changeItemNumber = (type) => {
-     emit('updateItemCount', _value);
-     //console.log("updatecount");
-     //root.$router.push('/LocationSearch');
+      emit('updateItemCount', _value);
+      //console.log("updatecount");
+      //root.$router.push('/LocationSearch');
     };
     return {
       b_name,
@@ -141,8 +144,8 @@ export default {
     isAuthenticatedUser() {
       return this.currentUser !== null;
     }
-  },
- /* mounted:{
+  }
+  /* mounted:{
     show() {
       return  localStorage.removeItem('cartData');
     }
@@ -228,10 +231,9 @@ export default {
   transform-origin: top center;
 }
 .s-footer .sf-button {
-    width: 100% !important;
-    
+  width: 100% !important;
 }
-.color-def{
+.color-def {
   background: #cacaca;
 }
 </style>

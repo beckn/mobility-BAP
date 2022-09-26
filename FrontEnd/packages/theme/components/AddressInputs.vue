@@ -161,7 +161,6 @@ export default {
                   .geocode({ placeId: loc.place_id })
                   .then((response) => {
                     const adds = response.results[0].address_components;
-                    console.log('address', adds);
                     const state = adds.find((v) => {
                       return v.types[0] === 'administrative_area_level_1';
                     });

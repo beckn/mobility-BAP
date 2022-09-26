@@ -1,41 +1,41 @@
 <template>
-  <no-ssr>  
+  <client-only>
     <div class="location-content">
-          <client-only>
-          <div  class="s-p-addcart" @click="toggleLocationDrop" >
-            <button 
-              class="color-primary sf-button add-btn"
-              @click="changeItemNumber('add')"
-            >   
-              Confirm & Proceed
-            </button> 
-          </div>
-          </client-only>
-          <template>
-            <div id="location" class="location-drop">
-              <SfSidebar
-                :visible="!!isLocationdropOpen"
-                :button="false"
-                title="Ride is Confirmed"
-                @click="goBack"
-                @close="toggleLocationDrop"
-                class="sidebar sf-sidebar--right"
-              >
-                <transition name="fade">
-                  <client-only>
-                    <LocationSearch
-                      :b_name="b_name"
-                      @locationSelected="locationSelected"
-                      @toggleLocationDrop="toggleLocationDrop"
-                      v-e2e="'app-location-sidebar'"
-                    />
-                  </client-only>
-                </transition>
-              </SfSidebar>
-            </div>
-          </template>
+      <client-only>
+        <div class="s-p-addcart" @click="toggleLocationDrop">
+          <button
+            class="color-primary sf-button add-btn"
+            @click="changeItemNumber('add')"
+          >
+            Confirm & Proceed
+          </button>
+        </div>
+      </client-only>
+      <template>
+        <div id="location" class="location-drop">
+          <SfSidebar
+            :visible="!!isLocationdropOpen"
+            :button="false"
+            title="Ride is Confirmed"
+            @click="goBack"
+            @close="toggleLocationDrop"
+            class="sidebar sf-sidebar--right"
+          >
+            <transition name="fade">
+              <client-only>
+                <LocationSearch
+                  :b_name="b_name"
+                  @locationSelected="locationSelected"
+                  @toggleLocationDrop="toggleLocationDrop"
+                  v-e2e="'app-location-sidebar'"
+                />
+              </client-only>
+            </transition>
+          </SfSidebar>
+        </div>
+      </template>
     </div>
-  </no-ssr>
+  </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
@@ -63,14 +63,14 @@ export default {
       default: false
     },
     value: { type: Number, default: 1 },
-    maxLimit: { type: Number, default: 100 },
+    maxLimit: { type: Number, default: 100 }
   },
   data() {
     return {
       isActive: false
     };
   },
-  setup(props, { root, emit}) {
+  setup(props, { root, emit }) {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
@@ -78,7 +78,7 @@ export default {
     const isShow = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name=ref("confirmride");
+    const b_name = ref('confirmride');
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
@@ -100,8 +100,7 @@ export default {
       });
     };
     const changeItemNumber = (type) => {
-     emit('updateItemCount', _value);
-     //console.log("updatecount");
+      emit('updateItemCount', _value);
     };
     return {
       b_name,
@@ -129,8 +128,8 @@ export default {
     isAuthenticatedUser() {
       return this.currentUser !== null;
     }
-  },
- /* mounted:{
+  }
+  /* mounted:{
     show() {
       return  localStorage.removeItem('cartData');
     }
@@ -215,5 +214,4 @@ export default {
   border-top-color: var(--tooltip-color);
   transform-origin: top center;
 }
-
 </style>

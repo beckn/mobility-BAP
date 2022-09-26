@@ -63,9 +63,9 @@ export default {
         // }
       });
 
-      //       onUnmounted(() => {
-      //         console.log("hi guys")
-      //           setInterval(goToOrderDetails,3000);
+      //  onUnmounted(() => {
+      //  console.log("hi guys")
+      // setInterval(goToOrderDetails,3000);
       // })
       // onMounted(() => {
       //   console.log("hi guys")

@@ -1,28 +1,28 @@
 <template>
   <div>
     <slot name="locationInput">
-      <div class="position-relative" >
+      <div class="position-relative">
         <div v-if="show">
-        <input
-          ref="locationAutocomplete"
-          v-model="location"
-          type="text"
-          placeholder="Enter Location"
-          aria-label="Select Location"
-          class="
+          <input
+            ref="locationAutocomplete"
+            v-model="location"
+            type="text"
+            placeholder="Enter Location"
+            aria-label="Select Location"
+            class="
             sf-header__search
             be-search-location
             sf-search-bar
             sf-header__search
             be-search-location
           "
-          v-e2e="'app-location-sidebar-input'"
-        />
-        <SfButton class="button-pos sf-button--pure">
-          <span class="sf-search-bar__icon">
-            <SfIcon color="var(--c-text)" size="18px" icon="search" />
-          </span>
-        </SfButton>
+            v-e2e="'app-location-sidebar-input'"
+          />
+          <SfButton class="button-pos sf-button--pure">
+            <span class="sf-search-bar__icon">
+              <SfIcon color="var(--c-text)" size="18px" icon="search" />
+            </span>
+          </SfButton>
         </div>
       </div>
       <ul class="location-list" v-if="show">
@@ -51,10 +51,10 @@
             <div class="popover-bg">
               <div class="popover-content position-relative">
                 <div v-if="bName === 'selectcab'">
-                  <Select/>
+                  <Select />
                 </div>
                 <div v-else-if="bName === 'confirmride'">
-                  <DriverInfo/>
+                  <DriverInfo />
                 </div>
                 <!--<Selectcab/>
                 <!- <ModalComponent class="modalclass" /> -->
@@ -85,23 +85,22 @@ export default {
     map: null,
     zoom: 14,
     show: true,
-    marker: null,
-    
+    marker: null
+
     // map:{lg:this.mapCenter.lag,lt:this.mapCenter.lat,}
     // mapCen}ter:{lag:this.log,lag:this.log}
   }),
   created() {
     this.service = new window.google.maps.places.AutocompleteService();
     this.geocodeService = new window.google.maps.Geocoder();
-    
   },
   mounted() {
     this.$refs.locationAutocomplete.focus();
-    this.getLocationDetails(JSON.parse(localStorage.getItem("SourceLocation")));
+    this.getLocationDetails(JSON.parse(localStorage.getItem('SourceLocation')));
   },
   methods: {
-    reload(){
-        window.location.reload();
+    reload() {
+      window.location.reload();
     },
     displaySuggestions(predictions, status) {
       if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
@@ -110,9 +109,8 @@ export default {
       }
       this.searchResults = predictions;
     },
-    
+
     getLocationDetails(selectedLocation) {
-      //console.log("se",selectedLocation);
       this.location = selectedLocation.description;
       this.geocodeService
         .geocode({ placeId: selectedLocation.place_id })
@@ -154,7 +152,6 @@ export default {
           this.displaySuggestions
         );
         //localStorage.setItem('slocation', JSON.stringify(this.location));
-        
       }
     }
   },
@@ -163,19 +160,18 @@ export default {
     SfButton,
     SfIcon,
     Select,
-    DriverInfo,
+    DriverInfo
   },
   props: {
-    b_name: { type: String, default: '' },
+    b_name: { type: String, default: '' }
   },
   setup(props) {
     const bName = computed(() => props.b_name);
-    console.log(bName)
+
     return {
-      bName,
+      bName
     };
-  },
-  
+  }
 };
 </script>
 <style lang="scss" scoped>
