@@ -344,7 +344,7 @@ export default {
       setBillingAddress,
       setShippingAddress
     } = useAddress();
-    console.log(getShippingAddress());
+
     const shippingAddress = ref(getShippingAddress());
 
     const billingAddress = ref(getBillngAddress());
@@ -389,10 +389,6 @@ export default {
     const goBack = () => context.root.$router.back();
 
     const proceedToPay = computed(() => {
-      console.log(
-        isShippingAddressFilled.value &&
-          (isBillingAddressFilled.value || shippingAsBilling.value)
-      );
       return (
         isShippingAddressFilled.value &&
         (isBillingAddressFilled.value || shippingAsBilling.value)
@@ -410,12 +406,11 @@ export default {
         '12.9063433,77.5856825'
       );
       const response = await init(params);
-      console.log(response);
+
       await onInitOrder({
         // eslint-disable-next-line camelcase
         messageId: response.context.message_id
       });
-      console.log(onInitResult);
     };
 
     //To re-factor the function below
@@ -438,7 +433,7 @@ export default {
           '12.9063433,77.5856825'
         );
         const response = await init(params);
-        console.log(response);
+
         await onInitOrder({
           // eslint-disable-next-line camelcase
           messageId: response.context.message_id

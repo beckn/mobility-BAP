@@ -255,17 +255,13 @@ export default {
     };
     const { addItem, cart, isInCart, load } = useCart();
     const data = context.root.$route.params.searchKey;
-    console.log(data);
     const data2 = context.root.$route.params.pickuploc;
-    console.log(data2);
     const pickuploc = ref(data2);
     const searchKey = ref(data);
     const keyVal = ref(0);
     const { search, result } = useFacet();
     const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
-
-    console.log(cart);
 
     watch(
       () => clearCartPopup.value,
@@ -305,7 +301,7 @@ export default {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
             toggleLoadindBar(true);
-            console.log('pollresults', pollResults);
+
             localStorage.setItem(
               'cartItem',
               JSON.stringify(pollResults.value[0])
@@ -333,8 +329,6 @@ export default {
           }
         }
       );
-
-      console.log('result value', pollResults.value);
     }, 1000);
 
     onBeforeMount(async () => {
@@ -350,7 +344,6 @@ export default {
           handleSearch(value.target.value);
         } else {
           changeSearchString(value.target.value);
-          console.log(searchString.value);
         }
       }
     };
@@ -364,7 +357,6 @@ export default {
 
     const onSearchChange = (value) => {
       searchKey.value = value;
-      console.log(searchKey.value);
     };
 
     const clearSearch = () => {

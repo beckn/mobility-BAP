@@ -128,8 +128,6 @@ export default {
           this.snackbar = true;
         })
         .then(() => {
-          // we are signed in
-          // console.log("STATE1",state)
           $nuxt.$router.push('/');
         });
     }

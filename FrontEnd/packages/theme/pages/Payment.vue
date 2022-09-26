@@ -131,9 +131,6 @@ export default {
       const initRes = JSON.parse(localStorage.getItem('initResult'));
       const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
       const cartItems = JSON.parse(localStorage.getItem('cartItem'));
-      console.log('cartItems', cartItems);
-
-      console.log('quoteItems', quoteItems);
 
       // if (transId && initRes && quoteItems && cartItems) {
       const params = createConfirmOrderRequest(
@@ -417,7 +414,6 @@ export default {
     onBeforeMount(async () => {
       await confirmRide();
       order.value = JSON.parse(localStorage.getItem('orderProgress'));
-      console.log(order.value);
     });
     return {
       confirmRide,
