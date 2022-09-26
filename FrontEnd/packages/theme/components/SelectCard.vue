@@ -80,7 +80,7 @@
 
         <br />
         <div><hr class="sf-divider" /></div>
-        <nuxt-link :to="localePath('/payment')">
+        <!-- <nuxt-link :to="localePath('/payment')"> -->
           <SfButton
             :class="{ [_value]: Boolean(_value) ? '' : 'is-disabled--button' }"
             @click="onConfirmProc"
@@ -88,7 +88,7 @@
           >
             Confirm & Proceed</SfButton
           >
-        </nuxt-link>
+        <!-- </nuxt-link> -->
       </div>
     </template>
   </div>
@@ -105,6 +105,7 @@ import {
 import { ref, computed, watch } from '@vue/composition-api';
 import { createInitOrderRequest } from '../helpers/helpers';
 import helpers from '../helpers/helpers';
+import { root } from 'postcss';
 /* eslint camelcase: 0 */
 export default {
   name: 'SelectCard',
@@ -124,7 +125,7 @@ export default {
     pCount: { type: Number, default: 0 }
   },
 
-  setup(props, { emit }) {
+  setup(props, { root , emit }) {
     const _pName = computed(() => props.pName);
     const _pWieght = computed(() => props.pWieght);
     const _pPrice = computed(() => props.pPrice);
@@ -146,167 +147,11 @@ export default {
     const cartItem = JSON.parse(localStorage.getItem('cartItem'));
 
     const onConfirmProc = async () => {
-      // if (quoteItems && transactionId && cartItem) {
+      if (quoteItems && transactionId && cartItem) {
       const params = createInitOrderRequest(
         transactionId,
-        quoteItems
-          ? quoteItems.quote
-          : {
-              provider: {
-                id:
-                  './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider',
-                descriptor: {
-                  name: 'Venky Tours'
-                },
-                locations: [
-                  {
-                    id:
-                      './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider_location',
-                    gps: '12.922074,77.651177'
-                  }
-                ],
-                categories: [
-                  {
-                    id:
-                      './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
-                    descriptor: {
-                      name: 'SUV'
-                    }
-                  }
-                ],
-                items: [
-                  {
-                    id:
-                      './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
-                    fulfillment_id:
-                      './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
-                    descriptor: {
-                      name: 'SUV- Wifi-AC-Car-Santro',
-                      code: 'SUV- Wifi-AC-Car-Santro'
-                    },
-                    price: {
-                      currency: 'INR',
-                      value: '23.568058651428757'
-                    },
-                    category_id:
-                      './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
-                  }
-                ]
-              },
-              items: [
-                {
-                  id:
-                    './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
-                  descriptor: {
-                    name: 'SUV- Wifi-AC-Car-Santro',
-                    code: 'SUV- Wifi-AC-Car-Santro'
-                  },
-                  price: {
-                    currency: 'INR',
-                    value: '23.568058651428757'
-                  },
-                  category_id:
-                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
-                }
-              ],
-              quote: {
-                price: {
-                  currency: 'INR',
-                  value: '23.568058651428757'
-                },
-                breakup: [
-                  {
-                    title: 'Fare',
-                    price: {
-                      currency: 'INR',
-                      value: '19.972931060532847'
-                    }
-                  },
-                  {
-                    title: 'Tax',
-                    price: {
-                      currency: 'INR',
-                      value: '3.5951275908959097'
-                    }
-                  }
-                ]
-              }
-            },
-        cartItem
-          ? cartItem
-          : {
-              bpp_descriptor: {
-                name: 'taxi.becknprotocol.io',
-                code: 'taxi.becknprotocol.io'
-              },
-              bpp_providers: [
-                {
-                  id:
-                    './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider',
-                  descriptor: {
-                    name: 'Venky Tours'
-                  },
-                  locations: [
-                    {
-                      id:
-                        './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.provider_location',
-                      gps: '12.922074,77.651177'
-                    }
-                  ],
-                  categories: [
-                    {
-                      id:
-                        './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category',
-                      descriptor: {
-                        name: 'SUV'
-                      }
-                    }
-                  ],
-                  items: [
-                    {
-                      id:
-                        './mobility/ind.blr/5@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.item',
-                      fulfillment_id:
-                        './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
-                      descriptor: {
-                        name: 'SUV- Wifi-AC-Car-Santro',
-                        code: 'SUV- Wifi-AC-Car-Santro'
-                      },
-                      price: {
-                        currency: 'INR',
-                        value: '23.568058651428757'
-                      },
-                      category_id:
-                        './mobility/ind.blr/1@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.category'
-                    }
-                  ]
-                }
-              ],
-              bpp_fulfillments: [
-                {
-                  id:
-                    './mobility/ind.blr/1635@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment',
-                  tracking: false,
-                  vehicle: {
-                    registration: 'KA05Z 3910'
-                  },
-                  start: {
-                    location: {
-                      gps: '12.901073,77.599115'
-                    }
-                  },
-                  end: {
-                    location: {
-                      gps: '12.906343,77.585683'
-                    }
-                  }
-                }
-              ],
-              bpp_id:
-                'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-              bpp_uri:
-                'https://becknify.humbhionline.in/mobility/beckn_open/app1-succinct-in/bpp'
-            },
+        quoteItems.quote,
+        cartItem,
         '12.9063433,77.5856825'
       );
       const response = await init(params, localStorage.getItem('token'));
@@ -318,11 +163,11 @@ export default {
         localStorage.getItem('token')
       );
       //console.log(onInitResult);
-      // }
+      }
 
       watch(
         () => onInitResult.value,
-        (onInitRes) => {
+        (onInitRes) => {          
           if (onInitRes?.error) {
             throw 'api fail';
           }
@@ -335,7 +180,8 @@ export default {
             localStorage.setItem(
               'transactionId',
               onInitRes[0].context.transaction_id
-            );
+            );            
+          root.$router.push('/payment');
           }
         }
       );
