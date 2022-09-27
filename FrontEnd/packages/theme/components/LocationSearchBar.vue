@@ -169,9 +169,9 @@ export default {
       });
       this.marker = new google.maps.Marker({
         position: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
-        map: this.map
+        map: this.map,
+        draggable: true
       });
-      // console.log(this.getitem);
     },
     // current location of user autodetect
     enableLocation() {
