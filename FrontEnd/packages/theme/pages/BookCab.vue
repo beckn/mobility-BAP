@@ -12,7 +12,7 @@
         </div>
       </client-only>
       <template>
-        <div v-if="isQuoteData" id="location" class="location-drop">
+        <div>
           <SfSidebar
             :visible="!!isLocationdropOpen"
             :button="false"
@@ -23,12 +23,17 @@
           >
             <transition name="fade">
               <client-only>
-                <LocationSearch
-                  :b_name="b_name"
-                  @locationSelected="locationSelected"
-                  @toggleLocationDrop="toggleLocationDrop"
-                  v-e2e="'app-location-sidebar'"
-                />
+                <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+                  <LoadingCircle :enable="enableLoader" />
+                </div>
+                <div v-if="isQuoteData" id="location" class="location-drop">
+                  <LocationSearch
+                    :b_name="b_name"
+                    @locationSelected="locationSelected"
+                    @toggleLocationDrop="toggleLocationDrop"
+                    v-e2e="'app-location-sidebar'"
+                  />
+                </div>
               </client-only>
             </transition>
           </SfSidebar>
@@ -43,6 +48,7 @@ import { ref, watch } from '@vue/composition-api';
 import LocationSearch from '../components/LocationSearch.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
+import LoadingCircle from '../components/LoadingCircle';
 import { useQuote } from '@vue-storefront/beckn';
 import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
@@ -57,7 +63,8 @@ export default {
     LocationSearch,
     ModalComponent,
     Dropdown,
-    DropdownContent
+    DropdownContent,
+    LoadingCircle
   },
   props: {
     isDisabled: {
@@ -78,6 +85,7 @@ export default {
     const _value = ref(props.value);
     const _maxLimit = ref(props.maxLimit);
     const isShow = ref(false);
+    const enableLoader = ref(false)
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
     const b_name = ref('selectcab');
@@ -106,6 +114,7 @@ export default {
     };
     const getQuote = async () => {
       //params for getQuote API
+      enableLoader.value=true;
       const cartItems = JSON.parse(localStorage.getItem('cartItem'));
       if (cartItems) {
         const getQuoteRequest = [
@@ -159,6 +168,7 @@ export default {
               'transactionId',
               onGetQuoteRes[0].context.transaction_id
             );
+            enableLoader.value=false;
             isQuoteData.value = true;
           }
         }
@@ -186,7 +196,8 @@ export default {
       currentUser,
       openHamburger,
       goBack,
-      getQuote
+      getQuote,
+      enableLoader
     };
   },
   computed: {
@@ -208,6 +219,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .loader-circle{
+    margin-top:20px
+  }
 .sf-circle-icon {
   --icon-color: #f37a20;
 }

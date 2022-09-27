@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div class="driver-data">
     <template>
       <div>
@@ -80,10 +80,14 @@
 
         <br />
         <div><hr class="sf-divider" /></div>
+        <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+          <LoadingCircle :enable="enableLoader" />
+        </div>
         <!-- <nuxt-link :to="localePath('/payment')"> -->
           <SfButton
             :class="{ [_value]: Boolean(_value) ? '' : 'is-disabled--button' }"
             @click="onConfirmProc"
+            :disabled="enableLoader"
             id="btn"
           >
             Confirm & Proceed</SfButton
@@ -103,6 +107,7 @@ import {
   useInitOrder
 } from '@vue-storefront/beckn';
 import { ref, computed, watch } from '@vue/composition-api';
+import LoadingCircle from './LoadingCircle';
 import { createInitOrderRequest } from '../helpers/helpers';
 import helpers from '../helpers/helpers';
 import { root } from 'postcss';
@@ -114,7 +119,8 @@ export default {
     SfButton,
     SfImage,
     // AddToCart,
-    SfIcon
+    SfIcon,
+    LoadingCircle
   },
   props: {
     product: { type: Object },
@@ -131,6 +137,7 @@ export default {
     const _pPrice = computed(() => props.pPrice);
     const _pImage = computed(() => props.pImage);
     // const _pImage = '/icons/car.svg';
+    const enableLoader = ref(false);
     const _pCount = computed(() => props.pCount);
     const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
     const _destloc = ref(
@@ -147,6 +154,7 @@ export default {
     const cartItem = JSON.parse(localStorage.getItem('cartItem'));
 
     const onConfirmProc = async () => {
+      enableLoader.value = true;
       if (quoteItems && transactionId && cartItem) {
       const params = createInitOrderRequest(
         transactionId,
@@ -181,12 +189,14 @@ export default {
               'transactionId',
               onInitRes[0].context.transaction_id
             );            
+            enableLoader.value=false;
           root.$router.push('/payment');
           }
         }
       );
     };
     return {
+      enableLoader,
       onConfirmProc,
       _SourceLocation,
       _destloc,
@@ -202,6 +212,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .loader-circle{
+    margin-bottom: 20px;
+  }
 .search-bar {
   padding-top: 0px;
   padding-bottom: 0px;
