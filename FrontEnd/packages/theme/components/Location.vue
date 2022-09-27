@@ -120,7 +120,7 @@
                   </div>
                 </div>
               </div>
-              <div class="sign-in-text" v-else>sign in</div>
+              <div class="sign-in-text" v-else>Sign In</div>
             </nuxt-link>
           </div>
         </div>
@@ -248,6 +248,7 @@ export default {
 }
 .sign-in-text {
   color: #f37a20;
+  font-weight:700;
 }
 .userIcon {
   background-color: #f37a20;

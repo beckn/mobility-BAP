@@ -197,9 +197,9 @@ body {
     line-height: 16.5px;
     font-weight: 400;
   }
-  button {
-    margin-bottom: 15px;
-  }
+  // button {
+  //   margin-bottom: 15px;
+  // }
   input {
     border: 0;
     margin-left: 5px;
@@ -230,7 +230,7 @@ body {
   input {
     box-sizing: border-box;
     //border-bottom: 2px solid $primary-color;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     margin-top: 3px;
     // max-width: 200px;
@@ -242,8 +242,7 @@ body {
     white-space: nowrap;
     display: flex;
     margin: 0;
-    height: 20px;
-
+    color:#43464E!important;
     &:focus-visible {
       outline: -webkit-focus-ring-color auto 0px;
     }
@@ -290,7 +289,7 @@ body {
     font-weight: 700;
     list-style: none;
     border-bottom: 1px solid #f0f0f0;
-    padding: 10px 0px 15px 40px;
+    padding: 10px 0px 15px 0px;
     position: relative;
     cursor: pointer;
     .pos-left {
@@ -473,8 +472,9 @@ body {
         }
         .exp-provider {
           color: $primary-color;
-          font-size: 12px;
-          font-weight: 600;
+          font-size: 14px;
+          font-weight: 700;
+          margin-top: -19px;
         }
         .p-name {
           font-weight: 600;
@@ -580,7 +580,7 @@ body {
   width: 137px;
   .s-p-name {
     color: $s-p-name-color;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -825,7 +825,7 @@ body {
     border-radius: 5px;
     padding: 8px 10px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     text-transform: capitalize;
     margin-top: 10px;
     width: 136px;
@@ -1067,4 +1067,7 @@ body {
       position: relative !important;
     }
   }
+}
+.open-search-input .sf-image--wrapper .sf-image#icon{
+  width: 14px;
 }

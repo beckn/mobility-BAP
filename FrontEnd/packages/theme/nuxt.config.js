@@ -49,13 +49,13 @@ export default {
       {
         rel: 'preload',
         href:
-          'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700%7CRoboto:300,300i,400,400i,500,700&display=swap',
+          'https://fonts.googleapis.com/css?family=Inter:wght@300;500;600;700&family=Raleway:300,400,400i,500,600,700%7CRoboto:300,300i,400,400i,500,700&display=swap',
         as: 'style'
       },
       {
         rel: 'stylesheet',
         href:
-          'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700%7CRoboto:300,300i,400,400i,500,700&display=swap',
+          'https://fonts.googleapis.com/css?family=Inter:wght@300;500;600;700&family=Raleway:300,400,400i,500,600,700%7CRoboto:300,300i,400,400i,500,700&display=swap',
         media: 'print',
         onload: "this.media='all'",
         once: true

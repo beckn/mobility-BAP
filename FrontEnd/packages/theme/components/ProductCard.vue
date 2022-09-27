@@ -12,7 +12,7 @@
       </div>
       <div class="s-p-details">
         <div class="price-verified">
-          <div @click="$emit('goToProduct')" class="s-p-name">{{ _pName }}</div>
+          <div @click="$emit('goToProduct')" class="s-p-name">{{ _pName.split('-')[0] }}</div>
         </div>
         <div class="p-distance">{{providerGetters.getProviderDistance(provider)}} min away</div> 
         <!-- <div class="s-p-weight">{{ _pWieght }}</div> -->
@@ -196,8 +196,7 @@ export default {
 .s-p-name{
   line-height: 12px;
   min-height: 0;
-  font-size: 10px;
-  font-family: 'Roboto';
+  font-size: 12px;
 }
 .s-p-price{
   line-height: 19px;
