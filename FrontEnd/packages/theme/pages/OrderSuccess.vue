@@ -19,7 +19,7 @@
         <button
           class="sf-button button color-primary"
           link=""
-          @click="goToOrderDetails"
+          @click="goToHomePage"
         >
           <!-- button icon template  -->
           <slot name="buttonIcon" />
@@ -55,7 +55,7 @@ export default {
   setup(_, context) {
     // const transactionId = context.root.$route.query.id;
 
-    const goToOrderDetails = () => {
+    const goToHomePage = () => {
       context.root.$router.push({
         path: '/'
         // query: {
@@ -80,7 +80,7 @@ export default {
       //setTimeout(context.root.$router.push('/'),2000)
     };
     return {
-      goToOrderDetails
+      goToHomePage
     };
   }
 };
