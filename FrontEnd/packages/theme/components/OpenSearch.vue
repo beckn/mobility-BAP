@@ -301,7 +301,7 @@ export default {
     padding-right: 5%;
     input::placeholder{
       font-weight: 300;
-      font-size: 12px;
+      font-size: 14px;
     }
   }
   .location-drop input {
