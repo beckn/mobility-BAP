@@ -494,7 +494,7 @@ export default {
       toggleSearchVisible(true);
     };
     const mytime = setTimeout(() => {
-      root.$router.push('/orderSuccess');
+      root.$router.push('/tripstart');
     }, 10 * 1000);
     const goBack2 = () => {
       clearTimeout(mytime);

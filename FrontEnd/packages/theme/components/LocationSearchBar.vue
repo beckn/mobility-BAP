@@ -184,6 +184,7 @@ export default {
     markerpos() {
       const that = this
       google.maps.event.addListener(this.marker, 'dragstart', function(evt) {
+        
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
        that.mapCenter.lag = evt.latLng.lng().toFixed(3);
       });
