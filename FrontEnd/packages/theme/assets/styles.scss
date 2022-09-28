@@ -441,10 +441,10 @@ body {
   }
 
   .details {
-    height: calc(100vh - 179px);
+   // height: calc(100vh - 179px);
     overflow-y: scroll;
     .search__wrapper-results {
-      padding-bottom: 80px;
+      //padding-bottom: 80px;
       font-size: 12px;
       flex-direction: column !important;
       color: $secondary-text;
