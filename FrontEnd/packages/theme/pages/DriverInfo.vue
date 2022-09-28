@@ -31,7 +31,9 @@
                           <div class="text-padding">
                             <div class="aline-center">
                               <div class="p-name">
-                                {{ driverInfo.fulfillment.vehicle.registration }}
+                                {{
+                                  driverInfo.fulfillment.vehicle.registration
+                                }}
                               </div>
                             </div>
                             <span class="flexy">
@@ -71,7 +73,7 @@
                           <div class="text-padding ">
                             <div class="aline-center">
                               <div class="p-name">
-                                Manjunath Reddy
+                               Dennis Johanson
                               </div>
                             </div>
                             <span class="flexy">
@@ -134,9 +136,9 @@
           </div>
         </client-only>
         <div>
-          <template >
-            <div class="location-content" >
-              <BottomSlider :visible="isShow" @close="closeModal" >
+          <template>
+            <div class="location-content">
+              <BottomSlider :visible="isShow" @close="closeModal">
                 <template>
                   <div class="bar-pos" @click="toggleIsShow">
                     <SfButton class="sf-button--pure ">
@@ -158,9 +160,11 @@
                               <div class="button-pos"></div>
                               <div class="text-padding">
                                 <div class="aline-center">
-                                  
                                   <div class="p-name">
-                                    {{ driverInfo.fulfillment.vehicle.registration }}
+                                    {{
+                                      driverInfo.fulfillment.vehicle
+                                        .registration
+                                    }}
                                   </div>
                                 </div>
                                 <span class="flexy">
@@ -171,7 +175,7 @@
                               </div>
                             </div>
                             <div class="button-pos">
-                            <!-- <div class="text-padding">
+                              <!-- <div class="text-padding">
                               <div class="aline-center">
                                 <div class="p-name text-color">
                                   6363
@@ -183,14 +187,13 @@
                                 </span>
                               </span>
                             </div> -->
-                          </div>
+                            </div>
                           </div>
 
                           <div><hr class="sf-divider" /></div>
 
                           <div class="provider-head aline-center side-padding">
                             <div class="flexy">
-                              
                               <img
                                 src="/icons/manjnath.png"
                                 alt=""
@@ -200,7 +203,7 @@
                               <div class="text-padding">
                                 <div class="aline-center">
                                   <div class="p-name">
-                                    Manjunath Reddy
+                                   Dennis Johanson
                                   </div>
                                 </div>
                                 <span class="flexy">
@@ -230,56 +233,57 @@
                           </div>
 
                           <!-- <div class="provider-head aline-center side-padding"> -->
-                                  <!-- <div class="t-c-l-data">
+                          <!-- <div class="t-c-l-data">
                                     Temperature  
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     97.3<sup><span>&#176;</span></sup>F
                                   </div>     -->
-                                <!-- </div> -->
+                          <!-- </div> -->
 
                           <!-- <div class="provider-head aline-center side-padding"> -->
-                                  <!-- <div class="t-c-l-data">
+                          <!-- <div class="t-c-l-data">
                                     Last Checked at
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     12:34pm
                                   </div>     -->
-                                <!-- </div> -->
+                          <!-- </div> -->
 
                           <!-- <div class="provider-head aline-center side-padding"> -->
-                                  <!-- <div class="t-c-l-data">
+                          <!-- <div class="t-c-l-data">
                                     Language Known
                                   </div>
                                   <div class="button-pos t-c-l-data" >
                                     Hindi & Kannada
                                   </div>     -->
-                                <!-- </div> -->
+                          <!-- </div> -->
 
                           <div class="provider-head aline-center side-padding">
                             <div class="flexy">
-                              
                               <div class="text-padding">
-                               
-
                                 <span class="flexy">
                                   <span class="rating-css">
                                     Total fare
                                   </span>
                                 </span>
-                              
+
                                 <div class="aline-center">
-                                  <div class="p-name">₹{{ parseFloat(driverInfo.quote.price.value).toFixed(2) }} </div>
+                                  <div class="p-name">
+                                    ₹{{
+                                      Math.round(
+                                        driverInfo.quote.price.value
+                                      )
+                                    }}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                             <div class="button-pos">
                               <div class="text-padding">
                                 <div class="aline-center">
-                                
-                                    <span class="p-name">Payment</span>
-                                    <span class="p-name">Cash</span>
-                                  
+                                  <span class="p-name">Payment</span>
+                                  <span class="p-name">Cash</span>
                                 </div>
                                 <!-- <span class="flexy text-color">
                                 change
@@ -319,9 +323,7 @@
                           </div>
 
                           <div class="provider-head aline-center side-padding">
-                            
                             <div class="flexy">
-                              
                               <SfIcon
                                 class="locationicon"
                                 color="#2081F3"
@@ -363,11 +365,9 @@
                             </SfButton>
                           </div>
 
-                          
-                            <div class="cancel-order" @click="goBack2">
-                              Cancel Ride
-                            </div>
-                          
+                          <div class="cancel-order" @click="goBack2">
+                            Cancel Ride
+                          </div>
                         </div>
                       </template>
                     </div>
@@ -440,7 +440,7 @@ import {
   SfInput
 } from '@storefront-ui/vue';
 import ProductCard from '~/components/ProductCard';
-import { ref, onBeforeMount, watch,} from '@vue/composition-api';
+import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import LocationSearchBar from '../components/LocationSearchBar.vue';
@@ -486,7 +486,7 @@ export default {
       return this.currentUser !== null;
     }
   },
-  setup(_,{ root }) {
+  setup(_, { root }) {
     const { toggleSearchVisible } = useUiState();
     //const isShow = ref(false);
     toggleSearchVisible(false);
@@ -495,11 +495,14 @@ export default {
       root.$router.back();
       toggleSearchVisible(true);
     };
-    const mytime= setTimeout(()=>{
-        root.$router.push('/orderSuccess')
-      },10*1000)
-    const goBack2=()=>{clearTimeout(mytime); root.$router.push('/CancelOrder') }
-  
+    const mytime = setTimeout(() => {
+      root.$router.push('/orderSuccess');
+    }, 10 * 1000);
+    const goBack2 = () => {
+      clearTimeout(mytime);
+      root.$router.push('/CancelOrder');
+    };
+
     const trigger = ref(true);
     const currentLocation = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
@@ -536,20 +539,18 @@ export default {
       });
     };
     const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
-    
-    const _destloc =ref(
+
+    const _destloc = ref(
       JSON.parse(localStorage.getItem('destinationLocation'))
     );
-    
 
     const closeModal = () => {
       isShow.value = false;
-    };  
-    var confirmData = JSON.parse(localStorage.getItem('confirmData')); 
+    };
+    var confirmData = JSON.parse(localStorage.getItem('confirmData'));
     const driverInfo = ref(confirmData ? confirmData.order : '');
-    
+
     return {
-    
       driverInfo,
       closeModal,
       isContactSupport,
@@ -635,7 +636,6 @@ body {
   display: flex;
   justify-content: space-between;
   width: 100%;
- 
 }
 
 .button-pos1,
@@ -661,7 +661,6 @@ body {
   line-height: 13px;
   letter-spacing: 0em;
   text-align: left;
-  
 }
 .sign-in-text {
   color: #f37a20;
@@ -775,7 +774,6 @@ img {
   border-top-right-radius: 20px;
 }
 input {
-
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
