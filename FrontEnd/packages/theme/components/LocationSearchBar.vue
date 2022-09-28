@@ -121,6 +121,7 @@ export default {
   mounted() {
     this.$refs.locationAutocomplete.focus();
   },
+  
 
   methods: {
     change() {
@@ -155,6 +156,7 @@ export default {
           // this.getitem= localStorage.getItem('lat')
 
           this.setMap();
+          this.myMarker();
           this.visible = false;
 
           // eslint-disable-next-line no-alert
@@ -167,12 +169,34 @@ export default {
         center: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
         zoom: this.zoom
       });
+    },
+    myMarker() {
       this.marker = new google.maps.Marker({
         position: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
         map: this.map,
         draggable: true
       });
+
+      this.markerpos();
     },
+
+  
+
+    markerpos() {
+      const that = this
+      google.maps.event.addListener(this.marker, 'dragstart', function(evt) {
+        that.mapCenter.lat = evt.latLng.lat().toFixed(3);
+       that.mapCenter.lag = evt.latLng.lng().toFixed(3);
+      });
+      google.maps.event.addListener(this.marker, 'dragend', function(evt) {
+        that.mapCenter.lat = evt.latLng.lat().toFixed(3);
+       that.mapCenter.lag = evt.latLng.lng().toFixed(3);
+      that.codeLatLng(that.mapCenter.lat, that.mapCenter.lag);
+        
+      });
+     
+    },
+
     // current location of user autodetect
     enableLocation() {
       navigator.geolocation.getCurrentPosition(
@@ -180,6 +204,7 @@ export default {
           (this.mapCenter.lat = position.coords.latitude),
             (this.mapCenter.lag = position.coords.longitude),
             this.setMap();
+          this.myMarker();
           this.show = !this.show;
           this.codeLatLng(this.mapCenter.lat, this.mapCenter.lag);
         },
