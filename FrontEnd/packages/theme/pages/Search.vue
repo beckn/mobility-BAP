@@ -463,12 +463,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search-page{
+.search-page {
   #icon {
     padding-right: 5px;
     padding-top: 3px;
   }
 }
+
+.exp-provider {
+  display: none;
+}
+
 .rating-css {
   font-weight: 700;
   font-size: 14px;
