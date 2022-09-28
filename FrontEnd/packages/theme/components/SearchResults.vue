@@ -367,6 +367,7 @@ export default {
   background-color: #d2d2d2;
 }
 .exp-provider {
+  display: none;
   color: #5ece7b;
   font-size: 12px;
   font-weight: 600;
