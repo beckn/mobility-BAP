@@ -20,7 +20,7 @@
           />
           <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="18px" icon="search" />
+              <SfIcon color="var(--c-text)" size="16px" icon="search" />
             </span>
           </SfButton>
         </div>
@@ -34,7 +34,7 @@
         >
           <SfButton class="button-pos sf-button--pure ">
             <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="10px" icon="marker" />
+              <SfIcon color="var(--c-text)" size="18px" icon="marker" />
             </span>
           </SfButton>
           {{ result.structured_formatting.main_text }}
@@ -62,8 +62,7 @@
                     </div>
 
                     <hr style="width:100%;" />
-                    <h6 style="font-weight:400; padding: 0%;">
-                      <p>Location</p>
+                    <h6 style="font-weight:400; font-size:14px;margin-bottom: 0px;">
                       {{ this.location }}
                     </h6>
                     <hr style="width:100%;" />
@@ -271,9 +270,9 @@ export default {
   top: 0;
   bottom: 20px;
 }
-.sf-search-bar__icon {
-  padding-left: 70%;
-}
+// .sf-search-bar__icon {
+//   padding-left: 70%;
+// }
 div#taxi-map {
   width: 100%;
   height: 450px;
@@ -282,12 +281,14 @@ div#taxi-map {
 #btn1 {
   width: 100%;
   margin-bottom: 0%;
-  font-family: 'SF Pro Text';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.8px;
   font-size: 14px;
   line-height: 17px;
-  height: 63px;
+  height: 48px;
+  border-radius: 4px;
+  text-transform: capitalize;
 }
 
 #location-btn {
@@ -301,8 +302,8 @@ div#taxi-map {
 }
 .close {
   position: absolute;
-  right: 32px;
-  top: 32px;
+  right: 0px;
+  top: 36px;
   width: 32px;
   height: 32px;
   opacity: 1;
@@ -315,7 +316,7 @@ div#taxi-map {
   position: absolute;
   left: 15px;
   content: ' ';
-  height: 33px;
+  height: 14px;
   width: 2px;
   background-color: #333;
 }
@@ -332,16 +333,15 @@ div#taxi-map {
 }
 #btn {
   border-radius: 4px;
-  width: 156px;
-  height: 22px;
+  height: 44px;
   margin-bottom: 0%;
 }
 h5 {
-  font-family: 'SF Pro Text';
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 22px;
-  padding: 4px;
+  padding: 10px;
+  text-transform: capitalize;
 }
 </style>

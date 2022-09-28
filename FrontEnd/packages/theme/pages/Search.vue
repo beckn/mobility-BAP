@@ -463,6 +463,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-page{
+  #icon {
+    padding-right: 5px;
+    padding-top: 3px;
+  }
+}
 .rating-css {
   font-weight: 700;
   font-size: 14px;
@@ -497,16 +503,19 @@ export default {
     border-radius: 6px;
     box-sizing: border-box;
     border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    padding: 2px 0 0 4px;
   }
   label {
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: 500;
+    font-size: 14px;
     line-height: 22px;
-    padding-left: 7px;
   }
-
   button {
     width: 100%;
     position: relative;
