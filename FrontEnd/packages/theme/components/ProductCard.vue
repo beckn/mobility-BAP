@@ -6,7 +6,7 @@
           @click="$emit('goToProduct')"
           :src="_pImage"
           alt="product img"
-          :width="horizontalView ? 66.7 : 56.7"
+          :width="56"
           :height="60"
         />
       </div>
@@ -24,7 +24,7 @@
         </div>
         <div class="verify-inline-container">
           <div class="s-p-price" v-if="_updatedCount !== 0">
-            ₹ {{ _updatedPrice ? _updatedPrice : _pPrice }}
+            ₹ {{Math.round( _updatedPrice ? _updatedPrice : _pPrice) }}
           </div>
         </div>
         <span class="out-stock" v-if="_updatedCount === 0">Out of Stock</span>
@@ -194,9 +194,13 @@ export default {
   }
 }
 .s-p-name{
-  line-height: 12px;
   min-height: 0;
-  font-size: 12px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 10px;
+line-height: 12px;
+color: #37474F;
 }
 .s-p-price{
   line-height: 19px;
