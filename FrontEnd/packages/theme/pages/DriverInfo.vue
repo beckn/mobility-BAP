@@ -271,9 +271,7 @@
                                 <div class="aline-center">
                                   <div class="p-name">
                                     ₹{{
-                                      parseFloat(
-                                        driverInfo.quote.price.value
-                                      ).toFixed(2)
+                                      Math.round(driverInfo.quote.price.value)
                                     }}
                                   </div>
                                 </div>
