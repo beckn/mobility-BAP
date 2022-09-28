@@ -11,7 +11,7 @@
     <div class="open-search">
       <h3>
         Open <br />
-        Commerce
+        Mobility
       </h3>
       <h4>for All</h4>
       <div class="socialMedia-login-container">
