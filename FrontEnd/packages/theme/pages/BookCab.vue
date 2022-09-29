@@ -16,7 +16,7 @@
           <SfSidebar
             :visible="!!isLocationdropOpen"
             :button="false"
-            title="Set Location"
+            title=""
             @click="goBack"
             @close="toggleLocationDrop"
             class="sidebar sf-sidebar--right"

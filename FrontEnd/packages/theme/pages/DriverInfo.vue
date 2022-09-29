@@ -495,7 +495,7 @@ export default {
     };
     const mytime = setTimeout(() => {
       root.$router.push('/tripstart');
-    }, 10 * 1000);
+    }, 10000);
     const goBack2 = () => {
       clearTimeout(mytime);
       root.$router.push('/CancelOrder');
