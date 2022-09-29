@@ -56,20 +56,26 @@
                 <div class="popover-bg">
                   <div class="popover-content position-relative">
                     <br />
-                    <div>
+                    <div style="margin-top:0px">
                       <h4>Set Location</h4>
                       <div class="close" @click="$emit('edit')"></div>
                     </div>
 
                     <hr style="width:100%;" />
-                    <h6 style="font-weight:400; font-size:14px;margin-bottom: 0px;">
+                    <h6
+                      style="font-weight:400; font-size:14px;margin-bottom: 0px;margin-top: 0px;"
+                    >
                       {{ this.location }}
                     </h6>
                     <hr style="width:100%;" />
-
-                    <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
+                    <div style="padding-bottom:8%;">
+                      <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
+                        Set Location</SfButton
+                      >
+                    </div>
+                    <!-- <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
                       Set Location</SfButton
-                    >
+                    > -->
 
                     <!-- <ModalComponent class="modalclass" /> -->
                   </div>
@@ -120,7 +126,6 @@ export default {
   mounted() {
     this.$refs.locationAutocomplete.focus();
   },
-  
 
   methods: {
     change() {
@@ -179,22 +184,17 @@ export default {
       this.markerpos();
     },
 
-  
-
     markerpos() {
-      const that = this
+      const that = this;
       google.maps.event.addListener(this.marker, 'dragstart', function(evt) {
-        
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
-       that.mapCenter.lag = evt.latLng.lng().toFixed(3);
+        that.mapCenter.lag = evt.latLng.lng().toFixed(3);
       });
       google.maps.event.addListener(this.marker, 'dragend', function(evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
-       that.mapCenter.lag = evt.latLng.lng().toFixed(3);
-      that.codeLatLng(that.mapCenter.lat, that.mapCenter.lag);
-        
+        that.mapCenter.lag = evt.latLng.lng().toFixed(3);
+        that.codeLatLng(that.mapCenter.lat, that.mapCenter.lag);
       });
-     
     },
 
     // current location of user autodetect

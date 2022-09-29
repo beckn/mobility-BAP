@@ -164,13 +164,19 @@ export default {
     font-weight: 800;
     color: #f37a20;
     line-height: 45px;
+    text-align: center;
   }
   h4 {
     font-size: 27px;
     font-weight: 800;
     line-height: 30px;
+    text-align: center;
   }
   .socialMedia-login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: start;
     padding-top: 41px;
   }
   .span-text {
