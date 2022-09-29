@@ -1,5 +1,6 @@
 package org.beckn.one.sandbox.bap.client.order.quote.controllers
 
+import com.google.gson.GsonBuilder
 import org.beckn.one.sandbox.bap.client.order.quote.services.QuoteService
 import org.beckn.one.sandbox.bap.client.shared.dtos.GetQuoteRequestDto
 import org.beckn.one.sandbox.bap.client.shared.errors.bpp.BppError
@@ -60,9 +61,12 @@ class GetQuoteController @Autowired constructor(
   @ResponseBody
   fun getQuoteV2(@RequestBody request: List<GetQuoteRequestDto>): ResponseEntity<List<ProtocolAckResponse>> {
     var okResponseQuotes : MutableList<ProtocolAckResponse> = ArrayList()
+    val gsonPretty = GsonBuilder().setPrettyPrinting().create()
 
     if(!request.isNullOrEmpty()){
+      log.info("Get Quote raw request : {}", gsonPretty.toJson(request))
       for( quoteRequest:GetQuoteRequestDto in request){
+        log.info("Formatted quote request : {}", gsonPretty.toJson(quoteRequest))
         val context = getContext(quoteRequest.context.transactionId, quoteRequest.context.bppId, quoteRequest.context.bppUri)
         setLogging(context, null, null)
         quoteService.getQuote(context, quoteRequest.message.cart)
