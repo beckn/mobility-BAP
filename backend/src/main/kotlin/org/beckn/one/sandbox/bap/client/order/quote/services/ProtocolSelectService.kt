@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import arrow.core.flatMap
+import com.google.gson.GsonBuilder
 import org.beckn.one.sandbox.bap.client.external.hasBody
 import org.beckn.one.sandbox.bap.client.external.isAckNegative
 import org.beckn.one.sandbox.bap.client.external.isInternalServerError
@@ -62,7 +63,8 @@ class ProtocolSelectService @Autowired constructor(
         )
       )
     )
-    log.info("Select API request body: {}", selectRequest)
+    val gsonPretty = GsonBuilder().setPrettyPrinting().create()
+    log.info("Select API request body: {}", gsonPretty.toJson(selectRequest))
     return bppServiceClient.select(selectRequest).execute()
   }
 }
