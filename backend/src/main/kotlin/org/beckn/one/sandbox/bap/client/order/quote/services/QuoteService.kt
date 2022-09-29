@@ -35,8 +35,7 @@ class QuoteService @Autowired constructor(
 
     return bppSelectService.select(
       context,
-      items = cart.items
-        //.map { cartItem -> selectedItemMapper.dtoToProtocol(cartItem) }
+      items = cart.items.map { cartItem -> selectedItemMapper.dtoToProtocol(cartItem) }
     )
   }
 }
