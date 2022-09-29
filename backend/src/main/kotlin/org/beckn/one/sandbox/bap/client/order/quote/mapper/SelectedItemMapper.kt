@@ -14,5 +14,5 @@ import org.mapstruct.ReportingPolicy
 )
 interface SelectedItemMapper {
   @Mapping(target = "quantity", source = "quantity")
-  fun dtoToProtocol(dto: ProtocolSelectedItem): ProtocolSelectedItem
+  fun dtoToProtocol(dto: CartItemDto): ProtocolSelectedItem
 }
