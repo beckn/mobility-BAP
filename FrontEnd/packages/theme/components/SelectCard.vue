@@ -14,12 +14,12 @@
               </div>
               <span class="flexy">
                 <p clamp="subtext">
-                  8.1 min away
+                  5 min away
                 </p>
               </span>
             </div>
           </div>
-          <div class="s-p-price">₹ {{ _pPrice }}</div>
+          <div class="s-p-price">₹  {{Math.round( _pPrice )}}</div>
         </div>
 
         <div><hr class="sf-divider" /></div>

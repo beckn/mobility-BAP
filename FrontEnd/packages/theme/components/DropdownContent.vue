@@ -1,15 +1,15 @@
 <template>
   <transition name="dropdown-content">
     <div v-if="active" class="drop">
-      <div class="rahul">
+      <div class="path-route">
         <nuxt-link :to="localePath('/orders')"> My Rides </nuxt-link>
       </div>
       <div><hr class="sf-divider" /></div>
-      <div class="rahul">
+      <div class="path-route">
         <nuxt-link :to="localePath('/support')"> Support </nuxt-link>
       </div>
       <div><hr class="sf-divider" /></div>
-      <div class="rahul">
+      <div class="path-route">
         <nuxt-link v-if="isUserAuthenticated()" :to="localePath('/Logout')"
           >Logout</nuxt-link
         >
@@ -52,11 +52,12 @@ export default {
   border-radius: 10px;
   margin-top: 2.1rem;
   margin-right: -0.4rem;
+  background: #fbfcff;
 }
-.rahul {
+.path-route {
   padding: 10px;
 }
-.rahul:hover {
+.path-route:hover {
   background: #f37a20;
   border-radius: 5px;
   color: #ffff;

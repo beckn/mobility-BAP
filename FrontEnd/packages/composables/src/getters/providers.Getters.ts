@@ -91,7 +91,7 @@ export const getProviderId = (provider: ProviderVariant): string => (provider as
 
 export const getProducts = (provider: ProviderVariant): Product[] => (provider as any)?.items || [];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProviderDistance = (provider: ProviderVariant): any => '8.1';
+export const getProviderDistance = (provider: ProviderVariant): any => '5';
 
 const providerGetters = {
   getProviderName: getProviderName,
