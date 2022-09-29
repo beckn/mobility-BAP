@@ -191,6 +191,14 @@ body {
   @media (max-width: 1024px) {
     width: calc(100% - 35px);
   }
+
+  .sf-sidebar__top {
+    display: none;
+  }
+  .sf-sidebar__content {
+    padding: 0 15px 15px 15px;
+  }
+
   p {
     margin: 0px;
     font-size: 11px;

@@ -16,14 +16,17 @@
           <SfSidebar
             :visible="!!isLocationdropOpen"
             :button="false"
-            title="Set Location"
             @click="goBack"
             @close="toggleLocationDrop"
             class="sidebar sf-sidebar--right"
           >
             <transition name="fade">
               <client-only>
-                <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+                <div
+                  v-if="enableLoader"
+                  key="loadingCircle"
+                  class="loader-circle"
+                >
                   <LoadingCircle :enable="enableLoader" />
                 </div>
                 <div v-if="isQuoteData" id="location" class="location-drop">
@@ -85,7 +88,7 @@ export default {
     const _value = ref(props.value);
     const _maxLimit = ref(props.maxLimit);
     const isShow = ref(false);
-    const enableLoader = ref(false)
+    const enableLoader = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
     const b_name = ref('selectcab');
@@ -114,7 +117,7 @@ export default {
     };
     const getQuote = async () => {
       //params for getQuote API
-      enableLoader.value=true;
+      enableLoader.value = true;
       const cartItems = JSON.parse(localStorage.getItem('cartItem'));
       if (cartItems) {
         const getQuoteRequest = [
@@ -168,7 +171,7 @@ export default {
               'transactionId',
               onGetQuoteRes[0].context.transaction_id
             );
-            enableLoader.value=false;
+            enableLoader.value = false;
             isQuoteData.value = true;
           }
         }
@@ -219,9 +222,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .loader-circle{
-    margin-top:20px
-  }
+.loader-circle {
+  margin-top: 37%;
+}
+
 .sf-circle-icon {
   --icon-color: #f37a20;
 }
