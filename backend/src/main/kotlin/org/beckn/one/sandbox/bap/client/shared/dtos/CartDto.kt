@@ -3,6 +3,7 @@ package org.beckn.one.sandbox.bap.client.shared.dtos
 import org.beckn.protocol.schemas.Default
 import org.beckn.protocol.schemas.ProtocolQuotation
 import org.beckn.protocol.schemas.ProtocolScalar
+import org.beckn.protocol.schemas.ProtocolSelectedItem
 
 data class GetQuoteRequestDto @Default constructor(
   val context: ClientContext,
@@ -14,7 +15,8 @@ data class GetQuoteRequestMessageDto @Default constructor(
 )
 
 data class CartDto @Default constructor(
-  val items: List<CartItemDto>? = null
+//  val items: List<CartItemDto>? = null
+  val items: List<ProtocolSelectedItem>? = null
 )
 
 data class CartItemDto @Default constructor(

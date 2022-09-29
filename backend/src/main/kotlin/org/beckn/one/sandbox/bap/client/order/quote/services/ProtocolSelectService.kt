@@ -59,7 +59,8 @@ class ProtocolSelectService @Autowired constructor(
       context = context,
       ProtocolSelectRequestMessage(
         order = ProtocolSelectMessageSelected(
-          fulfillment = ProtocolFulfillment(id = items.first().fulfillmentId)
+          fulfillment = ProtocolFulfillment(id = items.first().fulfillmentId),
+          items = items
         )
       )
     )
