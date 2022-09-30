@@ -3,7 +3,7 @@
     <slot name="locationInput">
       <div class="position-relative">
         <div v-if="show">
-          <input
+          <!-- <input
             ref="locationAutocomplete"
             v-model="location"
             type="text"
@@ -17,7 +17,7 @@
             be-search-location
           "
             v-e2e="'app-location-sidebar-input'"
-          />
+          /> -->
           <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="18px" icon="search" />
@@ -78,88 +78,66 @@ import {
 } from '@vue-storefront/beckn';
 
 export default {
-  data: () => ({
-    location: '',
-    searchResults: [],
+    data: () => ({
     service: null,
     geocodeService: null,
-    mapCenter: {
-      lat: '',
-      lag: ''
-    },
     map: null,
-    zoom: 14,
-    show: true,
-    marker: null
-
-    // map:{lg:this.mapCenter.lag,lt:this.mapCenter.lat,}
-    // mapCen}ter:{lag:this.log,lag:this.log}
+    marker: null,
+    SourceLocation: '',
+    destloc: ''
   }),
   created() {
     this.service = new window.google.maps.places.AutocompleteService();
     this.geocodeService = new window.google.maps.Geocoder();
   },
   mounted() {
-    //this.$refs.locationAutocomplete.focus();
-    this.getLocationDetails(JSON.parse(localStorage.getItem('SourceLocation')));
+    this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
+    this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+    this.getlocation();
   },
   methods: {
-    reload() {
-      window.location.reload();
-    },
-    displaySuggestions(predictions, status) {
-      if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
-        this.searchResults = [];
-        return;
-      }
-      this.searchResults = predictions;
-    },
-
-    getLocationDetails(selectedLocation) {
-      this.location = selectedLocation.description;
-      this.geocodeService
-        .geocode({ placeId: selectedLocation.place_id })
-        .then((response) => {
-          this.$emit(
-            'locationSelected',
-            response.results[0].geometry.location.lat(),
-            response.results[0].geometry.location.lng(),
-            selectedLocation.description
-          );
-          this.show = !this.show;
-          this.mapCenter.lat = response.results[0].geometry.location.lat();
-          this.mapCenter.lag = response.results[0].geometry.location.lng();
-          this.getlocation();
-
-          // eslint-disable-next-line no-alert
+    calculateAndDisplayRoute(start, end, map) {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setOptions({
+        polylineOptions: {
+          strokeColor: 'black'
+        }
+      });
+      directionsRenderer.setMap(map);
+      directionsService
+        .route({
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING'
         })
-        .catch((err) => alert(err));
+        .then((response, status) => {
+          directionsRenderer.setDirections(response);
+        })
+        .catch((e) =>
+          window.alert('Directions request failed due to ' + status)
+        );
     },
     getlocation() {
+      const start = new google.maps.LatLng(18.5204, 73.8567);
       this.map = new google.maps.Map(document.getElementById('cafe-map'), {
-        center: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
-        zoom: this.zoom
+        center: start,
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
       });
+      this.calculateAndDisplayRoute(
+        this.SourceLocation,
+        this.destloc,
+        this.map
+      );
+    },
+    marker() {
       this.marker = new google.maps.Marker({
         position: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
         map: this.map
       });
     }
-  },
-  watch: {
-    location(newValue) {
-      if (newValue) {
-        this.service.getPlacePredictions(
-          {
-            input: this.location,
-            types: ['geocode']
-          },
-          this.displaySuggestions
-        );
-        //localStorage.setItem('slocation', JSON.stringify(this.location));
-      }
-    }
-  },
+  },  
   name: 'TripStart',
   components: {
     SfButton,
