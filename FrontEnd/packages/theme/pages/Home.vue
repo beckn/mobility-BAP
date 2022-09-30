@@ -38,3 +38,8 @@ export default {
   }
 };
 </script>
+<style>
+  #home{
+    padding-top: 15%;
+  }
+</style>

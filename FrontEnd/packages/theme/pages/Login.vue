@@ -10,10 +10,9 @@
     </div>
     <div class="open-search">
       <h3>
-        Open <br />
-        Mobility
+        MyMobility
       </h3>
-      <h4>for All</h4>
+      
       <div class="socialMedia-login-container">
         <div>
           <SfButton
@@ -153,25 +152,31 @@ export default {
 }
 
 .open-search {
-  @media (min-width: 560px) {
-    padding-top: 40px;
+ @media (max-width: 560px) {
+    padding-top: 40%;
     width: 50%;
-    margin: auto;
-  }
-  padding: 40px 28px;
+    margin-left:15%;
+ }
+ // padding: 40px 28px;
   h3 {
     font-size: 40px;
     font-weight: 800;
     color: #f37a20;
     line-height: 45px;
+    text-align: center;
   }
   h4 {
     font-size: 27px;
     font-weight: 800;
     line-height: 30px;
+    text-align: center;
   }
   .socialMedia-login-container {
-    padding-top: 41px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: start;
+    padding-top: 50px;
   }
   .span-text {
     padding-right: 225px;

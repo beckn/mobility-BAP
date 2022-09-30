@@ -1,7 +1,7 @@
 <template>
   <div class="s-product">
     <div :class="{ horizontal: horizontalView, vertical: !horizontalView }">
-      <div class="s-p-image">
+      <div class="p-image">
         <SfImage
           @click="$emit('goToProduct')"
           :src="_pImage"
@@ -199,13 +199,17 @@ font-family: 'Roboto';
 font-style: normal;
 font-weight: 500;
 font-size: 10px;
-line-height: 12px;
+line-height: 10px;
 color: #37474F;
 }
 .s-p-price{
-  line-height: 19px;
+  line-height: 10px;
+}
+.p-image{
+  padding-left: 25%;
 }
 .p-distance{
+  line-height: 13px;
   //line-height: 14px;
   padding-bottom: 5px;
   color: #8A8D8E;

@@ -313,6 +313,8 @@ input {
   box-shadow: 0px -5px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
   margin-bottom: 0%;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 .locationicon {
   // left: 10%;
