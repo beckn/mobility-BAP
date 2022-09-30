@@ -1,51 +1,8 @@
 <template>
   <div>
-    <slot name="locationInput">
-      <div class="position-relative">
-        <div v-if="show">
-          <input
-            ref="locationAutocomplete"
-            v-model="location"
-            type="text"
-            placeholder="Enter Location"
-            aria-label="Select Location"
-            class="
-            sf-header__search
-            be-search-location
-            sf-search-bar
-            sf-header__search
-            be-search-location
-          "
-            v-e2e="'app-location-sidebar-input'"
-          />
-          <SfButton class="button-pos sf-button--pure">
-            <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="18px" icon="search" />
-            </span>
-          </SfButton>
-        </div>
-      </div>
-      <ul class="location-list" v-if="show">
-        <li
-          v-for="(result, i) in searchResults"
-          :key="i"
-          @click="getLocationDetails(result)"
-          v-e2e="'app-location-sidebar-input-options'"
-        >
-          <SfButton class="button-pos sf-button--pure">
-            <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="10px" icon="marker" />
-            </span>
-          </SfButton>
-          {{ result.structured_formatting.main_text }}
-          <p>{{ result.structured_formatting.secondary_text }}</p>
-        </li>
-        <!-- <p> lat:{{`${this.mapCenter.lat} and lag ${this.mapCenter.lag}`}}  </p> -->
-      </ul>
-    </slot>
     <template>
       <div id="cafe-map"></div>
-      <div v-if="!show">
+      <div>
         <div id="location-btn">
           <div>
             <div class="popover-bg">
@@ -74,87 +31,121 @@ import Select from '../pages/select.vue';
 import DriverInfo from '../pages/DriverInfo.vue';
 export default {
   data: () => ({
-    location: '',
-    searchResults: [],
     service: null,
     geocodeService: null,
-    mapCenter: {
-      lat: '',
-      lag: ''
-    },
     map: null,
-    zoom: 14,
-    show: true,
-    marker: null
-
-    // map:{lg:this.mapCenter.lag,lt:this.mapCenter.lat,}
-    // mapCen}ter:{lag:this.log,lag:this.log}
+    marker: null,
+    SourceLocation: '',
+    destloc: ''
+  
   }),
   created() {
     this.service = new window.google.maps.places.AutocompleteService();
     this.geocodeService = new window.google.maps.Geocoder();
   },
   mounted() {
-    this.$refs.locationAutocomplete.focus();
-    this.getLocationDetails(JSON.parse(localStorage.getItem('SourceLocation')));
+    this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
+
+    this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+    this.getlocation();
+  
   },
   methods: {
-    reload() {
-      window.location.reload();
-    },
-    displaySuggestions(predictions, status) {
-      if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
-        this.searchResults = [];
-        return;
-      }
-      this.searchResults = predictions;
-    },
+    // reload() {
+    //   window.location.reload();
+    // },
+    // displaySuggestions(predictions, status) {
+    //   if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
+    //     this.searchResults = [];
+    //     return;
+    //   }
+    //   this.searchResults = predictions;
+    // },
+    //    myfunction(){
 
-    getLocationDetails(selectedLocation) {
-      this.location = selectedLocation.description;
-      this.geocodeService
-        .geocode({ placeId: selectedLocation.place_id })
-        .then((response) => {
-          this.$emit(
-            'locationSelected',
-            response.results[0].geometry.location.lat(),
-            response.results[0].geometry.location.lng(),
-            selectedLocation.description
-          );
-          this.show = !this.show;
-          this.mapCenter.lat = response.results[0].geometry.location.lat();
-          this.mapCenter.lag = response.results[0].geometry.location.lng();
-          this.getlocation();
+    //     this.start = new google.maps.LatLng(7.434876909631617,80.4424951234613);
+    //     this.end = new google.maps.LatLng(7.3178281209262686,80.8735878891028);
+    //       // const option ={
+    //       //     zoom : 10,
+    //       //     center : start
+    //       // };
+    //       this.map = new google.maps.Map(document.getElementById('cafe-map'),this.option);
+    //       this.display = new google.maps.DirectionsRenderer();
+    //       this.services = new google.maps.DirectionsService();
+    //       display.setMap(this.map);
+    //           this.request = {
+    //               origin : this.start,
+    //               destination:this.end,
+    //               travelMode: 'DRIVING'
+    //           };
+    //           services.route(request,function(result,status){
+    //             //const that=this;
+    //               if(status =='OK'){
+    //                 display.setDirections(result);
+    //               }
+    //           });
+    //   },
+    // // },
 
-          // eslint-disable-next-line no-alert
+    // getLocationDetails(selectedLocation) {
+    //   this.location = selectedLocation.description;
+    //   this.geocodeService
+    //     .geocode({ placeId: selectedLocation.place_id })
+    //     .then((response) => {
+    //       this.$emit(
+    //         'locationSelected',
+    //         response.results[0].geometry.location.lat(),
+    //         response.results[0].geometry.location.lng(),
+    //         selectedLocation.description
+    //       );
+    //       this.show = !this.show;
+    //       this.mapCenter.lat = response.results[0].geometry.location.lat();
+    //       this.mapCenter.lag = response.results[0].geometry.location.lng();
+    //       this.getlocation();
+
+    //       // eslint-disable-next-line no-alert
+    //     })
+    //     .catch((err) => alert(err));
+    // },
+
+    calculateAndDisplayRoute(start, end, map) {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+      directionsService
+        .route({
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING'
         })
-        .catch((err) => alert(err));
+        .then((response, status) => {
+          directionsRenderer.setDirections(response);
+        })
+        .catch((e) =>
+          window.alert('Directions request failed due to ' + status)
+        );
     },
     getlocation() {
+      const start = new google.maps.LatLng(18.5204, 73.8567);
       this.map = new google.maps.Map(document.getElementById('cafe-map'), {
-        center: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
-        zoom: this.zoom
+        center: start,
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
       });
+      this.calculateAndDisplayRoute(
+        this.SourceLocation,
+        this.destloc,
+        this.map
+      );
+    },
+    marker() {
       this.marker = new google.maps.Marker({
         position: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
         map: this.map
       });
     }
   },
-  watch: {
-    location(newValue) {
-      if (newValue) {
-        this.service.getPlacePredictions(
-          {
-            input: this.location,
-            types: ['geocode']
-          },
-          this.displaySuggestions
-        );
-        //localStorage.setItem('slocation', JSON.stringify(this.location));
-      }
-    }
-  },
+ 
   name: 'LocationSearch',
   components: {
     SfButton,
