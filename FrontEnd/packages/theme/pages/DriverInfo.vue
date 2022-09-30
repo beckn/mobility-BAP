@@ -38,7 +38,7 @@
                             </div>
                             <span class="flexy">
                               <span class="rating-css">
-                                {{ driverInfo.items[0].descriptor.name }}
+                                {{ (driverInfo.items[0].descriptor.name).split('-')[0] }}
                               </span>
                             </span>
                           </div>
@@ -169,7 +169,7 @@
                                 </div>
                                 <span class="flexy">
                                   <span class="rating-css">
-                                    {{ driverInfo.items[0].descriptor.name }}
+                                    {{ (driverInfo.items[0].descriptor.name).split('-')[0] }}
                                   </span>
                                 </span>
                               </div>
