@@ -37,7 +37,6 @@ export default {
     marker: null,
     SourceLocation: '',
     destloc: ''
-  
   }),
   created() {
     this.service = new window.google.maps.places.AutocompleteService();
@@ -45,10 +44,8 @@ export default {
   },
   mounted() {
     this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
-
     this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
     this.getlocation();
-  
   },
   methods: {
     // reload() {
@@ -111,6 +108,11 @@ export default {
     calculateAndDisplayRoute(start, end, map) {
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setOptions({
+        polylineOptions: {
+          strokeColor: 'black'
+        }
+      });
       directionsRenderer.setMap(map);
       directionsService
         .route({
@@ -145,7 +147,7 @@ export default {
       });
     }
   },
- 
+
   name: 'LocationSearch',
   components: {
     SfButton,

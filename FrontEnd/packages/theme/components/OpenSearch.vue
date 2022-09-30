@@ -1,11 +1,13 @@
 <template>
   <div>
+
+    <div class="open-search"> <h3>
+        MyMobility
+      </h3></div>
     <div class="open-search header-top-space">
-      <h3>
-        Open <br />
-        Mobility
-      </h3>
-      <h4>for All</h4>
+     
+     
+      
       <div class="open-search-input">
         <div class="input1">
           <SfImage
@@ -259,6 +261,7 @@ export default {
     label{
       font-weight: 600;
       letter-spacing: 0.8px;
+      font-size: 17px;
     }
   }
 
@@ -314,11 +317,10 @@ export default {
   h3 {
     font-style: normal;
     font-weight: 800;
-    font-size: 40px;
+    font-size: 55px;
     line-height: 110%;
     text-align: center;
-    /* or 44px */
-
+    padding-top: 10px;
     letter-spacing: -0.03em;
 
     color: #f37a20;
