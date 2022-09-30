@@ -49,7 +49,7 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div>Trip has Started</div>
+      <div>{{ tripStatusVal }}</div>
     </div>
     <div id="cafe-map"></div>
     <div>
@@ -72,7 +72,11 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, watch, onBeforeMount } from '@vue/composition-api';
+import {
+  useOrderStatus
+} from '@vue-storefront/beckn';
+
 export default {
   data: () => ({
     location: '',
@@ -96,7 +100,7 @@ export default {
     this.geocodeService = new window.google.maps.Geocoder();
   },
   mounted() {
-    this.$refs.locationAutocomplete.focus();
+    //this.$refs.locationAutocomplete.focus();
     this.getLocationDetails(JSON.parse(localStorage.getItem('SourceLocation')));
   },
   methods: {
@@ -163,15 +167,65 @@ export default {
     DriverInfo
   },
   setup(_, { root }) {
-    setTimeout(() => {
-      root.$router.push('/orderSuccess');
-    }, 20000);
     const goBack = () => {
       root.$router.back();
     };
+    const tripStatusVal = ref("Awaiting Driver acceptance") 
+    const {
+      poll,
+      init,
+      pollResults,
+      stopPolling
+    } = useOrderStatus('status');
     
+    const transactionId = localStorage.getItem('transactionId');
+    const bpp_id= JSON.parse(localStorage.getItem('cartItem')).bpp_id;
+    const bpp_uri= JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
+    const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
+    const tripStatus = async () => {
+      const params = [{
+        context: {
+          // eslint-disable-next-line camelcase
+          transaction_id: transactionId,
+          // eslint-disable-next-line camelcase
+          bpp_id: bpp_id,
+          bpp_uri:bpp_uri
+        },
+        message: {
+          // eslint-disable-next-line camelcase
+          order_id: orderID
+        }
+      }];
+        const response = await init(params, localStorage.getItem('token'));
+        await poll({ orderIds: orderID }, localStorage.getItem('token'));
+        watch(
+        () => pollResults.value,
+        (newValue) => {
+          if(newValue[0].message.order.state){
+            stopPolling();
+            setTimeout(() => {
+              root.$router.push('/orderSuccess');
+            }, 10000);                        
+          }
+          // if(newValue[0].message.order.state === "Ended"){
+          //   stopPolling();
+          //   root.$router.push('/orderSuccess');
+          // }          
+          // else if(newValue[0].message.order.state){
+          //   tripStatusVal.value=newValue[0].message.order.state;          
+          // }
+        }
+      );
+    }
+    onBeforeMount(async () => {
+      //enableLoader.value = true;     
+      await tripStatus();
+      //enableLoader.value = false;
+    });
     return {
-      goBack
+      goBack,
+      tripStatus,
+      tripStatusVal
     };
   }
 }

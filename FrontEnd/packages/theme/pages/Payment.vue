@@ -155,7 +155,7 @@ export default {
               'confirmData',
               JSON.stringify(newValue[0].message)
             );
-            localStorage.removeItem('cartItem');
+            //localStorage.removeItem('cartItem');
             localStorage.removeItem('quoteData');
             localStorage.removeItem('initResult');
             localStorage.setItem(
