@@ -176,29 +176,37 @@ export default {
       }];
         const response = await init(params, localStorage.getItem('token'));
         await poll({ orderIds: orderID }, localStorage.getItem('token'));
+        const displayStatus = (x) =>{
+            setTimeout(() => {
+                tripStatusVal.value = x;
+              }, 10000);
+            //   if(x==="Ride Ended"){
+            //     setTimeout(() => {
+            // //   root.$router.push('/orderSuccess');
+            // // }, 10000);  
+            //   }
+          }  
         watch(
         () => pollResults.value,
         (newValue) => {
           if(newValue[0].message.order.state){
-            stopPolling();
-            setTimeout(() => {
-              root.$router.push('/orderSuccess');
-            }, 10000);                        
+            stopPolling();               
+            var tripStatusArr=["Driver has accepted the ride" ,"Driver is on the way","Ride Started","Ride Ended"];
+           
+            var index = 0;
+            let displayStatus = setInterval(function() {
+              tripStatusVal.value = tripStatusArr[index++ % tripStatusArr.length];
+              if(tripStatusVal.value==="Ride Ended"){
+                clearInterval(displayStatus);
+                root.$router.push('/orderSuccess');
+              }
+            }, 8000);                    
           }
-          // if(newValue[0].message.order.state === "Ended"){
-          //   stopPolling();
-          //   root.$router.push('/orderSuccess');
-          // }          
-          // else if(newValue[0].message.order.state){
-          //   tripStatusVal.value=newValue[0].message.order.state;          
-          // }
         }
       );
     }
-    onBeforeMount(async () => {
-      //enableLoader.value = true;     
+    onBeforeMount(async () => {    
       await tripStatus();
-      //enableLoader.value = false;
     });
     return {
       goBack,
