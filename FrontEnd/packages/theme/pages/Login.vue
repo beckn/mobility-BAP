@@ -155,11 +155,11 @@ export default {
  @media (max-width: 560px) {
     padding-top: 40%;
     width: 50%;
-    margin-left:15%;
+    margin-left:11%;
  }
  // padding: 40px 28px;
   h3 {
-    font-size: 40px;
+    font-size: 55px;
     font-weight: 800;
     color: #f37a20;
     line-height: 45px;
