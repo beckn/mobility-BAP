@@ -58,7 +58,7 @@
           <div class="popover-bg">
             <div class="popover-content position-relative">
               <div>
-                <DriverInfo />
+                <DriverInfo :DriverInfo="DriverInfo" />
               </div>
               <!--<Selectcab/>
               <!- <ModalComponent class="modalclass" /> -->
@@ -148,6 +148,7 @@ export default {
     const goBack = () => {
       root.$router.back();
     };
+    const DriverInfo = ref(false);
     const tripStatusVal = ref("Awaiting Driver acceptance") 
     const {
       poll,
@@ -192,10 +193,13 @@ export default {
           if(newValue[0].message.order.state){
             stopPolling();               
             var tripStatusArr=["Driver has accepted the ride" ,"Driver is on the way","Ride Started","Ride Ended"];
+            
            
             var index = 0;
             let displayStatus = setInterval(function() {
               tripStatusVal.value = tripStatusArr[index++ % tripStatusArr.length];
+
+             DriverInfo.value=true
               if(tripStatusVal.value==="Ride Ended"){
                 clearInterval(displayStatus);
                 root.$router.push('/orderSuccess');
@@ -211,7 +215,8 @@ export default {
     return {
       goBack,
       tripStatus,
-      tripStatusVal
+      tripStatusVal,
+      DriverInfo
     };
   }
 }

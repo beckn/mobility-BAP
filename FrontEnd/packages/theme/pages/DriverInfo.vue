@@ -31,14 +31,23 @@
                           <div class="text-padding">
                             <div class="aline-center">
                               <div class="p-name">
-                                {{
-                                  driverInfo.fulfillment.vehicle.registration
-                                }}
+                                <div v-if="DriverInfo === true">
+                                  {{
+                                    driverInfo.fulfillment.vehicle.registration
+                                  }}
+                                </div>
+                                <div></div>
                               </div>
                             </div>
                             <span class="flexy">
                               <span class="rating-css">
-                                {{ (driverInfo.items[0].descriptor.name).split('-')[0] }}
+                                <div v-if="DriverInfo === true">
+                                  {{
+                                    driverInfo.items[0].descriptor.name.split(
+                                      '-'
+                                    )[0]
+                                  }}
+                                </div>
                               </span>
                             </span>
                           </div>
@@ -64,19 +73,27 @@
 
                       <div class="provider-head aline-center side-padding">
                         <div class="flexy">
+                          <div v-if="DriverInfo === true">
                           <img
                             src="/icons/manjnath.png"
                             alt=""
                             :width="37"
                             :height="39"
                           />
+                          </div>
                           <div class="text-padding ">
                             <div class="aline-center">
                               <div class="p-name">
-                                {{ driverInfo.fulfillment.agent.name }}
+                                <div v-if="DriverInfo === true">
+                                  {{ driverInfo.fulfillment.agent.name }}
+                                </div>
+                                <div v-if="!DriverInfo === true">
+                                  Searching for nearby drivers...
+                                </div>
                               </div>
                             </div>
-                            <span class="flexy">
+                            <div v-if="DriverInfo === true">
+                              <span class="flexy">
                               <div class="rating-css">
                                 4
                               </div>
@@ -88,6 +105,8 @@
                                 />
                               </span>
                             </span>
+                            </div>
+                            
                           </div>
                         </div>
                         <div class="button-pos">
@@ -161,15 +180,25 @@
                               <div class="text-padding">
                                 <div class="aline-center">
                                   <div class="p-name">
-                                    {{
+                                    <div v-if="DriverInfo === true">
+                                      {{
                                       driverInfo.fulfillment.vehicle
                                         .registration
                                     }}
+                                    </div>
+                                   
                                   </div>
                                 </div>
                                 <span class="flexy">
                                   <span class="rating-css">
-                                    {{ (driverInfo.items[0].descriptor.name).split('-')[0] }}
+                                    <div v-if="DriverInfo === true">
+                                      {{
+                                      driverInfo.items[0].descriptor.name.split(
+                                        '-'
+                                      )[0]
+                                    }}
+                                    </div>
+                                   
                                   </span>
                                 </span>
                               </div>
@@ -194,19 +223,28 @@
 
                           <div class="provider-head aline-center side-padding">
                             <div class="flexy">
+                              <div v-if="DriverInfo === true">
                               <img
                                 src="/icons/manjnath.png"
                                 alt=""
                                 :width="37"
                                 :height="39"
                               />
+                              </div>
                               <div class="text-padding">
                                 <div class="aline-center">
                                   <div class="p-name">
-                                    {{ driverInfo.fulfillment.agent.name }}
+                                    <!-- {{ driverInfo.fulfillment.agent.name }} -->
+                                    <div v-if="DriverInfo === true">
+                                      {{ driverInfo.fulfillment.agent.name }}
+                                    </div>
+                                    <div v-if="!DriverInfo === true">
+                                      Searching for nearby drivers...
+                                    </div>
                                   </div>
                                 </div>
-                                <span class="flexy">
+                                <div v-if="DriverInfo === true">
+                                  <span class="flexy">
                                   <div class="rating-css">
                                     4
                                   </div>
@@ -218,6 +256,8 @@
                                     />
                                   </span>
                                 </span>
+                                </div>
+                                
                               </div>
                             </div>
                             <div class="button-pos">
@@ -468,11 +508,13 @@ export default {
     Dropdown,
     DropdownContent
   },
+  props: ['DriverInfo'],
   data() {
     return {
-      isActive: false
+      isActive: false,
     };
   },
+
   computed: {
     isLocationSelected() {
       return this.location !== '';
@@ -484,6 +526,7 @@ export default {
       return this.currentUser !== null;
     }
   },
+
   setup(_, { root }) {
     const { toggleSearchVisible } = useUiState();
     //const isShow = ref(false);
