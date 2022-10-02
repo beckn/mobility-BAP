@@ -110,6 +110,7 @@
                           </div>
                         </div>
                         <div class="button-pos">
+                          <div v-if="DriverInfo === true">
                           <SfButton class="contact">
                             <img
                               class="contact-img"
@@ -118,6 +119,7 @@
                               alt="Vue Storefront Next"
                             />
                           </SfButton>
+                          </div>
                         </div>
                       </div>
 
@@ -261,6 +263,7 @@
                               </div>
                             </div>
                             <div class="button-pos">
+                              <div v-if="DriverInfo === true">
                               <SfButton class="contact">
                                 <img
                                   class="contact-img"
@@ -269,6 +272,7 @@
                                   alt="Vue Storefront Next"
                                 />
                               </SfButton>
+                            </div>
                             </div>
                           </div>
 
