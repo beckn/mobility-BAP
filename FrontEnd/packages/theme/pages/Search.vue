@@ -169,7 +169,11 @@
             </div>
           </div>
         </div>
-        <LoadingCircle :enable="enableLoader" key="loding-cir" />
+        <LoadingCircle
+          :enable="enableLoader"
+          :customText="'Searching the network for Mobility Services'"
+          key="loding-cir"
+        />
         <div v-if="noSearchFound" key="no-search" class="before-results">
           <SfImage
             src="/icons/feather_search.svg"
