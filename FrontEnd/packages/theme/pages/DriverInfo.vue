@@ -42,11 +42,7 @@
                             <span class="flexy">
                               <span class="rating-css">
                                 <div v-if="DriverInfo === true">
-                                  {{
-                                    driverInfo.items[0].descriptor.name.split(
-                                      '-'
-                                    )[0]
-                                  }}
+                                  {{ vehicleMakeAndModal }}
                                 </div>
                               </span>
                             </span>
@@ -74,12 +70,12 @@
                       <div class="provider-head aline-center side-padding">
                         <div class="flexy">
                           <div v-if="DriverInfo === true">
-                          <img
-                            src="/icons/manjnath.png"
-                            alt=""
-                            :width="37"
-                            :height="39"
-                          />
+                            <img
+                              src="/icons/manjnath.png"
+                              alt=""
+                              :width="37"
+                              :height="39"
+                            />
                           </div>
                           <div class="text-padding ">
                             <div class="aline-center">
@@ -94,31 +90,30 @@
                             </div>
                             <div v-if="DriverInfo === true">
                               <span class="flexy">
-                              <div class="rating-css">
-                                4
-                              </div>
-                              <span class="sf-rating__icon">
-                                <SfIcon
-                                  color="#FADB14"
-                                  size="16px"
-                                  icon="star"
-                                />
+                                <div class="rating-css">
+                                  4
+                                </div>
+                                <span class="sf-rating__icon">
+                                  <SfIcon
+                                    color="#FADB14"
+                                    size="16px"
+                                    icon="star"
+                                  />
+                                </span>
                               </span>
-                            </span>
                             </div>
-                            
                           </div>
                         </div>
                         <div class="button-pos">
                           <div v-if="DriverInfo === true">
-                          <SfButton class="contact">
-                            <img
-                              class="contact-img"
-                              id="icon"
-                              src="/icons/contact.png"
-                              alt="Vue Storefront Next"
-                            />
-                          </SfButton>
+                            <SfButton class="contact">
+                              <img
+                                class="contact-img"
+                                id="icon"
+                                src="/icons/contact.png"
+                                alt="Vue Storefront Next"
+                              />
+                            </SfButton>
                           </div>
                         </div>
                       </div>
@@ -184,23 +179,17 @@
                                   <div class="p-name">
                                     <div v-if="DriverInfo === true">
                                       {{
-                                      driverInfo.fulfillment.vehicle
-                                        .registration
-                                    }}
+                                        driverInfo.fulfillment.vehicle
+                                          .registration
+                                      }}
                                     </div>
-                                   
                                   </div>
                                 </div>
                                 <span class="flexy">
                                   <span class="rating-css">
                                     <div v-if="DriverInfo === true">
-                                      {{
-                                      driverInfo.items[0].descriptor.name.split(
-                                        '-'
-                                      )[0]
-                                    }}
+                                      {{ vehicleMakeAndModal }}
                                     </div>
-                                   
                                   </span>
                                 </span>
                               </div>
@@ -226,12 +215,12 @@
                           <div class="provider-head aline-center side-padding">
                             <div class="flexy">
                               <div v-if="DriverInfo === true">
-                              <img
-                                src="/icons/manjnath.png"
-                                alt=""
-                                :width="37"
-                                :height="39"
-                              />
+                                <img
+                                  src="/icons/manjnath.png"
+                                  alt=""
+                                  :width="37"
+                                  :height="39"
+                                />
                               </div>
                               <div class="text-padding">
                                 <div class="aline-center">
@@ -247,32 +236,31 @@
                                 </div>
                                 <div v-if="DriverInfo === true">
                                   <span class="flexy">
-                                  <div class="rating-css">
-                                    4
-                                  </div>
-                                  <span class="sf-rating__icon">
-                                    <SfIcon
-                                      color="#FADB14"
-                                      size="16px"
-                                      icon="star"
-                                    />
+                                    <div class="rating-css">
+                                      4
+                                    </div>
+                                    <span class="sf-rating__icon">
+                                      <SfIcon
+                                        color="#FADB14"
+                                        size="16px"
+                                        icon="star"
+                                      />
+                                    </span>
                                   </span>
-                                </span>
                                 </div>
-                                
                               </div>
                             </div>
                             <div class="button-pos">
                               <div v-if="DriverInfo === true">
-                              <SfButton class="contact">
-                                <img
-                                  class="contact-img"
-                                  id="icon"
-                                  src="/icons/contact.png"
-                                  alt="Vue Storefront Next"
-                                />
-                              </SfButton>
-                            </div>
+                                <SfButton class="contact">
+                                  <img
+                                    class="contact-img"
+                                    id="icon"
+                                    src="/icons/contact.png"
+                                    alt="Vue Storefront Next"
+                                  />
+                                </SfButton>
+                              </div>
                             </div>
                           </div>
 
@@ -515,7 +503,7 @@ export default {
   props: ['DriverInfo'],
   data() {
     return {
-      isActive: false,
+      isActive: false
     };
   },
 
@@ -595,6 +583,14 @@ export default {
     var confirmData = JSON.parse(localStorage.getItem('confirmData'));
     const driverInfo = ref(confirmData ? confirmData.order : '');
 
+    const parsedItemName = driverInfo.value?.items[0].descriptor.name.split(
+      ','
+    );
+
+    const vehicleMakeAndModal = `${parsedItemName[1].split(':')[1]} ${
+      parsedItemName[2].split(':')[1]
+    }`;
+
     return {
       driverInfo,
       closeModal,
@@ -614,7 +610,9 @@ export default {
       trigger,
       currentLocation,
       goBack2,
-      mytime
+      mytime,
+      parsedItemName,
+      vehicleMakeAndModal
     };
   }
 };
