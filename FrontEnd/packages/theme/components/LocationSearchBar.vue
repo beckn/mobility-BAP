@@ -252,7 +252,7 @@ export default {
           {
             input: this.location,
             types: ['geocode'],
-            componentRestrictions: { country: 'in' }
+           // componentRestrictions: { country: 'in' }
           },
           this.displaySuggestions
         );
