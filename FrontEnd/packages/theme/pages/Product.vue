@@ -36,7 +36,7 @@
         </div>
         <div class="product__price-and-rating">
           <div class="s-p-price">
-            ₹ {{ productGetters.getPrice(product).regular }}
+            € {{ productGetters.getPrice(product).regular }}
           </div>
           <AddToCart
             :key="keyVal + 'product-page'"
@@ -60,7 +60,7 @@
           <!-- <ul class="list-inline">
             <li>
               <h3>Total</h3>
-              <h4>₹{{cartGetters.getTotalItems(products)}} <span>{{cartGetters.getTotals(products)}} Items</span></h4>
+              <h4>€{{cartGetters.getTotalItems(products)}} <span>{{cartGetters.getTotals(products)}} Items</span></h4>
             </li>
             <li class="d-flex b-cart-blk" @click="toggleCartSidebar">
               <SfIcon

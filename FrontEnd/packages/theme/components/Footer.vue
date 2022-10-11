@@ -4,7 +4,7 @@
       <div class="holder">
         <div class="f-total">Total</div>
         <div>
-          <span class="f-p-total">₹ {{ totalPrice }} </span
+          <span class="f-p-total">€ {{ totalPrice }} </span
           ><span class="f-items">{{ totalItem }} Items</span>
         </div>
       </div>

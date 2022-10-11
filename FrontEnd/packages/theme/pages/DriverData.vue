@@ -114,7 +114,7 @@
               </span> 
               <div class="aline-center">
                 <div class="p-name">
-                  ₹80
+                  €80
                 </div>
               </div>
             </div>
