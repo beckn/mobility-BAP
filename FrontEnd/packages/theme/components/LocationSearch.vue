@@ -123,9 +123,10 @@ export default {
         .then((response, status) => {
           directionsRenderer.setDirections(response);
         })
-        .catch((e) =>
-          window.alert('Directions request failed due to ' + status)
-        );
+        .catch((e) => {
+          console.error('error', e);
+          window.alert('Directions request failed due to ' + e.message);
+        });
     },
     getlocation() {
       const start = new google.maps.LatLng(18.5204, 73.8567);

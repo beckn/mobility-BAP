@@ -302,7 +302,7 @@
 
                                 <div class="aline-center">
                                   <div class="p-name">
-                                    ₹{{
+                                    €{{
                                       Math.round(driverInfo.quote.price.value)
                                     }}
                                   </div>

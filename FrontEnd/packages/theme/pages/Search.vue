@@ -111,6 +111,7 @@
                     :width="35"
                     :height="36"
                   />
+
                   <div class="text-padding">
                     <div class="aline-center">
                       <div class="p-name">
@@ -155,7 +156,7 @@
                   "
                   :pName="productGetters.getName(product)"
                   :pPrice="productGetters.getPrice(product).regular"
-                  pImage="/icons/car.png"
+                  :pImage="product.descriptor.images[0]"
                   :pWieght="productGetters.getProductWeight(product) + ' kg'"
                   :pCount="cartGetters.getItemQty(isInCart({ product }))"
                   @updateItemCount="

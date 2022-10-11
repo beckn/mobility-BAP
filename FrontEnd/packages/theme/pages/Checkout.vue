@@ -70,7 +70,7 @@
           <div class="s-p-name">{{ cartGetters.getItemName(product) }}</div>
           <div class="s-p-weight">x {{ cartGetters.getItemQty(product) }}</div>
           <div class="s-p-price">
-            ₹
+            €
             {{
               cartGetters.getUpdatedPrice(product)
                 ? cartGetters.getUpdatedPrice(product)
@@ -166,13 +166,13 @@
           class="flex-space-bw"
         >
           <div class="address-text">{{ breakup.title }}</div>
-          <div class="address-text">₹{{ Math.trunc(breakup.price.value) }}</div>
+          <div class="address-text">€{{ Math.trunc(breakup.price.value) }}</div>
         </CardContent>
         <div><hr class="sf-divider divider" /></div>
         <CardContent class="flex-space-bw">
           <div class="address-text bold">Total</div>
           <div class="address-text bold">
-            ₹{{ Math.trunc(cart.quote.price.value) }}
+            €{{ Math.trunc(cart.quote.price.value) }}
           </div>
         </CardContent>
       </Card>
@@ -193,7 +193,7 @@
       <!-- <div><hr class="sf-divider divider" /></div>
           <CardContent class="flex-space-bw">
             <div class="address-text bold">Total</div>
-            <div class="address-text bold">₹{{ cart.quote.price.value }}</div>
+            <div class="address-text bold">€{{ cart.quote.price.value }}</div>
           </CardContent> -->
       <!-- </template>
       </Card> -->

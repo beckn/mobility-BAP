@@ -73,12 +73,10 @@
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
 import { ref, watch, onBeforeMount } from '@vue/composition-api';
-import {
-  useOrderStatus
-} from '@vue-storefront/beckn';
+import { useOrderStatus } from '@vue-storefront/beckn';
 
 export default {
-    data: () => ({
+  data: () => ({
     service: null,
     geocodeService: null,
     map: null,
@@ -114,9 +112,10 @@ export default {
         .then((response, status) => {
           directionsRenderer.setDirections(response);
         })
-        .catch((e) =>
-          window.alert('Directions request failed due to ' + status)
-        );
+        .catch((e) => {
+          console.error(e);
+          window.alert('Directions request failed due to ' + e.message);
+        });
     },
     getlocation() {
       const start = new google.maps.LatLng(18.5204, 73.8567);
@@ -137,7 +136,7 @@ export default {
         map: this.map
       });
     }
-  },  
+  },
   name: 'TripStart',
   components: {
     SfButton,
@@ -149,67 +148,69 @@ export default {
       root.$router.back();
     };
     const DriverInfo = ref(false);
-    const tripStatusVal = ref("Awaiting Driver acceptance") 
-    const {
-      poll,
-      init,
-      pollResults,
-      stopPolling
-    } = useOrderStatus('status');
-    
+    const tripStatusVal = ref('Awaiting Driver acceptance');
+    const { poll, init, pollResults, stopPolling } = useOrderStatus('status');
+
     const transactionId = localStorage.getItem('transactionId');
-    const bpp_id= JSON.parse(localStorage.getItem('cartItem')).bpp_id;
-    const bpp_uri= JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
+    const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
+    const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
     const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
     const tripStatus = async () => {
-      const params = [{
-        context: {
-          // eslint-disable-next-line camelcase
-          transaction_id: transactionId,
-          // eslint-disable-next-line camelcase
-          bpp_id: bpp_id,
-          bpp_uri:bpp_uri
-        },
-        message: {
-          // eslint-disable-next-line camelcase
-          order_id: orderID
+      const params = [
+        {
+          context: {
+            // eslint-disable-next-line camelcase
+            transaction_id: transactionId,
+            // eslint-disable-next-line camelcase
+            bpp_id: bpp_id,
+            bpp_uri: bpp_uri
+          },
+          message: {
+            // eslint-disable-next-line camelcase
+            order_id: orderID
+          }
         }
-      }];
-        const response = await init(params, localStorage.getItem('token'));
-        await poll({ orderIds: orderID }, localStorage.getItem('token'));
-        const displayStatus = (x) =>{
-            setTimeout(() => {
-                tripStatusVal.value = x;
-              }, 10000);
-            //   if(x==="Ride Ended"){
-            //     setTimeout(() => {
-            // //   root.$router.push('/orderSuccess');
-            // // }, 10000);  
-            //   }
-          }  
-        watch(
+      ];
+      const response = await init(params, localStorage.getItem('token'));
+      await poll({ orderIds: orderID }, localStorage.getItem('token'));
+      const displayStatus = (x) => {
+        setTimeout(() => {
+          tripStatusVal.value = x;
+        }, 10000);
+        //   if(x==="Ride Ended"){
+        //     setTimeout(() => {
+        // //   root.$router.push('/orderSuccess');
+        // // }, 10000);
+        //   }
+      };
+      watch(
         () => pollResults.value,
         (newValue) => {
-          if(newValue[0].message.order.state){
-            stopPolling();               
-            var tripStatusArr=["Driver has accepted the ride" ,"Driver is on the way","Ride Started","Ride Ended"];
-            
-           
+          if (newValue[0].message.order.state) {
+            stopPolling();
+            var tripStatusArr = [
+              'Driver has accepted the ride',
+              'Driver is on the way',
+              'Ride Started',
+              'Ride Ended'
+            ];
+
             var index = 0;
             let displayStatus = setInterval(function() {
-              tripStatusVal.value = tripStatusArr[index++ % tripStatusArr.length];
+              tripStatusVal.value =
+                tripStatusArr[index++ % tripStatusArr.length];
 
-             DriverInfo.value=true
-              if(tripStatusVal.value==="Ride Ended"){
+              DriverInfo.value = true;
+              if (tripStatusVal.value === 'Ride Ended') {
                 clearInterval(displayStatus);
                 root.$router.push('/orderSuccess');
               }
-            }, 8000);                    
+            }, 8000);
           }
         }
       );
-    }
-    onBeforeMount(async () => {    
+    };
+    onBeforeMount(async () => {
       await tripStatus();
     });
     return {
@@ -219,8 +220,7 @@ export default {
       DriverInfo
     };
   }
-}
-
+};
 </script>
 <style lang="scss" scoped>
 .top-bar {
