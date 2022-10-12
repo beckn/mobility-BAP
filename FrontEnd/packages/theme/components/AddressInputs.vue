@@ -149,7 +149,7 @@ export default {
       (newValue) => {
         if (newValue.length === 6) {
           // call google Geolocationapi
-          autoComplete.getPlacePredictions(
+          autoComplete.getQueryPredictions(
             {
               input: newValue,
               types: ['geocode']

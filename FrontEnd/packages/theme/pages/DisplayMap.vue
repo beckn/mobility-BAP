@@ -103,7 +103,9 @@ export default {
     this.$refs.locationAutocomplete.focus();
   },
   methods: {
-    reload(){window.location.reload();},
+    reload() {
+      window.location.reload();
+    },
     displaySuggestions(predictions, status) {
       if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
         this.searchResults = [];
@@ -146,7 +148,7 @@ export default {
   watch: {
     location(newValue) {
       if (newValue) {
-        this.service.getPlacePredictions(
+        this.service.getQueryPredictions(
           {
             input: this.location,
             types: ['geocode']

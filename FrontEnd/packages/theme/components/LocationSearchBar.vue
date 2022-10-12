@@ -20,10 +20,9 @@
           />
           <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
-              <div style="padding-top: 15px;"> 
+              <div style="padding-top: 15px;">
                 <SfIcon color="var(--c-text)" size="16px" icon="search" />
               </div>
-             
             </span>
           </SfButton>
         </div>
@@ -248,11 +247,11 @@ export default {
   watch: {
     location(newValue) {
       if (newValue) {
-        this.service.getPlacePredictions(
+        this.service.getQueryPredictions(
           {
             input: this.location,
-            types: ['geocode'],
-           // componentRestrictions: { country: 'in' }
+            types: ['geocode']
+            // componentRestrictions: { country: 'in' }
           },
           this.displaySuggestions
         );
