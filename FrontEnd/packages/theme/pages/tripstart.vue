@@ -40,7 +40,10 @@ export default {
     map: null,
     marker: null,
     SourceLocation: '',
-    destloc: ''
+    destloc: '',
+    marker:null,
+    markerlat: 12.9781,
+    markerlag:77.5697
   }),
   created() {
     this.service = new window.google.maps.places.AutocompleteService();
@@ -53,6 +56,7 @@ export default {
   },
   methods: {
     calculateAndDisplayRoute(start, end, map) {
+      
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
       directionsRenderer.setOptions({
@@ -79,19 +83,25 @@ export default {
       const start = new google.maps.LatLng(18.5204, 73.8567);
       this.map = new google.maps.Map(document.getElementById('cafe-map'), {
         center: start,
-        zoom: 14,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
+
+      this.markers()
+
       this.calculateAndDisplayRoute(
         this.SourceLocation,
         this.destloc,
         this.map
       );
     },
-    marker() {
+    markers() {
+      const movingIcon = new google.maps.MarkerImage('/icons/car.png');
       this.marker = new google.maps.Marker({
-        position: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
-        map: this.map
+        //varible of markers lat and long are hardcoded .
+        position: {lat:this.markerlat, lng:this.markerlag},
+        map: this.map,
+        icon: movingIcon
       });
     }
   },
