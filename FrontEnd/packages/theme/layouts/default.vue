@@ -1,28 +1,28 @@
 <template>
   <div>
-      <LazyHydrate when-visible>
-        <!-- <TopBar class="desktop-only" /> -->
-      </LazyHydrate>
-      <!-- <LazyHydrate when-idle> -->
-      <AppHeader />
-      <!-- </LazyHydrate> -->
+    <LazyHydrate when-visible>
+      <!-- <TopBar class="desktop-only" /> -->
+    </LazyHydrate>
+    <!-- <LazyHydrate when-idle> -->
+    <AppHeader />
+    <!-- </LazyHydrate> -->
 
-      <div id="layout">
-    <Error>
+    <div id="layout">
+      <Error>
         <nuxt :key="$route.fullPath" />
-    </Error>
-        <ClearCartPopup />
-        <LazyHydrate when-visible>
-          <!-- <BottomNavigation /> -->
-        </LazyHydrate>
-        <CartSidebar />
-        <WishlistSidebar />
-        <LoginModal />
-        <Notification />
-      </div>
+      </Error>
+      <ClearCartPopup />
       <LazyHydrate when-visible>
-        <!-- <AppFooter /> -->
+        <!-- <BottomNavigation /> -->
       </LazyHydrate>
+      <CartSidebar />
+      <WishlistSidebar />
+      <LoginModal />
+      <Notification />
+    </div>
+    <LazyHydrate when-visible>
+      <!-- <AppFooter /> -->
+    </LazyHydrate>
   </div>
 </template>
 
@@ -55,6 +55,22 @@ export default {
     Notification,
     ClearCartPopup,
     Error
+  },
+
+  beforeMount() {
+    window.addEventListener('beforeunload', this.preventNav);
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!window.confirm('Leave without saving?')) {
+      return;
+    } else next();
+  },
+  methods: {
+    preventNav(event) {
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = '';
+    }
   },
   setup() {
     // const { load } = useCart();

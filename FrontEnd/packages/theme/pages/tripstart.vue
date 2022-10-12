@@ -1,48 +1,6 @@
 <template>
   <div>
-    <slot name="locationInput">
-      <div class="position-relative">
-        <div v-if="show">
-          <!-- <input
-            ref="locationAutocomplete"
-            v-model="location"
-            type="text"
-            placeholder="Enter Location"
-            aria-label="Select Location"
-            class="
-            sf-header__search
-            be-search-location
-            sf-search-bar
-            sf-header__search
-            be-search-location
-          "
-            v-e2e="'app-location-sidebar-input'"
-          /> -->
-          <SfButton class="button-pos sf-button--pure">
-            <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="18px" icon="search" />
-            </span>
-          </SfButton>
-        </div>
-      </div>
-      <ul class="location-list" v-if="show">
-        <li
-          v-for="(result, i) in searchResults"
-          :key="i"
-          @click="getLocationDetails(result)"
-          v-e2e="'app-location-sidebar-input-options'"
-        >
-          <SfButton class="button-pos sf-button--pure">
-            <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="10px" icon="marker" />
-            </span>
-          </SfButton>
-          {{ result.structured_formatting.main_text }}
-          <p>{{ result.structured_formatting.secondary_text }}</p>
-        </li>
-        <!-- <p> lat:{{`${this.mapCenter.lat} and lag ${this.mapCenter.lag}`}}  </p> -->
-      </ul>
-    </slot>
+  
     <div class="top-bar header-top">
       <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
         <span class="sf-search-bar__icon">
@@ -253,7 +211,7 @@ export default {
 div#cafe-map {
   width: 100%;
   //height: 280px;
-  height: 400px;
+  height: 500px;
   position: fixed;
 }
 
