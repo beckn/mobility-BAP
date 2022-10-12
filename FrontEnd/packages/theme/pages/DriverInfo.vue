@@ -429,22 +429,33 @@
                   </div>
                   <div class="modal-body">
                     <div class="option-container">
-                      <div class="option-head">
+                      <!-- <div class="option-head">
                         you can reach out to one of our customer support
                         executives for any help, queries or feedback to ABC Mart
-                      </div>
-
-                      <button class="sf-button color-primary ">
-                        <div class="f-btn-text">Call us</div>
-                      </button>
-
-                      <button class="sf-button color-primary ">
-                        <div class="f-btn-text">Email us</div>
-                      </button>
-
-                      <button class="sf-button color-primary ">
-                        <div class="f-btn-text">Chat with us</div>
-                      </button>
+                      </div> -->
+                      <SfButton
+                        class="support-btns"
+                        @click="openWindow('tel:' + isSupportAvailable.phone)"
+                        aria-label="Close modal"
+                        type="button"
+                        >Call us</SfButton
+                      >
+                      <SfButton
+                        class="support-btns"
+                        @click="
+                          openWindow('mailto:' + isSupportAvailable.email)
+                        "
+                        aria-label="Close modal"
+                        type="button"
+                        >Email us</SfButton
+                      >
+                      <SfButton
+                        class="support-btns"
+                        @click="openWindow(isSupportAvailable.uri)"
+                        aria-label="Close modal"
+                        type="button"
+                        >Chat with us</SfButton
+                      >
                     </div>
                   </div>
                 </template>
@@ -470,7 +481,7 @@ import {
   SfInput
 } from '@storefront-ui/vue';
 import ProductCard from '~/components/ProductCard';
-import { ref, onBeforeMount, watch } from '@vue/composition-api';
+import { ref, onBeforeMount, computed, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
 import LocationSearchBar from '../components/LocationSearchBar.vue';
@@ -478,6 +489,7 @@ import Dropdown from '../components/Dropdown.vue';
 import DropdownContent from '../components/DropdownContent.vue';
 import BottomSlider from '../components/ConfirmBottomSlider.vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
+import { useSupport } from '@vue-storefront/beckn';
 
 export default {
   name: 'DriverInfo',
@@ -520,6 +532,48 @@ export default {
   },
 
   setup(_, { root }) {
+    const {
+      poll: onSupport,
+      init: support,
+      pollResults: supportResult
+    } = useSupport('support');
+    const callSupport = async () => {
+      const params = {
+        context: {
+          // eslint-disable-next-line camelcase
+          transaction_id: 'e65164d8-bfe7-4b3e-b612-f51794a7fc66',
+          bpp_id:
+            'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+          country: 'IND',
+          city: 'std:080',
+          domain: 'nic2004:60221',
+          action: 'support',
+          message_id: '2f6671a6-088d-4bdb-841c-56bd1df23100',
+          core_version: '0.9.3',
+          ttl: 'PT10S',
+          bap_uri:
+            'https://becknify.humbhionline.in/mobility/beckn_open/firstApp/bap',
+          bap_id: 'becknify.humbhionline.in.mobility.BAP/beckn_open/firstApp',
+          timestamp: '2022-10-12T06:04:05.290Z'
+        },
+        message: {
+          // eslint-disable-next-line camelcase
+          ref_id:
+            './mobility/ind.blr/2947@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment'
+        }
+      };
+
+      try {
+        const response = await support(params);
+        await onSupport({ messageId: response.context.message_id });
+      } catch (error) {
+        console.log('Error calling support apis - ', error);
+      }
+    };
+    onBeforeMount(async () => {
+      await callSupport();
+    });
+
     const { toggleSearchVisible } = useUiState();
     //const isShow = ref(false);
     toggleSearchVisible(false);
@@ -528,6 +582,9 @@ export default {
       root.$router.back();
       toggleSearchVisible(true);
     };
+    const isSupportAvailable = computed(() => {
+      return supportResult.value?.message;
+    });
     const mytime = setTimeout(() => {
       root.$router.push('/tripstart');
     }, 10000);
@@ -612,7 +669,8 @@ export default {
       goBack2,
       mytime,
       parsedItemName,
-      vehicleMakeAndModal
+      vehicleMakeAndModal,
+      isSupportAvailable
     };
   }
 };

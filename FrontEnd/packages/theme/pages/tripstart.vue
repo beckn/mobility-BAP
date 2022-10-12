@@ -52,6 +52,8 @@ export default {
   mounted() {
     this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
     this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+   // const b=localStorage.getItem('pickUpLatAndLong');
+    //console.log(b,typeof(b))
     this.getlocation();
   },
   methods: {
