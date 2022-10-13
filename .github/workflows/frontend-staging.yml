@@ -1,9 +1,14 @@
 name: Staging deployment
-on: [push]
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - FrontEnd/**
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted, linux ]
     steps:
     - name: deploying changes
       uses: appleboy/ssh-action@master
