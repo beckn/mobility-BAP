@@ -1,10 +1,5 @@
 name: Staging deployment
-on:
-  push:
-    branches:
-    - main
-    paths:
-    - 'Frontend/**'
+on: [push]
 jobs:
   build:
     name: Build
