@@ -38,7 +38,7 @@ yarn build
 ```sh
 yarn dev
 ```
-5. You can install pm2 to start in backgroupd
+5. You can install pm2 to start in background
 ```sh
 sudo yarn add pm2
 pm2 start "yarn start" --name taxibap
