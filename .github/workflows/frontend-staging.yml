@@ -7,23 +7,22 @@ on:
     - 'Frontend/**'
 jobs:
   build:
-    runs-on: [ self-hosted, linux ]
-
+    name: Build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Build and deploy taxi-app
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.STAGINGHOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd taxi-reference-BAP/FrontEnd
-            git checkout main
-            git pull
-            yarn
-            yarn build
-            pm2 kill
-            sleep 10
-            pm2 start "yarn start" --name taxibap-staging
+    - name: deploying changes
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.STAGINGHOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd taxi-reference-BAP/FrontEnd
+          git checkout main
+          git pull
+          yarn
+          yarn build
+          pm2 kill
+          sleep 10
+          pm2 start "yarn start" --name taxibap-staging
