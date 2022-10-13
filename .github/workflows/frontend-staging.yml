@@ -4,14 +4,14 @@ on:
     branches:
     - main
     paths:
-    - Frontend
+    - 'Frontend/**'
 jobs:
   build:
     runs-on: [ self-hosted, linux ]
 
     steps:
       - name: Build and deploy taxi-app
-        uses: appleboy/ssh-action@master
+      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.STAGINGHOST }}
           username: ${{ secrets.USERNAME }}
