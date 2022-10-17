@@ -1,0 +1,29 @@
+name: Staging deployment of Mobility Protocol Server
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - backend/**
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploying changes
+      uses: appleboy/ssh-action@master
+      env:
+        GITHUB_RUN_NUMBER: ${{ github.run_number }}        
+      with:
+        host: ${{ secrets.BACKENDHOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd taxi-reference-BAP/backend
+          git checkout main
+          docker build -t client:${GITHUB_RUN_NUMBER} -f base.dockerfile .
+          docker stop client && docker rm client
+          docker run -d --network "host"  --name client client:${GITHUB_RUN_NUMBER}
+          echo "printing docker image sha"
+          docker images --no-trunc --quiet client:${GITHUB_RUN_NUMBER} 

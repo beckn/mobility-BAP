@@ -4,7 +4,7 @@ on:
     branches:
     - main
     paths:
-    - protocol-server/**
+    - beckn-protocol-dtos/**
 jobs:
   build:
     name: Build
@@ -13,16 +13,13 @@ jobs:
     - name: deploying changes
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.PROTOCOLHOST }}
+        host: ${{ secrets.BACKENDHOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd taxi-reference-BAP/protocol-server
+          cd taxi-reference-BAP/beckn-protocol-dtos
           git checkout main
-          git pull
-          npm install
-          npm run build
-          pm2 kill
-          sleep 10
-          pm2 start
+          docker build -t bap-base -f base.dockerfile .
+          echo "printing docker image sha"
+          docker images --no-trunc --quiet bap-base 
