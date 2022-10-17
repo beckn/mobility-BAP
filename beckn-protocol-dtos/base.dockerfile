@@ -1,4 +1,5 @@
 # base.dockerfile 
+# DTOS build 
 # This is the base image for all layers of the Beckn reference BAP. It builds
 # and publishes (locally) the DTOs that are used by the different layers of
 # the BAP.
