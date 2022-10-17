@@ -1,4 +1,4 @@
-name: Staging deployment of Mobility Protocol Server
+name: Staging deployment of backend
 on:
   push:
     branches:

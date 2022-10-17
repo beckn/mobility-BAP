@@ -1,4 +1,4 @@
-name: Staging deployment of taxi bap
+name: Staging deployment of taxibap-frontend
 on:
   push:
     branches:
