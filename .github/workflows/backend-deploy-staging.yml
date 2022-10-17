@@ -22,9 +22,10 @@ jobs:
         script: |
           cd taxi-reference-BAP/backend
           git checkout main
-          docker build -t client:${GITHUB_RUN_NUMBER} -f base.dockerfile .
+          echo $GITHUB_RUN_NUMBER
+          docker build -t client:$GITHUB_RUN_NUMBER -f base.dockerfile .
           docker stop client
           docker rm client
-          docker run -d --network "host"  --name client client:GITHUB_RUN_NUMBER
+          docker run -d --network "host"  --name client client:$GITHUB_RUN_NUMBER
           echo "printing docker image sha"
           docker images --no-trunc --quiet client:$GITHUB_RUN_NUMBER
