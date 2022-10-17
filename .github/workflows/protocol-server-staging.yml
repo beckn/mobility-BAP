@@ -1,10 +1,10 @@
-name: Staging deployment of taxi bap
+name: Staging deployment of Mobility Protocol Server
 on:
   push:
     branches:
     - main
     paths:
-    - FrontEnd/**
+    - protocol-server/**
 jobs:
   build:
     name: Build
@@ -13,16 +13,16 @@ jobs:
     - name: deploying changes
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.STAGINGHOST }}
+        host: ${{ secrets.PROTOCOLHOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd taxi-reference-BAP/FrontEnd
+          cd taxi-reference-BAP/protocol-server
           git checkout main
           git pull
-          yarn
-          yarn build
+          npm install
+          npm run build
           pm2 kill
           sleep 10
-          pm2 start "yarn start" --name taxibap-staging
+          pm2 start
