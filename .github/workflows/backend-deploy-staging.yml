@@ -12,8 +12,6 @@ jobs:
     steps:
     - name: deploying changes
       uses: appleboy/ssh-action@master
-      env:
-        GITHUB_RUN_NUMBER: ${{ github.run_number }}
       with:
         host: ${{ secrets.BACKENDHOST }}
         username: ${{ secrets.USERNAME }}
@@ -22,10 +20,10 @@ jobs:
         script: |
           cd taxi-reference-BAP/backend
           git checkout main
-          echo $GITHUB_RUN_NUMBER
-          docker build -t client:$GITHUB_RUN_NUMBER -f base.dockerfile .
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          docker build -t client:$SHORT_SHA -f base.dockerfile .
           docker stop client
           docker rm client
-          docker run -d --network "host"  --name client client:$GITHUB_RUN_NUMBER
+          docker run -d --network "host"  --name client client:$SHORT_SHA
           echo "printing docker image sha"
-          docker images --no-trunc --quiet client:$GITHUB_RUN_NUMBER
+          docker images --no-trunc --quiet client:$SHORT_SHA
