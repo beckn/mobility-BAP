@@ -1,4 +1,4 @@
-name: Staging deployment of Mobility Protocol Server
+name: DTOS Build
 on:
   push:
     branches:
