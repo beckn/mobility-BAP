@@ -23,6 +23,3 @@ jobs:
           docker build -t bap-base -f base.dockerfile .
           echo "printing docker image sha"
           docker images --no-trunc --quiet bap-base
-
-  call-backend-workflow-on-dtos-build:
-    uses: beckn/taxi-reference-BAP/.github/workflows/backend-deploy-staging.yml@main          
