@@ -21,7 +21,7 @@ jobs:
           cd taxi-reference-BAP/backend
           git checkout main
           SHORT_SHA=$(git rev-parse --short HEAD)
-          docker build -t client:$SHORT_SHA -f base.dockerfile .
+          docker build -t client:$SHORT_SHA -f client.dockerfile .
           docker stop client
           docker rm client
           docker run -d --network "host"  --name client client:$SHORT_SHA
