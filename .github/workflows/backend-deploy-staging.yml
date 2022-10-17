@@ -24,6 +24,7 @@ jobs:
         script: |
           cd taxi-reference-BAP/backend
           git checkout main
+          git pull
           SHORT_SHA=$(git rev-parse --short HEAD)
           docker build -t client:$SHORT_SHA -f client.dockerfile .
           docker stop client

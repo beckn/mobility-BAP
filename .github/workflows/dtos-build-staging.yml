@@ -20,6 +20,7 @@ jobs:
         script: |
           cd taxi-reference-BAP/beckn-protocol-dtos
           git checkout main
+          git pull
           docker build -t bap-base -f base.dockerfile .
           echo "printing docker image sha"
           docker images --no-trunc --quiet bap-base
