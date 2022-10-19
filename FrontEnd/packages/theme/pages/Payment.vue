@@ -133,17 +133,17 @@ export default {
       const cartItems = JSON.parse(localStorage.getItem('cartItem'));
 
       if (transId && initRes && quoteItems && cartItems) {
-      const params = createConfirmOrderRequest(
-        transId,
-        initRes[0].message.order,
-        quoteItems.quote,
-        cartItems
-      );
-      const response = await init(params, localStorage.getItem('token'));
-      await poll(
-        { messageIds: response[0].context.message_id },
-        localStorage.getItem('token')
-      );
+        const params = createConfirmOrderRequest(
+          transId,
+          initRes[0].message.order,
+          quoteItems.quote,
+          cartItems
+        );
+        const response = await init(params, localStorage.getItem('token'));
+        await poll(
+          { messageIds: response[0].context.message_id },
+          localStorage.getItem('token')
+        );
       }
 
       watch(
@@ -155,9 +155,13 @@ export default {
               'confirmData',
               JSON.stringify(newValue[0].message)
             );
+            localStorage.setItem(
+              'confirmDataContext',
+              JSON.stringify(newValue[0].context)
+            );
             //localStorage.removeItem('cartItem');
             localStorage.removeItem('quoteData');
-            localStorage.removeItem('initResult');
+            // localStorage.removeItem('initResult');
             localStorage.setItem(
               'transactionId',
               newValue[0].context.transaction_id

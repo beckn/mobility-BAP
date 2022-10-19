@@ -1,13 +1,12 @@
 <template>
   <div>
-  
     <div class="top-bar header-top">
       <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
         <span class="sf-search-bar__icon">
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div>{{ tripStatusVal }}</div>
+      <div v-if="isFulfillmentAvailable">{{ tripStatusVal }}</div>
     </div>
     <div id="cafe-map"></div>
     <div>
@@ -18,8 +17,6 @@
               <div>
                 <DriverInfo :DriverInfo="DriverInfo" />
               </div>
-              <!--<Selectcab/>
-              <!- <ModalComponent class="modalclass" /> -->
             </div>
           </div>
         </div>
@@ -27,11 +24,13 @@
     </div>
   </div>
 </template>
+
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import { ref, watch, onBeforeMount } from '@vue/composition-api';
-import { useOrderStatus } from '@vue-storefront/beckn';
+import { ref, watch, onBeforeMount, computed } from '@vue/composition-api';
+import { useOrderStatus, useTrack } from '@vue-storefront/beckn';
+import superAgent from 'superagent';
 
 export default {
   data: () => ({
@@ -41,24 +40,22 @@ export default {
     marker: null,
     SourceLocation: '',
     destloc: '',
-    marker:null,
-    markerlat: 12.9781,
-    markerlag:77.5697
+    marker: null
   }),
+
   created() {
     this.service = new window.google.maps.places.AutocompleteService();
     this.geocodeService = new window.google.maps.Geocoder();
   },
+
   mounted() {
     this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
     this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
-   // const b=localStorage.getItem('pickUpLatAndLong');
-    //console.log(b,typeof(b))
     this.getlocation();
   },
+
   methods: {
     calculateAndDisplayRoute(start, end, map) {
-      
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
       directionsRenderer.setOptions({
@@ -89,7 +86,7 @@ export default {
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
 
-      this.markers()
+      this.markers();
 
       this.calculateAndDisplayRoute(
         this.SourceLocation,
@@ -101,30 +98,63 @@ export default {
       const movingIcon = new google.maps.MarkerImage('/icons/car.png');
       this.marker = new google.maps.Marker({
         //varible of markers lat and long are hardcoded .
-        position: {lat:this.markerlat, lng:this.markerlag},
+        position: {
+          lat: localStorage.getItem('trackLat')
+            ? parseFloat(localStorage.getItem('trackLat'))
+            : 0,
+          lng: localStorage.getItem('trackLong')
+            ? parseFloat(localStorage.getItem('trackLong'))
+            : 0
+        },
         map: this.map,
         icon: movingIcon
       });
     }
   },
+
   name: 'TripStart',
   components: {
     SfButton,
     SfIcon,
     DriverInfo
   },
+
   setup(_, { root }) {
     const goBack = () => {
       root.$router.back();
     };
     const DriverInfo = ref(false);
-    const tripStatusVal = ref('Awaiting Driver acceptance');
-    const { poll, init, pollResults, stopPolling } = useOrderStatus('status');
+    const tripStatusVal = ref('Ride is Confirmed');
+
+    const {
+      poll: onStatus,
+      init: status,
+      pollResults: statusResults,
+      stopPolling: stopStatuspolling
+    } = useOrderStatus('status');
+
+    const {
+      init: track,
+      poll: onTrack,
+      pollResults: trackResults,
+      stopPolling: onTrackStopPolling
+    } = useTrack('track');
+
+    const isFulfillmentAvailable = computed(() => {
+      if (statusResults.value !== null) {
+        if (statusResults.value[0].message) {
+          DriverInfo.value = true;
+          tripStatusVal.value = statusResults.value[0].message.order.state;
+        }
+      }
+      return statusResults.value;
+    });
 
     const transactionId = localStorage.getItem('transactionId');
     const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
     const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
     const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
+
     const tripStatus = async () => {
       const params = [
         {
@@ -141,57 +171,77 @@ export default {
           }
         }
       ];
-      const response = await init(params, localStorage.getItem('token'));
-      await poll({ orderIds: orderID }, localStorage.getItem('token'));
-      const displayStatus = (x) => {
-        setTimeout(() => {
-          tripStatusVal.value = x;
-        }, 10000);
-        //   if(x==="Ride Ended"){
-        //     setTimeout(() => {
-        // //   root.$router.push('/orderSuccess');
-        // // }, 10000);
-        //   }
-      };
-      watch(
-        () => pollResults.value,
-        (newValue) => {
-          if (newValue[0].message.order.state) {
-            stopPolling();
-            var tripStatusArr = [
-              'Driver has accepted the ride',
-              'Driver is on the way',
-              'Ride Started',
-              'Ride Ended'
-            ];
+      const response = await status(params, localStorage.getItem('token'));
+      await onStatus({ orderIds: orderID }, localStorage.getItem('token'));
+    };
 
-            var index = 0;
-            let displayStatus = setInterval(function() {
-              tripStatusVal.value =
-                tripStatusArr[index++ % tripStatusArr.length];
-
-              DriverInfo.value = true;
-              if (tripStatusVal.value === 'Ride Ended') {
-                clearInterval(displayStatus);
-                root.$router.push('/orderSuccess');
-              }
-            }, 8000);
+    const tripTrack = async () => {
+      const formattedInitResult = JSON.parse(
+        localStorage.getItem('initResult')
+      );
+      const params = [
+        {
+          context: JSON.parse(localStorage.getItem('confirmDataContext')),
+          message: {
+            order_id: formattedInitResult[0].message.order.id
           }
         }
-      );
+      ];
+      try {
+        const response = await track(params, localStorage.getItem('token'));
+        await onTrack(
+          { messageIds: response[0].context.message_id },
+          localStorage.getItem('token')
+        );
+      } catch (error) {
+        console.error(error);
+      }
     };
+
     onBeforeMount(async () => {
       await tripStatus();
+      await tripTrack();
     });
+
+    watch(
+      () => trackResults.value,
+
+      async (trackResult) => {
+        if (trackResult) {
+          if (trackResult[0].message) {
+            if (trackResult[0].message.tracking) {
+              try {
+                const res = await superAgent.get(
+                  trackResults.value[0].message.tracking.url
+                );
+
+                const coordinatesArray = res.body.gps.split(',');
+
+                const lat = coordinatesArray[0];
+                const long = coordinatesArray[1];
+
+                localStorage.setItem('trackLat', lat);
+                localStorage.setItem('trackLong', long);
+              } catch (error) {
+                console.error('location error', error);
+              }
+            }
+          }
+        }
+      }
+    );
+
     return {
       goBack,
       tripStatus,
       tripStatusVal,
-      DriverInfo
+      DriverInfo,
+      isFulfillmentAvailable
     };
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .top-bar {
   align-items: center;
