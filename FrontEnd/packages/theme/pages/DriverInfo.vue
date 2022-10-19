@@ -537,31 +537,23 @@ export default {
       init: support,
       pollResults: supportResult
     } = useSupport('support');
+
+    const transactionId = localStorage.getItem('transactionId');
+    const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
+    const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
+    const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
+
     const callSupport = async () => {
-      const params = {
-        context: {
-          // eslint-disable-next-line camelcase
-          transaction_id: 'e65164d8-bfe7-4b3e-b612-f51794a7fc66',
-          bpp_id:
-            'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-          country: 'IND',
-          city: 'std:080',
-          domain: 'nic2004:60221',
-          action: 'support',
-          message_id: '2f6671a6-088d-4bdb-841c-56bd1df23100',
-          core_version: '0.9.3',
-          ttl: 'PT10S',
-          bap_uri:
-            'https://becknify.humbhionline.in/mobility/beckn_open/firstApp/bap',
-          bap_id: 'becknify.humbhionline.in.mobility.BAP/beckn_open/firstApp',
-          timestamp: '2022-10-12T06:04:05.290Z'
-        },
-        message: {
-          // eslint-disable-next-line camelcase
-          ref_id:
-            './mobility/ind.blr/2947@becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in.fulfillment'
+      const params = [
+        {
+          context: localStorage.getItem('confirmDataContext'),
+          message: {
+            // "uri":
+            // eslint-disable-next-line camelcase
+            ref_id: './mobility/ind.blr/2966@taxi.becknprotocol.io.fulfillment'
+          }
         }
-      };
+      ];
 
       try {
         const response = await support(params);
@@ -648,6 +640,11 @@ export default {
       parsedItemName[2].split(':')[1]
     }`;
 
+    const openWindow = (link) => {
+    
+      window.open(link);
+    };
+
     return {
       driverInfo,
       closeModal,
@@ -670,7 +667,8 @@ export default {
       mytime,
       parsedItemName,
       vehicleMakeAndModal,
-      isSupportAvailable
+      isSupportAvailable,
+      openWindow
     };
   }
 };

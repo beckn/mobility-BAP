@@ -476,6 +476,7 @@ export default {
     const enableLoader = ref(true);
     const fulfillmentData = ref(null);
     const fulfillmentContext = ref(null);
+
     const { poll: onTrack, init: track, pollResults: trackResult } = useTrack(
       'track'
     );
@@ -484,13 +485,13 @@ export default {
       init: support,
       pollResults: supportResult
     } = useSupport('support');
-
     const {
       poll: onStatus,
       init: status,
       pollResults: statusResult,
       stopPolling: stopStatusPolling
     } = useOrderStatus('status');
+
     const isTrackingAvailable = computed(() => {
       return trackResult.value?.message?.tracking?.url;
     });
