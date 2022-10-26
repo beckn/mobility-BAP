@@ -40,7 +40,8 @@ export default {
     marker: null,
     SourceLocation: '',
     destloc: '',
-    marker: null
+    marker: null,
+    intervalid1: ''
   }),
 
   created() {
@@ -51,10 +52,20 @@ export default {
   mounted() {
     this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
     this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+
     this.getlocation();
+    this.driverposition();
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalid1);
   },
 
   methods: {
+    driverposition() {
+      this.intervalid1 = setInterval(() => {
+        this.markers();
+      }, 3000);
+    },
     calculateAndDisplayRoute(start, end, map) {
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -85,7 +96,6 @@ export default {
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
-
       this.markers();
 
       this.calculateAndDisplayRoute(
@@ -94,11 +104,12 @@ export default {
         this.map
       );
     },
+
     markers() {
       const movingIcon = new google.maps.MarkerImage('/icons/car.png');
       this.marker = new google.maps.Marker({
         //varible of markers lat and long are hardcoded .
-        position: {
+        position: {      
           lat: localStorage.getItem('trackLat')
             ? parseFloat(localStorage.getItem('trackLat'))
             : 0,
@@ -154,6 +165,9 @@ export default {
     const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
     const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
     const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
+
+    const lat = ref(0);
+    const long = ref(0);
 
     const tripStatus = async () => {
       const params = [
@@ -217,8 +231,8 @@ export default {
 
                 const coordinatesArray = res.body.gps.split(',');
 
-                const lat = coordinatesArray[0];
-                const long = coordinatesArray[1];
+                lat = coordinatesArray[0];
+                long = coordinatesArray[1];
 
                 localStorage.setItem('trackLat', lat);
                 localStorage.setItem('trackLong', long);
@@ -232,6 +246,8 @@ export default {
     );
 
     return {
+      lat,
+      long,
       goBack,
       tripStatus,
       tripStatusVal,
