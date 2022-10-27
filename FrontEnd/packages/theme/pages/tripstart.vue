@@ -28,7 +28,12 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import { ref, watch, onBeforeMount, computed } from '@vue/composition-api';
+import {
+  ref,
+  watch,
+  onBeforeMount,
+  computed,
+} from '@vue/composition-api';
 import { useOrderStatus, useTrack } from '@vue-storefront/beckn';
 import superAgent from 'superagent';
 
@@ -118,9 +123,7 @@ export default {
             : 0
         },
         map: this.map,
-        icon: movingIcon,
-        
-
+        icon: movingIcon
       });
     }
   },
@@ -218,10 +221,8 @@ export default {
       await tripStatus();
       await tripTrack();
     });
-
     watch(
       () => trackResults.value,
-
       async (trackResult) => {
         if (trackResult) {
           if (trackResult[0].message) {
@@ -243,6 +244,14 @@ export default {
               }
             }
           }
+        }
+      },
+
+      () => {
+        if (tripStatusVal.value === 'Ended') {
+          setTimeout(function() {
+            root.$router.push('/orderSuccess');
+          }, 5000);
         }
       }
     );
