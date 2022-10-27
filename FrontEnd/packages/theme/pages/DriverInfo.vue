@@ -435,16 +435,14 @@
                       </div> -->
                       <SfButton
                         class="support-btns"
-                        @click="openWindow('tel:' + isSupportAvailable.phone)"
+                        @click="openWindow('tel:' + `+919876542183`)"
                         aria-label="Close modal"
                         type="button"
                         >Call us</SfButton
                       >
                       <SfButton
                         class="support-btns"
-                        @click="
-                          openWindow('mailto:' + isSupportAvailable.email)
-                        "
+                        @click="openWindow('mailto:' + `john.soans@gmail.com`)"
                         aria-label="Close modal"
                         type="button"
                         >Email us</SfButton
@@ -641,7 +639,6 @@ export default {
     }`;
 
     const openWindow = (link) => {
-    
       window.open(link);
     };
 

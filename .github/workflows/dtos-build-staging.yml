@@ -1,0 +1,26 @@
+name: DTOS Build
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - beckn-protocol-dtos/**
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploying changes
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.BACKENDHOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd taxi-reference-BAP/beckn-protocol-dtos
+          git checkout main
+          git pull
+          docker build -t bap-base -f base.dockerfile .
+          echo "printing docker image sha"
+          docker images --no-trunc --quiet bap-base
