@@ -64,7 +64,7 @@ export default {
     driverposition() {
       this.intervalid1 = setInterval(() => {
         this.markers();
-      }, 3000);
+      }, 1000);
     },
     calculateAndDisplayRoute(start, end, map) {
       const directionsService = new google.maps.DirectionsService();
@@ -96,7 +96,7 @@ export default {
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
-      this.markers();
+      //this.markers();
 
       this.calculateAndDisplayRoute(
         this.SourceLocation,
@@ -106,7 +106,7 @@ export default {
     },
 
     markers() {
-      const movingIcon = new google.maps.MarkerImage('/icons/car.png');
+      const movingIcon = new google.maps.MarkerImage('/icons/yellowcar.png');
       this.marker = new google.maps.Marker({
         //varible of markers lat and long are hardcoded .
         position: {      
@@ -118,7 +118,9 @@ export default {
             : 0
         },
         map: this.map,
-        icon: movingIcon
+        icon: movingIcon,
+        
+
       });
     }
   },
