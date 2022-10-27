@@ -112,6 +112,7 @@ export default {
           lat: localStorage.getItem('trackLat')
             ? parseFloat(localStorage.getItem('trackLat'))
             : 0,
+
           lng: localStorage.getItem('trackLong')
             ? parseFloat(localStorage.getItem('trackLong'))
             : 0
@@ -165,8 +166,8 @@ export default {
     const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
     const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
 
-    const lat = ref(0);
-    const long = ref(0);
+    const lat = ref(12.9732);
+    const long = ref(77.6089);
 
     const tripStatus = async () => {
       const params = [
@@ -230,11 +231,11 @@ export default {
 
                 const coordinatesArray = res.body.gps.split(',');
 
-                lat = coordinatesArray[0];
-                long = coordinatesArray[1];
+                lat.value = coordinatesArray[0];
+                long.value = coordinatesArray[1];
 
-                localStorage.setItem('trackLat', lat);
-                localStorage.setItem('trackLong', long);
+                localStorage.setItem('trackLat', lat.value);
+                localStorage.setItem('trackLong', long.value);
               } catch (error) {
                 console.error('location error', error);
               }
