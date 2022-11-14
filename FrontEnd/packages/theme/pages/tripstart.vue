@@ -55,6 +55,7 @@ export default {
   },
 
   mounted() {
+
     this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
     this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
 
@@ -136,6 +137,7 @@ export default {
   },
 
   setup(_, { root }) {
+   
     const goBack = () => {
       root.$router.back();
     };
@@ -161,6 +163,11 @@ export default {
         if (statusResults.value[0].message) {
           DriverInfo.value = true;
           tripStatusVal.value = statusResults.value[0].message.order.state;
+        }
+        if(tripStatusVal.value==='Ended'){
+          setTimeout(function() {
+            root.$router.push('/orderSuccess');
+          }, 5000);
         }
       }
       return statusResults.value;
@@ -247,13 +254,7 @@ export default {
         }
       },
 
-      () => {
-        if (tripStatusVal.value === 'Ended') {
-          setTimeout(function() {
-            root.$router.push('/orderSuccess');
-          }, 5000);
-        }
-      }
+      
     );
 
     return {
