@@ -68,19 +68,19 @@ export const createConfirmOrderRequest = (
         items: [item],
         billing_info: {
           address: billAddress,
-          phone: localStorage.getItem('phoneNo'),
-          name: localStorage.getItem('Name'),
+          phone: '9867654322',
+          name: 'RajatKumar',
           email: 'er.rjtkumar@gmail.com'
         },
         delivery_info: {
           type: 'HOME-DELIVERY',
           // name: "./Rajat//Kumar///",
-          name: localStorage.getItem('Name'),
-          phone: localStorage.getItem('phoneNo'),
+          name: './Rajat//Kumar///',
+          phone: '9867654322',
           email: 'er.rjtkumar@gmail.com',
           location: {
             address: {
-              name: localStorage.getItem('Name'),
+              name: './Rajat//Kumar///',
               locality: 'Bengaluru',
               door: 'MBT',
               country: 'IND',
@@ -145,22 +145,18 @@ export const createInitOrderRequest = (
             name: '',
             locality: ''
           },
-          //.replace(/['"]+/g, '')
-          phone: localStorage.getItem('phoneNo'),
-          name: localStorage.getItem('Name'),
+          phone: '9867654322',
+          name: 'RajatKumar',
           email: 'er.rjtkumar@gmail.com'
         },
         delivery_info: {
           type: 'HOME-DELIVERY',
-          // name: localStorage.getItem('Name'),
-          name: `./${localStorage.getItem('Name')}.replace(/['"]+/g, '')///`,
-          phone: localStorage.getItem('phoneNo'),
+          name: './Rajat//Kumar///',
+          phone: '9867654322',
           email: 'er.rjtkumar@gmail.com',
           location: {
             address: {
-              name: `./${localStorage.getItem(
-                'Name'
-              )}..replace(/['"]+/g, '')///`,
+              name: './Rajat//Kumar///',
               locality: 'Bengaluru',
               door: 'MBT',
               country: 'IND',
