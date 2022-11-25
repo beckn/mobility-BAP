@@ -140,10 +140,12 @@ export default {
           cartItems
         );
         const response = await init(params, localStorage.getItem('token'));
-        await poll(
-          { messageIds: response[0].context.message_id },
-          localStorage.getItem('token')
-        );
+        setTimeout(async () => {
+          await poll(
+            { messageIds: response[0].context.message_id },
+            localStorage.getItem('token')
+          );
+        }, 500);
       }
 
       watch(
