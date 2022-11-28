@@ -8,3 +8,7 @@ Provides Beckn Protocol Schema classes for following platforms:
     for Windows from [here](https://adoptium.net/?variant=openjdk11)<br />
     for Ubuntu from [here](https://www.ubuntu18.com/ubuntu-install-openjdk-11/)
 2. Inside `jvm` directory run `./gradlew clean autoVersion build publishToMavenLocal`
+
+### To build docker dtos build locally run
+
+docker build -t bap-base -f base.dockerfile .
