@@ -86,6 +86,7 @@
                                           <input
                                             type="text"
                                             :value="_SourceLocation"
+                                            disabled
                                           />
                                         </div>
                                       </div>
@@ -112,7 +113,7 @@
                                       </div>
 
                                       <div class="text1">
-                                        <input type="text" :value="_destloc" />
+                                        <input type="text" :value="_destloc" disabled/>
                                       </div>
                                     </div>
                                     <br>
@@ -215,6 +216,7 @@
                                                 <input
                                                   type="text"
                                                   :value="_SourceLocation"
+                                                  disabled
                                                 />
                                               </div>
                                             </div>
@@ -243,6 +245,7 @@
                                               <input
                                                 type="text"
                                                 :value="_destloc"
+                                                disabled
                                               />
                                             </div>
                                           </div>
@@ -261,6 +264,7 @@
                                           class="text1"
                                           type="text"
                                           placeholder="Enter Name"
+                                          required
                                         />
                                         <br />
                                         <br />
@@ -269,7 +273,9 @@
                                           v-model="phoneNo"
                                           class="text1"
                                           type="tel"
+                                          pattern="[0-9]{10}"
                                           placeholder="Enter phone number"
+                                          required
                                         />
                                       </div>
                                       <br />
@@ -293,7 +299,7 @@
                                       }"
                                       @click="onConfirmProc"
                                       :disabled="!name||!phoneNo"
-
+                                      type="submit"
                                       id="btn"
                                     >
                                       Confirm & Proceed</SfButton
