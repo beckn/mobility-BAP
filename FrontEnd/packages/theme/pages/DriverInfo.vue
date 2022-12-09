@@ -342,6 +342,7 @@
                                     <input
                                       type="text"
                                       :value="_SourceLocation"
+                                      disabled
                                     />
                                   </div>
                                 </div>
@@ -369,7 +370,7 @@
                                 </div>
                                 <span class="flexy">
                                   <div class="rating-css">
-                                    <input type="text" :value="_destloc" />
+                                    <input type="text" :value="_destloc" disabled  />
                                   </div>
                                 </span>
                               </div>
@@ -395,7 +396,7 @@
                             </SfButton>
                           </div>
 
-                          <div class="cancel-order" @click="goBack2">
+                          <div v-if="!cancelRide" class="cancel-order" @click="goBack2">
                             Cancel Ride
                           </div>
                         </div>
@@ -510,7 +511,7 @@ export default {
     Dropdown,
     DropdownContent
   },
-  props: ['DriverInfo'],
+  props: ['DriverInfo','cancelRide'],
   data() {
     return {
       isActive: false

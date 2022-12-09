@@ -15,7 +15,7 @@
           <div class="popover-bg">
             <div class="popover-content position-relative">
               <div>
-                <DriverInfo :DriverInfo="DriverInfo" />
+                <DriverInfo :DriverInfo="DriverInfo" :cancelRide="cancelRide" />
               </div>
             </div>
           </div>
@@ -143,7 +143,7 @@ export default {
     };
     const DriverInfo = ref(false);
     const tripStatusVal = ref('Ride is Confirmed');
-
+   const cancelRide= ref(false)
     const {
       poll: onStatus,
       init: status,
@@ -168,6 +168,10 @@ export default {
           setTimeout(function() {
             root.$router.push('/orderSuccess');
           }, 5000);
+        }
+        if(tripStatusVal.value==='Reaching Pickup location'){
+          cancelRide.value=true;
+
         }
       }
       return statusResults.value;
@@ -264,7 +268,8 @@ export default {
       tripStatus,
       tripStatusVal,
       DriverInfo,
-      isFulfillmentAvailable
+      isFulfillmentAvailable,
+      cancelRide
     };
   }
 };

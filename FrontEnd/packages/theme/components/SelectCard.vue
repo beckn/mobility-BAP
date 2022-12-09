@@ -1,281 +1,295 @@
+<template>
+  <div class="dv">
+    <div class="layout-container driver-data">
+      <div class="location-content">
+        <client-only>
+          <div class="location-icon">
+            <slot>
+              <div
+                @click="toggleIsShow"
+                class=""
+                v-e2e="'app-header-location-input-div'"
+              >
+                <template>
+                  <div class="button-pos1">
+                    <SfButton class="sf-button--pure rect-bar-style">
+                      <!--<span class="sf-search-bar__icon">-->
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
+                      <!--</span>-->
+                    </SfButton>
+                  </div>
+                  <div>
+                    <div class="">
+                      <template>
+                        <div>
+                          <div class="provider-head aline-center ">
+                            <div class="flexy">
+                              <img
+                                src="/icons/car.png"
+                                alt=""
+                                :width="37"
+                                :height="39"
+                              />
 
-  <template>
-    <div class="dv">
-      <div class="layout-container driver-data">
-        <div class="location-content">
-          <client-only>
-            <div class="location-icon">
-              <slot>
-                <div
-                  @click="toggleIsShow"
-                  class=""
-                  v-e2e="'app-header-location-input-div'"
-                >
-                  <template>
-                    <div class="button-pos1">
-                      <SfButton class="sf-button--pure rect-bar-style">
-                        <!--<span class="sf-search-bar__icon">-->
-                        <SfImage
-                          src="/icons/Rectangle-bar.png"
-                          :width="60"
-                          :height="5.5"
-                          alt="Rectangle bar"
-                        />
-                        <!--</span>-->
-                      </SfButton>
-                    </div>
-                    <div>
-                        <div class="">
-                          <template>
-                            <div>
-                              <div class="provider-head aline-center ">
-                                <div class="flexy">
-                                  <img
-                                    src="/icons/car.png"
-                                    alt=""
-                                    :width="37"
-                                    :height="39"
-                                  />
-
-                                  <div class="text-padding">
-                                    <div class="aline-center">
-                                      <div class="S-name">
-                                        {{ _pName }}
-                                      </div>
-                                    </div>
-                                    <span class="flexy">
-                                      <p clamp="subtext">
-                                        5 min away
-                                      </p>
-                                    </span>
+                              <div class="text-padding">
+                                <div class="aline-center">
+                                  <div class="S-name">
+                                    {{ _pName }}
                                   </div>
                                 </div>
-                                <div class="s-p-price">
-                                  ₹ {{ Math.round(_pPrice) }}
-                                </div>
-                              </div>
-
-                              <div><hr class="sf-divider" /></div>
-                              <div>
-                                <select class="form-select">
-                                  <option selected>Ride Now</option>
-                                  <!--<option value="Schedule">Schedule</option>
-                                 <option value="Recurring">Recurring</option>-->
-                                </select>
-                              </div>
-                              <div class="loc1">
-                                <div
-                                  class=" "
-                                >
-                                  <div class="flexy">
-                                    <SfIcon
-                                      class="locationicon"
-                                      color="#f37a20"
-                                      size="20px"
-                                      icon="marker"
-                                    />
-
-                                    <div class="text-padding1">
-                                      <div class="aline-center">
-                                        <div class="s-name">
-                                          Source
-                                        </div>
-                                      </div>
-                                      <div class="rating-css">
-                                        <div class="text1">
-                                          <input
-                                            type="text"
-                                            :value="_SourceLocation"
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br>
-                                  </div>
-                                </div>
-                                <div
-                                  class=""
-                                >
-                                  <div class="flexy">
-                                    <SfIcon
-                                      class="locationicon"
-                                      color="#2081F3"
-                                      size="20px"
-                                      icon="marker"
-                                    />
-
-                                    <div class="text-padding1">
-                                      <div class="aline-center">
-                                        <div class="s-name">
-                                          Destination
-                                        </div>
-                                      </div>
-
-                                      <div class="text1">
-                                        <input type="text" :value="_destloc" />
-                                      </div>
-                                    </div>
-                                    <br>
-                                  </div>
-                                </div>
+                                <span class="flexy">
+                                  <p clamp="subtext">
+                                    5 min away
+                                  </p>
+                                </span>
                               </div>
                             </div>
-                          </template>
-                        </div>
-                      
-                    </div>
-                  </template>
-                </div>
-              </slot>
-            </div>
-          </client-only>
-          <div>
-            <template>
-              <div class="location-content">
-                <BottomSlider :visible="isShow" @close="closeModal">
-                  <template>
-                    <div class="bar" @click="toggleIsShow">
-                      <SfButton class="sf-button--pure ">
-                        <SfImage
-                          src="/icons/Rectangle-bar.png"
-                          :width="60"
-                          :height="5.5"
-                          alt="Rectangle bar"
-                        />
-                      </SfButton>
-                    </div>
+                            <div class="s-p-price">
+                              ₹ {{ Math.round(_pPrice) }}
+                            </div>
+                          </div>
 
-                    <div>
-                      <div>
-                        <template>
+                          <div><hr class="sf-divider" /></div>
                           <div>
-                            <div
-                            
-                            >
-                              <div class="">
-                                <template>
+                            <select class="form-select">
+                              <option selected>Ride Now</option>
+                              <!--<option value="Schedule">Schedule</option>
+                                 <option value="Recurring">Recurring</option>-->
+                            </select>
+                          </div>
+                          <div class="loc1">
+                            <div class=" ">
+                              <div class="flexy">
+                                <SfIcon
+                                  class="locationicon"
+                                  color="#f37a20"
+                                  size="20px"
+                                  icon="marker"
+                                />
+
+                                <div class="text-padding1">
+                                  <div class="aline-center">
+                                    <div class="s-name">
+                                      Source
+                                    </div>
+                                  </div>
+                                  <div class="rating-css">
+                                    <div class="text1">
+                                      <input
+                                        type="text"
+                                        :value="_SourceLocation"
+                                        disabled
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <br />
+                              </div>
+                            </div>
+                            <div class="">
+                              <div class="flexy">
+                                <SfIcon
+                                  class="locationicon"
+                                  color="#2081F3"
+                                  size="20px"
+                                  icon="marker"
+                                />
+
+                                <div class="text-padding1">
+                                  <div class="aline-center">
+                                    <div class="s-name">
+                                      Destination
+                                    </div>
+                                  </div>
+
+                                  <div class="text1">
+                                    <input
+                                      type="text"
+                                      :value="_destloc"
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                                <br />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </slot>
+          </div>
+        </client-only>
+        <div>
+          <template>
+            <div class="location-content">
+              <BottomSlider :visible="isShow" @close="closeModal">
+                <template>
+                  <div class="bar" @click="toggleIsShow">
+                    <SfButton class="sf-button--pure ">
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
+                    </SfButton>
+                  </div>
+
+                  <div>
+                    <div>
+                      <template>
+                        <div>
+                          <div>
+                            <div class="">
+                              <template>
+                                <div>
+                                  <div
+                                    class="provider-head aline-center side-padding "
+                                  >
+                                    <div class="flexy">
+                                      <img
+                                        src="/icons/car.png"
+                                        alt=""
+                                        :width="37"
+                                        :height="39"
+                                      />
+
+                                      <div class="text-padding">
+                                        <div class="aline-center">
+                                          <div class="S-name">
+                                            {{ _pName }}
+                                          </div>
+                                        </div>
+                                        <span class="flexy">
+                                          <p clamp="subtext">
+                                            5 min away
+                                          </p>
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div class="s-p-price">
+                                      ₹ {{ Math.round(_pPrice) }}
+                                    </div>
+                                  </div>
+
+                                  <div><hr class="sf-divider" /></div>
                                   <div>
+                                    <select class="form-select">
+                                      <option selected>Ride Now</option>
+                                      <!--<option value="Schedule">Schedule</option>
+                                         <option value="Recurring">Recurring</option>-->
+                                    </select>
+                                  </div>
+                                  <div class="loc">
                                     <div
-                                      class="provider-head aline-center side-padding "
+                                      class=" provider-head aline-cente side-padding"
                                     >
                                       <div class="flexy">
-                                        <img
-                                          src="/icons/car.png"
-                                          alt=""
-                                          :width="37"
-                                          :height="39"
+                                        <SfIcon
+                                          class="locationicon"
+                                          color="#f37a20"
+                                          size="20px"
+                                          icon="marker"
                                         />
 
-                                        <div class="text-padding">
+                                        <div class="text-padding1">
                                           <div class="aline-center">
-                                            <div class="S-name">
-                                              {{ _pName }}
+                                            <div class="s-name">
+                                              Source
                                             </div>
                                           </div>
-                                          <span class="flexy">
-                                            <p clamp="subtext">
-                                              5 min away
-                                            </p>
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div class="s-p-price">
-                                        ₹ {{ Math.round(_pPrice) }}
-                                      </div>
-                                    </div>
-
-                                    <div><hr class="sf-divider" /></div>
-                                    <div>
-                                      <select class="form-select">
-                                        <option selected>Ride Now</option>
-                                        <!--<option value="Schedule">Schedule</option>
-                                         <option value="Recurring">Recurring</option>-->
-                                      </select>
-                                    </div>
-                                    <div class="loc">
-                                      <div
-                                        class=" provider-head aline-cente side-padding"
-                                      >
-                                        <div class="flexy">
-                                          <SfIcon
-                                            class="locationicon"
-                                            color="#f37a20"
-                                            size="20px"
-                                            icon="marker"
-                                          />
-
-                                          <div class="text-padding1">
-                                            <div class="aline-center">
-                                              <div class="s-name">
-                                                Source
-                                              </div>
-                                            </div>
-                                            <div class="rating-css">
-                                              <div class="text1">
-                                                <input
-                                                  type="text"
-                                                  :value="_SourceLocation"
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="provider-head aline-center side-padding"
-                                      >
-                                        <div class="flexy">
-                                          <SfIcon
-                                            class="locationicon"
-                                            color="#2081F3"
-                                            size="20px"
-                                            icon="marker"
-                                          />
-
-                                          <div class="">
-                                            <div class="">
-                                              <div class="s-name">
-                                                Destination
-                                              </div>
-                                            </div>
-
+                                          <div class="rating-css">
                                             <div class="text1">
                                               <input
                                                 type="text"
-                                                :value="_destloc"
+                                                :value="_SourceLocation"
+                                                disabled
                                               />
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div>
-                                      <p class="bookfor">Book for :</p>
-                                      <select class="form-select">
-                                        <option selected>MySelf</option>
-                                      </select>
-                                      <div class="form">
-                                        <p class="s-name">Name:</p>
-                                        <input
-                                          v-model="name"
-                                          class="text1"
-                                          type="text"
-                                          placeholder="Enter Name"
+                                    <div
+                                      class="provider-head aline-center side-padding"
+                                    >
+                                      <div class="flexy">
+                                        <SfIcon
+                                          class="locationicon"
+                                          color="#2081F3"
+                                          size="20px"
+                                          icon="marker"
                                         />
-                                        <br />
-                                        <br />
-                                        <p class="s-name">Phone Number:</p>
-                                        <input
-                                          v-model="phoneNo"
-                                          class="text1"
-                                          type="tel"
-                                          placeholder="Enter phone number"
-                                        />
+
+                                        <div class="">
+                                          <div class="">
+                                            <div class="s-name">
+                                              Destination
+                                            </div>
+                                          </div>
+
+                                          <div class="text1">
+                                            <input
+                                              type="text"
+                                              :value="_destloc"
+                                              disabled
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <p class="bookfor">Book for :</p>
+                                    <select class="form-select">
+                                      <option selected>MySelf</option>
+                                    </select>
+                                    <div class="form">
+                                      <form></form>
+                                      <p class="s-name">Name:</p>
+                                      <input
+                                        v-model="name"
+                                        class="text1"
+                                        type="text"
+                                        placeholder="Enter Name"
+                                        @keyup="validateName"
+                                      />
+                                      <div
+                                        class="invalid-warning"
+                                        v-if="!isValidName"
+                                      >
+                                        Invalid Name!
                                       </div>
                                       <br />
-                                  
+                                      <br />
+                                      <p class="s-name">Phone Number:</p>
+                                      <input
+                                        v-model="phoneNo"
+                                        class="text1"
+                                        type="text"
+                                      
+                                        placeholder="Enter phone number"
+                                      
+                                        @keyup="validatePhoneNumber"
+                                      />
+                                      <div
+                                        class="invalid-warning"
+                                        v-if="!isValidPhoneNumber"
+                                      >
+                                        Invalid phone number!
+                                      </div>
                                     </div>
-                                          
+                                    <br />
+
                                     <div><hr class="sf-divider" /></div>
                                     <div
                                       v-if="enableLoader"
@@ -291,32 +305,33 @@
                                           ? ''
                                           : 'is-disabled--button'
                                       }"
-                                      @click="onConfirmProc"
-                                      :disabled="!name||!phoneNo"
-
+                                      :disabled="!name || !phoneNo||!isValidPhoneNumber || !isValidName"
+                                      type="submit"
                                       id="btn"
+                                      @click="onConfirmProc"
                                     >
                                       Confirm & Proceed</SfButton
                                     >
-                                    <!-- </nuxt-link> -->
                                   </div>
-                                </template>
-                              </div>
+                                  <!-- </nuxt-link> -->
+                                </div>
+                              </template>
                             </div>
                           </div>
-                        </template>
-                      </div>
+                        </div>
+                      </template>
                     </div>
-                  </template>
-                </BottomSlider>
-              </div>
-            </template>
-            <div></div>
-          </div>
+                  </div>
+                </template>
+              </BottomSlider>
+            </div>
+          </template>
+          <div></div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script>
 import { SfImage, SfIcon, SfButton, SfSearchBar } from '@storefront-ui/vue';
@@ -326,7 +341,7 @@ import {
   providerGetters,
   useInitOrder
 } from '@vue-storefront/beckn';
-import { ref, computed, watch,onMounted } from '@vue/composition-api';
+import { ref, computed, watch, onMounted } from '@vue/composition-api';
 import LoadingCircle from './LoadingCircle';
 import { createInitOrderRequest } from '../helpers/helpers';
 import helpers from '../helpers/helpers';
@@ -356,7 +371,8 @@ export default {
   setup(props, { root, emit }) {
     const name = ref('');
     const phoneNo = ref('');
-    
+    const isValidPhoneNumber = ref(true);
+    const isValidName = ref(true)
     const _pName = computed(() => props.pName);
     const _pWieght = computed(() => props.pWieght);
     const _pPrice = computed(() => props.pPrice);
@@ -368,6 +384,25 @@ export default {
     const _destloc = ref(
       JSON.parse(localStorage.getItem('destinationLocation'))
     );
+    const validatePhoneNumber = () => {
+      const validationRegex = /^\d{10}$/;
+      if (phoneNo.value.match(validationRegex)) {
+        isValidPhoneNumber.value = true;
+      } else {
+        isValidPhoneNumber.value = false;
+      }
+    };
+    const validateName=()=>{
+      const validationRegexName = /^[a-zA-Z ]{2,30}$/;
+      if(name.value.match(validationRegexName)){
+        isValidName.value=true
+      }
+      else{
+        isValidName.value=false
+      }
+    }
+
+
     const {
       pollResults: onInitResult,
       poll: onInitOrder,
@@ -384,12 +419,11 @@ export default {
     const closeModal = () => {
       isShow.value = false;
     };
- 
 
     const onConfirmProc = async () => {
       localStorage.setItem('Name', JSON.stringify(name.value));
       localStorage.setItem('phoneNo', JSON.stringify(phoneNo.value));
-      console.log(name.value,phoneNo.value)
+      console.log(name.value, phoneNo.value);
       enableLoader.value = true;
       if (quoteItems && transactionId && cartItem) {
         const params = createInitOrderRequest(
@@ -410,7 +444,6 @@ export default {
       }
 
       watch(
-      
         () => onInitResult.value,
         (onInitRes) => {
           if (onInitRes?.error) {
@@ -449,7 +482,10 @@ export default {
       _pCount,
       name,
       phoneNo,
-      
+      isValidPhoneNumber,
+      validatePhoneNumber,
+      isValidName,
+      validateName
     };
   }
 };
@@ -457,6 +493,10 @@ export default {
 <style lang="scss" scoped>
 .loader-circle {
   margin-bottom: 20px;
+}
+.invalid-warning {
+ // margin: 10px auto;
+  color: red;
 }
 .search-bar {
   padding-top: 0px;
@@ -485,7 +525,7 @@ export default {
 }
 .form {
   width: 55%;
-  padding-left:11%;
+  padding-left: 11%;
 }
 .bookfor {
   padding-left: 15%;
@@ -528,11 +568,11 @@ export default {
   align-items: center;
   align-content: center;
   height: 5px;
-  padding-left:18%;
+  padding-left: 18%;
   justify-content: center;
 }
-.bar{
-  padding-left:40%;
+.bar {
+  padding-left: 40%;
 }
 
 .close:before {
@@ -549,7 +589,7 @@ div#cafe-map {
 .loc {
   padding-left: 21px;
 }
-.loc1{
+.loc1 {
   padding-left: 21px;
   padding-bottom: 25px;
 }
