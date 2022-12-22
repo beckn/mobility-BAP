@@ -4,7 +4,8 @@
 export const buildSearchItemsWhere = (params) => {
   const paramsObj: { [k: string]: any } = {
     pickup_location: params.pickup_location,
-    drop_location: params.drop_location
+    drop_location: params.drop_location,
+    experienceId: params.experienceId
   };
   return paramsObj;
 };

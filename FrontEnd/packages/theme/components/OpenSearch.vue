@@ -1,13 +1,11 @@
 <template>
   <div>
-
-    <div class="open-search"> <h3>
+    <div class="open-search">
+      <h3>
         MyMobility
-      </h3></div>
+      </h3>
+    </div>
     <div class="open-search header-top-space">
-     
-     
-      
       <div class="open-search-input">
         <div class="input1">
           <SfImage
@@ -119,8 +117,9 @@
 import { SfButton, SfSidebar, SfIcon, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { SfFooter } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, onBeforeMount } from '@vue/composition-api';
 import LocationSearchBar from './LocationSearchBar.vue';
+import superAgent from 'superagent';
 
 const { selectedLocation, updateLocation } = useUiState();
 
@@ -148,12 +147,26 @@ export default {
     const message = ref('');
     const errorMsg = ref(false);
     const errorMsg2 = ref(false);
+
+    onBeforeMount(async () => {
+      let URL = window.location.href;
+
+      if (URL.includes('?')) {
+        let experienceId = URL.slice(URL.indexOf('?') + 1);
+        localStorage.setItem('experienceId', experienceId);
+      }
+    });
+
     const edit = () => {
+      console.log('pick up');
       if (location.value) {
         pickup.value = '';
+
         isLocationdropOpen.value = !isLocationdropOpen.value;
       } else if (!location.value) {
+        console.log('drop up');
         message.value = '';
+
         isLocationdropOpen.value = !isLocationdropOpen.value;
       }
     };
@@ -198,7 +211,45 @@ export default {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
 
-    const openSearch = () => {
+    const openSearch = async () => {
+      // if (localStorage.getItem('experienceId') !== null) {
+      try {
+        await fetch('https://bc97-103-81-37-30.in.ngrok.io/event', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer,
+          body: JSON.stringify({
+            experienceId: localStorage.getItem('experienceId'),
+            eventCode: 'Searching_ride',
+            eventTitle: 'event search',
+            eventMessage: 'I clicked on search',
+            eventSource: {
+              eventSourceId: 'mobility',
+              eventSourceType: 'mobility'
+            },
+            eventDestination: {
+              eventDestinationId: 'gateway',
+              eventDestinationType: 'gateway'
+            },
+            context: {
+              transactionId: localStorage.getItem('experienceId') + '.exp',
+              messageId: ''
+            },
+            payload: 'search is calling',
+            eventStart_ts: Date.now(),
+            eventEnd_ts: '',
+            created_ts: Date.now(),
+            lastModified_ts: Date.now()
+          }) // body data type must match "Content-Type" header
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      // }
+
       if (message.value && pickup.value && message.value != pickup.value) {
         if (errorMsg.value) errorMsg.value = false;
         if (errorMsg2.value) errorMsg2.value = false;
@@ -257,8 +308,8 @@ export default {
     height: 48px;
     background: #f37a20;
     border-radius: 4px;
-    width: 100%;    
-    label{
+    width: 100%;
+    label {
       font-weight: 600;
       letter-spacing: 0.8px;
       font-size: 17px;
@@ -293,7 +344,7 @@ export default {
     padding-top: 5%;
     padding-right: 5%;
     padding-bottom: 15%;
-    input::placeholder{
+    input::placeholder {
       font-weight: 300;
       font-size: 14px;
     }
@@ -302,7 +353,7 @@ export default {
     display: flex;
     padding-top: 15%;
     padding-right: 5%;
-    input::placeholder{
+    input::placeholder {
       font-weight: 300;
       font-size: 14px;
     }
@@ -338,7 +389,7 @@ export default {
     color: #7c7c7c;
     margin-bottom: 30px;
   }
-  .open-search-input {    
+  .open-search-input {
     // display: flex;
     margin-bottom: 8px;
     // position: relative;

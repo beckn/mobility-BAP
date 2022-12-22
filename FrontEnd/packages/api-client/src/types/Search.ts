@@ -8,13 +8,18 @@ export enum SearchType {
 }
 
 export class SearchRequest {
-  constructor(public drop_location: string, public pickup_location: string) {}
+  constructor(
+    public drop_location: string,
+    public pickup_location: string,
+    public experienceId: string
+  ) {}
 
   toParams() {
     return Object.assign(
       {},
       this.drop_location && { drop_location: this.drop_location },
-      this.pickup_location && { pickup_location: this.pickup_location }
+      this.pickup_location && { pickup_location: this.pickup_location },
+      this.experienceId && { experienceId: this.experienceId }
     );
   }
 }

@@ -284,16 +284,10 @@ export default {
       toggleLoadindBar(false);
 
       await search({
+        experienceId: localStorage.getItem('experienceId'),
         pickup_location: localStorage.getItem('pickUpLatAndLong'),
-
         drop_location: localStorage.getItem('dropLatAndLong')
       });
-      // await search({
-      //   pickup_location: '12.903561,77.5939631',
-      //   // localStorage.getItem('pickUpLatAndLong'),
-      //   drop_location:  "12.9175403,77.5890075"
-      //   // localStorage.getItem('dropLatAndLong')
-      // });
 
       localStorage.setItem(
         'transactionId',
@@ -302,9 +296,45 @@ export default {
 
       watch(
         () => pollResults.value,
-        (newValue) => {
+        async (newValue) => {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
+            try {
+              await fetch('https://bc97-103-81-37-30.in.ngrok.io/event', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'recieving_catalogues',
+                  eventTitle: 'Receiving catalogues',
+                  eventMessage: 'I have got catalogues',
+                  eventSource: {
+                    eventSourceId: 'gateway',
+                    eventSourceType: 'gateway'
+                  },
+                  eventDestination: {
+                    eventDestinationId: 'mobility',
+                    eventDestinationType: 'mobility'
+                  },
+                  context: {
+                    transactionId:
+                      localStorage.getItem('experienceId') + '.exp',
+                    messageId: ''
+                  },
+                  payload: 'getting the catalogues',
+                  eventStart_ts: Date.now(),
+                  eventEnd_ts: '',
+                  created_ts: Date.now(),
+                  lastModified_ts: Date.now()
+                }) // body data type must match "Content-Type" header
+              });
+            } catch (error) {
+              console.error(error);
+            }
             toggleLoadindBar(true);
 
             localStorage.setItem(

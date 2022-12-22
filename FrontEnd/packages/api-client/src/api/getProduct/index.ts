@@ -20,8 +20,7 @@ export default async function getProduct(
 
   const qParams = {
     context: {
-      // transaction_id: "string",
-      // bpp_id: "string"
+      transaction_id: params.experienceId + '.expId'
     },
     message: {
       criteria: criteriaData
