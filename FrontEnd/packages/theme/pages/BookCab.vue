@@ -83,7 +83,7 @@ export default {
     };
   },
   setup(props, { root, emit }) {
-    const { selectedLocation, updateLocation } = useUiState();
+    const { selectedLocation, updateLocation, setquoteData , setTransactionId,cartItem,token} = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
     const _maxLimit = ref(props.maxLimit);
@@ -118,7 +118,7 @@ export default {
     const getQuote = async () => {
       //params for getQuote API
       enableLoader.value = true;
-      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
+      const cartItems =  JSON.parse(cartItem.value);
       if (cartItems) {
         const getQuoteRequest = [
           {
@@ -138,10 +138,10 @@ export default {
 
         const responseQuote = await init(
           getQuoteRequest,
-          localStorage.getItem('token')
+          token.value
         );
         const msgId = responseQuote[0].context.message_id;
-        await poll({ messageIds: msgId }, localStorage.getItem('token'));
+        await poll({ messageIds: msgId }, token.value);
       }
       // Loops over the onGetQuote response and checks for error object. If any error then throws 'api fail'
       const handleOnGetQuoteError = (onGetQuoteRes) => {
@@ -163,14 +163,21 @@ export default {
 
           if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
             stopPolling();
-            localStorage.setItem(
-              'quoteData',
-              JSON.stringify(onGetQuoteRes[0].message)
-            );
-            localStorage.setItem(
-              'transactionId',
-              onGetQuoteRes[0].context.transaction_id
-            );
+ 
+            setquoteData(JSON.stringify(onGetQuoteRes[0].message));
+
+            // localStorage.setItem(
+            //   'quoteData',
+            //   JSON.stringify(onGetQuoteRes[0].message)
+            // );
+
+            setTransactionId(onGetQuoteRes[0].context.transaction_id);
+
+            // localStorage.setItem(
+            //   'transactionId',
+            //   onGetQuoteRes[0].context.transaction_id
+            // );
+
             enableLoader.value = false;
             isQuoteData.value = true;
           }

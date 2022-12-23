@@ -29,6 +29,7 @@ import { SfButton, SfIcon } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import Select from '../pages/select.vue';
 import DriverInfo from '../pages/DriverInfo.vue';
+import { useUiState } from '~/composables';
 export default {
   data: () => ({
     service: null,
@@ -43,8 +44,9 @@ export default {
     this.geocodeService = new window.google.maps.Geocoder();
   },
   mounted() {
-    this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
-    this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+    const { dLocation, sLocation } = useUiState();
+    this.SourceLocation = `${sLocation?.value?.addres}`
+    this.destloc =`${dLocation?.value?.addresss}`
     this.getlocation();
   },
   methods: {

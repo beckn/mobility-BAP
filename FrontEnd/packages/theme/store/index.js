@@ -1,3 +1,8 @@
+import { useUiState } from '~/composables';
+
+const {settoken}=useUiState()
+
+
 const actions = {
   async onAuthStateChangedAction(state, { authUser }) {
     if (!authUser) {
@@ -10,7 +15,11 @@ const actions = {
       });
     } else {
       const { uid, email, Aa } = authUser;
-      localStorage.setItem('token', Aa);
+
+
+      settoken(Aa)
+
+      //localStorage.setItem('token', Aa);
       state.commit('SET_USER', {
         uid,
         email,

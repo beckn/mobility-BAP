@@ -276,9 +276,7 @@
                                         v-model="phoneNo"
                                         class="text1"
                                         type="text"
-                                      
                                         placeholder="Enter phone number"
-                                      
                                         @keyup="validatePhoneNumber"
                                       />
                                       <div
@@ -305,7 +303,12 @@
                                           ? ''
                                           : 'is-disabled--button'
                                       }"
-                                      :disabled="!name || !phoneNo||!isValidPhoneNumber || !isValidName"
+                                      :disabled="
+                                        !name ||
+                                          !phoneNo ||
+                                          !isValidPhoneNumber ||
+                                          !isValidName
+                                      "
                                       type="submit"
                                       id="btn"
                                       @click="onConfirmProc"
@@ -346,6 +349,7 @@ import LoadingCircle from './LoadingCircle';
 import { createInitOrderRequest } from '../helpers/helpers';
 import helpers from '../helpers/helpers';
 import BottomSlider from '../components/ConfirmBottomSlider.vue';
+import { useUiState } from '~/composables';
 import { root } from 'postcss';
 /* eslint camelcase: 0 */
 export default {
@@ -372,7 +376,7 @@ export default {
     const name = ref('');
     const phoneNo = ref('');
     const isValidPhoneNumber = ref(true);
-    const isValidName = ref(true)
+    const isValidName = ref(true);
     const _pName = computed(() => props.pName);
     const _pWieght = computed(() => props.pWieght);
     const _pPrice = computed(() => props.pPrice);
@@ -380,10 +384,19 @@ export default {
     // const _pImage = '/icons/car.svg';
     const enableLoader = ref(false);
     const _pCount = computed(() => props.pCount);
-    const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
-    const _destloc = ref(
-      JSON.parse(localStorage.getItem('destinationLocation'))
-    );
+    const {
+      dLocation,
+      sLocation,
+      quoteData,
+      TransactionId,
+      setTransactionId,
+      cartItem,
+      token,
+      setinitResult,
+      initResult
+    } = useUiState();
+    const _SourceLocation = ref(sLocation?.value?.addres);
+    const _destloc = ref(dLocation?.value?.addresss);
     const validatePhoneNumber = () => {
       const validationRegex = /^\d{10}$/;
       if (phoneNo.value.match(validationRegex)) {
@@ -392,16 +405,14 @@ export default {
         isValidPhoneNumber.value = false;
       }
     };
-    const validateName=()=>{
+    const validateName = () => {
       const validationRegexName = /^[a-zA-Z ]{2,30}$/;
-      if(name.value.match(validationRegexName)){
-        isValidName.value=true
+      if (name.value.match(validationRegexName)) {
+        isValidName.value = true;
+      } else {
+        isValidName.value = false;
       }
-      else{
-        isValidName.value=false
-      }
-    }
-
+    };
 
     const {
       pollResults: onInitResult,
@@ -409,9 +420,9 @@ export default {
       init,
       stopPolling
     } = useInitOrder();
-    const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
-    const transactionId = localStorage.getItem('transactionId');
-    const cartItem = JSON.parse(localStorage.getItem('cartItem'));
+    const quoteItems = JSON.parse(quoteData.value);
+    const transactionId = TransactionId.value; //localStorage.getItem('transactionId');
+    const cartitem = JSON.parse(cartItem.value);
     const isShow = ref(false);
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
@@ -419,28 +430,29 @@ export default {
     const closeModal = () => {
       isShow.value = false;
     };
-
+    const { setphoneNo, setName } = useUiState();
     const onConfirmProc = async () => {
-      localStorage.setItem('Name', JSON.stringify(name.value));
-      localStorage.setItem('phoneNo', JSON.stringify(phoneNo.value));
-      console.log(name.value, phoneNo.value);
+      setphoneNo(phoneNo.value);
+      setName(name.value);
+
+      
       enableLoader.value = true;
-      if (quoteItems && transactionId && cartItem) {
+      if (quoteItems && transactionId && cartitem) {
         const params = createInitOrderRequest(
           transactionId,
           quoteItems.quote,
-          cartItem,
+          cartitem,
           '12.9063433,77.5856825'
         );
-        const response = await init(params, localStorage.getItem('token'));
+        const response = await init(params, token.value);
         await onInitOrder(
           {
             // eslint-disable-next-line camelcase
             messageIds: response[0].context.message_id
           },
-          localStorage.getItem('token')
+          token.value
         );
-        //console.log(onInitResult);
+      
       }
 
       watch(
@@ -454,11 +466,14 @@ export default {
           }
           if (helpers.shouldStopPooling(onInitRes, 'order')) {
             stopPolling();
-            localStorage.setItem('initResult', JSON.stringify(onInitRes));
-            localStorage.setItem(
-              'transactionId',
-              onInitRes[0].context.transaction_id
-            );
+
+           
+            setTransactionId(onInitRes[0].context.transaction_id);
+          
+            setinitResult(onInitRes);
+            
+
+            
             enableLoader.value = false;
             root.$router.push('/payment');
           }
@@ -495,7 +510,7 @@ export default {
   margin-bottom: 20px;
 }
 .invalid-warning {
- // margin: 10px auto;
+  // margin: 10px auto;
   color: red;
 }
 .search-bar {

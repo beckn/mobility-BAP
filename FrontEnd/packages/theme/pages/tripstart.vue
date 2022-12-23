@@ -28,14 +28,23 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import {
-  ref,
-  watch,
-  onBeforeMount,
-  computed,
-} from '@vue/composition-api';
+import { useUiState } from '~/composables';
+import { ref, watch, onBeforeMount, computed } from '@vue/composition-api';
 import { useOrderStatus, useTrack } from '@vue-storefront/beckn';
 import superAgent from 'superagent';
+
+const {
+  trackLat,
+  trackLong,
+  settrackLong,
+  settrackLat,
+  TransactionId,
+  cartItem,
+  token,
+  confirmDatas,
+  confirmDataContext,
+  initResult
+} = useUiState();
 
 export default {
   data: () => ({
@@ -55,9 +64,10 @@ export default {
   },
 
   mounted() {
-
-    this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
-    this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+    const { dLocation, sLocation } = useUiState();
+    this.SourceLocation = `${sLocation?.value?.addres}`;
+    this.destloc = `${dLocation?.value?.addresss}`;
+    //console.log( trackLat.value)
 
     this.getlocation();
     this.driverposition();
@@ -115,13 +125,9 @@ export default {
       this.marker = new google.maps.Marker({
         //varible of markers lat and long are hardcoded .
         position: {
-          lat: localStorage.getItem('trackLat')
-            ? parseFloat(localStorage.getItem('trackLat'))
-            : 0,
+          lat: trackLat.value ? parseFloat(trackLat.value) : 0,
 
-          lng: localStorage.getItem('trackLong')
-            ? parseFloat(localStorage.getItem('trackLong'))
-            : 0
+          lng: trackLong.value ? parseFloat(trackLong.value) : 0
         },
         map: this.map,
         icon: movingIcon
@@ -137,13 +143,12 @@ export default {
   },
 
   setup(_, { root }) {
-   
     const goBack = () => {
       root.$router.back();
     };
     const DriverInfo = ref(false);
     const tripStatusVal = ref('Ride is Confirmed');
-   const cancelRide= ref(false)
+    const cancelRide = ref(false);
     const {
       poll: onStatus,
       init: status,
@@ -164,23 +169,22 @@ export default {
           DriverInfo.value = true;
           tripStatusVal.value = statusResults.value[0].message.order.state;
         }
-        if(tripStatusVal.value==='Ended'){
+        if (tripStatusVal.value === 'Ended') {
           setTimeout(function() {
             root.$router.push('/orderSuccess');
           }, 5000);
         }
-        if(tripStatusVal.value==='Reaching Pickup location'){
-          cancelRide.value=true;
-
+        if (tripStatusVal.value === 'Reaching Pickup location') {
+          cancelRide.value = true;
         }
       }
       return statusResults.value;
     });
 
-    const transactionId = localStorage.getItem('transactionId');
-    const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
-    const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
-    const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
+    const transactionId = TransactionId.value; // localStorage.getItem('transactionId');
+    const bpp_id = cartItem.value.bpp_id;
+    const bpp_uri = cartItem.value.bpp_uri;
+    const orderID = confirmDatas.value.order.id;
 
     const lat = ref(12.9732);
     const long = ref(77.6089);
@@ -201,27 +205,27 @@ export default {
           }
         }
       ];
-      const response = await status(params, localStorage.getItem('token'));
-      await onStatus({ orderIds: orderID }, localStorage.getItem('token'));
+      const response = await status(params, token.value);
+      await onStatus({ orderIds: orderID }, token.value);
     };
 
     const tripTrack = async () => {
-      const formattedInitResult = JSON.parse(
-        localStorage.getItem('initResult')
-      );
+      const formattedInitResult = 
+        initResult.value
+      ;
       const params = [
         {
-          context: JSON.parse(localStorage.getItem('confirmDataContext')),
+          context: confirmDataContext.value,
           message: {
             order_id: formattedInitResult[0].message.order.id
           }
         }
       ];
       try {
-        const response = await track(params, localStorage.getItem('token'));
+        const response = await track(params, token.value);
         await onTrack(
           { messageIds: response[0].context.message_id },
-          localStorage.getItem('token')
+          token.value
         );
       } catch (error) {
         console.error(error);
@@ -248,17 +252,18 @@ export default {
                 lat.value = coordinatesArray[0];
                 long.value = coordinatesArray[1];
 
-                localStorage.setItem('trackLat', lat.value);
-                localStorage.setItem('trackLong', long.value);
+                settrackLat(lat.value);
+                settrackLong(long.value);
+
+                // localStorage.setItem('trackLat', lat.value);
+                // localStorage.setItem('trackLong', long.value);
               } catch (error) {
                 console.error('location error', error);
               }
             }
           }
         }
-      },
-
-      
+      }
     );
 
     return {

@@ -2,7 +2,7 @@ import webpack from 'webpack';
 
 const mapsKey = process.env.MAPS_KEY
   ? process.env.MAPS_KEY
-  : 'Kkajddhd8Skd@kdjBuujsEk8mkIva0xG6_djakasd&kasdha7Asf';
+  : 'AIzaSyDj_jBuujsEk8mkIva0xG6_H73oJEytXEA';
 
 export default {
   mode: 'universal',

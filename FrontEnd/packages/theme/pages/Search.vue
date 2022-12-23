@@ -223,6 +223,7 @@ import Footer from '~/components/Footer';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 import Filterpage from '~/pages/Filterpage';
+//import { useUiState } from '~/composables';
 import {
   productGetters,
   providerGetters,
@@ -252,7 +253,8 @@ export default {
       selectedLocation,
       toggleLoadindBar,
       clearCartPopup,
-      updateExpPageData
+      updateExpPageData,
+      setcartItem
     } = useUiState();
     const enableLoader = ref(false);
     const goBack = () => {
@@ -267,7 +269,7 @@ export default {
     const { search, result } = useFacet();
     const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
-
+    const { sLocation , dLocation , setTransactionId} = useUiState();
     watch(
       () => clearCartPopup.value,
       (newVal) => {
@@ -284,9 +286,9 @@ export default {
       toggleLoadindBar(false);
 
       await search({
-        pickup_location: localStorage.getItem('pickUpLatAndLong'),
+        pickup_location:`${sLocation?.value?.lat},${sLocation?.value?.long}`,                                           //localStorage.getItem('pickUpLatAndLong'),
 
-        drop_location: localStorage.getItem('dropLatAndLong')
+        drop_location:  `${dLocation?.value?.late},${dLocation?.value?.lng}`                                                                                             //localStorage.getItem('dropLatAndLong')
       });
       // await search({
       //   pickup_location: '12.903561,77.5939631',
@@ -294,11 +296,12 @@ export default {
       //   drop_location:  "12.9175403,77.5890075"
       //   // localStorage.getItem('dropLatAndLong')
       // });
+      setTransactionId(result.value.data.ackResponse.context.transaction_id)
 
-      localStorage.setItem(
-        'transactionId',
-        result.value.data.ackResponse.context.transaction_id
-      );
+      // localStorage.setItem(
+      //   'transactionId',
+      //   result.value.data.ackResponse.context.transaction_id
+      // );
 
       watch(
         () => pollResults.value,
@@ -307,10 +310,14 @@ export default {
             enableLoader.value = false;
             toggleLoadindBar(true);
 
-            localStorage.setItem(
-              'cartItem',
-              JSON.stringify(pollResults.value[0])
-            );
+
+              setcartItem(JSON.stringify(pollResults.value[0]));
+              
+
+            // localStorage.setItem(
+            //   'cartItem',
+            //   JSON.stringify(pollResults.value[0])
+            // );
           }
         }
       );

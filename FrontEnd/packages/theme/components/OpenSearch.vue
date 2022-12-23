@@ -1,13 +1,15 @@
 <template>
   <div>
-
-    <div class="open-search"> <h3>
+    <div class="open-search">
+      <h3>
         MyMobility
-      </h3></div>
+      </h3>
+    </div>
+    <!-- <div>
+                
+        <CurrentLocationMap @Currentlocation="Currentlocation" />
+      </div> -->
     <div class="open-search header-top-space">
-     
-     
-      
       <div class="open-search-input">
         <div class="input1">
           <SfImage
@@ -121,8 +123,14 @@ import { useUiState } from '~/composables';
 import { SfFooter } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
 import LocationSearchBar from './LocationSearchBar.vue';
+//import CurrentLocationMap from './CurrentLocationMap.vue';
 
-const { selectedLocation, updateLocation } = useUiState();
+const {
+  selectedLocation,
+  updateLocation,
+  updatesLocation,
+  updatedLocation
+} = useUiState();
 
 export default {
   components: {
@@ -132,6 +140,7 @@ export default {
     LocationSearchBar,
     SfSidebar,
     SfImage
+    // CurrentLocationMap
   },
 
   setup(_, context) {
@@ -157,20 +166,31 @@ export default {
         isLocationdropOpen.value = !isLocationdropOpen.value;
       }
     };
+    //
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
+        updatesLocation({
+          lat: latitude,
+          long: longitude,
+          addres: address
+        });
         pickup.value = address;
-
-        localStorage.setItem('slocation', JSON.stringify(pickup.value));
-        localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
+        //updatesLocation(pickup.value)
+        //localStorage.setItem('slocation', JSON.stringify(pickup.value));
+        //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
+        updatedLocation({
+          late: latitude,
+          lng: longitude,
+          addresss: address
+        });
 
-        localStorage.setItem(
-          'destinationLocation',
-          JSON.stringify(message.value)
-        );
-        localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
+        // localStorage.setItem(
+        //   'destinationLocation',
+        //   JSON.stringify(message.value)
+        // );
+       // localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
       } else if (pickup.value === message.value) {
         message.value = '';
       }
@@ -233,6 +253,8 @@ export default {
       toggleLocationDrop,
       buttonlocation,
       edit
+
+      //Currentlocation
     };
   }
 };
@@ -257,8 +279,8 @@ export default {
     height: 48px;
     background: #f37a20;
     border-radius: 4px;
-    width: 100%;    
-    label{
+    width: 100%;
+    label {
       font-weight: 600;
       letter-spacing: 0.8px;
       font-size: 17px;
@@ -293,7 +315,7 @@ export default {
     padding-top: 5%;
     padding-right: 5%;
     padding-bottom: 15%;
-    input::placeholder{
+    input::placeholder {
       font-weight: 300;
       font-size: 14px;
     }
@@ -302,7 +324,7 @@ export default {
     display: flex;
     padding-top: 15%;
     padding-right: 5%;
-    input::placeholder{
+    input::placeholder {
       font-weight: 300;
       font-size: 14px;
     }
@@ -316,11 +338,11 @@ export default {
   padding: 40px 20px;
   h3 {
     font-style: normal;
-    font-weight: 800;
+    //font-weight: 800;
     font-size: 55px;
     line-height: 110%;
     text-align: center;
-    padding-top: 10px;
+    // padding-top: 10px;
     letter-spacing: -0.03em;
 
     color: #f37a20;
@@ -338,7 +360,7 @@ export default {
     color: #7c7c7c;
     margin-bottom: 30px;
   }
-  .open-search-input {    
+  .open-search-input {
     // display: flex;
     margin-bottom: 8px;
     // position: relative;

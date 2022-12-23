@@ -370,7 +370,11 @@
                                 </div>
                                 <span class="flexy">
                                   <div class="rating-css">
-                                    <input type="text" :value="_destloc" disabled  />
+                                    <input
+                                      type="text"
+                                      :value="_destloc"
+                                      disabled
+                                    />
                                   </div>
                                 </span>
                               </div>
@@ -396,7 +400,11 @@
                             </SfButton>
                           </div>
 
-                          <div v-if="!cancelRide" class="cancel-order" @click="goBack2">
+                          <div
+                            v-if="!cancelRide"
+                            class="cancel-order"
+                            @click="goBack2"
+                          >
                             Cancel Ride
                           </div>
                         </div>
@@ -511,7 +519,7 @@ export default {
     Dropdown,
     DropdownContent
   },
-  props: ['DriverInfo','cancelRide'],
+  props: ['DriverInfo', 'cancelRide'],
   data() {
     return {
       isActive: false
@@ -537,15 +545,11 @@ export default {
       pollResults: supportResult
     } = useSupport('support');
 
-    const transactionId = localStorage.getItem('transactionId');
-    const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
-    const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
-    const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
-
+    const { confirmDataContext } = useUiState();
     const callSupport = async () => {
       const params = [
         {
-          context: localStorage.getItem('confirmDataContext'),
+          context: confirmDataContext.value,
           message: {
             // "uri":
             // eslint-disable-next-line camelcase
@@ -556,12 +560,17 @@ export default {
 
       try {
         const response = await support(params);
-        await onSupport({ messageId: response.context.message_id });
+        console.log(response.context.message_id);
+        await onSupport({
+          messageId: response[0].context.message_id
+        });
       } catch (error) {
         console.log('Error calling support apis - ', error);
       }
     };
+
     onBeforeMount(async () => {
+      //console.log(confirmDataContext.value);
       await callSupport();
     });
 
@@ -608,6 +617,7 @@ export default {
     };
 
     const openHamburger = false;
+
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
       selectedLocation.latitude === true;
@@ -619,16 +629,19 @@ export default {
         address: address
       });
     };
-    const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
-
-    const _destloc = ref(
-      JSON.parse(localStorage.getItem('destinationLocation'))
-    );
+    //const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
+    const { sLocation, dLocation } = useUiState();
+    const _SourceLocation = ref(sLocation?.value?.addres);
+    // const _destloc = ref(
+    //   JSON.parse(localStorage.getItem('destinationLocation'))
+    // );
+    const _destloc = ref(dLocation?.value?.addresss);
 
     const closeModal = () => {
       isShow.value = false;
     };
-    var confirmData = JSON.parse(localStorage.getItem('confirmData'));
+    const { confirmDatas } = useUiState();
+    var confirmData = confirmDatas.value;
     const driverInfo = ref(confirmData ? confirmData.order : '');
 
     const parsedItemName = driverInfo.value?.items[0].descriptor.name.split(

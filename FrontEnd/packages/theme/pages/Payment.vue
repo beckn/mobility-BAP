@@ -64,11 +64,7 @@
       class="footer-fixed"
       :buttonText="'Book Now'"
       :buttonEnable="isPayConfirmActive"
-      :totalPrice="
-        parseFloat(
-          cartItem.price && cartItem.price.value ? cartItem.price.value : '0'
-        ).toFixed(2)
-      "
+      
     >
     </BookRide>
   </div>
@@ -88,7 +84,22 @@ import Card from '~/components/Card.vue';
 import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
 import helpers, { createConfirmOrderRequest } from '../helpers/helpers';
-const { toggleCartSidebar } = useUiState();
+const {
+  toggleCartSidebar,
+  quoteData,
+  setquoteData,
+  TransactionId,
+  setTransactionId,
+  cartItem,
+  token,
+  setconfirmData,
+  setconfirmDataContext,
+  confirmDatas,
+  confirmDataContext
+
+  
+} = useUiState();
+
 export default {
   name: 'Payment',
   components: {
@@ -107,7 +118,7 @@ export default {
     }
   },
   setup(_, context) {
-    const cartItem = JSON.parse(localStorage.getItem('cartData')).items[0];
+   // const cartData = JSON.parse(localStorage.getItem('cartData')).items[0];
 
     const paymentMethod = ref('');
     const order = ref({});
@@ -125,12 +136,18 @@ export default {
     const isPayConfirmActive = computed(() => {
       return paymentMethod.value !== '';
     });
+    const {  initResult
+} = useUiState();
+
     const confirmRide = async () => {
       enableLoader.value = true;
-      const transId = localStorage.getItem('transactionId');
-      const initRes = JSON.parse(localStorage.getItem('initResult'));
-      const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
-      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
+      const transId = TransactionId.value; //localStorage.getItem('transactionId');
+      const initRes =  initResult.value ;                                                                               //JSON.parse();                                                             //;
+      const quoteItems = JSON.parse(quoteData.value); //JSON.parse(localStorage.getItem('quoteData'));
+      const cartItems = JSON.parse(cartItem.value);
+
+     
+      console.log(initRes[0].message.order);
 
       if (transId && initRes && quoteItems && cartItems) {
         const params = createConfirmOrderRequest(
@@ -139,11 +156,11 @@ export default {
           quoteItems.quote,
           cartItems
         );
-        const response = await init(params, localStorage.getItem('token'));
+        const response = await init(params, token.value);
         setTimeout(async () => {
           await poll(
             { messageIds: response[0].context.message_id },
-            localStorage.getItem('token')
+            token.value
           );
         }, 500);
       }
@@ -153,21 +170,29 @@ export default {
         (newValue) => {
           if (helpers.shouldStopPooling(newValue, 'order')) {
             stopPolling();
-            localStorage.setItem(
-              'confirmData',
-              JSON.stringify(newValue[0].message)
-            );
-            localStorage.setItem(
+
+            setconfirmData(newValue[0].message);
+            setconfirmDataContext(newValue[0].context);
+          
+            setquoteData(undefined);
+            setTransactionId(newValue[0].context.transaction_id);
+
+           
+
+            sessionStorage.setItem(
               'confirmDataContext',
               JSON.stringify(newValue[0].context)
             );
-            //localStorage.removeItem('cartItem');
-            localStorage.removeItem('quoteData');
+            //ocalStorage.removeItem('cartItem');
+            // localStorage.removeItem('quoteData');
+            // setquoteData(undefined);
+
             // localStorage.removeItem('initResult');
-            localStorage.setItem(
-              'transactionId',
-              newValue[0].context.transaction_id
-            );
+
+            // localStorage.setItem(
+            //   'transactionId',
+            //   newValue[0].context.transaction_id
+            // );
           }
         }
       );
@@ -182,7 +207,7 @@ export default {
     });
     return {
       confirmRide,
-      cartItem,
+      //cartData,
       paymentMethod,
       changePaymentMethod,
       order,
