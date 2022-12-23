@@ -30,6 +30,7 @@ export interface BaseSearchWhere {
 
 export interface SearchItemsWhere extends BaseSearchWhere {
   pickup_location: string;
+  experienceId: string;
 }
 export interface PollRequest {
   // eslint-disable-next-line camelcase
