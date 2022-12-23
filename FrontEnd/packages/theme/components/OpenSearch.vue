@@ -214,7 +214,7 @@ export default {
     const openSearch = async () => {
       // if (localStorage.getItem('experienceId') !== null) {
       try {
-        await fetch('https://bc97-103-81-37-30.in.ngrok.io/event', {
+        await fetch('https://api.eventcollector.becknprotocol.io/event', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
