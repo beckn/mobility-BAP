@@ -10,9 +10,9 @@
     </div>
     <div class="open-search">
       <h3>
-        MyMobility
+        Travel Buddy
       </h3>
-      
+
       <div class="socialMedia-login-container">
         <div>
           <SfButton
@@ -152,12 +152,12 @@ export default {
 }
 
 .open-search {
- @media (max-width: 560px) {
+  @media (max-width: 560px) {
     padding-top: 40%;
     width: 50%;
-    margin-left:11%;
- }
- // padding: 40px 28px;
+    margin-left: 11%;
+  }
+  // padding: 40px 28px;
   h3 {
     font-size: 55px;
     font-weight: 800;
