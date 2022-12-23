@@ -300,7 +300,7 @@ export default {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
             try {
-              await fetch('https://bc97-103-81-37-30.in.ngrok.io/event', {
+              await fetch('https://api.eventcollector.becknprotocol.io/event', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
