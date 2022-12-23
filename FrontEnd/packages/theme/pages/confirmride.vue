@@ -99,7 +99,45 @@ export default {
         address: address
       });
     };
-    const changeItemNumber = (type) => {
+    const changeItemNumber = async (type) => {
+      // try {
+      //   await fetch('https://api.experience.becknprotocol.io/events', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     redirect: 'follow', // manual, *follow, error
+      //     referrerPolicy: 'no-referrer', // no-referrer,
+      //     body: JSON.stringify({
+      //       id: '7',
+      //       domainId: 'mobility',
+      //       title: 'Ride is booked',
+      //       type: 'type 1',
+      //       start: '',
+      //       end: '',
+      //       created_at: Date.now(),
+      //       last_modified_at: Date.now()
+      //     }) // body data type must match "Content-Type" header
+      //   });
+
+      //   await fetch('https://api.experience.becknprotocol.io/event-steps', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     redirect: 'follow', // manual, *follow, error
+      //     referrerPolicy: 'no-referrer', // no-referrer,
+      //     body: JSON.stringify({
+      //       id: '21',
+      //       eventId: '7',
+      //       title: 'Ride is booked',
+      //       source: '2',
+      //       destination: '1'
+      //     }) // body data type must match "Content-Type" header
+      //   });
+      // } catch (error) {
+      //   console.error(error);
+      // }
       emit('updateItemCount', _value);
     };
     return {

@@ -276,9 +276,7 @@
                                         v-model="phoneNo"
                                         class="text1"
                                         type="text"
-                                      
                                         placeholder="Enter phone number"
-                                      
                                         @keyup="validatePhoneNumber"
                                       />
                                       <div
@@ -305,7 +303,12 @@
                                           ? ''
                                           : 'is-disabled--button'
                                       }"
-                                      :disabled="!name || !phoneNo||!isValidPhoneNumber || !isValidName"
+                                      :disabled="
+                                        !name ||
+                                          !phoneNo ||
+                                          !isValidPhoneNumber ||
+                                          !isValidName
+                                      "
                                       type="submit"
                                       id="btn"
                                       @click="onConfirmProc"
@@ -372,7 +375,7 @@ export default {
     const name = ref('');
     const phoneNo = ref('');
     const isValidPhoneNumber = ref(true);
-    const isValidName = ref(true)
+    const isValidName = ref(true);
     const _pName = computed(() => props.pName);
     const _pWieght = computed(() => props.pWieght);
     const _pPrice = computed(() => props.pPrice);
@@ -392,16 +395,14 @@ export default {
         isValidPhoneNumber.value = false;
       }
     };
-    const validateName=()=>{
+    const validateName = () => {
       const validationRegexName = /^[a-zA-Z ]{2,30}$/;
-      if(name.value.match(validationRegexName)){
-        isValidName.value=true
+      if (name.value.match(validationRegexName)) {
+        isValidName.value = true;
+      } else {
+        isValidName.value = false;
       }
-      else{
-        isValidName.value=false
-      }
-    }
-
+    };
 
     const {
       pollResults: onInitResult,
@@ -433,6 +434,45 @@ export default {
           '12.9063433,77.5856825'
         );
         const response = await init(params, localStorage.getItem('token'));
+        if (localStorage.getItem('experienceId') !== null) {
+          try {
+            await fetch('https://api.eventcollector.becknprotocol.io/event', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              redirect: 'follow', // manual, *follow, error
+              referrerPolicy: 'no-referrer', // no-referrer,
+              body: JSON.stringify({
+                experienceId: localStorage.getItem('experienceId'),
+                eventCode: 'initializing_ride',
+                eventTitle: 'ride initialised',
+                eventMessage:
+                  'I am initializing the ride by giving my name & phone number',
+                eventSource: {
+                  eventSourceId: 'mobility',
+                  eventSourceType: 'mobility'
+                },
+                eventDestination: {
+                  eventDestinationId: 'gateway',
+                  eventDestinationType: 'gateway'
+                },
+                context: {
+                  transactionId: localStorage.getItem('experienceId') + '.exp',
+                  messageId: ''
+                },
+                payload: 'ride initialised',
+                eventStart_ts: Date.now(),
+                eventEnd_ts: '',
+                created_ts: Date.now(),
+                lastModified_ts: Date.now()
+              }) // body data type must match "Content-Type" header
+            });
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
         await onInitOrder(
           {
             // eslint-disable-next-line camelcase
@@ -495,7 +535,7 @@ export default {
   margin-bottom: 20px;
 }
 .invalid-warning {
- // margin: 10px auto;
+  // margin: 10px auto;
   color: red;
 }
 .search-bar {

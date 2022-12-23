@@ -299,41 +299,46 @@ export default {
         async (newValue) => {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
-            try {
-              await fetch('https://api.eventcollector.becknprotocol.io/event', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                redirect: 'follow', // manual, *follow, error
-                referrerPolicy: 'no-referrer', // no-referrer,
-                body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
-                  eventCode: 'recieving_catalogues',
-                  eventTitle: 'Receiving catalogues',
-                  eventMessage: 'I have got catalogues',
-                  eventSource: {
-                    eventSourceId: 'gateway',
-                    eventSourceType: 'gateway'
-                  },
-                  eventDestination: {
-                    eventDestinationId: 'mobility',
-                    eventDestinationType: 'mobility'
-                  },
-                  context: {
-                    transactionId:
-                      localStorage.getItem('experienceId') + '.exp',
-                    messageId: ''
-                  },
-                  payload: 'getting the catalogues',
-                  eventStart_ts: Date.now(),
-                  eventEnd_ts: '',
-                  created_ts: Date.now(),
-                  lastModified_ts: Date.now()
-                }) // body data type must match "Content-Type" header
-              });
-            } catch (error) {
-              console.error(error);
+            if (localStorage.getItem('experienceId') !== null) {
+              try {
+                await fetch(
+                  'https://api.eventcollector.becknprotocol.io/event',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer,
+                    body: JSON.stringify({
+                      experienceId: localStorage.getItem('experienceId'),
+                      eventCode: 'recieving_catalogues',
+                      eventTitle: 'Receiving catalogues',
+                      eventMessage: 'I have got catalogues',
+                      eventSource: {
+                        eventSourceId: 'gateway',
+                        eventSourceType: 'gateway'
+                      },
+                      eventDestination: {
+                        eventDestinationId: 'mobility',
+                        eventDestinationType: 'mobility'
+                      },
+                      context: {
+                        transactionId:
+                          localStorage.getItem('experienceId') + '.exp',
+                        messageId: ''
+                      },
+                      payload: 'getting the catalogues',
+                      eventStart_ts: Date.now(),
+                      eventEnd_ts: '',
+                      created_ts: Date.now(),
+                      lastModified_ts: Date.now()
+                    }) // body data type must match "Content-Type" header
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
             }
             toggleLoadindBar(true);
 

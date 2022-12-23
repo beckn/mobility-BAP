@@ -171,12 +171,86 @@ export default {
           }
         }
       );
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'recieving_finalquotation',
+              eventTitle: 'ride final quotation',
+              eventMessage: 'I am receiving the final quotation',
+              eventSource: {
+                eventSourceId: 'gateway',
+                eventSourceType: 'gateway'
+              },
+              eventDestination: {
+                eventDestinationId: 'mobility',
+                eventDestinationType: 'mobility'
+              },
+              context: {
+                transactionId: localStorage.getItem('experienceId') + '.exp',
+                messageId: ''
+              },
+              payload: 'final quotation received',
+              eventStart_ts: Date.now(),
+              eventEnd_ts: '',
+              created_ts: Date.now(),
+              lastModified_ts: Date.now()
+            }) // body data type must match "Content-Type" header
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
       enableLoader.value = false;
     };
 
     const goBack = () => context.root.$router.back();
 
     onBeforeMount(async () => {
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'confirming_ride',
+              eventTitle: 'ride confirmed',
+              eventMessage: 'I have confirmed the ride',
+              eventSource: {
+                eventSourceId: 'mobility',
+                eventSourceType: 'mobility'
+              },
+              eventDestination: {
+                eventDestinationId: 'gateway',
+                eventDestinationType: 'gateway'
+              },
+              context: {
+                transactionId: localStorage.getItem('experienceId') + '.exp',
+                messageId: ''
+              },
+              payload: 'ride confirmed',
+              eventStart_ts: Date.now(),
+              eventEnd_ts: '',
+              created_ts: Date.now(),
+              lastModified_ts: Date.now()
+            }) // body data type must match "Content-Type" header
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
       await confirmRide();
       order.value = JSON.parse(localStorage.getItem('orderProgress'));
     });

@@ -212,43 +212,43 @@ export default {
     };
 
     const openSearch = async () => {
-      // if (localStorage.getItem('experienceId') !== null) {
-      try {
-        await fetch('https://api.eventcollector.becknprotocol.io/event', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          redirect: 'follow', // manual, *follow, error
-          referrerPolicy: 'no-referrer', // no-referrer,
-          body: JSON.stringify({
-            experienceId: localStorage.getItem('experienceId'),
-            eventCode: 'Searching_ride',
-            eventTitle: 'event search',
-            eventMessage: 'I clicked on search',
-            eventSource: {
-              eventSourceId: 'mobility',
-              eventSourceType: 'mobility'
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
             },
-            eventDestination: {
-              eventDestinationId: 'gateway',
-              eventDestinationType: 'gateway'
-            },
-            context: {
-              transactionId: localStorage.getItem('experienceId') + '.exp',
-              messageId: ''
-            },
-            payload: 'search is calling',
-            eventStart_ts: Date.now(),
-            eventEnd_ts: '',
-            created_ts: Date.now(),
-            lastModified_ts: Date.now()
-          }) // body data type must match "Content-Type" header
-        });
-      } catch (error) {
-        console.error(error);
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'Searching_ride',
+              eventTitle: 'event search',
+              eventMessage: 'I clicked on search',
+              eventSource: {
+                eventSourceId: 'mobility',
+                eventSourceType: 'mobility'
+              },
+              eventDestination: {
+                eventDestinationId: 'gateway',
+                eventDestinationType: 'gateway'
+              },
+              context: {
+                transactionId: localStorage.getItem('experienceId') + '.exp',
+                messageId: ''
+              },
+              payload: 'search is calling',
+              eventStart_ts: Date.now(),
+              eventEnd_ts: '',
+              created_ts: Date.now(),
+              lastModified_ts: Date.now()
+            }) // body data type must match "Content-Type" header
+          });
+        } catch (error) {
+          console.error(error);
+        }
       }
-      // }
 
       if (message.value && pickup.value && message.value != pickup.value) {
         if (errorMsg.value) errorMsg.value = false;
