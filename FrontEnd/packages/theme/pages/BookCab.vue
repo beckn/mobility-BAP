@@ -140,6 +140,44 @@ export default {
           getQuoteRequest,
           localStorage.getItem('token')
         );
+
+        if (localStorage.getItem('experienceId') !== null) {
+          try {
+            await fetch('https://api.eventcollector.becknprotocol.io/event', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              redirect: 'follow', // manual, *follow, error
+              referrerPolicy: 'no-referrer', // no-referrer,
+              body: JSON.stringify({
+                experienceId: localStorage.getItem('experienceId'),
+                eventCode: 'selecting_ride',
+                eventTitle: 'selected ride',
+                eventMessage: 'I am selecting the ride that suits me',
+                eventSource: {
+                  eventSourceId: 'mobility',
+                  eventSourceType: 'mobility'
+                },
+                eventDestination: {
+                  eventDestinationId: 'gateway',
+                  eventDestinationType: 'gateway'
+                },
+                context: {
+                  transactionId: localStorage.getItem('experienceId') + '.exp',
+                  messageId: ''
+                },
+                payload: 'ride is selected',
+                eventStart_ts: Date.now(),
+                eventEnd_ts: '',
+                created_ts: Date.now(),
+                lastModified_ts: Date.now()
+              }) // body data type must match "Content-Type" header
+            });
+          } catch (error) {
+            console.error(error);
+          }
+        }
         const msgId = responseQuote[0].context.message_id;
         await poll({ messageIds: msgId }, localStorage.getItem('token'));
       }
@@ -154,7 +192,7 @@ export default {
 
       watch(
         () => pollResults.value,
-        (onGetQuoteRes) => {
+        async (onGetQuoteRes) => {
           if (!polling.value || !onGetQuoteRes) {
             return;
           }
@@ -172,15 +210,89 @@ export default {
               onGetQuoteRes[0].context.transaction_id
             );
             enableLoader.value = false;
+            if (localStorage.getItem('experienceId') !== null) {
+              try {
+                await fetch(
+                  'https://api.eventcollector.becknprotocol.io/event',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer,
+                    body: JSON.stringify({
+                      experienceId: localStorage.getItem('experienceId'),
+                      eventCode: 'recieving_quotation',
+                      eventTitle: 'receiving quotations',
+                      eventMessage: 'I have recieved the quotation for my ride',
+                      eventSource: {
+                        eventSourceId: 'gateway',
+                        eventSourceType: 'gateway'
+                      },
+                      eventDestination: {
+                        eventDestinationId: 'mobility',
+                        eventDestinationType: 'mobility'
+                      },
+                      context: {
+                        transactionId:
+                          localStorage.getItem('experienceId') + '.exp',
+                        messageId: ''
+                      },
+                      payload: 'ride quotation is being received',
+                      eventStart_ts: Date.now(),
+                      eventEnd_ts: '',
+                      created_ts: Date.now(),
+                      lastModified_ts: Date.now()
+                    }) // body data type must match "Content-Type" header
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }
             isQuoteData.value = true;
           }
         }
       );
     };
 
-    const changeItemNumber = (type) => {
+    const changeItemNumber = async (type) => {
       emit('updateItemCount', _value);
-      //console.log("updatecount");
+      // await fetch('https://api.experience.becknprotocol.io/events', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   redirect: 'follow', // manual, *follow, error
+      //   referrerPolicy: 'no-referrer', // no-referrer,
+      //   body: JSON.stringify({
+      //     id: '2',
+      //     domainId: 'mobility',
+      //     title: 'Selected Product',
+      //     type: 'type 1',
+      //     start: '',
+      //     end: '',
+      //     created_at: Date.now(),
+      //     last_modified_at: Date.now()
+      //   }) // body data type must match "Content-Type" header
+      // });
+      // await fetch('https://api.experience.becknprotocol.io/event-steps', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   redirect: 'follow', // manual, *follow, error
+      //   referrerPolicy: 'no-referrer', // no-referrer,
+      //   body: JSON.stringify({
+      //     id: '4',
+      //     eventId: '2',
+      //     title: 'Selected Product',
+      //     source: '1',
+      //     destination: '3'
+      //   }) // body data type must match "Content-Type" header
+      // });
+      // console.log('updatecount ===>');
       getQuote();
     };
 

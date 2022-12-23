@@ -28,12 +28,7 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import {
-  ref,
-  watch,
-  onBeforeMount,
-  computed,
-} from '@vue/composition-api';
+import { ref, watch, onBeforeMount, computed } from '@vue/composition-api';
 import { useOrderStatus, useTrack } from '@vue-storefront/beckn';
 import superAgent from 'superagent';
 
@@ -55,7 +50,6 @@ export default {
   },
 
   mounted() {
-
     this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
     this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
 
@@ -137,13 +131,12 @@ export default {
   },
 
   setup(_, { root }) {
-   
     const goBack = () => {
       root.$router.back();
     };
     const DriverInfo = ref(false);
     const tripStatusVal = ref('Ride is Confirmed');
-   const cancelRide= ref(false)
+    const cancelRide = ref(false);
     const {
       poll: onStatus,
       init: status,
@@ -158,20 +151,57 @@ export default {
       stopPolling: onTrackStopPolling
     } = useTrack('track');
 
-    const isFulfillmentAvailable = computed(() => {
+    const isFulfillmentAvailable = computed(async () => {
       if (statusResults.value !== null) {
         if (statusResults.value[0].message) {
           DriverInfo.value = true;
           tripStatusVal.value = statusResults.value[0].message.order.state;
         }
-        if(tripStatusVal.value==='Ended'){
+        if (tripStatusVal.value === 'Ended') {
+          if (localStorage.getItem('experienceId') !== null) {
+            try {
+              await fetch('https://api.eventcollector.becknprotocol.io/event', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'recieved_payconfirmation',
+                  eventTitle: 'end ride',
+                  eventMessage: 'Thanks for comfortable ride',
+                  eventSource: {
+                    eventSourceId: 'gateway',
+                    eventSourceType: 'gateway'
+                  },
+                  eventDestination: {
+                    eventDestinationId: 'mobility',
+                    eventDestinationType: 'mobility'
+                  },
+                  context: {
+                    transactionId:
+                      localStorage.getItem('experienceId') + '.exp',
+                    messageId: ''
+                  },
+                  payload: 'ride is complete',
+                  eventStart_ts: Date.now(),
+                  eventEnd_ts: '',
+                  created_ts: Date.now(),
+                  lastModified_ts: Date.now()
+                }) // body data type must match "Content-Type" header
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          }
           setTimeout(function() {
             root.$router.push('/orderSuccess');
           }, 5000);
         }
-        if(tripStatusVal.value==='Reaching Pickup location'){
-          cancelRide.value=true;
-
+        if (tripStatusVal.value === 'Reaching Pickup location') {
+          cancelRide.value = true;
         }
       }
       return statusResults.value;
@@ -219,6 +249,43 @@ export default {
       ];
       try {
         const response = await track(params, localStorage.getItem('token'));
+        if (localStorage.getItem('experienceId') !== null) {
+          try {
+            await fetch('https://api.eventcollector.becknprotocol.io/event', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              redirect: 'follow', // manual, *follow, error
+              referrerPolicy: 'no-referrer', // no-referrer,
+              body: JSON.stringify({
+                experienceId: localStorage.getItem('experienceId'),
+                eventCode: 'tracking_driver',
+                eventTitle: 'Track ride',
+                eventMessage: 'I am tracking current location of my ride',
+                eventSource: {
+                  eventSourceId: 'mobility',
+                  eventSourceType: 'mobility'
+                },
+                eventDestination: {
+                  eventDestinationId: 'gateway',
+                  eventDestinationType: 'gateway'
+                },
+                context: {
+                  transactionId: localStorage.getItem('experienceId') + '.exp',
+                  messageId: ''
+                },
+                payload: 'ride is tracked',
+                eventStart_ts: Date.now(),
+                eventEnd_ts: '',
+                created_ts: Date.now(),
+                lastModified_ts: Date.now()
+              }) // body data type must match "Content-Type" header
+            });
+          } catch (error) {
+            console.error(error);
+          }
+        }
         await onTrack(
           { messageIds: response[0].context.message_id },
           localStorage.getItem('token')
@@ -256,9 +323,7 @@ export default {
             }
           }
         }
-      },
-
-      
+      }
     );
 
     return {
