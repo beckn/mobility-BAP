@@ -10,7 +10,11 @@ export const buildSearchRequest = (
   search?: SearchItemsWhere
 ): SearchRequest => {
   if (search) {
-    return new SearchRequest(search.drop_location, search.pickup_location);
+    return new SearchRequest(
+      search.drop_location,
+      search.pickup_location,
+      search.experienceId
+    );
   }
 };
 

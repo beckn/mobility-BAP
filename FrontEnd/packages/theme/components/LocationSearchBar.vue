@@ -6,7 +6,6 @@
           <input
             ref="locationAutocomplete"
             v-model="location"
-            @change="enterLocationOnChange"
             type="text"
             placeholder="Enter Location"
             aria-label="Select Location"
@@ -131,9 +130,6 @@ export default {
   },
 
   methods: {
-    enterLocationOnChange(event) {
-      console.log(event);
-    },
     change() {
       this.visible = true;
     },
@@ -251,7 +247,6 @@ export default {
 
   watch: {
     location(newValue) {
-      console.log('new value ===>', newValue);
       if (newValue) {
         this.service.getQueryPredictions(
           {
