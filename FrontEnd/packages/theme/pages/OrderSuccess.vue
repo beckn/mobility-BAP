@@ -108,6 +108,7 @@ export default {
     // const transactionId = context.root.$route.query.id;
     const confirmData = JSON.parse(confirmDatas.value);
     const driverInfo = ref(confirmData ? confirmData.order : '');
+
     const goToHomePage = () => {
       updatesLocation({
         lat: undefined,
@@ -120,16 +121,16 @@ export default {
         addresss: undefined
       });
       setName(undefined);
-        setphoneNo(undefined);
-        settrackLong(undefined);
-        settrackLat(undefined);
-        setquoteData(undefined);
-        setTransactionId(undefined);
-        setcartItem(undefined);
-        setconfirmData(undefined);
-        setconfirmDataContext(undefined);
-        setcartData(undefined);
-        setinitResult(undefined);
+      setphoneNo(undefined);
+      settrackLong(undefined);
+      settrackLat(undefined);
+      setquoteData(undefined);
+      setTransactionId(undefined);
+      setcartItem(undefined);
+      setconfirmData(undefined);
+      setconfirmDataContext(undefined);
+      setcartData(undefined);
+      setinitResult(undefined);
 
       context.root.$router.push({
         path: '/'

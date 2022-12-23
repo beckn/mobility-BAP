@@ -174,7 +174,7 @@ export default {
             setconfirmData(newValue[0].message);
             setconfirmDataContext(newValue[0].context);
           
-            setquoteData(undefined);
+            //setquoteData(undefined);
             setTransactionId(newValue[0].context.transaction_id);
 
            
