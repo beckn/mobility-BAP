@@ -2,7 +2,7 @@
   <div>
     <div class="open-search">
       <h3>
-        MyMobility
+        Travel Buddy
       </h3>
     </div>
     <div class="open-search header-top-space">
