@@ -2,7 +2,7 @@
   <client-only>
     <div class="location-content">
       <client-only>
-        <div class="s-p-addcart" @click="toggleLocationDrop">
+        <div   v-if="!enableLoader"class="s-p-addcart" @click="toggleLocationDrop">
           <button
             class="color-primary sf-button add-btn"
             @click="changeItemNumber('add')"
@@ -11,44 +11,17 @@
           </button>
         </div>
       </client-only>
-      <template>
-        <div>
-          <SfSidebar
-            :visible="!!isLocationdropOpen"
-            :button="false"
-            @click="goBack"
-            @close="toggleLocationDrop"
-            class="sidebar sf-sidebar--right"
-          >
-            <transition name="fade">
-              <client-only>
-                <div
-                  v-if="enableLoader"
-                  key="loadingCircle"
-                  class="loader-circle"
-                >
-                  <LoadingCircle :enable="enableLoader" />
-                </div>
-                <div v-if="isQuoteData" id="location" class="location-drop">
-                  <LocationSearch
-                    :b_name="b_name"
-                    @locationSelected="locationSelected"
-                    @toggleLocationDrop="toggleLocationDrop"
-                    v-e2e="'app-location-sidebar'"
-                  />
-                </div>
-              </client-only>
-            </transition>
-          </SfSidebar>
-        </div>
-      </template>
+
+      <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+        <LoadingCircle :enable="enableLoader" />
+      </div>
     </div>
   </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
 import { ref, watch } from '@vue/composition-api';
-import LocationSearch from '../components/LocationSearch.vue';
+import LocationSearch from './LocationSearch.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
 import LoadingCircle from '../components/LoadingCircle';
@@ -83,7 +56,14 @@ export default {
     };
   },
   setup(props, { root, emit }) {
-    const { selectedLocation, updateLocation, setquoteData , setTransactionId,cartItem,token} = useUiState();
+    const {
+      selectedLocation,
+      updateLocation,
+      setquoteData,
+      setTransactionId,
+      cartItem,
+      token
+    } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
     const _maxLimit = ref(props.maxLimit);
@@ -91,7 +71,7 @@ export default {
     const enableLoader = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name = ref('selectcab');
+
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
@@ -118,7 +98,7 @@ export default {
     const getQuote = async () => {
       //params for getQuote API
       enableLoader.value = true;
-      const cartItems =  JSON.parse(cartItem.value);
+      const cartItems = JSON.parse(cartItem.value);
       if (cartItems) {
         const getQuoteRequest = [
           {
@@ -136,10 +116,7 @@ export default {
           }
         ];
 
-        const responseQuote = await init(
-          getQuoteRequest,
-          token.value
-        );
+        const responseQuote = await init(getQuoteRequest, token.value);
         const msgId = responseQuote[0].context.message_id;
         await poll({ messageIds: msgId }, token.value);
       }
@@ -163,23 +140,14 @@ export default {
 
           if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
             stopPolling();
- 
-            setquoteData(JSON.stringify(onGetQuoteRes[0].message));
 
-            // localStorage.setItem(
-            //   'quoteData',
-            //   JSON.stringify(onGetQuoteRes[0].message)
-            // );
+            setquoteData(JSON.stringify(onGetQuoteRes[0].message));
 
             setTransactionId(onGetQuoteRes[0].context.transaction_id);
 
-            // localStorage.setItem(
-            //   'transactionId',
-            //   onGetQuoteRes[0].context.transaction_id
-            // );
-
             enableLoader.value = false;
             isQuoteData.value = true;
+            root.$router.push('/LocationSearch');
           }
         }
       );
@@ -193,7 +161,7 @@ export default {
 
     return {
       isQuoteData,
-      b_name,
+
       changeItemNumber,
       _value,
       _maxLimit,

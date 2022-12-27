@@ -88,7 +88,7 @@ import {
 } from '@storefront-ui/vue';
 import { useCart, cartGetters, useQuote } from '@vue-storefront/beckn';
 //import ProductCard from '~/components/ProductCard';
-import SelectCard from '../components/SelectCard.vue';
+import SelectCard from './SelectCard.vue';
 import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';

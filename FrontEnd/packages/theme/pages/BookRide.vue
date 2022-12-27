@@ -20,7 +20,7 @@
           </button>
         </div>
       </client-only>
-      <template>
+      <!-- <template>
         <div id="location" class="location-drop">
           <SfSidebar
             :visible="!!isLocationdropOpen"
@@ -42,14 +42,14 @@
             </transition>
           </SfSidebar>
         </div>
-      </template>
+      </template> -->
     </div>
   </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import LocationSearch from '../components/LocationSearch.vue';
+import LocationSearch from './LocationSearch.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
 import Dropdown from '../components/Dropdown.vue';
@@ -94,11 +94,13 @@ export default {
     const currentUser = root.$store.$fire.auth.currentUser;
     const b_name = ref('confirmride');
     const toggleLocationDrop = () => {
-      isLocationdropOpen.value = !isLocationdropOpen.value;
+         root.$router.push('/Driverinformation')
+
+      //isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const goBack = () => {
       root.$router.back();
-      toggleSearchVisible(true);
+      //toggleSearchVisible(true);
     };
     const toggleIsShow = () => {
       isShow.value = !isShow.value;

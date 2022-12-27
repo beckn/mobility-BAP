@@ -63,7 +63,7 @@
                             </select>
                           </div>
                           <div class="loc1">
-                            <div class=" ">
+                            <div class="provider-head ">
                               <div class="flexy">
                                 <SfIcon
                                   class="locationicon"
@@ -91,7 +91,7 @@
                                 <br />
                               </div>
                             </div>
-                            <div class="">
+                            <div class="provider-head">
                               <div class="flexy">
                                 <SfIcon
                                   class="locationicon"
@@ -191,7 +191,7 @@
                                   </div>
                                   <div class="loc">
                                     <div
-                                      class=" provider-head aline-cente side-padding"
+                                      class="provider-head"
                                     >
                                       <div class="flexy">
                                         <SfIcon
@@ -220,7 +220,7 @@
                                       </div>
                                     </div>
                                     <div
-                                      class="provider-head aline-center side-padding"
+                                      class=" provider-head"
                                     >
                                       <div class="flexy">
                                         <SfIcon
@@ -614,8 +614,13 @@ input {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  color: #37474f;
+  //color: #37474f;
   line-height: 14px;
+  border: none;
+    border-bottom: 2px solid #65696ae8;
+}
+input:hover{
+  border-bottom: 2px solid rgb(227, 90, 40);
 }
 @media screen and (max-width: 375px) {
   input {
@@ -626,6 +631,8 @@ input {
     font-size: 14px;
     color: #37474f;
     line-height: 14px;
+    border: none;
+    border-bottom: 2px solid #65696ae8;
   }
 }
 .subtext {
@@ -636,9 +643,8 @@ input {
   color: #8a8d8e;
 }
 // .text1{
-//   width: 100%;
-//   border-bottom: 2px solid
-// rgba(67, 70, 78, 1);
+//  padding: 10px;;
+
 // }
 #btn {
   //top:112px;
@@ -666,7 +672,7 @@ input {
   border-radius: 4px;
 }
 .s-p-price {
-  padding: 5px;
+  padding-left: 30%;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;

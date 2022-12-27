@@ -40,7 +40,7 @@
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import LocationSearch from '../components/LocationSearch.vue';
+import LocationSearch from './LocationSearch.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
 import Dropdown from '../components/Dropdown.vue';
