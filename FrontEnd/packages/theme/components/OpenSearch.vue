@@ -136,13 +136,6 @@ export default {
   setup(_, context) {
     const pickup = ref('');
     const buttonlocation = ref(false);
-    // selectedLocation.latitude && selectedLocation.longitude && typeof window !== 'undefined' ? localStorage.getItem('pickup') : ''
-
-    // const pickup=ref();
-    //   if(selectedLocation.latitude || selectedLocation.longitude) {
-    //   pickup.value=localStorage.getItem('pickup');
-    // }
-
     const location = ref(true);
     const message = ref('');
     const errorMsg = ref(false);
@@ -158,13 +151,11 @@ export default {
     });
 
     const edit = () => {
-      console.log('pick up');
       if (location.value) {
         pickup.value = '';
 
         isLocationdropOpen.value = !isLocationdropOpen.value;
       } else if (!location.value) {
-        console.log('drop up');
         message.value = '';
 
         isLocationdropOpen.value = !isLocationdropOpen.value;
@@ -195,17 +186,56 @@ export default {
       });
     };
 
-    // console.log(selectedLocation);
     const isLocationdropOpen = ref(false);
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
-    const pickupLocation = () => {
+    const pickupLocation = async () => {
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'motb_pickup_loc',
+              eventStart_ts: Date.now(),
+              payload: {}
+            })
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
       buttonlocation.value = true;
       location.value = true;
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
-    const dropLocation = () => {
+    const dropLocation = async () => {
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'motb_drop_loc',
+              eventStart_ts: Date.now(),
+              payload: {}
+            })
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
       buttonlocation.value = false;
       location.value = false;
       isLocationdropOpen.value = !isLocationdropOpen.value;
@@ -223,27 +253,10 @@ export default {
             referrerPolicy: 'no-referrer', // no-referrer,
             body: JSON.stringify({
               experienceId: localStorage.getItem('experienceId'),
-              eventCode: 'Searching_ride',
-              eventTitle: 'event search',
-              eventMessage: 'I clicked on search',
-              eventSource: {
-                eventSourceId: 'mobility',
-                eventSourceType: 'mobility'
-              },
-              eventDestination: {
-                eventDestinationId: 'gateway',
-                eventDestinationType: 'gateway'
-              },
-              context: {
-                transactionId: localStorage.getItem('experienceId') + '.exp',
-                messageId: ''
-              },
-              payload: 'search is calling',
+              eventCode: 'motb_srch_init',
               eventStart_ts: Date.now(),
-              eventEnd_ts: '',
-              created_ts: Date.now(),
-              lastModified_ts: Date.now()
-            }) // body data type must match "Content-Type" header
+              payload: {}
+            })
           });
         } catch (error) {
           console.error(error);
@@ -332,13 +345,7 @@ export default {
       top: 11px;
     }
   }
-  // label {
-  //   font-family: 'Inter', sans-serif;
-  //   font-style: normal;
-  //   font-weight: 500;
-  //   font-size: 16px;
-  //   line-height: 19px;
-  // }
+
   .input {
     display: flex;
     padding-top: 5%;
