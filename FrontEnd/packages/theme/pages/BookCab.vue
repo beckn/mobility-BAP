@@ -126,7 +126,8 @@ export default {
               // eslint-disable-next-line camelcase
               bpp_id: cartItems.bpp_id,
               // eslint-disable-next-line camelcase
-              bpp_uri: cartItems.bpp_uri
+              bpp_uri: cartItems.bpp_uri,
+              transaction_id: localStorage.getItem('transactionId')
             },
             message: {
               cart: {
@@ -205,10 +206,7 @@ export default {
               'quoteData',
               JSON.stringify(onGetQuoteRes[0].message)
             );
-            localStorage.setItem(
-              'transactionId',
-              onGetQuoteRes[0].context.transaction_id
-            );
+
             enableLoader.value = false;
             if (localStorage.getItem('experienceId') !== null) {
               try {
