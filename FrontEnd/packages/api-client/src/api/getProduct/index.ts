@@ -4,6 +4,7 @@ import * as sa from 'superagent';
 // import { SearchItemsWhere } from '../../types/Search';
 import { AckResponse } from '../../types/BecknClientApi';
 import { Context } from '@vue-storefront/core';
+import { v4 as uuidv4 } from 'uuid';
 
 /* eslint  camelcase: 0 */
 
@@ -20,11 +21,13 @@ export default async function getProduct(
 
   const qParams = {
     context: {
-      transaction_id: params.experienceId + '.expId'
+      transaction_id: params.experienceId
+        ? uuidv4() + `.${params.experienceId}`
+        : uuidv4(),
     },
     message: {
-      criteria: criteriaData
-    }
+      criteria: criteriaData,
+    },
   };
   const config = context.config as Config;
   const client = context.client as sa.SuperAgent<sa.SuperAgentRequest>;

@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@vue-storefront/core": "^2.3.0",
-    "superagent": "^6.1.0"
+    "superagent": "^6.1.0",
+    "uuid": "^9.0.0"
   },
   "files": [
     "lib/**/*"
