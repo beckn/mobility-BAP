@@ -441,7 +441,7 @@ export default {
               headers: {
                 'Content-Type': 'application/json'
               },
-              redirect: 'follow', 
+              redirect: 'follow',
               referrerPolicy: 'no-referrer',
               body: JSON.stringify({
                 experienceId: localStorage.getItem('experienceId'),
@@ -477,10 +477,7 @@ export default {
           if (helpers.shouldStopPooling(onInitRes, 'order')) {
             stopPolling();
             localStorage.setItem('initResult', JSON.stringify(onInitRes));
-            localStorage.setItem(
-              'transactionId',
-              onInitRes[0].context.transaction_id
-            );
+
             enableLoader.value = false;
             root.$router.push('/payment');
           }

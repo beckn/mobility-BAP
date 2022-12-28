@@ -164,10 +164,6 @@ export default {
             //localStorage.removeItem('cartItem');
             localStorage.removeItem('quoteData');
             // localStorage.removeItem('initResult');
-            localStorage.setItem(
-              'transactionId',
-              newValue[0].context.transaction_id
-            );
           }
         }
       );
