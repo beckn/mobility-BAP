@@ -18,7 +18,7 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd taxi-reference-BAP/FrontEnd
+          cd mobility-BAP/FrontEnd
           git checkout main
           git pull
           yarn
