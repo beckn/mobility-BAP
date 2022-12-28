@@ -441,32 +441,14 @@ export default {
               headers: {
                 'Content-Type': 'application/json'
               },
-              redirect: 'follow', // manual, *follow, error
-              referrerPolicy: 'no-referrer', // no-referrer,
+              redirect: 'follow', 
+              referrerPolicy: 'no-referrer',
               body: JSON.stringify({
                 experienceId: localStorage.getItem('experienceId'),
-                eventCode: 'initializing_ride',
-                eventTitle: 'ride initialised',
-                eventMessage:
-                  'I am initializing the ride by giving my name & phone number',
-                eventSource: {
-                  eventSourceId: 'mobility',
-                  eventSourceType: 'mobility'
-                },
-                eventDestination: {
-                  eventDestinationId: 'gateway',
-                  eventDestinationType: 'gateway'
-                },
-                context: {
-                  transactionId: localStorage.getItem('experienceId') + '.exp',
-                  messageId: ''
-                },
-                payload: 'ride initialised',
+                eventCode: 'motb_init_ride',
                 eventStart_ts: Date.now(),
-                eventEnd_ts: '',
-                created_ts: Date.now(),
-                lastModified_ts: Date.now()
-              }) // body data type must match "Content-Type" header
+                payload: {}
+              })
             });
           } catch (error) {
             console.error(error);
