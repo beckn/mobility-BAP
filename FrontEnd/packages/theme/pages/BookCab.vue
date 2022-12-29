@@ -75,7 +75,8 @@ export default {
       default: false
     },
     value: { type: Number, default: 1 },
-    maxLimit: { type: Number, default: 100 }
+    maxLimit: { type: Number, default: 100 },
+    index: { typr: Number, default: 0 }
   },
   data() {
     return {
@@ -86,6 +87,7 @@ export default {
     const { selectedLocation, updateLocation } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
+    const _productIndex = ref(props.index);
     const _maxLimit = ref(props.maxLimit);
     const isShow = ref(false);
     const enableLoader = ref(false);
@@ -115,8 +117,7 @@ export default {
         address: address
       });
     };
-    const getQuote = async () => {
-      //params for getQuote API
+    const getQuote = async (_productIndex) => {
       enableLoader.value = true;
       const cartItems = JSON.parse(localStorage.getItem('cartItem'));
       if (cartItems) {
@@ -131,7 +132,7 @@ export default {
             },
             message: {
               cart: {
-                items: cartItems.bpp_providers[0].items
+                items: cartItems.bpp_providers[_productIndex.value].items
               }
             }
           }
@@ -144,37 +145,26 @@ export default {
 
         if (localStorage.getItem('experienceId') !== null) {
           try {
-            await fetch('https://api.eventcollector.becknprotocol.io/event', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              redirect: 'follow', // manual, *follow, error
-              referrerPolicy: 'no-referrer', // no-referrer,
-              body: JSON.stringify({
-                experienceId: localStorage.getItem('experienceId'),
-                eventCode: 'selecting_ride',
-                eventTitle: 'selected ride',
-                eventMessage: 'I am selecting the ride that suits me',
-                eventSource: {
-                  eventSourceId: 'mobility',
-                  eventSourceType: 'mobility'
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
                 },
-                eventDestination: {
-                  eventDestinationId: 'gateway',
-                  eventDestinationType: 'gateway'
-                },
-                context: {
-                  transactionId: localStorage.getItem('experienceId') + '.exp',
-                  messageId: ''
-                },
-                payload: 'ride is selected',
-                eventStart_ts: Date.now(),
-                eventEnd_ts: '',
-                created_ts: Date.now(),
-                lastModified_ts: Date.now()
-              }) // body data type must match "Content-Type" header
-            });
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'motb_ride_slectd',
+                  eventAction: 'ride selected',
+                  eventSourceId: '2',
+                  eventDestinationId: '3',
+                  payload: '', //add full context object
+                  eventStart_ts: Date.now()
+                }) // body data type must match "Content-Type" header
+              }
+            );
           } catch (error) {
             console.error(error);
           }
@@ -211,7 +201,7 @@ export default {
             if (localStorage.getItem('experienceId') !== null) {
               try {
                 await fetch(
-                  'https://api.eventcollector.becknprotocol.io/event',
+                  'https://api.eventcollector.becknprotocol.io/v2/event',
                   {
                     method: 'POST',
                     headers: {
@@ -221,27 +211,12 @@ export default {
                     referrerPolicy: 'no-referrer', // no-referrer,
                     body: JSON.stringify({
                       experienceId: localStorage.getItem('experienceId'),
-                      eventCode: 'recieving_quotation',
-                      eventTitle: 'receiving quotations',
-                      eventMessage: 'I have recieved the quotation for my ride',
-                      eventSource: {
-                        eventSourceId: 'gateway',
-                        eventSourceType: 'gateway'
-                      },
-                      eventDestination: {
-                        eventDestinationId: 'mobility',
-                        eventDestinationType: 'mobility'
-                      },
-                      context: {
-                        transactionId:
-                          localStorage.getItem('experienceId') + '.exp',
-                        messageId: ''
-                      },
-                      payload: 'ride quotation is being received',
-                      eventStart_ts: Date.now(),
-                      eventEnd_ts: '',
-                      created_ts: Date.now(),
-                      lastModified_ts: Date.now()
+                      eventCode: 'motb_sent_quote',
+                      eventAction: 'quotation sent',
+                      eventSourceId: '3',
+                      eventDestinationId: '2',
+                      payload: '', //add full context object
+                      eventStart_ts: Date.now()
                     }) // body data type must match "Content-Type" header
                   }
                 );
@@ -257,41 +232,8 @@ export default {
 
     const changeItemNumber = async (type) => {
       emit('updateItemCount', _value);
-      // await fetch('https://api.experience.becknprotocol.io/events', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   redirect: 'follow', // manual, *follow, error
-      //   referrerPolicy: 'no-referrer', // no-referrer,
-      //   body: JSON.stringify({
-      //     id: '2',
-      //     domainId: 'mobility',
-      //     title: 'Selected Product',
-      //     type: 'type 1',
-      //     start: '',
-      //     end: '',
-      //     created_at: Date.now(),
-      //     last_modified_at: Date.now()
-      //   }) // body data type must match "Content-Type" header
-      // });
-      // await fetch('https://api.experience.becknprotocol.io/event-steps', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   redirect: 'follow', // manual, *follow, error
-      //   referrerPolicy: 'no-referrer', // no-referrer,
-      //   body: JSON.stringify({
-      //     id: '4',
-      //     eventId: '2',
-      //     title: 'Selected Product',
-      //     source: '1',
-      //     destination: '3'
-      //   }) // body data type must match "Content-Type" header
-      // });
-      // console.log('updatecount ===>');
-      getQuote();
+
+      getQuote(_productIndex);
     };
 
     return {
@@ -299,6 +241,7 @@ export default {
       b_name,
       changeItemNumber,
       _value,
+      _productIndex,
       _maxLimit,
       isLocationdropOpen,
       toggleLocationDrop,

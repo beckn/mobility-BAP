@@ -160,38 +160,26 @@ export default {
         if (tripStatusVal.value === 'Ended') {
           if (localStorage.getItem('experienceId') !== null) {
             try {
-              await fetch('https://api.eventcollector.becknprotocol.io/event', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                redirect: 'follow', // manual, *follow, error
-                referrerPolicy: 'no-referrer', // no-referrer,
-                body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
-                  eventCode: 'recieved_payconfirmation',
-                  eventTitle: 'end ride',
-                  eventMessage: 'Thanks for comfortable ride',
-                  eventSource: {
-                    eventSourceId: 'gateway',
-                    eventSourceType: 'gateway'
+              await fetch(
+                'https://api.eventcollector.becknprotocol.io/v2/event',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
                   },
-                  eventDestination: {
-                    eventDestinationId: 'mobility',
-                    eventDestinationType: 'mobility'
-                  },
-                  context: {
-                    transactionId:
-                      localStorage.getItem('experienceId') + '.exp',
-                    messageId: ''
-                  },
-                  payload: 'ride is complete',
-                  eventStart_ts: Date.now(),
-                  eventEnd_ts: '',
-                  created_ts: Date.now(),
-                  lastModified_ts: Date.now()
-                }) // body data type must match "Content-Type" header
-              });
+                  redirect: 'follow', // manual, *follow, error
+                  referrerPolicy: 'no-referrer', // no-referrer,
+                  body: JSON.stringify({
+                    experienceId: localStorage.getItem('experienceId'),
+                    eventCode: 'motb_payment_endride',
+                    eventAction: 'ending ride',
+                    eventSourceId: '2',
+                    eventDestinationId: '3',
+                    payload: '', //add full context object
+                    eventStart_ts: Date.now()
+                  }) // body data type must match "Content-Type" header
+                }
+              );
             } catch (error) {
               console.error(error);
             }
@@ -251,37 +239,26 @@ export default {
         const response = await track(params, localStorage.getItem('token'));
         if (localStorage.getItem('experienceId') !== null) {
           try {
-            await fetch('https://api.eventcollector.becknprotocol.io/event', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              redirect: 'follow', // manual, *follow, error
-              referrerPolicy: 'no-referrer', // no-referrer,
-              body: JSON.stringify({
-                experienceId: localStorage.getItem('experienceId'),
-                eventCode: 'tracking_driver',
-                eventTitle: 'Track ride',
-                eventMessage: 'I am tracking current location of my ride',
-                eventSource: {
-                  eventSourceId: 'mobility',
-                  eventSourceType: 'mobility'
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
                 },
-                eventDestination: {
-                  eventDestinationId: 'gateway',
-                  eventDestinationType: 'gateway'
-                },
-                context: {
-                  transactionId: localStorage.getItem('experienceId') + '.exp',
-                  messageId: ''
-                },
-                payload: 'ride is tracked',
-                eventStart_ts: Date.now(),
-                eventEnd_ts: '',
-                created_ts: Date.now(),
-                lastModified_ts: Date.now()
-              }) // body data type must match "Content-Type" header
-            });
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'motb_tracking_driver',
+                  eventAction: 'tracking ride',
+                  eventSourceId: '2',
+                  eventDestinationId: '3',
+                  payload: '', //add full context object
+                  eventStart_ts: Date.now()
+                }) // body data type must match "Content-Type" header
+              }
+            );
           } catch (error) {
             console.error(error);
           }

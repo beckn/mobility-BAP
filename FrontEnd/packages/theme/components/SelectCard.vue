@@ -257,6 +257,7 @@
                                       <form></form>
                                       <p class="s-name">Name:</p>
                                       <input
+                                        @click="enterName"
                                         v-model="name"
                                         class="text1"
                                         type="text"
@@ -273,6 +274,7 @@
                                       <br />
                                       <p class="s-name">Phone Number:</p>
                                       <input
+                                        @click="enterphoneNo"
                                         v-model="phoneNo"
                                         class="text1"
                                         type="text"
@@ -387,6 +389,59 @@ export default {
     const _destloc = ref(
       JSON.parse(localStorage.getItem('destinationLocation'))
     );
+
+    const enterName = async () => {
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'motb_init_details1',
+              eventAction: 'initializing the ride by giving my name',
+              eventSourceId: '2',
+              eventDestinationId: '2',
+              payload: '', //add full context object
+              eventStart_ts: Date.now()
+            })
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    const enterphoneNo = async () => {
+      if (localStorage.getItem('experienceId') !== null) {
+        try {
+          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer,
+            body: JSON.stringify({
+              experienceId: localStorage.getItem('experienceId'),
+              eventCode: 'motb_init_details2',
+              eventAction: 'initializing the ride by giving my phone number',
+              eventSourceId: '2',
+              eventDestinationId: '2',
+              payload: '', //add full context object
+              eventStart_ts: Date.now()
+            })
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
     const validatePhoneNumber = () => {
       const validationRegex = /^\d{10}$/;
       if (phoneNo.value.match(validationRegex)) {
@@ -436,7 +491,7 @@ export default {
         const response = await init(params, localStorage.getItem('token'));
         if (localStorage.getItem('experienceId') !== null) {
           try {
-            await fetch('https://api.eventcollector.becknprotocol.io/event', {
+            await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -446,8 +501,11 @@ export default {
               body: JSON.stringify({
                 experienceId: localStorage.getItem('experienceId'),
                 eventCode: 'motb_init_ride',
-                eventStart_ts: Date.now(),
-                payload: {}
+                eventAction: 'I have initiated the ride request',
+                eventSourceId: '2',
+                eventDestinationId: '3',
+                payload: '', //add full context object
+                eventStart_ts: Date.now()
               })
             });
           } catch (error) {
@@ -467,7 +525,7 @@ export default {
 
       watch(
         () => onInitResult.value,
-        (onInitRes) => {
+        async (onInitRes) => {
           if (onInitRes?.error) {
             throw 'api fail';
           }
@@ -479,6 +537,32 @@ export default {
             localStorage.setItem('initResult', JSON.stringify(onInitRes));
 
             enableLoader.value = false;
+            if (localStorage.getItem('experienceId') !== null) {
+              try {
+                await fetch(
+                  'https://api.eventcollector.becknprotocol.io/v2/event',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer,
+                    body: JSON.stringify({
+                      experienceId: localStorage.getItem('experienceId'),
+                      eventCode: 'motb_sent_fnl_quote',
+                      eventAction: 'sent final quote',
+                      eventSourceId: '3',
+                      eventDestinationId: '2',
+                      payload: '', //add full context object
+                      eventStart_ts: Date.now()
+                    })
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }
             root.$router.push('/payment');
           }
         }
@@ -504,7 +588,9 @@ export default {
       isValidPhoneNumber,
       validatePhoneNumber,
       isValidName,
-      validateName
+      validateName,
+      enterName,
+      enterphoneNo
     };
   }
 };

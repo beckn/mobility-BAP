@@ -12,9 +12,13 @@
       </div>
       <div class="s-p-details">
         <div class="price-verified">
-          <div @click="$emit('goToProduct')" class="s-p-name">{{ _pName.split('-')[0] }}</div>
+          <div @click="$emit('goToProduct')" class="s-p-name">
+            {{ _pName.split('-')[0] }}
+          </div>
         </div>
-        <div class="p-distance">{{providerGetters.getProviderDistance(provider)}} min away</div> 
+        <div class="p-distance">
+          {{ providerGetters.getProviderDistance(provider) }} min away
+        </div>
         <!-- <div class="s-p-weight">{{ _pWieght }}</div> -->
         <div
           class="price-increase"
@@ -24,7 +28,7 @@
         </div>
         <div class="verify-inline-container">
           <div class="s-p-price" v-if="_updatedCount !== 0">
-            ₹ {{Math.round( _updatedPrice ? _updatedPrice : _pPrice) }}
+            ₹ {{ Math.round(_updatedPrice ? _updatedPrice : _pPrice) }}
           </div>
         </div>
         <span class="out-stock" v-if="_updatedCount === 0">Out of Stock</span>
@@ -40,39 +44,9 @@
           v-if="!dropdownCouner"
           v-e2e="'add-to-cart'"
           :value="_pCount"
+          :index="_pIndex"
           @updateItemCount="(data) => $emit('updateItemCount', data)"
         />
-        <!--<div v-if="dropdownCouner" class="dropdown-container d-flex ">
-          <span
-            class="avail-unit"
-            v-if="!!_updatedCount && _updatedCount !== _pCount"
-            >{{ _updatedCount }} units are available</span
-          >
-          <div class="position-relative">
-            <div
-              class="dropdown-button"
-              v-if="_updatedCount !== 0"
-              @click="openDropdown = !openDropdown"
-            >
-              <div>{{ _pCount }}</div>
-              <SfIcon icon="chevron_down" size="xxs" />
-            </div>
-            <div class="dowpdown" v-if="openDropdown">
-              <div
-                class="dowpdown-item"
-                :class="{
-                  border: index !== count.length - 1,
-                  'color-text': count === 'More'
-                }"
-                v-for="(count, index) in dpList"
-                :key="index"
-                @click="dropdownClick(count)"
-              >
-                {{ count }}
-              </div>
-            </div>
-          </div>
-        </div>-->
       </div>
     </div>
   </div>
@@ -80,7 +54,7 @@
 <script>
 import { SfImage, SfIcon } from '@storefront-ui/vue';
 import Bookcab from '../pages/BookCab.vue';
-import { productGetters , providerGetters} from '@vue-storefront/beckn';
+import { productGetters, providerGetters } from '@vue-storefront/beckn';
 import { ref, computed } from '@vue/composition-api';
 
 export default {
@@ -93,6 +67,7 @@ export default {
   props: {
     product: { type: Object },
     pName: { type: String, default: '' },
+    pIndex: { type: Number, default: 0 },
     pWieght: { type: String, default: '' },
     pPrice: { type: Number, default: '' },
     pImage: { type: String, default: '' },
@@ -105,6 +80,7 @@ export default {
   },
 
   setup(props, { emit }) {
+    const _pIndex = computed(() => props.pIndex);
     const _pName = computed(() => props.pName);
     const _pWieght = computed(() => props.pWieght);
     const _pPrice = computed(() => props.pPrice);
@@ -129,6 +105,7 @@ export default {
       productGetters,
       providerGetters,
       _pName,
+      _pIndex,
       _pWieght,
       _pPrice,
       _pImage,
@@ -193,26 +170,26 @@ export default {
     }
   }
 }
-.s-p-name{
+.s-p-name {
   min-height: 0;
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 500;
-font-size: 10px;
-line-height: 10px;
-color: #37474F;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 10px;
+  color: #37474f;
 }
-.s-p-price{
+.s-p-price {
   line-height: 10px;
 }
-.p-image{
+.p-image {
   padding-left: 25%;
 }
-.p-distance{
+.p-distance {
   line-height: 13px;
   //line-height: 14px;
   padding-bottom: 5px;
-  color: #8A8D8E;
+  color: #8a8d8e;
   font-family: 'Roboto';
 }
 </style>
