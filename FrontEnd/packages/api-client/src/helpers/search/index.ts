@@ -3,7 +3,7 @@ import {
   SearchType,
   SearchItemsWhere,
   OnSearchRequest,
-  PollRequest
+  PollRequest,
 } from './../../types/Search';
 
 export const buildSearchRequest = (
@@ -13,7 +13,8 @@ export const buildSearchRequest = (
     return new SearchRequest(
       search.drop_location,
       search.pickup_location,
-      search.experienceId
+      search.experienceId,
+      search.created_at
     );
   }
 };
