@@ -287,7 +287,8 @@ export default {
       await search({
         experienceId: localStorage.getItem('experienceId'),
         pickup_location: localStorage.getItem('pickUpLatAndLong'),
-        drop_location: localStorage.getItem('dropLatAndLong')
+        drop_location: localStorage.getItem('dropLatAndLong'),
+        created_at: Date.now()
       });
 
       localStorage.setItem(

@@ -18,6 +18,7 @@ export default async function getProduct(
   if (params.pickup_location)
     criteriaData.pickup_location = params.pickup_location;
   if (params.drop_location) criteriaData.drop_location = params.drop_location;
+  if (params.created_at) criteriaData.created_at = params.created_at;
 
   const qParams = {
     context: {
