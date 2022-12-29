@@ -193,7 +193,7 @@ export default {
     const pickupLocation = async () => {
       if (localStorage.getItem('experienceId') !== null) {
         try {
-          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -203,8 +203,11 @@ export default {
             body: JSON.stringify({
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_pickup_loc',
-              eventStart_ts: Date.now(),
-              payload: {}
+              eventAction: 'selecting pickup location',
+              eventSourceId: '2',
+              eventDestinationId: '2',
+              payload: '', //add full context object
+              eventStart_ts: Date.now()
             })
           });
         } catch (error) {
@@ -218,7 +221,7 @@ export default {
     const dropLocation = async () => {
       if (localStorage.getItem('experienceId') !== null) {
         try {
-          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -228,8 +231,11 @@ export default {
             body: JSON.stringify({
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_drop_loc',
-              eventStart_ts: Date.now(),
-              payload: {}
+              eventAction: 'selecting drop location',
+              eventSourceId: '2',
+              eventDestinationId: '2',
+              payload: '', //add full context object
+              eventStart_ts: Date.now()
             })
           });
         } catch (error) {
@@ -244,7 +250,7 @@ export default {
     const openSearch = async () => {
       if (localStorage.getItem('experienceId') !== null) {
         try {
-          await fetch('https://api.eventcollector.becknprotocol.io/event', {
+          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -254,8 +260,11 @@ export default {
             body: JSON.stringify({
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_srch_init',
-              eventStart_ts: Date.now(),
-              payload: {}
+              eventAction: 'search initiated',
+              eventSourceId: '2',
+              eventDestinationId: '1',
+              payload: '', //add full context object
+              eventStart_ts: Date.now()
             })
           });
         } catch (error) {

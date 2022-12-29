@@ -159,6 +159,7 @@
                   :pImage="product.descriptor.images[0]"
                   :pWieght="productGetters.getProductWeight(product) + ' kg'"
                   :pCount="cartGetters.getItemQty(isInCart({ product }))"
+                  :pIndex="pIndex"
                   @updateItemCount="
                     (item) => updateItemCount(item, provider, bpp, pIndex)
                   "
@@ -302,7 +303,7 @@ export default {
             if (localStorage.getItem('experienceId') !== null) {
               try {
                 await fetch(
-                  'https://api.eventcollector.becknprotocol.io/event',
+                  'https://api.eventcollector.becknprotocol.io/v2/event',
                   {
                     method: 'POST',
                     headers: {
@@ -312,27 +313,12 @@ export default {
                     referrerPolicy: 'no-referrer', // no-referrer,
                     body: JSON.stringify({
                       experienceId: localStorage.getItem('experienceId'),
-                      eventCode: 'recieving_catalogues',
-                      eventTitle: 'Receiving catalogues',
-                      eventMessage: 'I have got catalogues',
-                      eventSource: {
-                        eventSourceId: 'gateway',
-                        eventSourceType: 'gateway'
-                      },
-                      eventDestination: {
-                        eventDestinationId: 'mobility',
-                        eventDestinationType: 'mobility'
-                      },
-                      context: {
-                        transactionId:
-                          localStorage.getItem('experienceId') + '.exp',
-                        messageId: ''
-                      },
-                      payload: 'getting the catalogues',
-                      eventStart_ts: Date.now(),
-                      eventEnd_ts: '',
-                      created_ts: Date.now(),
-                      lastModified_ts: Date.now()
+                      eventCode: 'motb_sent_ctlg_bap',
+                      eventAction: 'catalogue sent',
+                      eventSourceId: '3',
+                      eventDestinationId: '2',
+                      payload: '', //add full context object
+                      eventStart_ts: Date.now()
                     }) // body data type must match "Content-Type" header
                   }
                 );
