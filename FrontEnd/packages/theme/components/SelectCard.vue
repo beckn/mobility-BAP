@@ -404,10 +404,10 @@ export default {
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_init_details1',
               eventAction: 'initializing the ride by giving my name',
-              eventSourceId: '2',
-              eventDestinationId: '2',
+              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
               payload: '', //add full context object
-              eventStart_ts: Date.now()
+              eventStart_ts: new Date().toISOString()
             })
           });
         } catch (error) {
@@ -430,10 +430,10 @@ export default {
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_init_details2',
               eventAction: 'initializing the ride by giving my phone number',
-              eventSourceId: '2',
-              eventDestinationId: '2',
+              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
               payload: '', //add full context object
-              eventStart_ts: Date.now()
+              eventStart_ts: new Date().toISOString()
             })
           });
         } catch (error) {
@@ -502,10 +502,10 @@ export default {
                 experienceId: localStorage.getItem('experienceId'),
                 eventCode: 'motb_init_ride',
                 eventAction: 'I have initiated the ride request',
-                eventSourceId: '2',
-                eventDestinationId: '3',
+                eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                eventDestinationId: 'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                 payload: '', //add full context object
-                eventStart_ts: Date.now()
+                eventStart_ts: new Date().toISOString()
               })
             });
           } catch (error) {
@@ -552,10 +552,10 @@ export default {
                       experienceId: localStorage.getItem('experienceId'),
                       eventCode: 'motb_sent_fnl_quote',
                       eventAction: 'sent final quote',
-                      eventSourceId: '3',
-                      eventDestinationId: '2',
+                      eventSourceId: 'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                      eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
                       payload: '', //add full context object
-                      eventStart_ts: Date.now()
+                      eventStart_ts: new Date().toISOString()
                     })
                   }
                 );

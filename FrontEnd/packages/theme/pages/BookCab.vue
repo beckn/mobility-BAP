@@ -158,10 +158,11 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'motb_ride_slectd',
                   eventAction: 'ride selected',
-                  eventSourceId: '2',
-                  eventDestinationId: '3',
+                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId:
+                    'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                   payload: '', //add full context object
-                  eventStart_ts: Date.now()
+                  eventStart_ts: new Date().toISOString()
                 }) // body data type must match "Content-Type" header
               }
             );
@@ -213,10 +214,12 @@ export default {
                       experienceId: localStorage.getItem('experienceId'),
                       eventCode: 'motb_sent_quote',
                       eventAction: 'quotation sent',
-                      eventSourceId: '3',
-                      eventDestinationId: '2',
+                      eventSourceId:
+                        'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                      eventDestinationId:
+                        'mobilityreferencebap.becknprotocol.io',
                       payload: '', //add full context object
-                      eventStart_ts: Date.now()
+                      eventStart_ts: new Date().toISOString()
                     }) // body data type must match "Content-Type" header
                   }
                 );
