@@ -204,10 +204,10 @@ export default {
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_pickup_loc',
               eventAction: 'selecting pickup location',
-              eventSourceId: '2',
-              eventDestinationId: '2',
+              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
               payload: '', //add full context object
-              eventStart_ts: Date.now()
+              eventStart_ts: new Date().toISOString()
             })
           });
         } catch (error) {
@@ -232,10 +232,10 @@ export default {
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_drop_loc',
               eventAction: 'selecting drop location',
-              eventSourceId: '2',
-              eventDestinationId: '2',
+              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
               payload: '', //add full context object
-              eventStart_ts: Date.now()
+              eventStart_ts: new Date().toISOString()
             })
           });
         } catch (error) {
@@ -261,10 +261,10 @@ export default {
               experienceId: localStorage.getItem('experienceId'),
               eventCode: 'motb_srch_init',
               eventAction: 'search initiated',
-              eventSourceId: '2',
-              eventDestinationId: '1',
+              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+              eventDestinationId: 'gateway.becknprotocol.io',
               payload: '', //add full context object
-              eventStart_ts: Date.now()
+              eventStart_ts: new Date().toISOString()
             })
           });
         } catch (error) {
