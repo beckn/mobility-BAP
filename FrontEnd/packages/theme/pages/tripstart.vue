@@ -159,31 +159,33 @@ export default {
         }
         if (tripStatusVal.value === 'Ended') {
           if (localStorage.getItem('experienceId') !== null) {
-            try {
-              await fetch(
-                'https://api.eventcollector.becknprotocol.io/v2/event',
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  redirect: 'follow', // manual, *follow, error
-                  referrerPolicy: 'no-referrer', // no-referrer,
-                  body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
-                    eventCode: 'motb_payment_endride',
-                    eventAction: 'ending ride',
-                    eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-                    eventDestinationId:
-                      'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-                    payload: '', //add full context object
-                    eventStart_ts: new Date().toISOString()
-                  }) // body data type must match "Content-Type" header
-                }
-              );
-            } catch (error) {
-              console.error(error);
-            }
+            setTimeout(async () => {
+              try {
+                await fetch(
+                  'https://api.eventcollector.becknprotocol.io/v2/event',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer,
+                    body: JSON.stringify({
+                      experienceId: localStorage.getItem('experienceId'),
+                      eventCode: 'mbtb_payment_endride',
+                      eventAction: 'ending ride',
+                      eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                      eventDestinationId:
+                        'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                      payload: '', //add full context object
+                      eventStart_ts: new Date().toISOString()
+                    }) // body data type must match "Content-Type" header
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }, 1000);
           }
           setTimeout(function() {
             root.$router.push('/orderSuccess');
@@ -239,31 +241,33 @@ export default {
       try {
         const response = await track(params, localStorage.getItem('token'));
         if (localStorage.getItem('experienceId') !== null) {
-          try {
-            await fetch(
-              'https://api.eventcollector.becknprotocol.io/v2/event',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                redirect: 'follow', // manual, *follow, error
-                referrerPolicy: 'no-referrer', // no-referrer,
-                body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
-                  eventCode: 'motb_tracking_driver',
-                  eventAction: 'tracking ride',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-                  eventDestinationId:
-                    'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-                  payload: '', //add full context object
-                  eventStart_ts: Date.now()
-                }) // body data type must match "Content-Type" header
-              }
-            );
-          } catch (error) {
-            console.error(error);
-          }
+          setTimeout(async () => {
+            try {
+              await fetch(
+                'https://api.eventcollector.becknprotocol.io/v2/event',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  redirect: 'follow', // manual, *follow, error
+                  referrerPolicy: 'no-referrer', // no-referrer,
+                  body: JSON.stringify({
+                    experienceId: localStorage.getItem('experienceId'),
+                    eventCode: 'mbtb_tracking_driver',
+                    eventAction: 'tracking ride',
+                    eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                    eventDestinationId:
+                      'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                    payload: '', //add full context object
+                    eventStart_ts: Date.now()
+                  }) // body data type must match "Content-Type" header
+                }
+              );
+            } catch (error) {
+              console.error(error);
+            }
+          }, 1000);
         }
         await onTrack(
           { messageIds: response[0].context.message_id },
