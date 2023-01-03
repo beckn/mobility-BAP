@@ -23,8 +23,8 @@ jobs:
           git checkout staging-dev
           git log -1
           git pull
-          npm
-          npm run build
+          yarn
+          yarn build
           pm2 kill
           sleep 10
           pm2 start "yarn start" --name taxibap-staging-dev
