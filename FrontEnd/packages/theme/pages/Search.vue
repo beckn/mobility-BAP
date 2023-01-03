@@ -302,37 +302,38 @@ export default {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
             if (localStorage.getItem('experienceId') !== null) {
-              try {
-                await fetch(
-                  'https://api.eventcollector.becknprotocol.io/v2/event',
-                  {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    redirect: 'follow', // manual, *follow, error
-                    referrerPolicy: 'no-referrer', // no-referrer,
-                    body: JSON.stringify({
-                      experienceId: localStorage.getItem('experienceId'),
-                      eventCode: 'motb_sent_ctlg_bap',
-                      eventAction: 'catalogue sent',
-                      eventSourceId: 'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-                      eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
-                      payload: '', //add full context object
-                      eventStart_ts:new Date().toISOString()
-                    }) // body data type must match "Content-Type" header
-                  }
-                );
-              } catch (error) {
-                console.error(error);
-              }
+              setTimeout(async () => {
+                try {
+                  await fetch(
+                    'https://api.eventcollector.becknprotocol.io/v2/event',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      redirect: 'follow', // manual, *follow, error
+                      referrerPolicy: 'no-referrer', // no-referrer,
+                      body: JSON.stringify({
+                        experienceId: localStorage.getItem('experienceId'),
+                        eventCode: 'mbth_snt_catalogue',
+                        eventAction: 'sent catalogue',
+                        eventSourceId:
+                          'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                        eventDestinationId:
+                          'mobilityreferencebap.becknprotocol.io',
+                        payload: '', //add full context object
+                        eventStart_ts: new Date().toISOString()
+                      }) // body data type must match "Content-Type" header
+                    }
+                  );
+                } catch (error) {
+                  console.error(error);
+                }
+              }, 1000);
             }
             toggleLoadindBar(true);
-
-            localStorage.setItem(
-              'cartItem',
-              JSON.stringify(pollResults.value[0])
-            );
+            console.log('pollResults', pollResults);
+            localStorage.setItem('cartItem', JSON.stringify(pollResults.value));
           }
         }
       );

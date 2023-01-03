@@ -147,6 +147,25 @@ export default {
       if (URL.includes('?')) {
         let experienceId = URL.slice(URL.indexOf('?') + 1);
         localStorage.setItem('experienceId', experienceId);
+      } else {
+        await fetch(
+          'https://api.eventcollector.becknprotocol.io/v2/event/experience',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer'
+          }
+        )
+          .then((res) => {
+            return res.text();
+          })
+          .then((result) => {
+            localStorage.setItem('experienceId', result);
+          })
+          .catch((e) => console.error(e));
       }
     });
 
@@ -192,27 +211,32 @@ export default {
     };
     const pickupLocation = async () => {
       if (localStorage.getItem('experienceId') !== null) {
-        try {
-          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer,
-            body: JSON.stringify({
-              experienceId: localStorage.getItem('experienceId'),
-              eventCode: 'motb_pickup_loc',
-              eventAction: 'selecting pickup location',
-              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
-              payload: '', //add full context object
-              eventStart_ts: new Date().toISOString()
-            })
-          });
-        } catch (error) {
-          console.error(error);
-        }
+        setTimeout(async () => {
+          try {
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'mbtb_pickup_loc',
+                  eventAction: 'selecting pickup location',
+                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
+                  payload: '', //add full context object
+                  eventStart_ts: new Date().toISOString()
+                })
+              }
+            );
+          } catch (error) {
+            console.error(error);
+          }
+        }, 1000);
       }
       buttonlocation.value = true;
       location.value = true;
@@ -220,27 +244,32 @@ export default {
     };
     const dropLocation = async () => {
       if (localStorage.getItem('experienceId') !== null) {
-        try {
-          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer,
-            body: JSON.stringify({
-              experienceId: localStorage.getItem('experienceId'),
-              eventCode: 'motb_drop_loc',
-              eventAction: 'selecting drop location',
-              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
-              payload: '', //add full context object
-              eventStart_ts: new Date().toISOString()
-            })
-          });
-        } catch (error) {
-          console.error(error);
-        }
+        setTimeout(async () => {
+          try {
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'mbtb_drop_loc',
+                  eventAction: 'selecting drop-off location',
+                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
+                  payload: '', //add full context object
+                  eventStart_ts: new Date().toISOString()
+                })
+              }
+            );
+          } catch (error) {
+            console.error(error);
+          }
+        }, 1000);
       }
       buttonlocation.value = false;
       location.value = false;
@@ -249,27 +278,32 @@ export default {
 
     const openSearch = async () => {
       if (localStorage.getItem('experienceId') !== null) {
-        try {
-          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer,
-            body: JSON.stringify({
-              experienceId: localStorage.getItem('experienceId'),
-              eventCode: 'motb_srch_init',
-              eventAction: 'search initiated',
-              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-              eventDestinationId: 'gateway.becknprotocol.io',
-              payload: '', //add full context object
-              eventStart_ts: new Date().toISOString()
-            })
-          });
-        } catch (error) {
-          console.error(error);
-        }
+        setTimeout(async () => {
+          try {
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'mbtb_srch_init',
+                  eventAction: 'search initiated',
+                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId: 'gateway.becknprotocol.io',
+                  payload: '', //add full context object
+                  eventStart_ts: new Date().toISOString()
+                })
+              }
+            );
+          } catch (error) {
+            console.error(error);
+          }
+        }, 1000);
       }
 
       if (message.value && pickup.value && message.value != pickup.value) {

@@ -392,53 +392,63 @@ export default {
 
     const enterName = async () => {
       if (localStorage.getItem('experienceId') !== null) {
-        try {
-          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer,
-            body: JSON.stringify({
-              experienceId: localStorage.getItem('experienceId'),
-              eventCode: 'motb_init_details1',
-              eventAction: 'initializing the ride by giving my name',
-              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
-              payload: '', //add full context object
-              eventStart_ts: new Date().toISOString()
-            })
-          });
-        } catch (error) {
-          console.error(error);
-        }
+        setTimeout(async () => {
+          try {
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'mbtb_init_details1',
+                  eventAction: 'entering name',
+                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
+                  payload: '', //add full context object
+                  eventStart_ts: new Date().toISOString()
+                })
+              }
+            );
+          } catch (error) {
+            console.error(error);
+          }
+        }, 1000);
       }
     };
 
     const enterphoneNo = async () => {
       if (localStorage.getItem('experienceId') !== null) {
-        try {
-          await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer,
-            body: JSON.stringify({
-              experienceId: localStorage.getItem('experienceId'),
-              eventCode: 'motb_init_details2',
-              eventAction: 'initializing the ride by giving my phone number',
-              eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-              eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
-              payload: '', //add full context object
-              eventStart_ts: new Date().toISOString()
-            })
-          });
-        } catch (error) {
-          console.error(error);
-        }
+        setTimeout(async () => {
+          try {
+            await fetch(
+              'https://api.eventcollector.becknprotocol.io/v2/event',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer,
+                body: JSON.stringify({
+                  experienceId: localStorage.getItem('experienceId'),
+                  eventCode: 'mbtb_init_details2',
+                  eventAction: 'entering phone number',
+                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
+                  payload: '', //add full context object
+                  eventStart_ts: new Date().toISOString()
+                })
+              }
+            );
+          } catch (error) {
+            console.error(error);
+          }
+        }, 1000);
       }
     };
 
@@ -490,27 +500,33 @@ export default {
         );
         const response = await init(params, localStorage.getItem('token'));
         if (localStorage.getItem('experienceId') !== null) {
-          try {
-            await fetch('https://api.eventcollector.becknprotocol.io/v2/event', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              redirect: 'follow',
-              referrerPolicy: 'no-referrer',
-              body: JSON.stringify({
-                experienceId: localStorage.getItem('experienceId'),
-                eventCode: 'motb_init_ride',
-                eventAction: 'I have initiated the ride request',
-                eventSourceId: 'mobilityreferencebap.becknprotocol.io',
-                eventDestinationId: 'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-                payload: '', //add full context object
-                eventStart_ts: new Date().toISOString()
-              })
-            });
-          } catch (error) {
-            console.error(error);
-          }
+          setTimeout(async () => {
+            try {
+              await fetch(
+                'https://api.eventcollector.becknprotocol.io/v2/event',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  redirect: 'follow',
+                  referrerPolicy: 'no-referrer',
+                  body: JSON.stringify({
+                    experienceId: localStorage.getItem('experienceId'),
+                    eventCode: 'mbtb_init_ride',
+                    eventAction: 'initiating ride',
+                    eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                    eventDestinationId:
+                      'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                    payload: '', //add full context object
+                    eventStart_ts: new Date().toISOString()
+                  })
+                }
+              );
+            } catch (error) {
+              console.error(error);
+            }
+          }, 1000);
         }
 
         await onInitOrder(
@@ -538,30 +554,34 @@ export default {
 
             enableLoader.value = false;
             if (localStorage.getItem('experienceId') !== null) {
-              try {
-                await fetch(
-                  'https://api.eventcollector.becknprotocol.io/v2/event',
-                  {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    redirect: 'follow', // manual, *follow, error
-                    referrerPolicy: 'no-referrer', // no-referrer,
-                    body: JSON.stringify({
-                      experienceId: localStorage.getItem('experienceId'),
-                      eventCode: 'motb_sent_fnl_quote',
-                      eventAction: 'sent final quote',
-                      eventSourceId: 'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-                      eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
-                      payload: '', //add full context object
-                      eventStart_ts: new Date().toISOString()
-                    })
-                  }
-                );
-              } catch (error) {
-                console.error(error);
-              }
+              setTimeout(async () => {
+                try {
+                  await fetch(
+                    'https://api.eventcollector.becknprotocol.io/v2/event',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      redirect: 'follow', // manual, *follow, error
+                      referrerPolicy: 'no-referrer', // no-referrer,
+                      body: JSON.stringify({
+                        experienceId: localStorage.getItem('experienceId'),
+                        eventCode: 'mbth_sent_fnl_quote',
+                        eventAction: 'sent final quote',
+                        eventSourceId:
+                          'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
+                        eventDestinationId:
+                          'mobilityreferencebap.becknprotocol.io',
+                        payload: '', //add full context object
+                        eventStart_ts: new Date().toISOString()
+                      })
+                    }
+                  );
+                } catch (error) {
+                  console.error(error);
+                }
+              }, 1000);
             }
             root.$router.push('/payment');
           }
