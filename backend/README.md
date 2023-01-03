@@ -26,7 +26,7 @@ you can change version as per your versioning or use short git sha
 export VERSION=$(git rev-parse --short HEAD)
 docker build -t backend:$VERSION -f client.dockerfile .
 ```
-Running backend service in an container 
+Running backend service in an container.
 ```
  docker run -d --network "host" --name backend backend:$VERSION
 ```
