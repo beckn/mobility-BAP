@@ -23,8 +23,8 @@ jobs:
           git checkout prod-dev
           git log -1
           git pull
-          npm install
-          npm run build build
+          yarn install
+          yarn build
           pm2 kill
           sleep 10
-          pm2 start "npm start" --name taxibap-prod-dev
+          pm2 start "yarn start" --name taxibap-prod-dev
