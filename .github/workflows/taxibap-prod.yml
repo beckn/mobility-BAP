@@ -1,8 +1,8 @@
-name: Staging deployment of taxibap-frontend
+name: Production deployment of taxibap-frontend
 on:
   push:
     branches:
-    - production-dev
+    - prod-dev
     paths:
     - FrontEnd/**
 jobs:
@@ -23,8 +23,8 @@ jobs:
           git checkout production-dev
           git log -1
           git pull
-          yarn
-          yarn build
+          npm install
+          npm run build
           pm2 kill
           sleep 10
-          pm2 start "yarn start" --name taxibap-production-dev
+          pm2 start "npm start" --name taxibap-production-dev
