@@ -332,7 +332,6 @@ export default {
               }, 1000);
             }
             toggleLoadindBar(true);
-            console.log('pollResults', pollResults);
             localStorage.setItem('cartItem', JSON.stringify(pollResults.value));
           }
         }

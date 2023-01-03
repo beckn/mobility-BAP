@@ -126,9 +126,9 @@ export default {
           {
             context: {
               // eslint-disable-next-line camelcase
-              bpp_id: cartItems.bpp_id,
+              bpp_id: cartItems[0].bpp_id,
               // eslint-disable-next-line camelcase
-              bpp_uri: cartItems.bpp_uri,
+              bpp_uri: cartItems[0].bpp_uri,
               transaction_id: localStorage.getItem('transactionId')
             },
             message: {
