@@ -1,0 +1,30 @@
+name: Staging deployment of taxibap-frontend
+on:
+  push:
+    branches:
+    - production-dev
+    paths:
+    - FrontEnd/**
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploying changes
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.PRODBAPHOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd mobility-BAP/FrontEnd
+          git stash
+          git checkout production-dev
+          git log -1
+          git pull
+          yarn
+          yarn build
+          pm2 kill
+          sleep 10
+          pm2 start "yarn start" --name taxibap-production-dev
