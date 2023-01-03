@@ -43,3 +43,6 @@ yarn dev
 sudo yarn add pm2
 pm2 start "yarn start" --name taxibap
 ```
+6. you can see application status by
+```
+pm2 list
