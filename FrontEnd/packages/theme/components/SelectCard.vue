@@ -190,9 +190,7 @@
                                     </select>
                                   </div>
                                   <div class="loc">
-                                    <div
-                                      class="provider-head"
-                                    >
+                                    <div class="provider-head">
                                       <div class="flexy">
                                         <SfIcon
                                           class="locationicon"
@@ -219,9 +217,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div
-                                      class=" provider-head"
-                                    >
+                                    <div class=" provider-head">
                                       <div class="flexy">
                                         <SfIcon
                                           class="locationicon"
@@ -435,7 +431,6 @@ export default {
       setphoneNo(phoneNo.value);
       setName(name.value);
 
-      
       enableLoader.value = true;
       if (quoteItems && transactionId && cartitem) {
         const params = createInitOrderRequest(
@@ -452,7 +447,6 @@ export default {
           },
           token.value
         );
-      
       }
 
       watch(
@@ -467,13 +461,10 @@ export default {
           if (helpers.shouldStopPooling(onInitRes, 'order')) {
             stopPolling();
 
-           
             setTransactionId(onInitRes[0].context.transaction_id);
-          
-            setinitResult(onInitRes);
-            
 
-            
+            setinitResult(onInitRes);
+
             enableLoader.value = false;
             root.$router.push('/payment');
           }
@@ -617,9 +608,9 @@ input {
   //color: #37474f;
   line-height: 14px;
   border: none;
-    border-bottom: 2px solid #65696ae8;
+  border-bottom: 2px solid #65696ae8;
 }
-input:hover{
+input:hover {
   border-bottom: 2px solid rgb(227, 90, 40);
 }
 @media screen and (max-width: 375px) {
@@ -670,9 +661,14 @@ input:hover{
   background: #ffffff;
   border: 1px solid #e6e6e6;
   border-radius: 4px;
+  font-family: 'SF Pro Text';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
 }
 .s-p-price {
-  padding-left: 30%;
+  padding-left: 20%;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;

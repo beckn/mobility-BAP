@@ -44,11 +44,11 @@
         </li>
       </ul>
 
-      <div v-if="visible" class="btn">
+      <!-- <div v-if="visible" class="btn">
         <SfButton id="btn" @click="enableLocation()"
           ><h5>Current-Location</h5></SfButton
         >
-      </div>
+      </div> -->
       <template>
         <div>
           <div id="taxi-map"></div>
@@ -63,7 +63,7 @@
                       <div class="close" @click="$emit('edit')"></div>
                     </div>
 
-                    <hr style="width:100%;" />
+                    <hr class="sf-divider" />
                     <h6
                       style="font-weight:400; font-size:14px;margin-bottom: 0px;margin-top: 0px;"
                     >
@@ -278,7 +278,7 @@ export default {
 // }
 div#taxi-map {
   width: 100%;
-  height: 450px;
+  height: 500px;
   overflow: hidden;
 }
 #btn1 {
@@ -302,6 +302,10 @@ div#taxi-map {
   overflow: visible;
   // height: 10%;
   padding-bottom: 0%;
+}
+.h1{
+  width: 100%;
+  color: rgb(125, 118, 118);
 }
 .close {
   position: absolute;

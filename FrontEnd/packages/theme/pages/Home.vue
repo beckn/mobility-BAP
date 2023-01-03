@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="">
     <OpenSearch />
     <div @click="openCart"></div>
   </div>
@@ -25,6 +25,16 @@ export default {
   setup() {
     const { load } = useCart();
     onMounted(() => {
+      if (localStorage.getItem('reloaded')) {
+        // The page was just reloaded. Clear the value from local storage
+        // so that it will reload the next time this page is visited.
+        localStorage.removeItem('reloaded');
+      } else {
+        // Set a flag so that we know not to reload the page twice.
+        localStorage.setItem('reloaded', '1');
+        location.reload();
+      }
+      //window.location.reload()
       if (localStorage.getItem('cartData')) {
         const cartData = JSON.parse(localStorage.getItem('cartData'));
         const days = helpers.calculateDays(cartData.cartTime, new Date());
@@ -39,7 +49,7 @@ export default {
 };
 </script>
 <style>
-  #home{
-    padding-top: 15%;
-  }
+#home {
+  padding-top: 15%;
+}
 </style>

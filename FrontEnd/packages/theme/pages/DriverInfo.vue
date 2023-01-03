@@ -106,14 +106,14 @@
                         </div>
                         <div class="button-pos">
                           <div v-if="DriverInfo === true">
-                            <SfButton class="contact">
+                            
                               <img
-                                class="contact-img"
-                                id="icon"
-                                src="/icons/contact.png"
+                                class=""
+                                id="""
+                                src="/icons/Group 125.png"
                                 alt="Vue Storefront Next"
                               />
-                            </SfButton>
+                            
                           </div>
                         </div>
                       </div>
@@ -252,14 +252,12 @@
                             </div>
                             <div class="button-pos">
                               <div v-if="DriverInfo === true">
-                                <SfButton class="contact">
-                                  <img
-                                    class="contact-img"
-                                    id="icon"
-                                    src="/icons/contact.png"
-                                    alt="Vue Storefront Next"
-                                  />
-                                </SfButton>
+                                <img
+                                class=""
+                                id="""
+                                src="/icons/Group 125.png"
+                                alt="Vue Storefront Next"
+                              />
                               </div>
                             </div>
                           </div>

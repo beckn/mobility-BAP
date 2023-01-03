@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div class="open-search">
-      <h3>
-        MyMobility
-      </h3>
+    <div class="open-search"></div>
+    <div>
+      <CurrentLocationMap @Currentlocation="Currentlocation" />
     </div>
-    <!-- <div>
-                
-        <CurrentLocationMap @Currentlocation="Currentlocation" />
-      </div> -->
     <div class="open-search header-top-space">
       <div class="open-search-input">
+        <div class="inputBox">
         <div class="input1">
           <SfImage
             id="icon"
@@ -72,6 +68,7 @@
           </span> -->
         </SfButton>
       </div>
+      </div>
       <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
       <div v-if="errorMsg2" class="error-msg">
         Pickup and Drop locations are same!.
@@ -123,7 +120,7 @@ import { useUiState } from '~/composables';
 import { SfFooter } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
 import LocationSearchBar from './LocationSearchBar.vue';
-//import CurrentLocationMap from './CurrentLocationMap.vue';
+import CurrentLocationMap from './CurrentLocationMap.vue';
 
 const {
   selectedLocation,
@@ -139,8 +136,8 @@ export default {
     SfFooter,
     LocationSearchBar,
     SfSidebar,
-    SfImage
-    // CurrentLocationMap
+    SfImage,
+    CurrentLocationMap
   },
 
   setup(_, context) {
@@ -166,7 +163,15 @@ export default {
         isLocationdropOpen.value = !isLocationdropOpen.value;
       }
     };
-    //
+    const Currentlocation = (latitude, longitude, address) => {
+      pickup.value = address;
+      updatesLocation({
+        lat: latitude,
+        long: longitude,
+        addres: address
+      });
+    };
+
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
         updatesLocation({
@@ -190,7 +195,7 @@ export default {
         //   'destinationLocation',
         //   JSON.stringify(message.value)
         // );
-       // localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
+        // localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
       } else if (pickup.value === message.value) {
         message.value = '';
       }
@@ -219,6 +224,7 @@ export default {
     };
 
     const openSearch = () => {
+      console.log(pickup.value);
       if (message.value && pickup.value && message.value != pickup.value) {
         if (errorMsg.value) errorMsg.value = false;
         if (errorMsg2.value) errorMsg2.value = false;
@@ -252,9 +258,8 @@ export default {
       dropLocation,
       toggleLocationDrop,
       buttonlocation,
-      edit
-
-      //Currentlocation
+      edit,
+      Currentlocation
     };
   }
 };
@@ -265,10 +270,19 @@ export default {
 //   top: 107px;
 // }
 .open-search {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
   @media (min-width: 560px) {
     padding-top: 40px;
     width: 50%;
     margin: auto;
+    
+  }
+
+  .inputBox{
+    border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+
   }
   #icon {
     padding-right: 5px;
@@ -294,8 +308,8 @@ export default {
     .hr-line {
       width: 100%;
       position: relative;
-
-      margin: 11px;
+      padding: 7px;
+      margin: 9px;
       border-bottom: 1px solid rgba(196, 196, 196, 0.4);
     }
     .hr-icon {
@@ -312,9 +326,9 @@ export default {
   // }
   .input {
     display: flex;
-    padding-top: 5%;
+    //padding-top: 5%;
     padding-right: 5%;
-    padding-bottom: 15%;
+    padding-bottom: 5%;
     input::placeholder {
       font-weight: 300;
       font-size: 14px;
@@ -322,7 +336,7 @@ export default {
   }
   .input1 {
     display: flex;
-    padding-top: 15%;
+    padding-top: 8%;
     padding-right: 5%;
     input::placeholder {
       font-weight: 300;
@@ -335,18 +349,8 @@ export default {
     height: 35px;
   }
 
-  padding: 40px 20px;
-  h3 {
-    font-style: normal;
-    //font-weight: 800;
-    font-size: 55px;
-    line-height: 110%;
-    text-align: center;
-    // padding-top: 10px;
-    letter-spacing: -0.03em;
+  padding: 0px 20px;
 
-    color: #f37a20;
-  }
   h4 {
     text-align: center;
     font-size: 27px;
@@ -361,6 +365,7 @@ export default {
     margin-bottom: 30px;
   }
   .open-search-input {
+    border-top-left-radius: 25px;
     // display: flex;
     margin-bottom: 8px;
     // position: relative;

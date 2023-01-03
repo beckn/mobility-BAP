@@ -12,7 +12,7 @@
         </div>
       </client-only>
 
-      <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+      <div v-if="enableLoader" key="loadingCircle" class="loader-circle ">
         <LoadingCircle :enable="enableLoader" />
       </div>
     </div>
@@ -199,6 +199,7 @@ export default {
 <style lang="scss" scoped>
 .loader-circle {
   margin-top: 37%;
+  
 }
 
 .sf-circle-icon {

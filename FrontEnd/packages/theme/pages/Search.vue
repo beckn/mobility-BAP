@@ -1,49 +1,16 @@
 <template>
   <div class="search-page">
-    <div class="search-bar side-padding">
-      <div class="open-search-input">
-        <div class="input1">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
-
-          <label>Pickup: </label>
-
-          <input
-            :value="pickuploc"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Pickup"
-          />
-        </div>
-        <!-- <div class="hr">  <hr style="width:100%;" />
-        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
-        <div class="hr-theme-slash-2">
-          <div class="hr-line"></div>
-          <div class="hr-icon">
-            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
-          </div>
-        </div>
-
-        <div class="input">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
-          <label for=""> Dropoff: </label>
-
-          <input
-            :value="searchKey"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Destination"
-          />
-        </div>
+    <div class="top-bar header-top">
+      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
+        <span class="sf-search-bar__icon">
+          <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
+        </span>
       </div>
+      <div>Search</div>
+    </div>
 
+    <!-- <div class="search-bar side-padding">
+     
       <!--<SfSearchBar
         placeholder="Search for anything"
         aria-label="Search"
@@ -75,6 +42,40 @@
           </SfButton>
         </template>
       </SfSearchBar>-->
+    <!-- </div> -->
+    <div class="open-search-input">
+      <div class="input1">
+        <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
+
+        <label>Pickup: </label>
+
+        <input
+          :value="pickuploc"
+          errorMessage="errer"
+          type="text"
+          placeholder="Enter Pickup"
+        />
+      </div>
+      <!-- <div class="hr">  <hr style="width:100%;" />
+        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
+      <div class="hr-theme-slash-2">
+        <div class="hr-line"></div>
+        <div class="hr-icon">
+          <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+        </div>
+      </div>
+
+      <div class="input">
+        <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
+        <label for=""> Dropoff: </label>
+
+        <input
+          :value="searchKey"
+          errorMessage="errer"
+          type="text"
+          placeholder="Enter Destination"
+        />
+      </div>
     </div>
 
     <div class="details">
@@ -84,7 +85,7 @@
           class="search__wrapper-results"
           key="results"
         >
-          <div class="side-padding result-num res">
+          <div class="side-padding result-num res res1 ">
             <span
               ><span v-e2e="'total-result'">{{
                 totalResults(pollResults)
@@ -269,7 +270,7 @@ export default {
     const { search, result } = useFacet();
     const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
-    const { sLocation , dLocation , setTransactionId} = useUiState();
+    const { sLocation, dLocation, setTransactionId } = useUiState();
     watch(
       () => clearCartPopup.value,
       (newVal) => {
@@ -286,9 +287,9 @@ export default {
       toggleLoadindBar(false);
 
       await search({
-        pickup_location:`${sLocation?.value?.lat},${sLocation?.value?.long}`,                                           //localStorage.getItem('pickUpLatAndLong'),
+        pickup_location: `${sLocation?.value?.lat},${sLocation?.value?.long}`, //localStorage.getItem('pickUpLatAndLong'),
 
-        drop_location:  `${dLocation?.value?.late},${dLocation?.value?.lng}`                                                                                             //localStorage.getItem('dropLatAndLong')
+        drop_location: `${dLocation?.value?.late},${dLocation?.value?.lng}` //localStorage.getItem('dropLatAndLong')
       });
       // await search({
       //   pickup_location: '12.903561,77.5939631',
@@ -296,7 +297,7 @@ export default {
       //   drop_location:  "12.9175403,77.5890075"
       //   // localStorage.getItem('dropLatAndLong')
       // });
-      setTransactionId(result.value.data.ackResponse.context.transaction_id)
+      setTransactionId(result.value.data.ackResponse.context.transaction_id);
 
       // localStorage.setItem(
       //   'transactionId',
@@ -310,9 +311,7 @@ export default {
             enableLoader.value = false;
             toggleLoadindBar(true);
 
-
-              setcartItem(JSON.stringify(pollResults.value[0]));
-              
+            setcartItem(JSON.stringify(pollResults.value[0]));
 
             // localStorage.setItem(
             //   'cartItem',
@@ -475,6 +474,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.top-bar {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-around;
+  height: 60px;
+  font-weight: 500;
+  background: #f8f7f7;
+  //box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
+}
+
+.icon_back {
+  position: absolute;
+  left: 0;
+  margin: 10px;
+}
+.res1 {
+  padding: 12px;
+}
 .search-page {
   #icon {
     padding-right: 5px;
@@ -499,6 +517,7 @@ export default {
 
 .open-search-input {
   // display: flex;
+  background: #f8f7f7;
   padding-left: 14px;
   margin-bottom: 8px;
   -webkit-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
@@ -521,10 +540,18 @@ export default {
     box-sizing: border-box;
     border: none;
     border-radius: 6px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     padding: 2px 0 0 4px;
+    font-family: 'Inter';
+    font-style: normal;
+    //font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    letter-spacing: -0.24px;
   }
   label {
     font-family: 'Inter', sans-serif;
@@ -532,6 +559,14 @@ export default {
     font-weight: 500;
     font-size: 14px;
     line-height: 22px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    letter-spacing: -0.24px;
   }
   button {
     width: 100%;
@@ -554,17 +589,20 @@ export default {
   display: flex;
   padding-top: 5%;
   padding-right: 5%;
-  padding-bottom: 15%;
+  padding-bottom: 10%;
+  background: #f8f7f7;
 }
 .input1 {
   display: flex;
-  padding-top: 15%;
+  padding-top: 10%;
   padding-right: 5%;
   padding-bottom: 5%;
+  background: #f8f7f7;
 }
 .hr-theme-slash-2 {
   display: flex;
   margin-bottom: 0px;
+  background: #f8f7f7;
 
   .hr-line {
     width: 100%;

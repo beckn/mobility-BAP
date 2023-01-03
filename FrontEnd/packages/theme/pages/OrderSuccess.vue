@@ -131,6 +131,7 @@ export default {
       setconfirmDataContext(undefined);
       setcartData(undefined);
       setinitResult(undefined);
+    
 
       context.root.$router.push({
         path: '/'

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="taxi-map"></div>
+    <div id="map"></div>
   </div>
 </template>
 <script>
@@ -15,15 +15,15 @@ export default {
     marker: null
   }),
   created() {
-   // this.service = new window.google.maps.places.AutocompleteService();
-   // this.geocodeService = new window.google.maps.Geocoder();
+    // this.service = new window.google.maps.places.AutocompleteService();
+    // this.geocodeService = new window.google.maps.Geocoder();
   },
-    
+
   mounted() {
     this.enableLocation();
   },
 
-   methods: {
+  methods: {
     // current location of user autodetect
     enableLocation() {
       navigator.geolocation.getCurrentPosition(
@@ -41,7 +41,7 @@ export default {
       );
     },
     setMap() {
-      this.map = new google.maps.Map(document.getElementById('taxi-map'), {
+      this.map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
         zoom: this.zoom
       });
@@ -76,7 +76,7 @@ export default {
             if (results[1]) {
               //formatted address
               //this.location = results[0].formatted_address;
-              console.log(results[0].formatted_address)
+              console.log(results[0].formatted_address);
               this.$emit(
                 'Currentlocation',
                 lat,
@@ -92,19 +92,14 @@ export default {
         }
       );
     }
-    
   },
-  name:"CurrentLocationMap"
-  
-
+  name: 'CurrentLocationMap'
 };
 </script>
 <style lang="scss" scoped>
-div#taxi-map {
+div#map {
+  height: 500px;
   width: 100%;
-  height: 350px;
   overflow: hidden;
-  padding-left: 5%;
-  padding-right: 5%;
 }
 </style>

@@ -6,6 +6,9 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
+      <div>
+        Initialize
+      </div>
     </div>
     <template>
       <div id="cafe-map"></div>
@@ -112,6 +115,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.top-bar {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-around;
+  height: 60px;
+  font-weight: 500;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
+}
+
+.icon_back {
+  position: absolute;
+  left: 0;
+  margin: 10px;
+}
 .button-pos {
   position: absolute;
   right: 0;
