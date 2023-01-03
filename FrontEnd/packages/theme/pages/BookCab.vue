@@ -160,7 +160,8 @@ export default {
                     experienceId: localStorage.getItem('experienceId'),
                     eventCode: 'mbtb_ride_slectd',
                     eventAction: 'ride selected',
-                    eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                    eventSourceId:
+                      'mobilityreferencebap-staging.becknprotocol.io',
                     eventDestinationId:
                       'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                     payload: '', //add full context object
@@ -221,7 +222,7 @@ export default {
                         eventSourceId:
                           'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                         eventDestinationId:
-                          'mobilityreferencebap.becknprotocol.io',
+                          'mobilityreferencebap-staging.becknprotocol.io',
                         payload: '', //add full context object
                         eventStart_ts: new Date().toISOString()
                       }) // body data type must match "Content-Type" header

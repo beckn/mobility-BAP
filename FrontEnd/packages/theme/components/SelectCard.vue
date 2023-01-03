@@ -407,7 +407,8 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'mbtb_init_details1',
                   eventAction: 'entering name',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventSourceId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
                   payload: '', //add full context object
                   eventStart_ts: new Date().toISOString()
@@ -438,7 +439,8 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'mbtb_init_details2',
                   eventAction: 'entering phone number',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventSourceId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
                   payload: '', //add full context object
                   eventStart_ts: new Date().toISOString()
@@ -515,7 +517,8 @@ export default {
                     experienceId: localStorage.getItem('experienceId'),
                     eventCode: 'mbtb_init_ride',
                     eventAction: 'initiating ride',
-                    eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                    eventSourceId:
+                      'mobilityreferencebap-staging.becknprotocol.io',
                     eventDestinationId:
                       'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                     payload: '', //add full context object
@@ -572,7 +575,7 @@ export default {
                         eventSourceId:
                           'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                         eventDestinationId:
-                          'mobilityreferencebap.becknprotocol.io',
+                          'mobilityreferencebap-staging.becknprotocol.io',
                         payload: '', //add full context object
                         eventStart_ts: new Date().toISOString()
                       })

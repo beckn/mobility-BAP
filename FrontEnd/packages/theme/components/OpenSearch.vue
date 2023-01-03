@@ -226,7 +226,8 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'mbtb_pickup_loc',
                   eventAction: 'selecting pickup location',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventSourceId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
                   payload: '', //add full context object
                   eventStart_ts: new Date().toISOString()
@@ -259,7 +260,8 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'mbtb_drop_loc',
                   eventAction: 'selecting drop-off location',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventSourceId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
                   payload: '', //add full context object
                   eventStart_ts: new Date().toISOString()
@@ -293,7 +295,8 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'mbtb_srch_init',
                   eventAction: 'search initiated',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventSourceId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   eventDestinationId: 'gateway.becknprotocol.io',
                   payload: '', //add full context object
                   eventStart_ts: new Date().toISOString()

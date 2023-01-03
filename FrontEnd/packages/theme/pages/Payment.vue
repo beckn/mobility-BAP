@@ -185,7 +185,8 @@ export default {
                   eventAction: 'sent ride details',
                   eventSourceId:
                     'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
-                  eventDestinationId: 'mobilityreferencebap.becknprotocol.io',
+                  eventDestinationId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   payload: '', //add full context object
                   eventStart_ts: new Date().toISOString()
                 }) // body data type must match "Content-Type" header
@@ -218,7 +219,8 @@ export default {
                   experienceId: localStorage.getItem('experienceId'),
                   eventCode: 'mbtb_bkng_ride',
                   eventAction: 'booking ride',
-                  eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                  eventSourceId:
+                    'mobilityreferencebap-staging.becknprotocol.io',
                   eventDestinationId:
                     'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                   payload: '', //add full context object

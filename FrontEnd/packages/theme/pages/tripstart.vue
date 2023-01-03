@@ -174,7 +174,8 @@ export default {
                       experienceId: localStorage.getItem('experienceId'),
                       eventCode: 'mbtb_payment_endride',
                       eventAction: 'ending ride',
-                      eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                      eventSourceId:
+                        'mobilityreferencebap-staging.becknprotocol.io',
                       eventDestinationId:
                         'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                       payload: '', //add full context object
@@ -256,7 +257,8 @@ export default {
                     experienceId: localStorage.getItem('experienceId'),
                     eventCode: 'mbtb_tracking_driver',
                     eventAction: 'tracking ride',
-                    eventSourceId: 'mobilityreferencebap.becknprotocol.io',
+                    eventSourceId:
+                      'mobilityreferencebap-staging.becknprotocol.io',
                     eventDestinationId:
                       'becknify.humbhionline.in.mobility.BPP/beckn_open/app1-succinct-in',
                     payload: '', //add full context object
