@@ -2,7 +2,7 @@ name: Staging deployment of taxibap-frontend
 on:
   push:
     branches:
-    - main
+    - staging-dev
     paths:
     - FrontEnd/**
 jobs:
@@ -19,10 +19,12 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd mobility-BAP/FrontEnd
-          git checkout main
+          git stash
+          git checkout staging-dev
+          git log -1
           git pull
           yarn
           yarn build
           pm2 kill
           sleep 10
-          pm2 start "yarn start" --name taxibap-staging
+          pm2 start "yarn start" --name taxibap-staging-dev
