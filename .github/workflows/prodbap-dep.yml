@@ -1,0 +1,30 @@
+name: Production deployment of taxibap-frontend
+on:
+  push:
+    branches:
+    - prod-dev
+    paths:
+    - FrontEnd/**
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploying changes
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.PRODBAPHOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd mobility-BAP/FrontEnd
+          git stash
+          git checkout prod-dev
+          git log -1
+          git pull
+          npm install
+          npm run build build
+          pm2 kill
+          sleep 10
+          pm2 start "npm start" --name taxibap-prod-dev
