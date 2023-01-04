@@ -332,7 +332,13 @@ export default {
               }, 1000);
             }
             toggleLoadindBar(true);
-            localStorage.setItem('cartItem', JSON.stringify(pollResults.value));
+            const pollResultsWithProvider = pollResults.value.filter(
+              (pollResult) => pollResult.bpp_providers.length !== 0
+            );
+            localStorage.setItem(
+              'cartItem',
+              JSON.stringify(pollResultsWithProvider)
+            );
           }
         }
       );
