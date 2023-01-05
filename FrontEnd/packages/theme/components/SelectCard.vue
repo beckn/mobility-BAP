@@ -668,13 +668,13 @@ input:hover {
   line-height: 20px;
 }
 .s-p-price {
-  padding-left: 20%;
+  //padding-left: 20%;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  // position: absolute;
+  position: absolute;
   right: 10%;
   width: 100px;
   text-align: right;
