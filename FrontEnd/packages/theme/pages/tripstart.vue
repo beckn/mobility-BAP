@@ -200,8 +200,8 @@ export default {
     });
 
     const transactionId = localStorage.getItem('transactionId');
-    const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
-    const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
+    const bpp_id = JSON.parse(localStorage.getItem('cartItem'))[0].bpp_id;
+    const bpp_uri = JSON.parse(localStorage.getItem('cartItem'))[0].bpp_uri;
     const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
 
     const lat = ref(12.9732);
