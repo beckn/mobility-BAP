@@ -171,11 +171,14 @@
             </div>
           </div>
         </div>
-        <LoadingCircle
+        <!-- <LoadingCircle
           :enable="enableLoader"
           :customText="'Searching the network for Mobility Services'"
           key="loding-cir"
-        />
+        /> -->
+
+        <CurrentLocationMap :enable="enableLoader" key="marker" />
+
         <div v-if="noSearchFound" key="no-search" class="before-results">
           <SfImage
             src="/icons/feather_search.svg"
@@ -193,6 +196,7 @@
           <p>{{ $t('different keyword') }}</p>
         </div>
       </transition-group>
+    
     </div>
     <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
       :pImage="productGetters.getGallery(product)[0].small[0]"
@@ -224,6 +228,7 @@ import Footer from '~/components/Footer';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 import Filterpage from '~/pages/Filterpage';
+import CurrentLocationMap from '~/components/CurrentLocationMap';
 //import { useUiState } from '~/composables';
 import {
   productGetters,
@@ -245,7 +250,8 @@ export default {
     SfButton,
     ProductCard,
     Footer,
-    SfImage
+    SfImage,
+    CurrentLocationMap
   },
   setup(_, context) {
     const {

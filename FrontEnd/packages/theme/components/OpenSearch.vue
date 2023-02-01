@@ -2,72 +2,79 @@
   <div>
     <div class="open-search"></div>
     <div>
-      <CurrentLocationMap @Currentlocation="Currentlocation" />
+      <CurrentLocationMap
+        :enable="true"
+        :disablepulse="true"
+        :enable1="enable1"
+        @Currentlocation="Currentlocation"
+      />
     </div>
     <div class="open-search header-top-space">
       <div class="open-search-input">
         <div class="inputBox">
-        <div class="input1">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
+          <div class="input1">
+            <SfImage
+              id="icon"
+              src="/icons/Vector.png"
+              alt="Vue Storefront Next"
+            />
 
-          <label>Pickup: </label>
+            <label>Pickup: </label>
 
-          <!-- v-on:keyup.enter="openSearch" -->
-          <input
-            @click="pickupLocation"
-            v-model="pickup"
-            :valid="false"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Pickup"
-            v-e2e="'home-search-input'"
-          />
-        </div>
-        <!-- <div class="hr">  <hr style="width:100%;" />
-        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
-        <div class="hr-theme-slash-2">
-          <div class="hr-line"></div>
-          <div class="hr-icon">
-            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+            <!-- v-on:keyup.enter="openSearch" -->
+            <input
+              @click="pickupLocation"
+              v-model="pickup"
+              :valid="false"
+              errorMessage="errer"
+              type="text"
+              placeholder="Enter Pickup"
+              v-e2e="'home-search-input'"
+            />
           </div>
-        </div>
+          <!-- <div class="hr">  <hr style="width:100%;" />
+        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
+          <div class="hr-theme-slash-2">
+            <div class="hr-line"></div>
+            <div class="hr-icon">
+              <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+            </div>
+          </div>
 
-        <div class="input">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
-          <label for=""> Dropoff: </label>
+          <div class="input">
+            <SfImage
+              id="icon"
+              src="/icons/Vector.png"
+              alt="Vue Storefront Next"
+            />
+            <label for=""> Dropoff: </label>
 
-          <input
-            @click="dropLocation"
-            v-model="message"
-            v-on:keyup.enter="openSearch"
-            :valid="false"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Destination"
-            v-e2e="'home-search-input'"
-          />
-        </div>
+            <input
+              @click="dropLocation"
+              v-model="message"
+              v-on:keyup.enter="openSearch"
+              :valid="false"
+              errorMessage="errer"
+              type="text"
+              placeholder="Enter Destination"
+              v-e2e="'home-search-input'"
+            />
+          </div>
 
-        <SfButton
-          id="btn"
-          class="button-pos sf-button--pure color-primary"
-          @click="openSearch"
-          :disabled="!selectedLocation.latitude || !selectedLocation.longitude"
-          v-e2e="'home-search-button'"
-          ><label for="btn">Search Rides</label>
-          <!-- <span class="sf-search-bar__icon">
+          <SfButton
+            id="btn"
+            class="button-pos sf-button--pure color-primary"
+            @click="openSearch"
+            :disabled="
+              !selectedLocation.latitude || !selectedLocation.longitude
+            "
+            v-e2e="'home-search-button'"
+            ><label for="btn">Search Rides</label>
+            <!-- <span class="sf-search-bar__icon">
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
           </span> -->
-        </SfButton>
-      </div>
+          </SfButton>
+        </div>
       </div>
       <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
       <div v-if="errorMsg2" class="error-msg">
@@ -143,6 +150,7 @@ export default {
   setup(_, context) {
     const pickup = ref('');
     const buttonlocation = ref(false);
+    const enable1 =ref('')
     // selectedLocation.latitude && selectedLocation.longitude && typeof window !== 'undefined' ? localStorage.getItem('pickup') : ''
 
     // const pickup=ref();
@@ -174,12 +182,14 @@ export default {
 
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
+        enable1.value=address;
         updatesLocation({
           lat: latitude,
           long: longitude,
           addres: address
         });
         pickup.value = address;
+
         //updatesLocation(pickup.value)
         //localStorage.setItem('slocation', JSON.stringify(pickup.value));
         //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
@@ -259,7 +269,8 @@ export default {
       toggleLocationDrop,
       buttonlocation,
       edit,
-      Currentlocation
+      Currentlocation,
+      enable1
     };
   }
 };
@@ -276,13 +287,11 @@ export default {
     padding-top: 40px;
     width: 50%;
     margin: auto;
-    
   }
 
-  .inputBox{
+  .inputBox {
     border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-
+    border-top-right-radius: 25px;
   }
   #icon {
     padding-right: 5px;

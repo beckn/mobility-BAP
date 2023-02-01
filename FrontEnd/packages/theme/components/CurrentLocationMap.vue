@@ -1,10 +1,26 @@
 <template>
-  <div>
+  <div v-show="enable">
     <div id="map"></div>
   </div>
 </template>
 <script>
+import { useUiState } from '~/composables';
+const { sLocation } = useUiState();
+
 export default {
+  props: {
+    enable: {
+      type: Boolean,
+      default: false
+    },
+    disablepulse: {
+      type: Boolean,
+      default: false
+    },
+    enable1: {
+      type: String
+    }
+  },
   data: () => ({
     mapCenter: {
       lat: '',
@@ -13,14 +29,25 @@ export default {
     map: null,
     zoom: 14,
     marker: null
+    // slat: parseFloat(`${sLocation?.value?.lat}`),
+    // slag: parseFloat(`${sLocation?.value?.long}`)
   }),
-  created() {
-    // this.service = new window.google.maps.places.AutocompleteService();
-    // this.geocodeService = new window.google.maps.Geocoder();
-  },
+  // created() {
+  //   const { sLocation } = useUiState();
+  //   (this.slat = parseFloat(`${sLocation?.value?.lat}`)),
+  //     (this.slag = parseFloat(`${sLocation?.value?.long}`));
+  //   // this.service = new window.google.maps.places.AutocompleteService();
+  //   // this.geocodeService = new window.google.maps.Geocoder();
+  // },
 
   mounted() {
-    this.enableLocation();
+    if (this.disablepulse ===true) {
+      this.enableLocation();
+    } else
+      this.setMap(
+        parseFloat(`${sLocation?.value?.lat}`),
+        parseFloat(`${sLocation?.value?.long}`)
+      );
   },
 
   methods: {
@@ -30,8 +57,7 @@ export default {
         (position) => {
           (this.mapCenter.lat = position.coords.latitude),
             (this.mapCenter.lag = position.coords.longitude),
-            this.setMap();
-          this.myMarker();
+            this.setMap(this.mapCenter.lat, this.mapCenter.lag);
 
           this.codeLatLng(this.mapCenter.lat, this.mapCenter.lag);
         },
@@ -40,28 +66,32 @@ export default {
         }
       );
     },
-    setMap() {
+    setMap(ln, lt) {
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
+        center: { lat: ln, lng: lt },
         zoom: this.zoom
       });
+      this.myMarker(ln, lt);
     },
-    myMarker() {
+    myMarker(ln, lt) {
+      const pulse = '/icons/pulsemarker.svg';
+      const movingIcon = this.disablepulse ? icon: pulse;
       this.marker = new google.maps.Marker({
-        position: { lat: this.mapCenter.lat, lng: this.mapCenter.lag },
+        position: { lat: ln, lng: lt },
         map: this.map,
-        draggable: true
+        draggable: this.disablepulse ?true: false,
+        icon: movingIcon
       });
 
       this.markerpos();
     },
     markerpos() {
       const that = this;
-      google.maps.event.addListener(this.marker, 'dragstart', function(evt) {
+      google.maps.event.addListener(that.marker, 'dragstart', function(evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
         that.mapCenter.lag = evt.latLng.lng().toFixed(3);
       });
-      google.maps.event.addListener(this.marker, 'dragend', function(evt) {
+      google.maps.event.addListener(that.marker, 'dragend', function(evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
         that.mapCenter.lag = evt.latLng.lng().toFixed(3);
         that.codeLatLng(that.mapCenter.lat, that.mapCenter.lag);
@@ -76,7 +106,7 @@ export default {
             if (results[1]) {
               //formatted address
               //this.location = results[0].formatted_address;
-              console.log(results[0].formatted_address);
+              //console.log(results[0].formatted_address);
               this.$emit(
                 'Currentlocation',
                 lat,
@@ -93,6 +123,17 @@ export default {
       );
     }
   },
+  watch: {
+    enable1: function(newVal, oldVal) {
+      // watch it
+      //console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+      this.setMap(
+        parseFloat(`${sLocation?.value?.lat}`),
+        parseFloat(`${sLocation?.value?.long}`)
+      );
+    }
+  },
+
   name: 'CurrentLocationMap'
 };
 </script>
