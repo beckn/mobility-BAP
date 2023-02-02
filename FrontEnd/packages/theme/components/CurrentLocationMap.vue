@@ -16,7 +16,7 @@ export default {
       type: Boolean,
       default: false
     },
-    enable1: {
+    upadateMap: {
       type: String
     }
   },
@@ -109,7 +109,7 @@ export default {
     }
   },
   watch: {
-    enable1: function(newVal, oldVal) {
+    upadateMap: function(newVal, oldVal) {
       // watch it
       this.setMap(
         parseFloat(`${sLocation?.value?.lat}`),

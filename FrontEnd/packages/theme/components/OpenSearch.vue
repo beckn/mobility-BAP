@@ -5,7 +5,7 @@
       <CurrentLocationMap
         :enable="true"
         :disablepulse="true"
-        :enable1="enable1"
+        :upadateMap="upadateMap"
         @Currentlocation="Currentlocation"
       />
     </div>
@@ -116,7 +116,7 @@ export default {
     const message = ref('');
     const errorMsg = ref(false);
     const errorMsg2 = ref(false);
-
+const upadateMap = ref('')
     onBeforeMount(async () => {
       let URL = window.location.href;
 
@@ -173,6 +173,7 @@ export default {
           addres: address
         });
         pickup.value = address;
+        upadateMap.value=address
         //updatesLocation(pickup.value)
         //localStorage.setItem('slocation', JSON.stringify(pickup.value));
         //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
@@ -335,7 +336,8 @@ export default {
       toggleLocationDrop,
       buttonlocation,
       edit,
-      Currentlocation
+      Currentlocation,
+      upadateMap
     };
   }
 };
