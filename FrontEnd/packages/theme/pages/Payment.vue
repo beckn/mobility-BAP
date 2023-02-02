@@ -17,15 +17,13 @@
         <div class="p-name">Payment</div>
       </div>
       <Card v-if="!!(order && order.cart)">
-        <CardContent
-          v-for="breakup in order.cart.quote.breakup"
-          :key="breakup.title"
-          class="flex-space-bw"
-        >
+        <CardContent v-for="breakup in order.cart.quote.breakup" :key="breakup.title" class="flex-space-bw">
           <div class="address-text">{{ breakup.title }}</div>
           <div class="address-text">₹{{ Math.trunc(breakup.price.value) }}</div>
         </CardContent>
-        <div><hr class="sf-divider divider" /></div>
+        <div>
+          <hr class="sf-divider divider" />
+        </div>
         <CardContent class="flex-space-bw">
           <div class="address-text bold">Total</div>
           <div class="address-text bold">
@@ -39,37 +37,16 @@
       <Card>
         <CardContent>
           <div class="redo">
-            <input
-              type="radio"
-              class="container"
-              :name="'Payment'"
-              :value="'Cash'"
-              :disabled="false"
-              :selected="paymentMethod"
-              @change="changePaymentMethod"
-            />
-            <img
-              style="padding-top:8px; padding-left: 10px;"
-              src="/icons/money 2.png"
-              alt=""
-              :width="30"
-              :height="30"
-            />
+            <input type="radio" class="container" :name="'Payment'" :value="'Cash'" :disabled="false"
+              :selected="paymentMethod" @change="changePaymentMethod" />
+            <img style="padding-top:8px; padding-left: 10px;" src="/icons/money 2.png" alt="" :width="30"
+              :height="30" />
             <label class="cash">Cash</label>
           </div>
         </CardContent>
       </Card>
     </div>
-    <BookRide
-      class="footer-fixed"
-      :buttonText="'Book Now'"
-      :buttonEnable="isPayConfirmActive"
-      :totalPrice="
-        parseFloat(
-          cartItem.price && cartItem.price.value ? cartItem.price.value : '0'
-        ).toFixed(2)
-      "
-    >
+    <BookRide class="footer-fixed" :buttonText="'Book Now'" :buttonEnable="isPayConfirmActive">
     </BookRide>
   </div>
 </template>
@@ -88,7 +65,22 @@ import Card from '~/components/Card.vue';
 import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
 import helpers, { createConfirmOrderRequest } from '../helpers/helpers';
-const { toggleCartSidebar } = useUiState();
+const {
+  toggleCartSidebar,
+  quoteData,
+  setquoteData,
+  TransactionId,
+  setTransactionId,
+  cartItem,
+  token,
+  setconfirmData,
+  setconfirmDataContext,
+  confirmDatas,
+  confirmDataContext
+
+
+} = useUiState();
+
 export default {
   name: 'Payment',
   components: {
@@ -107,7 +99,7 @@ export default {
     }
   },
   setup(_, context) {
-    const cartItem = JSON.parse(localStorage.getItem('cartData')).items[0];
+    // const cartData = JSON.parse(localStorage.getItem('cartData')).items[0];
 
     const paymentMethod = ref('');
     const order = ref({});
@@ -125,12 +117,18 @@ export default {
     const isPayConfirmActive = computed(() => {
       return paymentMethod.value !== '';
     });
+    const { initResult
+    } = useUiState();
+
     const confirmRide = async () => {
       enableLoader.value = true;
-      const transId = localStorage.getItem('transactionId');
-      const initRes = JSON.parse(localStorage.getItem('initResult'));
-      const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
-      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
+      const transId = TransactionId.value; //localStorage.getItem('transactionId');
+      const initRes = initResult.value;                                                                               //JSON.parse();                                                             //;
+      const quoteItems = JSON.parse(quoteData.value); //JSON.parse(localStorage.getItem('quoteData'));
+      const cartItems = JSON.parse(cartItem.value);
+
+
+      console.log(initRes[0].message.order);
 
       if (transId && initRes && quoteItems && cartItems) {
         const params = createConfirmOrderRequest(
@@ -139,11 +137,11 @@ export default {
           quoteItems.quote,
           cartItems
         );
-        const response = await init(params, localStorage.getItem('token'));
+        const response = await init(params, token.value);
         setTimeout(async () => {
           await poll(
             { messageIds: response[0].context.message_id },
-            localStorage.getItem('token')
+            token.value
           );
         }, 500);
       }
@@ -153,17 +151,20 @@ export default {
         (newValue) => {
           if (helpers.shouldStopPooling(newValue, 'order')) {
             stopPolling();
-            localStorage.setItem(
-              'confirmData',
-              JSON.stringify(newValue[0].message)
-            );
-            localStorage.setItem(
+
+            setconfirmData(newValue[0].message);
+            setconfirmDataContext(newValue[0].context);
+
+
+            setTransactionId(newValue[0].context.transaction_id);
+
+
+
+            sessionStorage.setItem(
               'confirmDataContext',
               JSON.stringify(newValue[0].context)
             );
-            //localStorage.removeItem('cartItem');
-            localStorage.removeItem('quoteData');
-            // localStorage.removeItem('initResult');
+
           }
         }
       );
@@ -236,7 +237,7 @@ export default {
     });
     return {
       confirmRide,
-      cartItem,
+      //cartData,
       paymentMethod,
       changePaymentMethod,
       order,
@@ -266,10 +267,12 @@ export default {
 
   width: 0.8rem;
 }
+
 .cash {
   padding-left: 10px;
   padding-top: 10px;
 }
+
 .top-bar {
   align-items: center;
   display: flex;
@@ -280,9 +283,11 @@ export default {
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
 }
+
 .redo {
   display: flex;
 }
+
 .Rbtn {
   padding-right: 0px;
 }
@@ -292,6 +297,7 @@ export default {
   left: 0;
   margin: 10px;
 }
+
 .details {
   margin: 2px 20px;
 }
@@ -316,9 +322,11 @@ export default {
   left: 0;
   height: 95vh;
 }
+
 SfRadio {
   padding-right: 0px;
 }
+
 .flex-space-bw {
   justify-content: space-between;
 }

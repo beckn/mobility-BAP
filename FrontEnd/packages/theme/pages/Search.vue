@@ -1,90 +1,56 @@
 <template>
   <div class="search-page">
-    <div class="search-bar side-padding">
-      <div class="open-search-input">
-        <div class="input1">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
+    <div class="top-bar header-top">
+      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
+        <span class="sf-search-bar__icon">
+          <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
+        </span>
+      </div>
+      <div>Search</div>
+    </div>
 
-          <label>Pickup: </label>
+    <div class="open-search-input">
+      <div class="input1">
+        <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
 
-          <input
-            :value="pickuploc"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Pickup"
-          />
-        </div>
-        <!-- <div class="hr">  <hr style="width:100%;" />
-        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
-        <div class="hr-theme-slash-2">
-          <div class="hr-line"></div>
-          <div class="hr-icon">
-            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
-          </div>
-        </div>
+        <label>Pickup: </label>
 
-        <div class="input">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
-          <label for=""> Dropoff: </label>
-
-          <input
-            :value="searchKey"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Destination"
-          />
-        </div>
+        <input
+          disabled="true"
+          :value="pickuploc"
+          errorMessage="errer"
+          type="text"
+          placeholder="Enter Pickup"
+        />
       </div>
 
-      <!--<SfSearchBar
-        placeholder="Search for anything"
-        aria-label="Search"
-        :icon="null"
-        :value="searchKey"
-        @input="(value) => (searchKey = value)"
-        @keydown.enter="searchHit($event)"
-      >
-        <template #icon>
-          <SfButton
-            v-if="searchKey"
-            class="sf-search-bar__button sf-button--pure"
-            @click="clearSearch"
-          >
-            <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="20px" icon="cross" />
-            </span>
-          </SfButton>
-          <SfButton
-            v-else
-            class="sf-search-bar__button sf-button--pure"
-            @click="
-              isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)
-            "
-          >
-            <span class="sf-search-bar__icon">
-              <SfIcon color="var(--c-text)" size="20px" icon="search" />
-            </span>
-          </SfButton>
-        </template>
-      </SfSearchBar>-->
+      <div class="hr-theme-slash-2">
+        <div class="hr-line"></div>
+        <div class="hr-icon"></div>
+      </div>
+
+      <div class="input">
+        <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
+        <label for=""> Dropoff: </label>
+
+        <input
+          disabled="true"
+          :value="dropLoc"
+          errorMessage="errer"
+          type="text"
+          placeholder="Enter Destination"
+        />
+      </div>
     </div>
 
     <div class="details">
-      <transition-group name="sf-fade" mode="out-in">
+      <!-- <transition-group name="sf-fade" mode="out-in"> -->
         <div
           v-if="pollResults && pollResults.length > 0"
           class="search__wrapper-results"
           key="results"
         >
-          <div class="side-padding result-num res">
+          <div class="side-padding result-num res res1 ">
             <span
               ><span v-e2e="'total-result'">{{
                 totalResults(pollResults)
@@ -92,7 +58,7 @@
               results found
             </span>
           </div>
-          <!--<hr>-->
+
           <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
             <div
               v-for="(provider, prIndex) in bpp.bpp_providers"
@@ -119,12 +85,6 @@
                           providerGetters.getProviderName(provider, provider)
                         }}
                       </div>
-                      <!--<div class="text-padding">
-                        <span class="p-distance">by</span>
-                        <span>{{
-                          providerGetters.getProviderBpp(bpp.bpp_descriptor)
-                        }}</span>
-                      </div>-->
                     </div>
                     <span class="flexy">
                       <span class="rating-css">
@@ -171,11 +131,9 @@
             </div>
           </div>
         </div>
-        <LoadingCircle
-          :enable="enableLoader"
-          :customText="'Searching the network for Mobility Services'"
-          key="loding-cir"
-        />
+
+        <CurrentLocationMap :enable="enableLoader" key="marker" />
+
         <div v-if="noSearchFound" key="no-search" class="before-results">
           <SfImage
             src="/icons/feather_search.svg"
@@ -192,21 +150,8 @@
           <p>{{ $t('Please try searching again using ') }}</p>
           <p>{{ $t('different keyword') }}</p>
         </div>
-      </transition-group>
+      <!-- </transition-group> -->
     </div>
-    <!-- <div v-if="cartGetters.getTotalItems(cart)" class="sr-footer">
-      :pImage="productGetters.getGallery(product)[0].small[0]"
-      <Footer
-        @buttonClick="footerClick"
-        :totalPrice="cartGetters.getTotals(cart).total"
-        :totalItem="cartGetters.getTotalItems(cart)"
-        buttonText="View Cart"
-      >
-        <template v-slot:buttonIcon>
-          <SfIcon icon="empty_cart" color="white" :coverage="1" />
-        </template>
-      </Footer>
-    </div>-->
   </div>
 </template>
 <script>
@@ -224,6 +169,7 @@ import Footer from '~/components/Footer';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 import Filterpage from '~/pages/Filterpage';
+import CurrentLocationMap from '~/components/CurrentLocationMap';
 import {
   productGetters,
   providerGetters,
@@ -244,7 +190,8 @@ export default {
     SfButton,
     ProductCard,
     Footer,
-    SfImage
+    SfImage,
+    CurrentLocationMap
   },
   setup(_, context) {
     const {
@@ -253,7 +200,11 @@ export default {
       selectedLocation,
       toggleLoadindBar,
       clearCartPopup,
-      updateExpPageData
+      updateExpPageData,
+      setcartItem,
+      sLocation,
+      dLocation,
+      setTransactionId
     } = useUiState();
     const enableLoader = ref(false);
     const goBack = () => {
@@ -262,12 +213,15 @@ export default {
     const { addItem, cart, isInCart, load } = useCart();
     const data = context.root.$route.params.searchKey;
     const data2 = context.root.$route.params.pickuploc;
-    const pickuploc = ref(data2);
+    const pickuploc = sLocation.value.addres;
     const searchKey = ref(data);
+    const dropLoc = dLocation.value.addresss
     const keyVal = ref(0);
     const { search, result } = useFacet();
     const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
+
+    console.log('sLocation.value',dLocation.value)
 
     watch(
       () => clearCartPopup.value,
@@ -285,16 +239,14 @@ export default {
       toggleLoadindBar(false);
 
       await search({
+        pickup_location: `${sLocation?.value?.lat},${sLocation?.value?.long}`, //localStorage.getItem('pickUpLatAndLong'),
+
+        drop_location: `${dLocation?.value?.late},${dLocation?.value?.lng}`, //localStorage.getItem('dropLatAndLong')
         experienceId: localStorage.getItem('experienceId'),
-        pickup_location: localStorage.getItem('pickUpLatAndLong'),
-        drop_location: localStorage.getItem('dropLatAndLong'),
         created_at: Date.now()
       });
 
-      localStorage.setItem(
-        'transactionId',
-        result.value.data.ackResponse.context.transaction_id
-      );
+      setTransactionId(result.value.data.ackResponse.context.transaction_id);
 
       watch(
         () => pollResults.value,
@@ -332,8 +284,8 @@ export default {
               }, 1000);
             }
             toggleLoadindBar(true);
-            console.log('pollResults', pollResults);
-            localStorage.setItem('cartItem', JSON.stringify(pollResults.value));
+
+            setcartItem(JSON.stringify(pollResults.value));
           }
         }
       );
@@ -471,6 +423,7 @@ export default {
       cartGetters,
       searchKey,
       pickuploc,
+      dropLoc,
       keyVal,
       noSearchFound,
       cart,
@@ -491,6 +444,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.top-bar {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-around;
+  height: 60px;
+  font-weight: 500;
+  background: #f8f7f7;
+  //box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
+}
+
+.icon_back {
+  position: absolute;
+  left: 0;
+  margin: 10px;
+}
+
+.res1 {
+  padding: 12px;
+}
+
 .search-page {
   #icon {
     padding-right: 5px;
@@ -515,40 +489,63 @@ export default {
 
 .open-search-input {
   // display: flex;
+  background: #f8f7f7;
   padding-left: 14px;
   margin-bottom: 8px;
   -webkit-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
   box-shadow: 0 15px 8px -6px rgba(0, 0, 0, 0.08);
+
   // position: relative;
   &.disable {
     h4 {
       padding: 20px;
     }
+
     button {
       background: #bfbfbf;
+
       .sf-icon {
         --icon-color: #fff !important;
       }
     }
   }
+
   input {
     border-radius: 6px;
     box-sizing: border-box;
     border: none;
     border-radius: 6px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     padding: 2px 0 0 4px;
+    font-family: 'Inter';
+    font-style: normal;
+    //font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    letter-spacing: -0.24px;
   }
+
   label {
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 22px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    letter-spacing: -0.24px;
   }
+
   button {
     width: 100%;
     position: relative;
@@ -560,6 +557,7 @@ export default {
     border-radius: 6px;
     // border-bottom-right-radius: 6px;
     right: 0;
+
     .sf-icon {
       --icon-color: #fff !important;
     }
@@ -570,17 +568,22 @@ export default {
   display: flex;
   padding-top: 5%;
   padding-right: 5%;
-  padding-bottom: 15%;
+  padding-bottom: 10%;
+  background: #f8f7f7;
 }
+
 .input1 {
   display: flex;
-  padding-top: 15%;
+  padding-top: 10%;
   padding-right: 5%;
   padding-bottom: 5%;
+  background: #f8f7f7;
 }
+
 .hr-theme-slash-2 {
   display: flex;
   margin-bottom: 0px;
+  background: #f8f7f7;
 
   .hr-line {
     width: 100%;
@@ -589,6 +592,7 @@ export default {
     margin: 11px;
     border-bottom: 1px solid rgba(196, 196, 196, 0.4);
   }
+
   .hr-icon {
     position: relative;
     top: 11px;

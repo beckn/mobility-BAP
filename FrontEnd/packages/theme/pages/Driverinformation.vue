@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="top-bar header-top">
+      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
+        <span class="sf-search-bar__icon">
+          <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
+        </span>
+      </div>
+      <div>Driver Information</div>
+    </div>
     <template>
       <div id="cafe-map"></div>
       <div>
@@ -7,14 +15,9 @@
           <div>
             <div class="popover-bg">
               <div class="popover-content position-relative">
-                <div v-if="bName === 'selectcab'">
-                  <Select />
-                </div>
-                <div v-else-if="bName === 'confirmride'">
+                <div>
                   <DriverInfo />
                 </div>
-                <!--<Selectcab/>
-                <!- <ModalComponent class="modalclass" /> -->
               </div>
             </div>
           </div>
@@ -27,8 +30,9 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import Select from '../pages/select.vue';
+import Select from '../components/select.vue';
 import DriverInfo from '../pages/DriverInfo.vue';
+import { useUiState } from '~/composables';
 export default {
   data: () => ({
     service: null,
@@ -43,68 +47,13 @@ export default {
     this.geocodeService = new window.google.maps.Geocoder();
   },
   mounted() {
-    this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
-    this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+    const { dLocation, sLocation } = useUiState();
+    this.SourceLocation = `${sLocation?.value?.addres}`;
+    this.destloc = `${dLocation?.value?.addresss}`;
     this.getlocation();
   },
   methods: {
-    // reload() {
-    //   window.location.reload();
-    // },
-    // displaySuggestions(predictions, status) {
-    //   if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
-    //     this.searchResults = [];
-    //     return;
-    //   }
-    //   this.searchResults = predictions;
-    // },
-    //    myfunction(){
-
-    //     this.start = new google.maps.LatLng(7.434876909631617,80.4424951234613);
-    //     this.end = new google.maps.LatLng(7.3178281209262686,80.8735878891028);
-    //       // const option ={
-    //       //     zoom : 10,
-    //       //     center : start
-    //       // };
-    //       this.map = new google.maps.Map(document.getElementById('cafe-map'),this.option);
-    //       this.display = new google.maps.DirectionsRenderer();
-    //       this.services = new google.maps.DirectionsService();
-    //       display.setMap(this.map);
-    //           this.request = {
-    //               origin : this.start,
-    //               destination:this.end,
-    //               travelMode: 'DRIVING'
-    //           };
-    //           services.route(request,function(result,status){
-    //             //const that=this;
-    //               if(status =='OK'){
-    //                 display.setDirections(result);
-    //               }
-    //           });
-    //   },
-    // // },
-
-    // getLocationDetails(selectedLocation) {
-    //   this.location = selectedLocation.description;
-    //   this.geocodeService
-    //     .geocode({ placeId: selectedLocation.place_id })
-    //     .then((response) => {
-    //       this.$emit(
-    //         'locationSelected',
-    //         response.results[0].geometry.location.lat(),
-    //         response.results[0].geometry.location.lng(),
-    //         selectedLocation.description
-    //       );
-    //       this.show = !this.show;
-    //       this.mapCenter.lat = response.results[0].geometry.location.lat();
-    //       this.mapCenter.lag = response.results[0].geometry.location.lng();
-    //       this.getlocation();
-
-    //       // eslint-disable-next-line no-alert
-    //     })
-    //     .catch((err) => alert(err));
-    // },
-
+   
     calculateAndDisplayRoute(start, end, map) {
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -149,26 +98,41 @@ export default {
     }
   },
 
-  name: 'LocationSearch',
+  name: 'Driverinformation',
   components: {
     SfButton,
     SfIcon,
     Select,
     DriverInfo
   },
-  props: {
-    b_name: { type: String, default: '' }
-  },
-  setup(props) {
-    const bName = computed(() => props.b_name);
+  setup(_, { root }) {
+    const goBack = () => {
+      root.$router.back();
+    };
 
     return {
-      bName
+      goBack
     };
   }
 };
 </script>
 <style lang="scss" scoped>
+.top-bar {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-around;
+  height: 60px;
+  font-weight: 500;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
+}
+
+.icon_back {
+  position: absolute;
+  left: 0;
+  margin: 10px;
+}
 .button-pos {
   position: absolute;
   right: 0;

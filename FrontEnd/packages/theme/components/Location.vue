@@ -181,8 +181,6 @@ export default {
     const locationSelected = (latitude, longitude, address) => {
       location.value = address;
        selectedLocation.latitude===true
-    // this.$eventBus.$emit(`${address}`)
-    // localStorage.setItem('pickup', JSON.stringify(address));
     
 
       updateLocation({

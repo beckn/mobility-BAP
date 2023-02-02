@@ -8,18 +8,17 @@ import { buildSearchItemsWhere } from '../helpers/internals/search';
 const factoryParams = {
   poll: async (context: Context, params): Promise<any> => {
     params = params.params;
-    //let json = require('C:/Users/Admin/Downloads/Beckn Taxi BAP/on-search-response.json');
-    //const ackResponse1: AckResponse = json;
+
     const ackResponse: AckResponse = await context.$beckn.api.onSearch(params);
-    console.log(ackResponse, 'the json obj');
-    //console.log(ackResponse1, 'the json obj 1');
+
     if (ackResponse?.error) {
       throw new Error('Error in Api');
     }
-    // const ackResponse: AckResponse = await context.$beckn.api.onSearch(params);
+
     if (ackResponse.error?.code) {
       throw ackResponse.error;
     }
+
     return ackResponse;
   },
 
@@ -33,8 +32,8 @@ const factoryParams = {
         return obj.bpp_descriptor.name;
       });
       const data = catalogs.filter((bpp) => {
-        if(bpp.bpp_descriptor){
-          return !(oldCodes.includes(bpp.bpp_descriptor.name));
+        if (bpp.bpp_descriptor) {
+          return !oldCodes.includes(bpp.bpp_descriptor.name);
         }
       });
       return [...oldResults, ...data];
@@ -48,7 +47,9 @@ const factoryParams = {
   },
   init: async (context: Context, { params }) => {
     const searchParams = buildSearchItemsWhere(params.input);
-    const ackResponse: AckResponse = await context.$beckn.api.getProduct(searchParams);
+    const ackResponse: AckResponse = await context.$beckn.api.getProduct(
+      searchParams
+    );
     return {
       ackResponse
     };
@@ -59,7 +60,6 @@ const factoryParams = {
   intervalTime: () => {
     return config.timers.search.interval;
   }
-
 };
 
 export default usePollerFactory(factoryParams);

@@ -6,15 +6,18 @@
   <div class="header-container">
     <div class="fixed-head">
       <div class="fixed-head-height"></div>
-      <div class="header h-padding">
+      <div class="title">
         <nuxt-link :to="localePath('/')">
           <SfImage
-            src="/icons/beckn.png"
-            :width="63"
+            src="/icons/Group.png"
+            :width="25"
             :height="20"
             alt="Vue Storefront Next"
           />
         </nuxt-link>
+        <h3>
+          Travel Buddy
+        </h3>
       </div>
       <LoadingBar
         :enable="
@@ -24,21 +27,21 @@
       />
       <div
         v-if="['home', 'Search'].includes($route.name)"
-        class="location-btn h-padding flexy"
+        class="h-padding  flexy"
       >
-        <div
+        <!-- <div
           v-if="['Search'].includes($route.name)"
           class="icon-padding circle-centre"
           @click="goBack"
         >
           <SfIcon color="var(--c-text)" size="20px" icon="chevron_left" />
-        </div>
-        <Location
+        </div> -->
+        <!-- <Location
           :isDisabled="false"
           :class="{ 'disable-location': false }"
           class="location-section aline-center"
           v-e2e="'app-header-location'"
-        />
+        /> -->
       </div>
     </div>
   </div>
@@ -131,7 +134,13 @@ export default {
     width: 100%;
     margin-top: 15px;
   }
-
+  .title {
+    display: flex;
+    flex-direction: row;
+    padding: 13px;
+    align-items: center;
+    justify-content: center;
+  }
   .icon-padding {
     padding-right: 10px;
     cursor: pointer;
@@ -140,6 +149,23 @@ export default {
       width: 20px;
       height: 20px;
     }
+  }
+  h3 {
+    font-style: normal;
+    font-family: 'SF Pro Text';
+    font-weight: 500;
+    font-size: 20px;
+    padding-left: 3px;
+    //line-height: 110%;
+    //font-weight: 800;
+    //font-size: 55px;
+    // line-height: 110%;
+    text-align: center;
+
+    // padding-top: 10px;
+    letter-spacing: -0.03em;
+
+    color: #f37a20;
   }
 
   .location-btn {
