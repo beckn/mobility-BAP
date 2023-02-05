@@ -9,33 +9,27 @@
       <div class="head-class">
         <div class="title">
           <nuxt-link :to="localePath('/')">
-            <SfImage
-              src="/icons/Group.png"
-              :width="25"
-              :height="20"
-              alt="Vue Storefront Next"
-            />
+            <SfImage src="/icons/Group.png" :width="25" :height="20" alt="Vue Storefront Next" />
           </nuxt-link>
           <h3>
             Travel Buddy
           </h3>
         </div>
-        <div v-if="!isAuthenticatedUser">
+        <div>
           <nuxt-link :to="localePath('/Login')">
-            <h3>sign in</h3>
+            <div class="profile-icon" v-if="isAuthenticatedUser">
+              <SfIcon icon="profile" />
+            </div>
+
+            <div class="sign-in-text" v-if="!isAuthenticatedUser">Sign In</div>
           </nuxt-link>
         </div>
       </div>
-      <LoadingBar
-        :enable="
-          enableLoadindBar &&
-            ['Product', 'cart', 'Search'].includes($route.name)
-        "
-      />
-      <div
-        v-if="['home', 'Search'].includes($route.name)"
-        class="h-padding  flexy"
-      >
+      <LoadingBar :enable="
+        enableLoadindBar &&
+        ['Product', 'cart', 'Search'].includes($route.name)
+      " />
+      <div v-if="['home', 'Search'].includes($route.name)" class="h-padding  flexy">
         <!-- <div
           v-if="['Search'].includes($route.name)"
           class="icon-padding circle-centre"
@@ -74,7 +68,7 @@ export default {
     SfBottomModal,
     Location,
     LoadingBar,
-    Card
+    Card,
   },
   directives: { clickOutside },
   setup(props, { root }) {
@@ -83,6 +77,7 @@ export default {
     const { isAuthenticated, load: loadUser } = useUser();
     const { load: loadWishlist } = useWishlist();
     const { stopPolling } = useSearch('search');
+    const currentUser = root.$store.$fire.auth.currentUser;
 
     const accountIcon = computed(() =>
       isAuthenticated.value ? 'profile_fill' : 'profile'
@@ -116,7 +111,8 @@ export default {
       setTermForUrl,
       LoadingBar,
       enableLoadindBar,
-      goBack
+      goBack,
+      currentUser,
     };
   },
   computed: {
@@ -130,6 +126,7 @@ export default {
 <style lang="scss" scoped>
 .header-container {
   background-color: #ffffff;
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -138,14 +135,17 @@ export default {
     padding: 10px 0;
     border-bottom: 0.5px solid #f1f1f1;
   }
+
   .h-padding {
     padding-left: var(--spacer-sm);
     padding-right: var(--spacer-sm);
   }
+
   .search-bar {
     width: 100%;
     margin-top: 15px;
   }
+
   .title {
     display: flex;
     flex-direction: row;
@@ -153,21 +153,25 @@ export default {
     align-items: center;
     // justify-content: center;
   }
+
   .head-class {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
+
   .icon-padding {
     padding-right: 10px;
     cursor: pointer;
+
     .sf-icon {
       --icon-color: #f37a20 !important;
       width: 20px;
       height: 20px;
     }
   }
+
   h3 {
     font-style: normal;
     font-family: 'SF Pro Text';
@@ -194,10 +198,12 @@ export default {
     position: relative;
     // z-index: 99;
     background-color: #fbfcff;
+
     .selected-location {
       font-size: 13px;
       font-weight: 500;
     }
+
     .location-text {
       font-size: 11px;
     }
@@ -211,8 +217,10 @@ export default {
 .header-on-top {
   z-index: 2;
 }
+
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-base);
+
   .sf-header-navigation-item__item--mobile {
     display: none;
   }
@@ -227,5 +235,15 @@ export default {
   position: absolute;
   bottom: 40%;
   left: 40%;
+}
+
+.sign-in-text {
+  color: #f37a20;
+  font-weight: 600;
+  padding-right: 10px;
+}
+
+.profile-icon {
+  padding-right: 10px;
 }
 </style>
