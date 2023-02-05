@@ -61,7 +61,8 @@ export default {
       setTransactionId,
       cartItem,
       token,
-      TransactionId
+      TransactionId,
+      experienceId
     } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
@@ -122,7 +123,7 @@ export default {
           token.value
         );
 
-        if (localStorage.getItem('experienceId') !== null) {
+        if (experienceId.value !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -135,7 +136,7 @@ export default {
                   redirect: 'follow', // manual, *follow, error
                   referrerPolicy: 'no-referrer', // no-referrer,
                   body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
+                    experienceId: experienceId.value,
                     eventCode: 'mbtb_ride_slectd',
                     eventAction: 'ride selected',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -181,7 +182,7 @@ export default {
             setTransactionId(onGetQuoteRes[0].context.transaction_id);
 
             enableLoader.value = false;
-            if (localStorage.getItem('experienceId') !== null) {
+            if (experienceId.value !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -194,7 +195,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: localStorage.getItem('experienceId'),
+                        experienceId: experienceId.value,
                         eventCode: 'mbth_accept_ride',
                         eventAction: 'quotation sent',
                         eventSourceId:

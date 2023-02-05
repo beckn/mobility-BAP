@@ -76,9 +76,8 @@ const {
   setconfirmData,
   setconfirmDataContext,
   confirmDatas,
-  confirmDataContext
-
-
+  confirmDataContext,
+  experienceId
 } = useUiState();
 
 export default {
@@ -168,7 +167,7 @@ export default {
           }
         }
       );
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -181,7 +180,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbth_sent_ride_details',
                   eventAction: 'sent ride details',
                   eventSourceId:
@@ -203,7 +202,7 @@ export default {
     const goBack = () => context.root.$router.back();
 
     onBeforeMount(async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -216,7 +215,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_bkng_ride',
                   eventAction: 'booking ride',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',

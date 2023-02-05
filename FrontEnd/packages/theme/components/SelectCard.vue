@@ -5,21 +5,12 @@
         <client-only>
           <div class="location-icon">
             <slot>
-              <div
-                @click="toggleIsShow"
-                class=""
-                v-e2e="'app-header-location-input-div'"
-              >
+              <div @click="toggleIsShow" class="" v-e2e="'app-header-location-input-div'">
                 <template>
                   <div class="button-pos1">
                     <SfButton class="sf-button--pure rect-bar-style">
                       <!--<span class="sf-search-bar__icon">-->
-                      <SfImage
-                        src="/icons/Rectangle-bar.png"
-                        :width="60"
-                        :height="5.5"
-                        alt="Rectangle bar"
-                      />
+                      <SfImage src="/icons/Rectangle-bar.png" :width="60" :height="5.5" alt="Rectangle bar" />
                       <!--</span>-->
                     </SfButton>
                   </div>
@@ -29,12 +20,7 @@
                         <div>
                           <div class="form-class aline-center ">
                             <div class="flexy">
-                              <img
-                                src="/icons/car.png"
-                                alt=""
-                                :width="37"
-                                :height="39"
-                              />
+                              <img src="/icons/car.png" alt="" :width="37" :height="39" />
 
                               <div class="text-padding">
                                 <div class="aline-center">
@@ -67,12 +53,7 @@
                           <div class="loc1">
                             <div class="form-class">
                               <div class="flexy">
-                                <SfIcon
-                                  class="locationicon"
-                                  color="#f37a20"
-                                  size="20px"
-                                  icon="marker"
-                                />
+                                <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" />
 
                                 <div class="text-padding1">
                                   <div class="aline-center">
@@ -82,11 +63,7 @@
                                   </div>
                                   <div class="rating-css">
                                     <div class="text1">
-                                      <input
-                                        type="text"
-                                        :value="_SourceLocation"
-                                        disabled
-                                      />
+                                      <input type="text" :value="_SourceLocation" disabled />
                                     </div>
                                   </div>
                                 </div>
@@ -95,12 +72,7 @@
                             </div>
                             <div class="form-class">
                               <div class="flexy">
-                                <SfIcon
-                                  class="locationicon"
-                                  color="#2081F3"
-                                  size="20px"
-                                  icon="marker"
-                                />
+                                <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" />
 
                                 <div class="text-padding1">
                                   <div class="aline-center">
@@ -110,11 +82,7 @@
                                   </div>
 
                                   <div class="text1">
-                                    <input
-                                      type="text"
-                                      :value="_destloc"
-                                      disabled
-                                    />
+                                    <input type="text" :value="_destloc" disabled />
                                   </div>
                                 </div>
                                 <br />
@@ -137,12 +105,7 @@
                 <template>
                   <div class="bar" @click="toggleIsShow">
                     <SfButton class="sf-button--pure ">
-                      <SfImage
-                        src="/icons/Rectangle-bar.png"
-                        :width="60"
-                        :height="5.5"
-                        alt="Rectangle bar"
-                      />
+                      <SfImage src="/icons/Rectangle-bar.png" :width="60" :height="5.5" alt="Rectangle bar" />
                     </SfButton>
                   </div>
 
@@ -154,16 +117,9 @@
                             <div class="">
                               <template>
                                 <div>
-                                  <div
-                                    class="provider-head aline-center side-padding "
-                                  >
+                                  <div class="provider-head aline-center side-padding ">
                                     <div class="flexy">
-                                      <img
-                                        src="/icons/car.png"
-                                        alt=""
-                                        :width="37"
-                                        :height="39"
-                                      />
+                                      <img src="/icons/car.png" alt="" :width="37" :height="39" />
 
                                       <div class="text-padding">
                                         <div class="aline-center">
@@ -196,12 +152,7 @@
                                   <div class="loc">
                                     <div class="form-class">
                                       <div class="flexy">
-                                        <SfIcon
-                                          class="locationicon"
-                                          color="#f37a20"
-                                          size="20px"
-                                          icon="marker"
-                                        />
+                                        <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" />
 
                                         <div class="text-padding1">
                                           <div class="aline-center">
@@ -211,11 +162,7 @@
                                           </div>
                                           <div class="rating-css">
                                             <div class="text1">
-                                              <input
-                                                type="text"
-                                                :value="_SourceLocation"
-                                                disabled
-                                              />
+                                              <input type="text" :value="_SourceLocation" disabled />
                                             </div>
                                           </div>
                                         </div>
@@ -223,12 +170,7 @@
                                     </div>
                                     <div class=" form-class">
                                       <div class="flexy">
-                                        <SfIcon
-                                          class="locationicon"
-                                          color="#2081F3"
-                                          size="20px"
-                                          icon="marker"
-                                        />
+                                        <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" />
 
                                         <div class="">
                                           <div class="">
@@ -238,11 +180,7 @@
                                           </div>
 
                                           <div class="text1">
-                                            <input
-                                              type="text"
-                                              :value="_destloc"
-                                              disabled
-                                            />
+                                            <input type="text" :value="_destloc" disabled />
                                           </div>
                                         </div>
                                       </div>
@@ -255,35 +193,17 @@
                                     </select>
                                     <div class="form">
                                       <p class="s-name">Name:</p>
-                                      <input
-                                        @click="enterName"
-                                        v-model="name"
-                                        class="text1"
-                                        type="text"
-                                        placeholder="Enter Name"
-                                        @keyup="validateName"
-                                      />
-                                      <div
-                                        class="invalid-warning"
-                                        v-if="!isValidName"
-                                      >
+                                      <input @click="enterName" v-model="name" class="text1" type="text"
+                                        placeholder="Enter Name" @keyup="validateName" />
+                                      <div class="invalid-warning" v-if="!isValidName">
                                         Invalid Name!
                                       </div>
                                       <br />
                                       <br />
                                       <p class="s-name">Phone Number:</p>
-                                      <input
-                                        @click="enterphoneNo"
-                                        v-model="phoneNo"
-                                        class="text1"
-                                        type="text"
-                                        placeholder="Enter phone number"
-                                        @keyup="validatePhoneNumber"
-                                      />
-                                      <div
-                                        class="invalid-warning"
-                                        v-if="!isValidPhoneNumber"
-                                      >
+                                      <input @click="enterphoneNo" v-model="phoneNo" class="text1" type="text"
+                                        placeholder="Enter phone number" @keyup="validatePhoneNumber" />
+                                      <div class="invalid-warning" v-if="!isValidPhoneNumber">
                                         Invalid phone number!
                                       </div>
                                     </div>
@@ -292,32 +212,21 @@
                                     <div>
                                       <hr class="sf-divider" />
                                     </div>
-                                    <div
-                                      v-if="enableLoader"
-                                      key="loadingCircle"
-                                      class="loader-circle"
-                                    >
+                                    <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
                                       <LoadingCircle :enable="enableLoader" />
                                     </div>
                                     <!-- <nuxt-link :to="localePath('/payment')"> -->
-                                    <SfButton
-                                      :class="{
-                                        [_value]: Boolean(_value)
-                                          ? ''
-                                          : 'is-disabled--button'
-                                      }"
-                                      :disabled="
-                                        !name ||
-                                          !phoneNo ||
-                                          !isValidPhoneNumber ||
-                                          !isValidName
-                                      "
-                                      type="submit"
-                                      id="btn"
-                                      @click="onConfirmProc"
-                                    >
-                                      Confirm & Proceed</SfButton
-                                    >
+                                    <SfButton :class="{
+                                      [_value]: Boolean(_value)
+                                        ? ''
+                                        : 'is-disabled--button'
+                                    }" :disabled="
+  !name ||
+  !phoneNo ||
+  !isValidPhoneNumber ||
+  !isValidName
+" type="submit" id="btn" @click="onConfirmProc">
+                                      Confirm & Proceed</SfButton>
                                   </div>
                                   <!-- </nuxt-link> -->
                                 </div>
@@ -389,7 +298,7 @@ export default {
     const _pCount = computed(() => props.pCount);
 
     const enterName = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -402,7 +311,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_init_details1',
                   eventAction: 'entering name',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -420,7 +329,7 @@ export default {
     };
 
     const enterphoneNo = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -433,7 +342,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_init_details2',
                   eventAction: 'entering phone number',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -459,7 +368,8 @@ export default {
       cartItem,
       token,
       setinitResult,
-      initResult
+      initResult,
+      experienceId
     } = useUiState();
     const _SourceLocation = ref(sLocation?.value?.addres);
     const _destloc = ref(dLocation?.value?.addresss);
@@ -510,7 +420,7 @@ export default {
           '12.9063433,77.5856825'
         );
         const response = await init(params, token.value);
-        if (localStorage.getItem('experienceId') !== null) {
+        if (experienceId.value !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -523,7 +433,7 @@ export default {
                   redirect: 'follow',
                   referrerPolicy: 'no-referrer',
                   body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
+                    experienceId: experienceId.value,
                     eventCode: 'mbtb_init_ride',
                     eventAction: 'initiating ride',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -566,7 +476,7 @@ export default {
             setinitResult(onInitRes);
 
             enableLoader.value = false;
-            if (localStorage.getItem('experienceId') !== null) {
+            if (experienceId.value !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -579,7 +489,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: localStorage.getItem('experienceId'),
+                        experienceId: experienceId.value,
                         eventCode: 'mbth_sent_fnl_quote',
                         eventAction: 'sent final quote',
                         eventSourceId:
@@ -644,6 +554,7 @@ export default {
     margin-right: 5px;
     color: #37474f;
   }
+
   .provide-img {
     background: #fff;
     border: 1px solid #e3e3e3;
@@ -653,20 +564,24 @@ export default {
     width: 30px;
     margin-right: 5px;
     padding: 5px;
+
     img {
       height: 30px;
       width: 30px;
     }
   }
+
   .text-padding {
     font-weight: 600;
     color: #37474f;
     line-height: 22px;
+
     span {
       font-weight: 400;
       margin-right: 5px;
     }
   }
+
   .p-distance {
     font-size: 12px;
     font-weight: 400;
@@ -828,6 +743,7 @@ input:hover {
 .text1 {
   padding: 10px;
 }
+
 #btn {
   //top:112px;
   width: 63px;

@@ -44,7 +44,8 @@ const {
   token,
   confirmDatas,
   confirmDataContext,
-  initResult
+  initResult,
+  experienceId
 } = useUiState();
 
 export default {
@@ -170,7 +171,7 @@ export default {
           tripStatusVal.value = statusResults.value[0].message.order.state;
         }
         if (tripStatusVal.value === 'Ended') {
-          if (localStorage.getItem('experienceId') !== null) {
+          if (experienceId.value !== null) {
             setTimeout(async () => {
               try {
                 await fetch(
@@ -183,7 +184,7 @@ export default {
                     redirect: 'follow', // manual, *follow, error
                     referrerPolicy: 'no-referrer', // no-referrer,
                     body: JSON.stringify({
-                      experienceId: localStorage.getItem('experienceId'),
+                      experienceId: experienceId.value,
                       eventCode: 'mbtb_payment_endride',
                       eventAction: 'ending ride',
                       eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -252,7 +253,7 @@ export default {
       ];
       try {
         const response = await track(params, token.value);
-        if (localStorage.getItem('experienceId') !== null) {
+        if (experienceId.value !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -265,7 +266,7 @@ export default {
                   redirect: 'follow', // manual, *follow, error
                   referrerPolicy: 'no-referrer', // no-referrer,
                   body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
+                    experienceId: experienceId.value,
                     eventCode: 'mbtb_tracking_driver',
                     eventAction: 'tracking ride',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -371,6 +372,7 @@ div#cafe-map {
   @media (max-height: 667px) {
     height: 400px;
   }
+
   width: 100%;
   //height: 280px;
   height: 500px;

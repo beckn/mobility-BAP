@@ -42,7 +42,8 @@ const state = reactive({
   confirmDatas: '',
   confirmDataContext: '',
   cartData: '',
-  initResult: ''
+  initResult: '',
+  experienceId: ''
 });
 
 const useUiState = () => {
@@ -166,6 +167,11 @@ const useUiState = () => {
     state.explorePageData = data;
   };
 
+  const experienceId = computed(() => state.experienceId);
+  const setExperienceId = (id:string) => {
+    state.experienceId = id;
+  };
+
   return {
     isCartSidebarOpen,
     isWishlistSidebarOpen,
@@ -219,7 +225,9 @@ const useUiState = () => {
     cartData,
     setcartData,
     initResult,
-    setinitResult
+    setinitResult,
+    experienceId,
+    setExperienceId
   };
 };
 

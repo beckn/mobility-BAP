@@ -2,12 +2,8 @@
   <div>
     <div class="open-search"></div>
     <div>
-      <CurrentLocationMap
-        :enable="true"
-        :disablepulse="true"
-        :upadateMap="upadateMap"
-        @Currentlocation="Currentlocation"
-      />
+      <CurrentLocationMap :enable="true" :disablepulse="true" :upadateMap="upadateMap"
+        @Currentlocation="Currentlocation" />
     </div>
     <div class="open-search header-top-space">
       <div class="open-search-input">
@@ -95,7 +91,9 @@ const {
   selectedLocation,
   updateLocation,
   updatesLocation,
-  updatedLocation
+  updatedLocation,
+  setExperienceId,
+  experienceId
 } = useUiState();
 
 export default {
@@ -116,13 +114,13 @@ export default {
     const message = ref('');
     const errorMsg = ref(false);
     const errorMsg2 = ref(false);
-const upadateMap = ref('')
+    const upadateMap = ref('')
     onBeforeMount(async () => {
       let URL = window.location.href;
 
       if (URL.includes('?')) {
         let experienceId = URL.slice(URL.indexOf('?') + 1);
-        localStorage.setItem('experienceId', experienceId);
+        setExperienceId(experienceId)
       } else {
         await fetch(
           'https://api.eventcollector.becknprotocol.io/v2/event/experience',
@@ -139,7 +137,7 @@ const upadateMap = ref('')
             return res.text();
           })
           .then((result) => {
-            localStorage.setItem('experienceId', result);
+            setExperienceId(result)
           })
           .catch((e) => console.error(e));
       }
@@ -173,7 +171,7 @@ const upadateMap = ref('')
           addres: address
         });
         pickup.value = address;
-        upadateMap.value=address
+        upadateMap.value = address
         //updatesLocation(pickup.value)
         //localStorage.setItem('slocation', JSON.stringify(pickup.value));
         //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
@@ -206,7 +204,7 @@ const upadateMap = ref('')
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const pickupLocation = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -219,7 +217,7 @@ const upadateMap = ref('')
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_pickup_loc',
                   eventAction: 'selecting pickup location',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -239,7 +237,7 @@ const upadateMap = ref('')
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const dropLocation = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -252,7 +250,7 @@ const upadateMap = ref('')
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_drop_loc',
                   eventAction: 'selecting drop-off location',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -273,7 +271,7 @@ const upadateMap = ref('')
     };
 
     const openSearch = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -286,7 +284,7 @@ const upadateMap = ref('')
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_srch_init',
                   eventAction: 'search initiated',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
