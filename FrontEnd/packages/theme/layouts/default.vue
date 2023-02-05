@@ -57,20 +57,22 @@ export default {
     Error
   },
 
-  beforeMount() {
-    window.addEventListener('beforeunload', this.preventNav);
-  },
-  beforeRouteLeave(to, from, next) {
-    if (!window.confirm('Leave without saving?')) {
-      return;
-    } else next();
-  },
+  // TODO :- To check this
+
+  // beforeMount() {
+  //   window.addEventListener('beforeunload', this.preventNav);
+  // },
+  // beforeRouteLeave(to, from, next) {
+  //   if (!window.confirm('Leave without saving?')) {
+  //     return;
+  //   } else next();
+  // },
   methods: {
-    preventNav(event) {
-      event.preventDefault();
-      // Chrome requires returnValue to be set.
-      event.returnValue = '';
-    }
+    // preventNav(event) {
+    //   event.preventDefault();
+    //   // Chrome requires returnValue to be set.
+    //   event.returnValue = '';
+    // }
   },
   setup() {
     // const { load } = useCart();
