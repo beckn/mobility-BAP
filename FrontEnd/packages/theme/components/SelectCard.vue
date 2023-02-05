@@ -5,12 +5,21 @@
         <client-only>
           <div class="location-icon">
             <slot>
-              <div @click="toggleIsShow" class="" v-e2e="'app-header-location-input-div'">
+              <div
+                @click="toggleIsShow"
+                class=""
+                v-e2e="'app-header-location-input-div'"
+              >
                 <template>
                   <div class="button-pos1">
                     <SfButton class="sf-button--pure rect-bar-style">
                       <!--<span class="sf-search-bar__icon">-->
-                      <SfImage src="/icons/Rectangle-bar.png" :width="60" :height="5.5" alt="Rectangle bar" />
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
                       <!--</span>-->
                     </SfButton>
                   </div>
@@ -20,7 +29,12 @@
                         <div>
                           <div class="form-class aline-center ">
                             <div class="flexy">
-                              <img src="/icons/car.png" alt="" :width="37" :height="39" />
+                              <img
+                                src="/icons/car.png"
+                                alt=""
+                                :width="37"
+                                :height="39"
+                              />
 
                               <div class="text-padding">
                                 <div class="aline-center">
@@ -53,7 +67,12 @@
                           <div class="loc1">
                             <div class="form-class">
                               <div class="flexy">
-                                <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" />
+                                <SfIcon
+                                  class="locationicon"
+                                  color="#f37a20"
+                                  size="20px"
+                                  icon="marker"
+                                />
 
                                 <div class="text-padding1">
                                   <div class="aline-center">
@@ -63,7 +82,11 @@
                                   </div>
                                   <div class="rating-css">
                                     <div class="text1">
-                                      <input type="text" :value="_SourceLocation" disabled />
+                                      <input
+                                        type="text"
+                                        :value="_SourceLocation"
+                                        disabled
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -72,7 +95,12 @@
                             </div>
                             <div class="form-class">
                               <div class="flexy">
-                                <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" />
+                                <SfIcon
+                                  class="locationicon"
+                                  color="#2081F3"
+                                  size="20px"
+                                  icon="marker"
+                                />
 
                                 <div class="text-padding1">
                                   <div class="aline-center">
@@ -82,7 +110,11 @@
                                   </div>
 
                                   <div class="text1">
-                                    <input type="text" :value="_destloc" disabled />
+                                    <input
+                                      type="text"
+                                      :value="_destloc"
+                                      disabled
+                                    />
                                   </div>
                                 </div>
                                 <br />
@@ -105,7 +137,12 @@
                 <template>
                   <div class="bar" @click="toggleIsShow">
                     <SfButton class="sf-button--pure ">
-                      <SfImage src="/icons/Rectangle-bar.png" :width="60" :height="5.5" alt="Rectangle bar" />
+                      <SfImage
+                        src="/icons/Rectangle-bar.png"
+                        :width="60"
+                        :height="5.5"
+                        alt="Rectangle bar"
+                      />
                     </SfButton>
                   </div>
 
@@ -117,9 +154,16 @@
                             <div class="">
                               <template>
                                 <div>
-                                  <div class="provider-head aline-center side-padding ">
+                                  <div
+                                    class="provider-head aline-center side-padding "
+                                  >
                                     <div class="flexy">
-                                      <img src="/icons/car.png" alt="" :width="37" :height="39" />
+                                      <img
+                                        src="/icons/car.png"
+                                        alt=""
+                                        :width="37"
+                                        :height="39"
+                                      />
 
                                       <div class="text-padding">
                                         <div class="aline-center">
@@ -152,7 +196,12 @@
                                   <div class="loc">
                                     <div class="form-class">
                                       <div class="flexy">
-                                        <SfIcon class="locationicon" color="#f37a20" size="20px" icon="marker" />
+                                        <SfIcon
+                                          class="locationicon"
+                                          color="#f37a20"
+                                          size="20px"
+                                          icon="marker"
+                                        />
 
                                         <div class="text-padding1">
                                           <div class="aline-center">
@@ -162,7 +211,11 @@
                                           </div>
                                           <div class="rating-css">
                                             <div class="text1">
-                                              <input type="text" :value="_SourceLocation" disabled />
+                                              <input
+                                                type="text"
+                                                :value="_SourceLocation"
+                                                disabled
+                                              />
                                             </div>
                                           </div>
                                         </div>
@@ -170,7 +223,12 @@
                                     </div>
                                     <div class=" form-class">
                                       <div class="flexy">
-                                        <SfIcon class="locationicon" color="#2081F3" size="20px" icon="marker" />
+                                        <SfIcon
+                                          class="locationicon"
+                                          color="#2081F3"
+                                          size="20px"
+                                          icon="marker"
+                                        />
 
                                         <div class="">
                                           <div class="">
@@ -180,7 +238,11 @@
                                           </div>
 
                                           <div class="text1">
-                                            <input type="text" :value="_destloc" disabled />
+                                            <input
+                                              type="text"
+                                              :value="_destloc"
+                                              disabled
+                                            />
                                           </div>
                                         </div>
                                       </div>
@@ -193,17 +255,33 @@
                                     </select>
                                     <div class="form">
                                       <p class="s-name">Name:</p>
-                                      <input @click="enterName" v-model="name" class="text1" type="text"
-                                        placeholder="Enter Name" @keyup="validateName" />
-                                      <div class="invalid-warning" v-if="!isValidName">
+                                      <input
+                                        @click="enterName"
+                                        v-model="name"
+                                        class="text1"
+                                        type="text"
+                                        placeholder="Enter Name"
+                                      />
+                                      <div
+                                        class="invalid-warning"
+                                        v-if="!isValidName"
+                                      >
                                         Invalid Name!
                                       </div>
                                       <br />
                                       <br />
                                       <p class="s-name">Phone Number:</p>
-                                      <input @click="enterphoneNo" v-model="phoneNo" class="text1" type="text"
-                                        placeholder="Enter phone number" @keyup="validatePhoneNumber" />
-                                      <div class="invalid-warning" v-if="!isValidPhoneNumber">
+                                      <input
+                                        @click="enterphoneNo"
+                                        v-model="phoneNo"
+                                        class="text1"
+                                        type="text"
+                                        placeholder="Enter phone number"
+                                      />
+                                      <div
+                                        class="invalid-warning"
+                                        v-if="!isValidPhoneNumber"
+                                      >
                                         Invalid phone number!
                                       </div>
                                     </div>
@@ -212,21 +290,27 @@
                                     <div>
                                       <hr class="sf-divider" />
                                     </div>
-                                    <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+                                    <div
+                                      v-if="enableLoader"
+                                      key="loadingCircle"
+                                      class="loader-circle"
+                                    >
                                       <LoadingCircle :enable="enableLoader" />
                                     </div>
                                     <!-- <nuxt-link :to="localePath('/payment')"> -->
-                                    <SfButton :class="{
-                                      [_value]: Boolean(_value)
-                                        ? ''
-                                        : 'is-disabled--button'
-                                    }" :disabled="
-  !name ||
-  !phoneNo ||
-  !isValidPhoneNumber ||
-  !isValidName
-" type="submit" id="btn" @click="onConfirmProc">
-                                      Confirm & Proceed</SfButton>
+                                    <SfButton
+                                      :class="{
+                                        [_value]: Boolean(_value)
+                                          ? ''
+                                          : 'is-disabled--button'
+                                      }"
+                                      :disabled="!name || !phoneNo"
+                                      type="submit"
+                                      id="btn"
+                                      @click="onConfirmProc"
+                                    >
+                                      Confirm & Proceed</SfButton
+                                    >
                                   </div>
                                   <!-- </nuxt-link> -->
                                 </div>
@@ -408,6 +492,11 @@ export default {
     };
     const { setphoneNo, setName } = useUiState();
     const onConfirmProc = async () => {
+      validateName();
+      validatePhoneNumber();
+      if (!isValidPhoneNumber.value || !isValidName.value) {
+        return;
+      }
       setphoneNo(phoneNo.value);
       setName(name.value);
 
