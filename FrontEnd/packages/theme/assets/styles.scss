@@ -26,6 +26,7 @@ $s-p-add-cart-color: #fff;
   --c-primary: #f37a20 !important;
 }
 body {
+  overscroll-behavior: none;
   color: $Primary-text;
   font-family: 'SFProText' !important;
   -webkit-font-smoothing: antialiased;
@@ -450,7 +451,7 @@ body {
 
   .details {
     //removing verticle scroll
-    height: calc(80vh - 170px);
+    height: calc(78vh - 170px);
     overflow-y:scroll;
     .search__wrapper-results {
       //padding-bottom: 80px;
@@ -464,6 +465,7 @@ body {
       }
 
       .provider-head {
+        
         padding-top: 8px;
         padding-bottom: 16px;
         justify-content: space-between;

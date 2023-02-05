@@ -26,7 +26,7 @@ export default {
       lag: ''
     },
     map: null,
-    zoom: 14,
+    zoom: 18,
     marker: null
   }),
 
@@ -122,6 +122,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 div#map {
+  @media (max-height: 667px) {
+    height: 400px;
+  }
   height: 500px;
   width: 100%;
   overflow: hidden;

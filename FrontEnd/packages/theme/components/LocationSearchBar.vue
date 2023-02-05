@@ -107,7 +107,7 @@ export default {
       lag: ''
     },
     map: null,
-    zoom: 14,
+    zoom: 18,
     show: true,
     marker: null
   }),
@@ -282,6 +282,9 @@ export default {
 //   padding-left: 70%;
 // }
 div#taxi-map {
+  @media (max-height: 667px) {
+    height: 400px;
+  }
   width: 100%;
   height: 500px;
   overflow: hidden;

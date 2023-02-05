@@ -6,18 +6,25 @@
   <div class="header-container">
     <div class="fixed-head">
       <div class="fixed-head-height"></div>
-      <div class="title">
-        <nuxt-link :to="localePath('/')">
-          <SfImage
-            src="/icons/Group.png"
-            :width="25"
-            :height="20"
-            alt="Vue Storefront Next"
-          />
-        </nuxt-link>
-        <h3>
-          Travel Buddy
-        </h3>
+      <div class="head-class">
+        <div class="title">
+          <nuxt-link :to="localePath('/')">
+            <SfImage
+              src="/icons/Group.png"
+              :width="25"
+              :height="20"
+              alt="Vue Storefront Next"
+            />
+          </nuxt-link>
+          <h3>
+            Travel Buddy
+          </h3>
+        </div>
+        <div v-if="!isAuthenticatedUser">
+          <nuxt-link :to="localePath('/Login')">
+            <h3>sign in</h3>
+          </nuxt-link>
+        </div>
       </div>
       <LoadingBar
         :enable="
@@ -111,6 +118,11 @@ export default {
       enableLoadindBar,
       goBack
     };
+  },
+  computed: {
+    isAuthenticatedUser() {
+      return this.currentUser !== null;
+    }
   }
 };
 </script>
@@ -139,7 +151,13 @@ export default {
     flex-direction: row;
     padding: 13px;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
+  }
+  .head-class {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
   .icon-padding {
     padding-right: 10px;
@@ -155,6 +173,7 @@ export default {
     font-family: 'SF Pro Text';
     font-weight: 500;
     font-size: 20px;
+    padding-right: 7px;
     padding-left: 3px;
     //line-height: 110%;
     //font-weight: 800;

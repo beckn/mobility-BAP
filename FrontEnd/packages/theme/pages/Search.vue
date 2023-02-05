@@ -45,111 +45,104 @@
 
     <div class="details">
       <!-- <transition-group name="sf-fade" mode="out-in"> -->
-        <div
-          v-if="pollResults && pollResults.length > 0"
-          class="search__wrapper-results"
-          key="results"
-        >
-          <div class="side-padding result-num res res1 ">
-            <span
-              ><span v-e2e="'total-result'">{{
-                totalResults(pollResults)
-              }}</span>
-              results found
-            </span>
-          </div>
+      <div
+        v-if="pollResults && pollResults.length > 0"
+        class="search__wrapper-results"
+        key="results"
+      >
+        <div class="side-padding result-num res res1 ">
+          <span
+            ><span v-e2e="'total-result'">{{ totalResults(pollResults) }}</span>
+            results found
+          </span>
+        </div>
 
-          <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
-            <div
-              v-for="(provider, prIndex) in bpp.bpp_providers"
-              :key="prIndex"
-            >
-              <div class="provider-head aline-center side-padding">
-                <div class="flexy">
-                  <img
-                    class="provide-img"
-                    :src="
-                      providerGetters.getProviderImages(provider)[0]
-                        ? providerGetters.getProviderImages(provider)[0]
-                        : require('~/assets/images/store-placeholder.png')
-                    "
-                    alt="Vila stripe maxi shirt dress"
-                    :width="35"
-                    :height="36"
-                  />
-
-                  <div class="text-padding">
-                    <div class="aline-center">
-                      <div class="p-name">
-                        {{
-                          providerGetters.getProviderName(provider, provider)
-                        }}
-                      </div>
-                    </div>
-                    <span class="flexy">
-                      <span class="rating-css">
-                        {{ providerGetters.getProviderDistance(provider) }}
-                      </span>
-                      <span class="sf-rating__icon">
-                        <SfIcon color="#FADB14" size="16px" icon="star" />
-                      </span>
-                    </span>
-                  </div>
-                </div>
-                <div class="exp-provider" @click="openProvider(bpp, provider)">
-                  Explore All
-                </div>
-              </div>
-              <div class="results--mobile">
-                <ProductCard
-                  v-for="(product, pIndex) in provider.items.slice(0, 5)"
-                  @goToProduct="goToProduct(product, provider, bpp)"
-                  :key="
-                    bppIndex +
-                      '-' +
-                      prIndex +
-                      '-' +
-                      pIndex +
-                      '-' +
-                      keyVal +
-                      'product'
+        <div v-for="(bpp, bppIndex) in pollResults" :key="bppIndex">
+          <div v-for="(provider, prIndex) in bpp.bpp_providers" :key="prIndex">
+            <div class="provider-head aline-center side-padding">
+              <div class="flexy">
+                <img
+                  class="provide-img"
+                  :src="
+                    providerGetters.getProviderImages(provider)[0]
+                      ? providerGetters.getProviderImages(provider)[0]
+                      : require('~/assets/images/store-placeholder.png')
                   "
-                  :pName="productGetters.getName(product)"
-                  :pPrice="productGetters.getPrice(product).regular"
-                  :pImage="product.descriptor.images[0]"
-                  :pWieght="productGetters.getProductWeight(product) + ' kg'"
-                  :pCount="cartGetters.getItemQty(isInCart({ product }))"
-                  :pIndex="pIndex"
-                  @updateItemCount="
-                    (item) => updateItemCount(item, provider, bpp, pIndex)
-                  "
+                  alt="Vila stripe maxi shirt dress"
+                  :width="35"
+                  :height="36"
                 />
+
+                <div class="text-padding">
+                  <div class="aline-center">
+                    <div class="p-name">
+                      {{ providerGetters.getProviderName(provider, provider) }}
+                    </div>
+                  </div>
+                  <span class="flexy">
+                    <span class="rating-css">
+                      {{ providerGetters.getProviderDistance(provider) }}
+                    </span>
+                    <span class="sf-rating__icon">
+                      <SfIcon color="#FADB14" size="16px" icon="star" />
+                    </span>
+                  </span>
+                </div>
               </div>
-              <div>
-                <hr class="sf-divider" />
+              <div class="exp-provider" @click="openProvider(bpp, provider)">
+                Explore All
               </div>
+            </div>
+            <div class="results--mobile">
+              <ProductCard
+                v-for="(product, pIndex) in provider.items.slice(0, 5)"
+                @goToProduct="goToProduct(product, provider, bpp)"
+                :key="
+                  bppIndex +
+                    '-' +
+                    prIndex +
+                    '-' +
+                    pIndex +
+                    '-' +
+                    keyVal +
+                    'product'
+                "
+                :pName="productGetters.getName(product)"
+                :pPrice="productGetters.getPrice(product).regular"
+                :pImage="product.descriptor.images[0]"
+                :pWieght="productGetters.getProductWeight(product) + ' kg'"
+                :pCount="cartGetters.getItemQty(isInCart({ product }))"
+                :pIndex="pIndex"
+                @updateItemCount="
+                  (item) => updateItemCount(item, provider, bpp, pIndex)
+                "
+              />
+            </div>
+            <div>
+              <hr class="sf-divider" />
             </div>
           </div>
         </div>
+      </div>
 
-        <CurrentLocationMap :enable="enableLoader" key="marker" />
+      <CurrentLocationMap :enable="enableLoader" key="marker" />
 
-        <div v-if="noSearchFound" key="no-search" class="before-results">
-          <SfImage
-            src="/icons/feather_search.svg"
-            class=""
-            alt="error"
-            loading="lazy"
-          />
-          <p>
-            <b>{{ $t('Your search did not yield ') }}</b>
-          </p>
-          <p>
-            <b>{{ $t('any results ') }}</b>
-          </p>
-          <p>{{ $t('Please try searching again using ') }}</p>
-          <p>{{ $t('different keyword') }}</p>
-        </div>
+      <div v-if="noSearchFound" key="no-search" class="before-results">
+        <SfImage
+          src="/icons/feather_search.svg"
+          class=""
+          alt="error"
+          loading="lazy"
+        />
+        <p>
+          <b>{{ $t('Your search did not yield ') }}</b>
+        </p>
+        <p>
+          <b>{{ $t('any results ') }}</b>
+        </p>
+        <p>{{ $t('Please try searching again using ') }}</p>
+        <p>{{ $t('different keyword') }}</p>
+      </div>
       <!-- </transition-group> -->
     </div>
   </div>
@@ -215,13 +208,13 @@ export default {
     const data2 = context.root.$route.params.pickuploc;
     const pickuploc = sLocation.value.addres;
     const searchKey = ref(data);
-    const dropLoc = dLocation.value.addresss
+    const dropLoc = dLocation.value.addresss;
     const keyVal = ref(0);
     const { search, result } = useFacet();
     const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
 
-    console.log('sLocation.value',dLocation.value)
+    console.log('sLocation.value', dLocation.value);
 
     watch(
       () => clearCartPopup.value,
@@ -285,7 +278,10 @@ export default {
             }
             toggleLoadindBar(true);
 
-            setcartItem(JSON.stringify(pollResults.value));
+            const nonEmptyBppProvderPollResult = pollResults.value.filter(
+              (pollResult) => pollResult.bpp_providers.length !== 0
+            );
+            setcartItem(JSON.stringify(nonEmptyBppProvderPollResult));
           }
         }
       );

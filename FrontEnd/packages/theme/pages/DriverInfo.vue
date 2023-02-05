@@ -106,14 +106,8 @@
                         </div>
                         <div class="button-pos">
                           <div v-if="DriverInfo === true">
-                            
-                              <img
-                                class=""
-                                id="""
-                                src="/icons/Group 125.png"
-                                alt="Vue Storefront Next"
-                              />
-                            
+                            <img class="" id=""" src="/icons/Group 125.png"
+                            alt="Vue Storefront Next" />
                           </div>
                         </div>
                       </div>
@@ -252,12 +246,8 @@
                             </div>
                             <div class="button-pos">
                               <div v-if="DriverInfo === true">
-                                <img
-                                class=""
-                                id="""
-                                src="/icons/Group 125.png"
-                                alt="Vue Storefront Next"
-                              />
+                                <img class="" id=""" src="/icons/Group 125.png"
+                                alt="Vue Storefront Next" />
                               </div>
                             </div>
                           </div>
@@ -454,13 +444,14 @@
                         type="button"
                         >Email us</SfButton
                       >
-                      <SfButton
+                      <!-- TO DO chat with us button  -->
+                      <!-- <SfButton
                         class="support-btns"
                         @click="openWindow(isSupportAvailable.uri)"
                         aria-label="Close modal"
                         type="button"
                         >Chat with us</SfButton
-                      >
+                      > -->
                     </div>
                   </div>
                 </template>
@@ -870,7 +861,7 @@ img {
   text-align: center;
 }*/
 .driver-data {
-  margin-top: 13px;
+  margin-top: 5px;
 
   //border: 2px solid #838281;
   z-index: 99999;
@@ -964,7 +955,8 @@ input {
   padding: 20px;
   color: #37474f;
   .option-container {
-    padding: 0 10px 60px;
+    // TO DO chat with us button
+    //padding: 0 10px 60px;
     .option-head {
       font-weight: 400;
       font-size: 15px;

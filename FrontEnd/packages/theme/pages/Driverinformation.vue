@@ -143,6 +143,9 @@ export default {
 }
 div#cafe-map {
   width: 100%;
+  @media (max-height: 667px) {
+    height: 400px;
+  }
   //height: 280px;
   height: 500px;
   position: fixed;

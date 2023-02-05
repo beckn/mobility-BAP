@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="top-bar header-top">
-      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
+      <!-- TODO  enable back button later -->
+      <!-- <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
         <span class="sf-search-bar__icon">
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
-      </div>
+      </div> -->
       <div v-if="isFulfillmentAvailable">{{ tripStatusVal }}</div>
     </div>
     <div id="cafe-map"></div>
@@ -367,6 +368,9 @@ export default {
 }
 
 div#cafe-map {
+  @media (max-height: 667px) {
+    height: 400px;
+  }
   width: 100%;
   //height: 280px;
   height: 500px;

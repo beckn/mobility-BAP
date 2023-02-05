@@ -80,7 +80,7 @@ export default {
       const start = new google.maps.LatLng(18.5204, 73.8567);
       this.map = new google.maps.Map(document.getElementById('cafe-map'), {
         center: start,
-        zoom: 14,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
       this.calculateAndDisplayRoute(
@@ -140,9 +140,12 @@ export default {
   padding-left: 80%;
 }
 div#cafe-map {
+  @media (max-height: 700px) {
+    height: 300px;
+  }
   width: 100%;
   //height: 280px;
-  height: 500px;
+  height: 400px;
   position: fixed;
 }
 #btn {
