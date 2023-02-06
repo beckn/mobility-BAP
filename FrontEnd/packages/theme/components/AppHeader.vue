@@ -17,11 +17,11 @@
         </div>
         <div>
           <nuxt-link :to="localePath('/Login')">
-            <div class="profile-icon" v-if="isAuthenticatedUser">
+            <div class="profile-icon" v-show="isAuthenticatedUser">
               <SfIcon icon="profile" />
             </div>
 
-            <div class="sign-in-text" v-if="!isAuthenticatedUser">Sign In</div>
+            <div class="sign-in-text" v-show="!isAuthenticatedUser">Sign In</div>
           </nuxt-link>
         </div>
       </div>
