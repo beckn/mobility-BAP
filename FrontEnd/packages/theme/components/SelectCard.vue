@@ -382,7 +382,7 @@ export default {
     const _pCount = computed(() => props.pCount);
 
     const enterName = async () => {
-      if (experienceId.value !== null) {
+      if (root.$store.state.experienceId!== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -395,7 +395,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: root.$store.state.experienceId,
                   eventCode: 'mbtb_init_details1',
                   eventAction: 'entering name',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -413,7 +413,7 @@ export default {
     };
 
     const enterphoneNo = async () => {
-      if (experienceId.value !== null) {
+      if (root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -426,7 +426,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: root.$store.state.experienceId,
                   eventCode: 'mbtb_init_details2',
                   eventAction: 'entering phone number',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -443,20 +443,20 @@ export default {
       }
     };
 
-    const {
-      dLocation,
-      sLocation,
-      quoteData,
-      TransactionId,
-      setTransactionId,
-      cartItem,
-      token,
-      setinitResult,
-      initResult,
-      experienceId
-    } = useUiState();
-    const _SourceLocation = ref(sLocation?.value?.addres);
-    const _destloc = ref(dLocation?.value?.addresss);
+    // const {
+    //   dLocation,
+    //   sLocation,
+    //   //quoteData,
+    //   TransactionId,
+    //  // setTransactionId,
+    //   //cartItem,
+    //   token,
+    //   setinitResult,
+    //   initResult,
+    //   //experienceId
+    // } = useUiState();
+    const _SourceLocation = ref(root.$store.state.sLocation.addres);
+    const _destloc = ref(root.$store.state.dLocation.addres);
     const validatePhoneNumber = () => {
       const validationRegex = /^\d{10}$/;
       if (phoneNo.value.match(validationRegex)) {
@@ -480,9 +480,9 @@ export default {
       init,
       stopPolling
     } = useInitOrder();
-    const quoteItems = JSON.parse(quoteData.value);
-    const transactionId = TransactionId.value; //localStorage.getItem('transactionId');
-    const cartitem = JSON.parse(cartItem.value);
+    const quoteItems = JSON.parse(root.$store.state.quoteData);
+    const transactionId = root.$store.state.TransactionId; //localStorage.getItem('transactionId');
+    const cartitem = JSON.parse(root.$store.state.cartItem);
     const isShow = ref(false);
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
@@ -490,15 +490,15 @@ export default {
     const closeModal = () => {
       isShow.value = false;
     };
-    const { setphoneNo, setName } = useUiState();
+    //const { setphoneNo, setName } = useUiState();
     const onConfirmProc = async () => {
       validateName();
       validatePhoneNumber();
       if (!isValidPhoneNumber.value || !isValidName.value) {
         return;
       }
-      setphoneNo(phoneNo.value);
-      setName(name.value);
+      root.$store.dispatch('setphoneNo', phoneNo.value);
+      root.$store.dispatch('setName', name.value);
 
       enableLoader.value = true;
       if (quoteItems && transactionId && cartitem) {
@@ -508,8 +508,8 @@ export default {
           cartitem,
           '12.9063433,77.5856825'
         );
-        const response = await init(params, token.value);
-        if (experienceId.value !== null) {
+        const response = await init(params, root.$store.state.token);
+        if (root.$store.state.experienceId !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -522,7 +522,7 @@ export default {
                   redirect: 'follow',
                   referrerPolicy: 'no-referrer',
                   body: JSON.stringify({
-                    experienceId: experienceId.value,
+                    experienceId: root.$store.state.experienceId,
                     eventCode: 'mbtb_init_ride',
                     eventAction: 'initiating ride',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -544,7 +544,7 @@ export default {
             // eslint-disable-next-line camelcase
             messageIds: response[0].context.message_id
           },
-          token.value
+          root.$store.state.token
         );
       }
 
@@ -560,12 +560,12 @@ export default {
           if (helpers.shouldStopPooling(onInitRes, 'order')) {
             stopPolling();
 
-            setTransactionId(onInitRes[0].context.transaction_id);
+            root.$store.dispatch('setTransactionId',(onInitRes[0].context.transaction_id));
 
-            setinitResult(onInitRes);
+            root.$store.dispatch('setinitResult',(onInitRes));
 
             enableLoader.value = false;
-            if (experienceId.value !== null) {
+            if (root.$store.state.experienceId !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -578,7 +578,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: experienceId.value,
+                        experienceId: root.$store.state.experienceId,
                         eventCode: 'mbth_sent_fnl_quote',
                         eventAction: 'sent final quote',
                         eventSourceId:

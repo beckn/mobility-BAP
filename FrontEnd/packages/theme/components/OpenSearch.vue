@@ -2,20 +2,35 @@
   <div>
     <div class="open-search"></div>
     <div>
-      <CurrentLocationMap :enable="true" :disablepulse="true" :upadateMap="upadateMap"
-        @Currentlocation="Currentlocation" />
+      <CurrentLocationMap
+        :enable="true"
+        :disablepulse="true"
+        :upadateMap="upadateMap"
+        @Currentlocation="Currentlocation"
+      />
     </div>
     <div class="open-search header-top-space">
       <div class="open-search-input">
         <div class="inputBox">
           <div class="input1 input-opensearch">
-            <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
+            <SfImage
+              id="icon"
+              src="/icons/Vector.png"
+              alt="Vue Storefront Next"
+            />
 
             <label>Pickup: </label>
 
             <!-- v-on:keyup.enter="openSearch" -->
-            <input @click="pickupLocation" v-model="pickup" :valid="false" errorMessage="errer" type="text"
-              placeholder="Enter Pickup" v-e2e="'home-search-input'" />
+            <input
+              @click="pickupLocation"
+              v-model="pickup"
+              :valid="false"
+              errorMessage="errer"
+              type="text"
+              placeholder="Enter Pickup"
+              v-e2e="'home-search-input'"
+            />
           </div>
           <!-- <div class="hr">  <hr style="width:100%;" />
         <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
@@ -27,16 +42,34 @@
           </div>
 
           <div class="input">
-            <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
+            <SfImage
+              id="icon"
+              src="/icons/Vector.png"
+              alt="Vue Storefront Next"
+            />
             <label for=""> Dropoff: </label>
 
-            <input @click="dropLocation" v-model="message" v-on:keyup.enter="openSearch" :valid="false"
-              errorMessage="errer" type="text" placeholder="Enter Destination" v-e2e="'home-search-input'" />
+            <input
+              @click="dropLocation"
+              v-model="message"
+              v-on:keyup.enter="openSearch"
+              :valid="false"
+              errorMessage="errer"
+              type="text"
+              placeholder="Enter Destination"
+              v-e2e="'home-search-input'"
+            />
           </div>
 
-          <SfButton id="btn" class="button-pos sf-button--pure color-primary" @click="openSearch"
-            :disabled="!selectedLocation.latitude || !selectedLocation.longitude" v-e2e="'home-search-button'"><label
-              for="btn">Search Rides</label>
+          <SfButton
+            id="btn"
+            class="button-pos sf-button--pure color-primary"
+            @click="openSearch"
+            :disabled="
+              !selectedLocation.latitude || !selectedLocation.longitude
+            "
+            v-e2e="'home-search-button'"
+            ><label for="btn">Search Rides</label>
             <!-- <span class="sf-search-bar__icon">
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
           </span> -->
@@ -52,12 +85,22 @@
       <div class="location-blk d-flex w-100">
         <div class="layout-container">
           <div id="location" class="location-content">
-            <SfSidebar :visible="!!isLocationdropOpen" :button="false" title="Set Location" @close="toggleLocationDrop"
-              class="sidebar sf-sidebar--right">
+            <SfSidebar
+              :visible="!!isLocationdropOpen"
+              :button="false"
+              title="Set Location"
+              @close="toggleLocationDrop"
+              class="sidebar sf-sidebar--right"
+            >
               <transition name="fade">
                 <client-only>
-                  <LocationSearchBar :buttonlocation="buttonlocation" @locationSelected="locationSelected"
-                    @toggleLocationDrop="toggleLocationDrop" @edit="edit" v-e2e="'app-location-sidebar'" />
+                  <LocationSearchBar
+                    :buttonlocation="buttonlocation"
+                    @locationSelected="locationSelected"
+                    @toggleLocationDrop="toggleLocationDrop"
+                    @edit="edit"
+                    v-e2e="'app-location-sidebar'"
+                  />
                 </client-only>
               </transition>
             </SfSidebar>
@@ -90,10 +133,8 @@ import CurrentLocationMap from './CurrentLocationMap.vue';
 const {
   selectedLocation,
   updateLocation,
-  updatesLocation,
-  updatedLocation,
-  setExperienceId,
-  experienceId
+  //setExperienceId,
+  //experienceId
 } = useUiState();
 
 export default {
@@ -114,13 +155,15 @@ export default {
     const message = ref('');
     const errorMsg = ref(false);
     const errorMsg2 = ref(false);
-    const upadateMap = ref('')
+    const upadateMap = ref('');
+    console.log(context.root.$store.state.sLocation);
     onBeforeMount(async () => {
       let URL = window.location.href;
 
       if (URL.includes('?')) {
         let experienceId = URL.slice(URL.indexOf('?') + 1);
-        setExperienceId(experienceId)
+        context.root.$store.dispatch('setExperienceId', experienceId);
+        //setExperienceId(experienceId);
       } else {
         await fetch(
           'https://api.eventcollector.becknprotocol.io/v2/event/experience',
@@ -137,7 +180,9 @@ export default {
             return res.text();
           })
           .then((result) => {
-            setExperienceId(result)
+            context.root.$store.dispatch('setExperienceId', result);
+
+            //setExperienceId(result);
           })
           .catch((e) => console.error(e));
       }
@@ -156,7 +201,8 @@ export default {
     };
     const Currentlocation = (latitude, longitude, address) => {
       pickup.value = address;
-      updatesLocation({
+
+      context.root.$store.dispatch('updateslocation', {
         lat: latitude,
         long: longitude,
         addres: address
@@ -165,22 +211,23 @@ export default {
 
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
-        updatesLocation({
+        context.root.$store.dispatch('updateslocation', {
           lat: latitude,
           long: longitude,
           addres: address
         });
+
         pickup.value = address;
-        upadateMap.value = address
+        upadateMap.value = address;
         //updatesLocation(pickup.value)
         //localStorage.setItem('slocation', JSON.stringify(pickup.value));
         //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
-        updatedLocation({
+        context.root.$store.dispatch('updateDlocation', {
           late: latitude,
           lng: longitude,
-          addresss: address
+          addres: address
         });
 
         // localStorage.setItem(
@@ -204,7 +251,7 @@ export default {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const pickupLocation = async () => {
-      if (experienceId.value !== null) {
+      if (context.root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -217,7 +264,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: context.root.$store.state.experienceId,
                   eventCode: 'mbtb_pickup_loc',
                   eventAction: 'selecting pickup location',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -237,7 +284,7 @@ export default {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const dropLocation = async () => {
-      if (experienceId.value !== null) {
+      if (context.root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -250,7 +297,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: context.root.$store.state.experienceId,
                   eventCode: 'mbtb_drop_loc',
                   eventAction: 'selecting drop-off location',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -271,7 +318,7 @@ export default {
     };
 
     const openSearch = async () => {
-      if (experienceId.value !== null) {
+      if (context.root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -284,7 +331,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: context.root.$store.state.experienceId,
                   eventCode: 'mbtb_srch_init',
                   eventAction: 'search initiated',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -353,13 +400,11 @@ export default {
     padding-top: 40px;
     width: 50%;
     margin: auto;
-
   }
 
   .inputBox {
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
-
   }
 
   #icon {

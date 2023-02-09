@@ -30,22 +30,7 @@
 <script>
 import { SfButton, SfImage, SfHeading } from '@storefront-ui/vue';
 import { ref, onErrorCaptured } from '@vue/composition-api';
-import { useUiState } from '~/composables';
-const {
-  updatesLocation,
-  updatedLocation,
-  setName,
-  setphoneNo,
-  settrackLong,
-  settrackLat,
-  setquoteData,
-  setTransactionId,
-  setcartItem,
-  setconfirmData,
-  setconfirmDataContext,
-  setcartData,
-  setinitResult
-} = useUiState();
+
 
 export default {
   name: 'Error',
@@ -53,28 +38,6 @@ export default {
   setup(_, context) {
     const error = ref(false);
     const goHome = () => {
-      updatesLocation({
-        lat: undefined,
-        long: undefined,
-        addres: undefined
-      });
-      updatedLocation({
-        late: undefined,
-        lng: undefined,
-        addresss: undefined
-      });
-      setName(undefined);
-      setphoneNo(undefined);
-      settrackLong(undefined);
-      settrackLat(undefined);
-      setquoteData(undefined);
-      setTransactionId(undefined);
-      setcartItem(undefined);
-      setconfirmData(undefined);
-      setconfirmDataContext(undefined);
-      setcartData(undefined);
-      setinitResult(undefined);
-
       context.root.$router.push('/');
       error.value = false;
     };

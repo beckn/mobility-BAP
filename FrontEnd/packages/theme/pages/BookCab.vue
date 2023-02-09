@@ -57,12 +57,12 @@ export default {
     const {
       selectedLocation,
       updateLocation,
-      setquoteData,
-      setTransactionId,
-      cartItem,
-      token,
-      TransactionId,
-      experienceId
+      //setquoteData,
+      //setTransactionId,
+      //cartItem,
+      //token,
+      //TransactionId,
+      //experienceId
     } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
@@ -99,7 +99,7 @@ export default {
     const getQuote = async (_productIndex) => {
       console.log('_productIndex.value', _productIndex.value);
       enableLoader.value = true;
-      const cartItems = JSON.parse(cartItem.value);
+      const cartItems = JSON.parse(root.$store.state.cartItem);
       if (cartItems) {
         const getQuoteRequest = [
           {
@@ -108,7 +108,7 @@ export default {
               bpp_id: cartItems[0].bpp_id,
               // eslint-disable-next-line camelcase
               bpp_uri: cartItems[0].bpp_uri,
-              transaction_id: TransactionId.value,
+              transaction_id:root.$store.state.TransactionId,
             },
             message: {
               cart: {
@@ -120,10 +120,10 @@ export default {
 
         const responseQuote = await init(
           getQuoteRequest,
-          token.value
+          root.$store.state.token
         );
 
-        if (experienceId.value !== null) {
+        if (root.$store.state.experienceId !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -136,7 +136,7 @@ export default {
                   redirect: 'follow', // manual, *follow, error
                   referrerPolicy: 'no-referrer', // no-referrer,
                   body: JSON.stringify({
-                    experienceId: experienceId.value,
+                    experienceId: root.$store.state.experienceId,
                     eventCode: 'mbtb_ride_slectd',
                     eventAction: 'ride selected',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -154,7 +154,7 @@ export default {
         }
 
         const msgId = responseQuote[0].context.message_id;
-        await poll({ messageIds: msgId }, token.value);
+        await poll({ messageIds: msgId }, root.$store.state.token);
       }
       // Loops over the onGetQuote response and checks for error object. If any error then throws 'api fail'
       const handleOnGetQuoteError = (onGetQuoteRes) => {
@@ -177,12 +177,13 @@ export default {
           if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
             stopPolling();
 
-            setquoteData(JSON.stringify(onGetQuoteRes[0].message));
+            //setquoteData(JSON.stringify(onGetQuoteRes[0].message));
+            root.$store.dispatch('setquoteData',(JSON.stringify(onGetQuoteRes[0].message)));
 
-            setTransactionId(onGetQuoteRes[0].context.transaction_id);
+            root.$store.dispatch('setTransactionId',(onGetQuoteRes[0].context.transaction_id));
 
             enableLoader.value = false;
-            if (experienceId.value !== null) {
+            if (root.$store.state.experienceId !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -195,7 +196,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: experienceId.value,
+                        experienceId: root.$store.state.experienceId,
                         eventCode: 'mbth_accept_ride',
                         eventAction: 'quotation sent',
                         eventSourceId:

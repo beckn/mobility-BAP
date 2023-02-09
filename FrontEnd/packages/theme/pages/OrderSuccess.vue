@@ -62,37 +62,10 @@ import { ref } from '@vue/composition-api';
 // import { useCart } from '@vue-storefront/beckn';
 
 import Card from '~/components/Card.vue';
-import { useUiState } from '~/composables';
+//import { useUiState } from '~/composables';
 import Footer from '~/components/Footer.vue';
 import CardContent from '~/components/CardContent.vue';
-const {
-  confirmDatas,
 
-  updatesLocation,
-
-  updatedLocation,
-
-  setName,
-
-  setphoneNo,
-
-  settrackLong,
-  settrackLat,
-
-  setquoteData,
-
-  setTransactionId,
-
-  setcartItem,
-
-  setconfirmData,
-
-  setconfirmDataContext,
-
-  setcartData,
-
-  setinitResult
-} = useUiState();
 
 export default {
   name: 'OrderSuccess',
@@ -106,33 +79,10 @@ export default {
   },
   setup(_, context) {
     // const transactionId = context.root.$route.query.id;
-    const confirmData = JSON.parse(confirmDatas.value);
+    const confirmData = JSON.parse(context.root.$store.state.confirmDatas);
     const driverInfo = ref(confirmData ? confirmData.order : '');
 
     const goToHomePage = () => {
-      updatesLocation({
-        lat: undefined,
-        long: undefined,
-        addres: undefined
-      });
-      updatedLocation({
-        late: undefined,
-        lng: undefined,
-        addresss: undefined
-      });
-      setName(undefined);
-      setphoneNo(undefined);
-      settrackLong(undefined);
-      settrackLat(undefined);
-      setquoteData(undefined);
-      setTransactionId(undefined);
-      setcartItem(undefined);
-      setconfirmData(undefined);
-      setconfirmDataContext(undefined);
-      setcartData(undefined);
-      setinitResult(undefined);
-    
-
       context.root.$router.push({
         path: '/'
         // query: {

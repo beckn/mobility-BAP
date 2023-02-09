@@ -4,8 +4,8 @@
   </div>
 </template>
 <script>
-import { useUiState } from '~/composables';
-const { sLocation } = useUiState();
+//import { useUiState } from '~/composables':
+//const { sLocation } = useUiState();
 export default {
   props: {
     enable: {
@@ -35,8 +35,8 @@ export default {
       this.enableLocation();
     } else
       this.setMap(
-        parseFloat(`${sLocation?.value?.lat}`),
-        parseFloat(`${sLocation?.value?.long}`)
+        parseFloat(`${this.$store.state.sLocation.lat}`),
+        parseFloat(`${this.$store.state.sLocation.long}`)
       );
   },
   methods: {
@@ -111,9 +111,10 @@ export default {
   watch: {
     upadateMap: function(newVal, oldVal) {
       // watch it
+      console.log('N:',newVal, 'O:',oldVal)
       this.setMap(
-        parseFloat(`${sLocation?.value?.lat}`),
-        parseFloat(`${sLocation?.value?.long}`)
+        parseFloat(`${this.$store.state.sLocation.lat}`),
+        parseFloat(`${this.$store.state.sLocation.long}`)
       );
     }
   },

@@ -64,7 +64,9 @@ export default {
     css: ['@/assets/styles.scss']
   },
   loading: { color: '#fff' },
-  plugins: [],
+
+  plugins: [{ src: '~/plugins/persistedState.client.js' }],
+
   buildModules: [
     // to core
     '@nuxt/typescript-build',

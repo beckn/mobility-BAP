@@ -18,22 +18,6 @@
 </template>
 <script>
 import { SfIcon, SfRadio } from '@storefront-ui/vue';
-import { useUiState } from '~/composables';
-const {
-  updatesLocation,
-  updatedLocation,
-  setName,
-  setphoneNo,
-  settrackLong,
-  settrackLat,
-  setquoteData,
-  setTransactionId,
-  setcartItem,
-  setconfirmData,
-  setconfirmDataContext,
-  setcartData,
-  setinitResult
-} = useUiState();
 
 export default {
   name: 'OrderCancelled',
@@ -43,28 +27,6 @@ export default {
   },
   setup(_, context) {
     const goBack = () => {
-      updatesLocation({
-        lat: undefined,
-        long: undefined,
-        addres: undefined
-      });
-      updatedLocation({
-        late: undefined,
-        lng: undefined,
-        addresss: undefined
-      });
-      setName(undefined);
-      setphoneNo(undefined);
-      settrackLong(undefined);
-      settrackLat(undefined);
-      setquoteData(undefined);
-      setTransactionId(undefined);
-      setcartItem(undefined);
-      setconfirmData(undefined);
-      setconfirmDataContext(undefined);
-      setcartData(undefined);
-      setinitResult(undefined);
-
       context.root.$router.push('/');
     };
 

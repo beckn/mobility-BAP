@@ -29,24 +29,24 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import { useUiState } from '~/composables';
+//import { useUiState } from '~/composables';
 import { ref, watch, onBeforeMount, computed } from '@vue/composition-api';
 import { useOrderStatus, useTrack } from '@vue-storefront/beckn';
 import superAgent from 'superagent';
 
-const {
-  trackLat,
-  trackLong,
-  settrackLong,
-  settrackLat,
-  TransactionId,
-  cartItem,
-  token,
-  confirmDatas,
-  confirmDataContext,
-  initResult,
-  experienceId
-} = useUiState();
+// const {
+//   // trackLat,
+//   // trackLong,
+//   // settrackLong,
+//   // settrackLat,
+//   //TransactionId,
+//   //cartItem,
+//   token,
+//   //confirmDatas,
+//   confirmDataContext,
+//   //initResult,
+//   //experienceId
+// } = useUiState();
 
 export default {
   data: () => ({
@@ -60,15 +60,15 @@ export default {
     intervalid1: ''
   }),
 
-  created() {
-    this.service = new window.google.maps.places.AutocompleteService();
-    this.geocodeService = new window.google.maps.Geocoder();
-  },
+  // created() {
+  //   this.service = new window.google.maps.places.AutocompleteService();
+  //   this.geocodeService = new window.google.maps.Geocoder();
+  // },
 
   mounted() {
-    const { dLocation, sLocation } = useUiState();
-    this.SourceLocation = `${sLocation?.value?.addres}`;
-    this.destloc = `${dLocation?.value?.addresss}`;
+    //const { dLocation, sLocation } = useUiState();
+    this.SourceLocation = `${this.$store.state.sLocation.addres}`;
+    this.destloc = `${this.$store.state.dLocation.addres}`;
 
     this.getlocation();
     this.driverposition();
@@ -122,13 +122,14 @@ export default {
       );
     },
     markers() {
+      //console.log(this.$store.state.trackLat, this.$store.state.trackLong);
       const movingIcon = new google.maps.MarkerImage('/icons/yellowcar.png');
       this.marker = new google.maps.Marker({
         //varible of markers lat and long are hardcoded .
         position: {
-          lat: trackLat.value ? parseFloat(trackLat.value) : 0,
+          lat: this.$store.state.trackLat ? parseFloat(this.$store.state.trackLat) : 0,
 
-          lng: trackLong.value ? parseFloat(trackLong.value) : 0
+          lng: this.$store.state.trackLong ? parseFloat(this.$store.state.trackLong ) : 0
         },
         map: this.map,
         icon: movingIcon
@@ -171,7 +172,7 @@ export default {
           tripStatusVal.value = statusResults.value[0].message.order.state;
         }
         if (tripStatusVal.value === 'Ended') {
-          if (experienceId.value !== null) {
+          if (root.$store.state.experienceId !== null) {
             setTimeout(async () => {
               try {
                 await fetch(
@@ -184,7 +185,7 @@ export default {
                     redirect: 'follow', // manual, *follow, error
                     referrerPolicy: 'no-referrer', // no-referrer,
                     body: JSON.stringify({
-                      experienceId: experienceId.value,
+                      experienceId:root.$store.state.experienceId,
                       eventCode: 'mbtb_payment_endride',
                       eventAction: 'ending ride',
                       eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -211,10 +212,10 @@ export default {
       return statusResults.value;
     });
 
-    const transactionId = TransactionId.value; // localStorage.getItem('transactionId');
-    const bpp_id = cartItem.value.bpp_id;
-    const bpp_uri = cartItem.value.bpp_uri;
-    const orderID = confirmDatas.value.order.id;
+    const transactionId = root.$store.state.TransactionId; // localStorage.getItem('transactionId');
+    const bpp_id = root.$store.state.cartItem.bpp_id;
+    const bpp_uri = root.$store.state.cartItem.bpp_uri;
+    const orderID = root.$store.state.confirmDatas.order.id;
 
     const lat = ref(12.9732);
     const long = ref(77.6089);
@@ -235,25 +236,25 @@ export default {
           }
         }
       ];
-      const response = await status(params, token.value);
-      await onStatus({ orderIds: orderID }, token.value);
+      const response = await status(params,  root.$store.state.token);
+      await onStatus({ orderIds: orderID },root.$store.state.token);
     };
 
     const tripTrack = async () => {
       const formattedInitResult =
-        initResult.value
-        ;
+      root.$store.state.initResult; 
+        
       const params = [
         {
-          context: confirmDataContext.value,
+          context: root.$store.state.confirmDataContext,
           message: {
             order_id: formattedInitResult[0].message.order.id
           }
         }
       ];
       try {
-        const response = await track(params, token.value);
-        if (experienceId.value !== null) {
+        const response = await track(params, root.$store.state.token);
+        if (root.$store.state.experienceId !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -266,7 +267,7 @@ export default {
                   redirect: 'follow', // manual, *follow, error
                   referrerPolicy: 'no-referrer', // no-referrer,
                   body: JSON.stringify({
-                    experienceId: experienceId.value,
+                    experienceId:root.$store.state.experienceId,
                     eventCode: 'mbtb_tracking_driver',
                     eventAction: 'tracking ride',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -285,7 +286,7 @@ export default {
 
         await onTrack(
           { messageIds: response[0].context.message_id },
-          token.value
+          root.$store.state.token
         );
       } catch (error) {
         console.error(error);
@@ -312,8 +313,8 @@ export default {
                 lat.value = coordinatesArray[0];
                 long.value = coordinatesArray[1];
 
-                settrackLat(lat.value);
-                settrackLong(long.value);
+                root.$store.dispatch('settrackLat',lat.value);
+                root.$store.dispatch('settrackLong',long.value);
 
                 // localStorage.setItem('trackLat', lat.value);
                 // localStorage.setItem('trackLong', long.value);

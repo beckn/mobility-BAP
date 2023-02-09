@@ -32,7 +32,7 @@ import { SfButton, SfIcon } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import Select from '../components/select.vue';
 import DriverInfo from '../pages/DriverInfo.vue';
-import { useUiState } from '~/composables';
+//import { useUiState } from '~/composables';
 export default {
   data: () => ({
     service: null,
@@ -42,14 +42,14 @@ export default {
     SourceLocation: '',
     destloc: ''
   }),
-  created() {
-    this.service = new window.google.maps.places.AutocompleteService();
-    this.geocodeService = new window.google.maps.Geocoder();
-  },
+  // created() {
+  //   this.service = new window.google.maps.places.AutocompleteService();
+  //   this.geocodeService = new window.google.maps.Geocoder();
+  // },
   mounted() {
-    const { dLocation, sLocation } = useUiState();
-    this.SourceLocation = `${sLocation?.value?.addres}`;
-    this.destloc = `${dLocation?.value?.addresss}`;
+   // const { dLocation, sLocation } = useUiState();
+    this.SourceLocation = `${this.$store.state.sLocation.addres}`;
+    this.destloc = `${this.$store.state.dLocation.addres}`;
     this.getlocation();
   },
   methods: {

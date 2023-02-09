@@ -17,7 +17,11 @@
         <div class="p-name">Payment</div>
       </div>
       <Card v-if="!!(order && order.cart)">
-        <CardContent v-for="breakup in order.cart.quote.breakup" :key="breakup.title" class="flex-space-bw">
+        <CardContent
+          v-for="breakup in order.cart.quote.breakup"
+          :key="breakup.title"
+          class="flex-space-bw"
+        >
           <div class="address-text">{{ breakup.title }}</div>
           <div class="address-text">₹{{ Math.trunc(breakup.price.value) }}</div>
         </CardContent>
@@ -37,16 +41,32 @@
       <Card>
         <CardContent>
           <div class="redo">
-            <input type="radio" class="container" :name="'Payment'" :value="'Cash'" :disabled="false"
-              :selected="paymentMethod" @change="changePaymentMethod" />
-            <img style="padding-top:8px; padding-left: 10px;" src="/icons/money 2.png" alt="" :width="30"
-              :height="30" />
+            <input
+              type="radio"
+              class="container"
+              :name="'Payment'"
+              :value="'Cash'"
+              :disabled="false"
+              :selected="paymentMethod"
+              @change="changePaymentMethod"
+            />
+            <img
+              style="padding-top:8px; padding-left: 10px;"
+              src="/icons/money 2.png"
+              alt=""
+              :width="30"
+              :height="30"
+            />
             <label class="cash">Cash</label>
           </div>
         </CardContent>
       </Card>
     </div>
-    <BookRide class="footer-fixed" :buttonText="'Book Now'" :buttonEnable="isPayConfirmActive">
+    <BookRide
+      class="footer-fixed"
+      :buttonText="'Book Now'"
+      :buttonEnable="isPayConfirmActive"
+    >
     </BookRide>
   </div>
 </template>
@@ -54,7 +74,13 @@
 import { SfButton, SfRadio, SfIcon, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 
-import { ref, computed, onBeforeMount, watch } from '@vue/composition-api';
+import {
+  ref,
+  computed,
+  onBeforeMount,
+  watch,
+  onMounted
+} from '@vue/composition-api';
 
 import LoadingCircle from '~/components/LoadingCircle';
 // import helpers from '../helpers/helpers';
@@ -65,20 +91,7 @@ import Card from '~/components/Card.vue';
 import BookRide from './BookRide.vue';
 import CardContent from '~/components/CardContent.vue';
 import helpers, { createConfirmOrderRequest } from '../helpers/helpers';
-const {
-  toggleCartSidebar,
-  quoteData,
-  setquoteData,
-  TransactionId,
-  setTransactionId,
-  cartItem,
-  token,
-  setconfirmData,
-  setconfirmDataContext,
-  confirmDatas,
-  confirmDataContext,
-  experienceId
-} = useUiState();
+const { toggleCartSidebar } = useUiState();
 
 export default {
   name: 'Payment',
@@ -116,16 +129,15 @@ export default {
     const isPayConfirmActive = computed(() => {
       return paymentMethod.value !== '';
     });
-    const { initResult
-    } = useUiState();
+    // const { initResult
+    // } = useUiState();
 
     const confirmRide = async () => {
       enableLoader.value = true;
-      const transId = TransactionId.value; //localStorage.getItem('transactionId');
-      const initRes = initResult.value;                                                                               //JSON.parse();                                                             //;
-      const quoteItems = JSON.parse(quoteData.value); //JSON.parse(localStorage.getItem('quoteData'));
-      const cartItems = JSON.parse(cartItem.value);
-
+      const transId = context.root.$store.state.TransactionId; //localStorage.getItem('transactionId');
+      const initRes = context.root.$store.state.initResult; //JSON.parse();                                                             //;
+      const quoteItems = JSON.parse(context.root.$store.state.quoteData); //JSON.parse(localStorage.getItem('quoteData'));
+      const cartItems = JSON.parse(context.root.$store.state.cartItem);
 
       console.log(initRes[0].message.order);
 
@@ -136,11 +148,11 @@ export default {
           quoteItems.quote,
           cartItems
         );
-        const response = await init(params, token.value);
+        const response = await init(params, context.root.$store.state.token);
         setTimeout(async () => {
           await poll(
             { messageIds: response[0].context.message_id },
-            token.value
+            context.root.$store.state.token
           );
         }, 500);
       }
@@ -151,23 +163,25 @@ export default {
           if (helpers.shouldStopPooling(newValue, 'order')) {
             stopPolling();
 
-            setconfirmData(newValue[0].message);
-            setconfirmDataContext(newValue[0].context);
+            context.root.$store.dispatch('setconfirmData', newValue[0].message);
+            context.root.$store.dispatch(
+              'setconfirmDataContext',
+              newValue[0].context
+            );
 
-
-            setTransactionId(newValue[0].context.transaction_id);
-
-
+            context.root.$store.dispatch(
+              'setTransactionId',
+              newValue[0].context.transaction_id
+            );
 
             sessionStorage.setItem(
               'confirmDataContext',
               JSON.stringify(newValue[0].context)
             );
-
           }
         }
       );
-      if (experienceId.value !== null) {
+      if (context.root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -180,7 +194,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: context.root.$store.state.experienceId,
                   eventCode: 'mbth_sent_ride_details',
                   eventAction: 'sent ride details',
                   eventSourceId:
@@ -200,9 +214,11 @@ export default {
     };
 
     const goBack = () => context.root.$router.back();
-
+    // onMounted(() => {
+    //   confirmRide();
+    // });
     onBeforeMount(async () => {
-      if (experienceId.value !== null) {
+      if (context.root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -215,7 +231,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: experienceId.value,
+                  experienceId: context.root.$store.state.experienceId,
                   eventCode: 'mbtb_bkng_ride',
                   eventAction: 'booking ride',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',

@@ -15,7 +15,13 @@
 
         <label>Pickup: </label>
 
-        <input disabled="true" :value="pickuploc" errorMessage="errer" type="text" placeholder="Enter Pickup" />
+        <input
+          disabled="true"
+          :value="pickuploc"
+          errorMessage="errer"
+          type="text"
+          placeholder="Enter Pickup"
+        />
       </div>
 
       <div class="hr-theme-slash-2">
@@ -27,15 +33,26 @@
         <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
         <label for=""> Dropoff: </label>
 
-        <input disabled="true" :value="dropLoc" errorMessage="errer" type="text" placeholder="Enter Destination" />
+        <input
+          disabled="true"
+          :value="dropLoc"
+          errorMessage="errer"
+          type="text"
+          placeholder="Enter Destination"
+        />
       </div>
     </div>
 
     <div class="details">
       <!-- <transition-group name="sf-fade" mode="out-in"> -->
-      <div v-if="pollResults && pollResults.length > 0" class="search__wrapper-results" key="results">
+      <div
+        v-if="pollResults && pollResults.length > 0"
+        class="search__wrapper-results"
+        key="results"
+      >
         <div class="side-padding result-num res res1 ">
-          <span><span v-e2e="'total-result'">{{ totalResults(pollResults) }}</span>
+          <span
+            ><span v-e2e="'total-result'">{{ totalResults(pollResults) }}</span>
             results found
           </span>
         </div>
@@ -44,11 +61,17 @@
           <div v-for="(provider, prIndex) in bpp.bpp_providers" :key="prIndex">
             <div class="provider-head aline-center side-padding">
               <div class="flexy">
-                <img class="provide-img" :src="
-                  providerGetters.getProviderImages(provider)[0]
-                    ? providerGetters.getProviderImages(provider)[0]
-                    : require('~/assets/images/store-placeholder.png')
-                " alt="Vila stripe maxi shirt dress" :width="35" :height="36" />
+                <img
+                  class="provide-img"
+                  :src="
+                    providerGetters.getProviderImages(provider)[0]
+                      ? providerGetters.getProviderImages(provider)[0]
+                      : require('~/assets/images/store-placeholder.png')
+                  "
+                  alt="Vila stripe maxi shirt dress"
+                  :width="35"
+                  :height="36"
+                />
 
                 <div class="text-padding">
                   <div class="aline-center">
@@ -71,21 +94,29 @@
               </div>
             </div>
             <div class="results--mobile">
-              <ProductCard v-for="(product, pIndex) in provider.items.slice(0, 5)"
-                @goToProduct="goToProduct(product, provider, bpp)" :key="
+              <ProductCard
+                v-for="(product, pIndex) in provider.items.slice(0, 5)"
+                @goToProduct="goToProduct(product, provider, bpp)"
+                :key="
                   bppIndex +
-                  '-' +
-                  prIndex +
-                  '-' +
-                  pIndex +
-                  '-' +
-                  keyVal +
-                  'product'
-                " :pName="productGetters.getName(product)" :pPrice="productGetters.getPrice(product).regular"
-                :pImage="product.descriptor.images[0]" :pWieght="productGetters.getProductWeight(product) + ' kg'"
-                :pCount="cartGetters.getItemQty(isInCart({ product }))" :pIndex="pIndex" @updateItemCount="
+                    '-' +
+                    prIndex +
+                    '-' +
+                    pIndex +
+                    '-' +
+                    keyVal +
+                    'product'
+                "
+                :pName="productGetters.getName(product)"
+                :pPrice="productGetters.getPrice(product).regular"
+                :pImage="product.descriptor.images[0]"
+                :pWieght="productGetters.getProductWeight(product) + ' kg'"
+                :pCount="cartGetters.getItemQty(isInCart({ product }))"
+                :pIndex="pIndex"
+                @updateItemCount="
                   (item) => updateItemCount(item, provider, bpp, pIndex)
-                " />
+                "
+              />
             </div>
             <div>
               <hr class="sf-divider" />
@@ -97,7 +128,12 @@
       <CurrentLocationMap :enable="enableLoader" key="marker" />
 
       <div v-if="noSearchFound" key="no-search" class="before-results">
-        <SfImage src="/icons/feather_search.svg" class="" alt="error" loading="lazy" />
+        <SfImage
+          src="/icons/feather_search.svg"
+          class=""
+          alt="error"
+          loading="lazy"
+        />
         <p>
           <b>{{ $t('Your search did not yield ') }}</b>
         </p>
@@ -119,7 +155,7 @@ import {
   SfImage,
   SfBottomModal
 } from '@storefront-ui/vue';
-import { ref, onBeforeMount, watch } from '@vue/composition-api';
+import { ref, onBeforeMount, watch, onMounted } from '@vue/composition-api';
 import LoadingCircle from '~/components/LoadingCircle';
 import ProductCard from '~/components/ProductCard';
 import Footer from '~/components/Footer';
@@ -154,15 +190,15 @@ export default {
     const {
       searchString,
       changeSearchString,
-      selectedLocation,
+      ///selectedLocation,
       toggleLoadindBar,
       clearCartPopup,
       updateExpPageData,
-      setcartItem,
-      sLocation,
-      dLocation,
-      setTransactionId,
-      experienceId
+      //setcartItem,
+      /// sLocation,
+      //dLocation,
+      //setTransactionId,
+      //experienceId
     } = useUiState();
     const enableLoader = ref(false);
     const goBack = () => {
@@ -171,15 +207,17 @@ export default {
     const { addItem, cart, isInCart, load } = useCart();
     const data = context.root.$route.params.searchKey;
     const data2 = context.root.$route.params.pickuploc;
-    const pickuploc = sLocation.value.addres;
+
+    const pickuploc = context.root.$store.state.sLocation.addres;
+
     const searchKey = ref(data);
-    const dropLoc = dLocation.value.addresss;
+    const dropLoc = context.root.$store.state.dLocation.addres;
     const keyVal = ref(0);
     const { search, result } = useFacet();
     const { pollResults, poll, polling, stopPolling } = useSearch('search');
     const noSearchFound = ref(false);
 
-    console.log('sLocation.value', dLocation.value);
+    console.log(`${context.root.$store.state.dLocation.late},${context.root.$store.state.dLocation.lng}`);
 
     watch(
       () => clearCartPopup.value,
@@ -189,6 +227,9 @@ export default {
         }
       }
     );
+    onMounted(() => {
+      handleSearch(searchKey.value);
+})
 
     const handleSearch = debounce(async (paramValue) => {
       if (polling.value) stopPolling();
@@ -197,21 +238,21 @@ export default {
       toggleLoadindBar(false);
 
       await search({
-        pickup_location: `${sLocation?.value?.lat},${sLocation?.value?.long}`, //localStorage.getItem('pickUpLatAndLong'),
+        pickup_location: `${context.root.$store.state.sLocation.lat},${context.root.$store.state.sLocation.long}`, //localStorage.getItem('pickUpLatAndLong'),
 
-        drop_location: `${dLocation?.value?.late},${dLocation?.value?.lng}`, //localStorage.getItem('dropLatAndLong')
-        experienceId: experienceId.value,
+        drop_location: `${context.root.$store.state.dLocation.late},${context.root.$store.state.dLocation.lng}`, //localStorage.getItem('dropLatAndLong')
+        experienceId: context.root.$store.state.experienceId,
         created_at: Date.now()
       });
 
-      setTransactionId(result.value.data.ackResponse.context.transaction_id);
+     context.root.$store.dispatch('setTransactionId',(result.value.data.ackResponse.context.transaction_id));
 
       watch(
         () => pollResults.value,
         async (newValue) => {
           if (newValue?.length > 0 && enableLoader.value) {
             enableLoader.value = false;
-            if (experienceId.value !== null) {
+            if (context.root.$store.state.experienceId !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -224,7 +265,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: experienceId.value,
+                        experienceId: context.root.$store.state.experienceId,
                         eventCode: 'mbth_snt_catalogue',
                         eventAction: 'sent catalogue',
                         eventSourceId:
@@ -246,7 +287,7 @@ export default {
             const nonEmptyBppProvderPollResult = pollResults.value.filter(
               (pollResult) => pollResult.bpp_providers.length !== 0
             );
-            setcartItem(JSON.stringify(nonEmptyBppProvderPollResult));
+            context.root.$store.dispatch('setcartItem',(JSON.stringify(nonEmptyBppProvderPollResult)));
           }
         }
       );

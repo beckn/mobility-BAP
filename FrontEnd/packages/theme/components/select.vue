@@ -126,9 +126,9 @@ export default {
     toggleSearchVisible(false);
     
     const matchQuote = async () => {
-      if (cart.value.totalItems > 0 && TransactionId.value ) {
+      if (cart.value.totalItems > 0 && root.$store.state.TransactionId) {
         enableLoader.value = true;
-        const transactionId =TransactionId.value                                                       //localStorage.getItem('transactionId');
+        const transactionId =root.$store.state.TransactionId                                                       //localStorage.getItem('transactionId');
         const cartItems = await cart.value.items.map((item) => {
           return {
             id: item.id,

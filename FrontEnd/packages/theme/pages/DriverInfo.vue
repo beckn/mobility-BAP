@@ -534,11 +534,11 @@ export default {
       pollResults: supportResult
     } = useSupport('support');
 
-    const { confirmDataContext } = useUiState();
+    //const { confirmDataContext } = useUiState();
     const callSupport = async () => {
       const params = [
         {
-          context: confirmDataContext.value,
+          context: root.$store.state.confirmDataContext,
           message: {
             // "uri":
             // eslint-disable-next-line camelcase
@@ -619,18 +619,18 @@ export default {
       });
     };
     //const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
-    const { sLocation, dLocation } = useUiState();
-    const _SourceLocation = ref(sLocation?.value?.addres);
+    //const { sLocation, dLocation } = useUiState();
+    const _SourceLocation = ref(root.$store.state.sLocation.addres);
     // const _destloc = ref(
     //   JSON.parse(localStorage.getItem('destinationLocation'))
     // );
-    const _destloc = ref(dLocation?.value?.addresss);
+    const _destloc = ref(root.$store.state.dLocation.addres);
 
     const closeModal = () => {
       isShow.value = false;
     };
-    const { confirmDatas } = useUiState();
-    var confirmData = confirmDatas.value;
+    //const { confirmDatas } = useUiState();
+    var confirmData = root.$store.state.confirmDatas;
     const driverInfo = ref(confirmData ? confirmData.order : '');
 
     const parsedItemName = driverInfo.value?.items[0].descriptor.name.split(
