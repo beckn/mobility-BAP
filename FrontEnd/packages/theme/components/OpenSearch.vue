@@ -1,122 +1,215 @@
 <template>
   <div>
-    <div class="open-search"></div>
     <div>
-      <CurrentLocationMap
-        :enable="true"
-        :disablepulse="true"
-        :upadateMap="upadateMap"
-        @Currentlocation="Currentlocation"
-      />
-    </div>
-    <div class="open-search header-top-space">
-      <div class="open-search-input">
-        <div class="inputBox">
-          <div class="input1 input-opensearch">
-            <SfImage
-              id="icon"
-              src="/icons/Vector.png"
-              alt="Vue Storefront Next"
-            />
+      <div class="open-search"></div>
+      <div>
+        <CurrentLocationMap
+          :enable="true"
+          :disablepulse="true"
+          :upadateMap="upadateMap"
+          @Currentlocation="Currentlocation"
+        />
+      </div>
+      <div class="open-search header-top-space">
+        <div class="open-search-input">
+          <div class="inputBox">
+            <div class="input1 input-opensearch">
+              <SfImage
+                id="icon"
+                src="/icons/Vector.png"
+                alt="Vue Storefront Next"
+              />
 
-            <label>Pickup: </label>
+              <label>Pickup: </label>
 
-            <!-- v-on:keyup.enter="openSearch" -->
-            <input
-              @click="pickupLocation"
-              v-model="pickup"
-              :valid="false"
-              errorMessage="errer"
-              type="text"
-              placeholder="Enter Pickup"
-              v-e2e="'home-search-input'"
-            />
-          </div>
-          <!-- <div class="hr">  <hr style="width:100%;" />
-        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
-          <div class="hr-theme-slash-2">
-            <div class="hr-line"></div>
-            <div class="hr-icon">
-              <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+              <!-- v-on:keyup.enter="openSearch" -->
+              <input
+                @click="pickupLocation"
+                v-model="pickup"
+                :valid="false"
+                errorMessage="errer"
+                type="text"
+                placeholder="Enter Pickup"
+                v-e2e="'home-search-input'"
+              />
             </div>
-          </div>
+            <!-- <div class="hr">  <hr style="width:100%;" />
+        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
+            <div class="hr-theme-slash-2">
+              <div class="hr-line"></div>
+              <div class="hr-icon">
+                <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+              </div>
+            </div>
 
-          <div class="input">
-            <SfImage
-              id="icon"
-              src="/icons/Vector.png"
-              alt="Vue Storefront Next"
-            />
-            <label for=""> Dropoff: </label>
+            <div class="input">
+              <SfImage
+                id="icon"
+                src="/icons/Vector.png"
+                alt="Vue Storefront Next"
+              />
+              <label for=""> Dropoff: </label>
 
-            <input
-              @click="dropLocation"
-              v-model="message"
-              v-on:keyup.enter="openSearch"
-              :valid="false"
-              errorMessage="errer"
-              type="text"
-              placeholder="Enter Destination"
-              v-e2e="'home-search-input'"
-            />
-          </div>
+              <input
+                @click="dropLocation"
+                v-model="message"
+                v-on:keyup.enter="openSearch"
+                :valid="false"
+                errorMessage="errer"
+                type="text"
+                placeholder="Enter Destination"
+                v-e2e="'home-search-input'"
+              />
+            </div>
 
-          <SfButton
-            id="btn"
-            class="button-pos sf-button--pure color-primary"
-            @click="openSearch"
-            :disabled="
-              !selectedLocation.latitude || !selectedLocation.longitude
-            "
-            v-e2e="'home-search-button'"
-            ><label for="btn">Search Rides</label>
-            <!-- <span class="sf-search-bar__icon">
+            <SfButton
+              id="btn"
+              class="button-pos sf-button--pure color-primary"
+              @click="contactSupport"
+              :disabled="
+                !selectedLocation.latitude || !selectedLocation.longitude
+              "
+              v-e2e="'home-search-button'"
+              ><label for="btn">Search Rides</label>
+              <!-- <span class="sf-search-bar__icon"> contactSupport
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
           </span> -->
-          </SfButton>
-        </div>
-      </div>
-      <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
-      <div v-if="errorMsg2" class="error-msg">
-        Pickup and Drop locations are same!.
-      </div>
-    </div>
-    <template>
-      <div class="location-blk d-flex w-100">
-        <div class="layout-container">
-          <div id="location" class="location-content">
-            <SfSidebar
-              :visible="!!isLocationdropOpen"
-              :button="false"
-              title="Set Location"
-              @close="toggleLocationDrop"
-              class="sidebar sf-sidebar--right"
-            >
-              <transition name="fade">
-                <client-only>
-                  <LocationSearchBar
-                    :buttonlocation="buttonlocation"
-                    @locationSelected="locationSelected"
-                    @toggleLocationDrop="toggleLocationDrop"
-                    @edit="edit"
-                    v-e2e="'app-location-sidebar'"
-                  />
-                </client-only>
-              </transition>
-            </SfSidebar>
+            </SfButton>
           </div>
         </div>
+        <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
+        <div v-if="errorMsg2" class="error-msg">
+          Pickup and Drop locations are same!.
+        </div>
       </div>
-    </template>
+      <template>
+        <div class="location-blk d-flex w-100">
+          <div class="layout-container">
+            <div id="location" class="location-content">
+              <SfSidebar
+                :visible="!!isLocationdropOpen"
+                :button="false"
+                title="Set Location"
+                @close="toggleLocationDrop"
+                class="sidebar sf-sidebar--right"
+              >
+                <transition name="fade">
+                  <client-only>
+                    <LocationSearchBar
+                      :buttonlocation="buttonlocation"
+                      @locationSelected="locationSelected"
+                      @toggleLocationDrop="toggleLocationDrop"
+                      @edit="edit"
+                      v-e2e="'app-location-sidebar'"
+                    />
+                  </client-only>
+                </transition>
+              </SfSidebar>
+            </div>
+          </div>
+        </div>
+      </template>
 
-    <div class="sf-footer">
-      <SfFooter class="footer">
-        <!-- <p><span>By</span> <img src="../assets/images/p-b-phonepe.png" alt="" /> </p> -->
-        <p>
-          <span class="powered-by">Powered by</span>
-          <img src="../assets/images/beckn-logo.png" alt="" />
-        </p>
-      </SfFooter>
+      <div class="sf-footer">
+        <SfFooter class="footer">
+          <!-- <p><span>By</span> <img src="../assets/images/p-b-phonepe.png" alt="" /> </p> -->
+          <p>
+            <span class="powered-by">Powered by</span>
+            <img src="../assets/images/beckn-logo.png" alt="" />
+          </p>
+        </SfFooter>
+      </div>
+    </div>
+    <div>
+      <template>
+        <ContactSupportSlider
+          :visible="isContactSupport"
+          @close="isContactSupport = false"
+        >
+          <template>
+            <div class="bar-pos" @click="contactSupport">
+              <SfButton class="sf-button--pure rect-bar-style">
+                <SfImage
+                  src="/icons/Rectangle-bar.png"
+                  :width="60"
+                  :height="5.5"
+                  alt="Rectangle bar"
+                />
+              </SfButton>
+            </div>
+            <div>
+              <div class="modal-heading">Alert</div>
+              <div><hr class="sf-divider" /></div>
+            </div>
+            <div class="modal-body">
+              <div class="option-container">
+                <p class="warningtext">
+                  Warning! Entering into a restricted zone. <br />
+                  Mobility services may be limited.<br />
+                  To know more, read the policy at :
+                </p>
+                <button class="color-primary btnclass1" @click="openSearch">
+                  <div class="f-btn-text">
+                    <label style="color: antiquewhite; font-weight: 700;"
+                      >Ok, I Understand</label
+                    >
+                  </div>
+                </button>
+              </div>
+            </div>
+          </template>
+        </ContactSupportSlider>
+      </template>
+    </div>
+    <div class="location-content">
+      <BottomSlider :visible="isShow">
+        <template>
+          <div class="bar-pos" @click="toggleIsShow">
+            <SfButton class="sf-button--pure rect-bar-style">
+              <SfImage
+                src="/icons/Rectangle-bar.png"
+                :width="60"
+                :height="5.5"
+                alt="Rectangle bar"
+              />
+            </SfButton>
+          </div>
+
+          <div>
+            <div>
+              <div>
+                <div class="modal-heading">Terms & Conditions</div>
+                <div><hr class="sf-divider" /></div>
+              </div>
+              <div>
+                <br />
+                <div class="option-container">
+                  we have updated our terms and conditions. <br />
+                  Request you to kindly go through and accept. <br />
+                  Terms & Condition
+                </div>
+                <div style="margin: 13px;">
+                  <button class="color-primary btnclass1" @click="toggleIsShow">
+                    <div class="f-btn-text">
+                      <label style="color: antiquewhite;font-weight: 700;"
+                        >Accept & Continue</label
+                      >
+                    </div>
+                  </button>
+                  <br />
+                  <button class="color-primary btnclass" @click="toggleIsShow">
+                    <div class="f-btn-text">
+                      <label style="color:#f37a20;font-weight: 700;"
+                        >I do not accept</label
+                      >
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </BottomSlider>
     </div>
   </div>
 </template>
@@ -125,17 +218,14 @@
 import { SfButton, SfSidebar, SfIcon, SfImage } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { SfFooter } from '@storefront-ui/vue';
-import { ref, onBeforeMount } from '@vue/composition-api';
+import { ref, onBeforeMount, onMounted } from '@vue/composition-api';
 import LocationSearchBar from './LocationSearchBar.vue';
 import superAgent from 'superagent';
 import CurrentLocationMap from './CurrentLocationMap.vue';
+import ContactSupportSlider from '../components/ContactSupportSlider.vue';
+import BottomSlider from '../components/ConfirmBottomSlider.vue';
 
-const {
-  selectedLocation,
-  updateLocation,
-  //setExperienceId,
-  //experienceId
-} = useUiState();
+const { selectedLocation, updateLocation, qurantinetData } = useUiState();
 
 export default {
   components: {
@@ -145,7 +235,9 @@ export default {
     LocationSearchBar,
     SfSidebar,
     SfImage,
-    CurrentLocationMap
+    CurrentLocationMap,
+    ContactSupportSlider,
+    BottomSlider
   },
 
   setup(_, context) {
@@ -157,6 +249,16 @@ export default {
     const errorMsg2 = ref(false);
     const upadateMap = ref('');
     console.log(context.root.$store.state.sLocation);
+    const isContactSupport = ref(false);
+    const contactSupport = () => {
+      isContactSupport.value = !isContactSupport.value;
+    };
+  
+    const isShow = ref(true);
+    const toggleIsShow = () => {
+      isShow.value = !isShow.value;
+    };
+
     onBeforeMount(async () => {
       let URL = window.location.href;
 
@@ -187,6 +289,7 @@ export default {
           .catch((e) => console.error(e));
       }
     });
+    
 
     const edit = () => {
       if (location.value) {
@@ -219,9 +322,6 @@ export default {
 
         pickup.value = address;
         upadateMap.value = address;
-        //updatesLocation(pickup.value)
-        //localStorage.setItem('slocation', JSON.stringify(pickup.value));
-        //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
         context.root.$store.dispatch('updateDlocation', {
@@ -229,12 +329,6 @@ export default {
           lng: longitude,
           addres: address
         });
-
-        // localStorage.setItem(
-        //   'destinationLocation',
-        //   JSON.stringify(message.value)
-        // );
-        // localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
       } else if (pickup.value === message.value) {
         message.value = '';
       }
@@ -382,7 +476,11 @@ export default {
       buttonlocation,
       edit,
       Currentlocation,
-      upadateMap
+      upadateMap,
+      isContactSupport,
+      contactSupport,
+      toggleIsShow,
+      isShow
     };
   }
 };
@@ -392,6 +490,69 @@ export default {
 // .header-top-space{
 //   top: 107px;
 // }
+.option-container {
+  padding: 0 10px 60px;
+  font-family: 'SF Pro Text';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: 0.6px;
+
+  color: #000000;
+  .option-head {
+    font-weight: 600;
+    font-size: 17px;
+    padding-bottom: 20px;
+  }
+  .sf-radio {
+    font-size: 15px;
+  }
+}
+.modal-heading {
+  margin: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+.btnclass {
+  width: 100%;
+  height: 48px;
+  border: 1px solid rgba(243, 122, 32, 1);
+}
+.btnclass1 {
+  width: 100%;
+  height: 48px;
+  background: rgba(243, 122, 32, 1);
+  border: 1px solid rgba(243, 122, 32, 1);
+}
+
+.rect-bar-style {
+  padding-left: 45%;
+  padding-top: 5px;
+}
+.modal-body {
+  padding: 20px;
+  color: #37474f;
+  .option-container {
+    // TO DO chat with us button
+    //padding: 0 10px 60px;
+    .option-head {
+      font-weight: 400;
+      font-size: 15px;
+      padding-bottom: 20px;
+    }
+    .sf-radio {
+      font-size: 15px;
+    }
+    .sf-button {
+      width: -webkit-fill-available;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+  }
+}
 .open-search {
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
@@ -413,6 +574,19 @@ export default {
   }
 
   #btn {
+    width: 328px;
+    height: 48px;
+    background: #f37a20;
+    border-radius: 4px;
+    width: 100%;
+
+    label {
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      font-size: 17px;
+    }
+  }
+  #btn1 {
     width: 328px;
     height: 48px;
     background: #f37a20;
@@ -575,6 +749,17 @@ export default {
       }
     }
   }
+}
+.warningtext {
+  font-family: 'SF Pro Text';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: 0.6px;
+
+  color: #000000;
 }
 
 .layout-container {

@@ -9,27 +9,43 @@
       <div class="head-class">
         <div class="title">
           <nuxt-link :to="localePath('/')">
-            <SfImage src="/icons/Group.png" :width="25" :height="20" alt="Vue Storefront Next" />
+            <SfImage
+              src="/icons/Group.png"
+              :width="25"
+              :height="20"
+              alt="Vue Storefront Next"
+            />
           </nuxt-link>
           <h3>
             Travel Buddy
           </h3>
         </div>
         <div>
-          <nuxt-link :to="localePath('/Login')">
-            <div class="profile-icon" v-if="isAuthenticatedUser">
-              <SfIcon icon="profile" />
-            </div>
+          <div class="profile-icon" v-if="!isAuthenticatedUser">
+            <nuxt-link :to="localePath('/Policies')"
+              ><SfIcon icon="profile" />
+            </nuxt-link>
+          </div>
+        </div>
 
-            <div class="sign-in-text" v-if="!isAuthenticatedUser">Sign In</div>
+        <div>
+          <nuxt-link :to="localePath('/Login')">
+            <div class="sign-in-text" v-if="!isAuthenticatedUser">
+              <span></span> Sign In
+            </div>
           </nuxt-link>
         </div>
       </div>
-      <LoadingBar :enable="
-        enableLoadindBar &&
-        ['Product', 'cart', 'Search'].includes($route.name)
-      " />
-      <div v-if="['home', 'Search'].includes($route.name)" class="h-padding  flexy">
+      <LoadingBar
+        :enable="
+          enableLoadindBar &&
+            ['Product', 'cart', 'Search'].includes($route.name)
+        "
+      />
+      <div
+        v-if="['home', 'Search'].includes($route.name)"
+        class="h-padding  flexy"
+      >
         <!-- <div
           v-if="['Search'].includes($route.name)"
           class="icon-padding circle-centre"
@@ -68,7 +84,7 @@ export default {
     SfBottomModal,
     Location,
     LoadingBar,
-    Card,
+    Card
   },
   directives: { clickOutside },
   setup(props, { root }) {
@@ -112,7 +128,7 @@ export default {
       LoadingBar,
       enableLoadindBar,
       goBack,
-      currentUser,
+      currentUser
     };
   },
   computed: {
