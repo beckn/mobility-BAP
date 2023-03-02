@@ -48,7 +48,7 @@ public class PolicyAdminController {
     @PutMapping(value = "/policy")
     public ResponseEntity<?> updatePolicy(@RequestBody UpdatePolicyRequest policy) {
         try {
-            Policy policyResponce = policyAdminService.updateMobilityPolicy(policy);
+            Policy policyResponce = policyAdminService.updatePolicy(policy);
             PolicyResponce responce = new PolicyResponce(policyResponce.getId(), policyResponce.getStatus());
             return ResponseEntity.ok(responce);
         } catch (PolicyException e) {

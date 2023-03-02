@@ -1,7 +1,6 @@
 package com.beckn.policyadmin.service;
 
 import com.beckn.policyadmin.dto.v1request.PolicyDTO;
-import com.beckn.policyadmin.dto.v1request.UpdatePolicyDTO;
 import com.beckn.policyadmin.dto.v1request.UpdatePolicyRequest;
 import com.beckn.policyadmin.dto.v1response.PolicyMetaData;
 import com.beckn.policyadmin.exception.PolicyException;
@@ -65,26 +64,7 @@ public class PolicyAdminService {
         return policyRepository.save(policy);
     }
 
-    public Policy updatePolicy(UpdatePolicyDTO inputPolicy) {
-        Optional<Policy> optionalPolicy = policyRepository.findById(inputPolicy.getMessage().getPolicy().getId());
-
-        if (optionalPolicy.isPresent()) {
-            Policy policy = optionalPolicy.get();
-            policy.setStatus(inputPolicy.getMessage().getPolicy().getStatus().toLowerCase());
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
-            Date date = new Date();
-            try {
-                policy.setLastModifiedAt(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").parse(formatter.format(date)));
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-            return policyRepository.save(policy);
-        }
-        throw new PolicyException("", "", "E-101", "Policy ID was not found in Database: " + inputPolicy.getMessage().getPolicy().getId());
-
-    }
-
-    public Policy updateMobilityPolicy(UpdatePolicyRequest inputPolicy) {
+    public Policy updatePolicy(UpdatePolicyRequest inputPolicy) {
         Optional<Policy> optionalPolicy = policyRepository.findById(inputPolicy.getPolicy().getId());
 
         if (optionalPolicy.isPresent()) {
