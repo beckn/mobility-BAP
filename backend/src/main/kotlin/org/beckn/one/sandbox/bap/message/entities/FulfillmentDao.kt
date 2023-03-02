@@ -10,6 +10,7 @@ data class FulfillmentDao  @Default constructor(
   val agent: PersonDao? = null,
   val vehicle: VehicleDao? = null,
   val start: FulfillmentStartDao? = null,
+  val time: TimeDao? = null,
   val end: FulfillmentEndDao? = null,
   val purpose: String? = null,
   val customer: CustomerDao? = null,
