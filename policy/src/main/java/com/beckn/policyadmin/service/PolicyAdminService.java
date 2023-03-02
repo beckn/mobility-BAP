@@ -1,22 +1,23 @@
 package com.beckn.policyadmin.service;
 
+import com.beckn.policyadmin.dto.v1request.LocationRequest;
 import com.beckn.policyadmin.dto.v1request.PolicyDTO;
 import com.beckn.policyadmin.dto.v1request.UpdatePolicyDTO;
 import com.beckn.policyadmin.dto.v1request.UpdatePolicyRequest;
+import com.beckn.policyadmin.dto.v1response.LocationPolicyViolation;
 import com.beckn.policyadmin.dto.v1response.PolicyMetaData;
+import com.beckn.policyadmin.dto.v1response.ViolationResponce;
 import com.beckn.policyadmin.exception.PolicyException;
 import com.beckn.policyadmin.mapper.PolicyDtoToPolicyMapper;
 import com.beckn.policyadmin.model.Policy;
 import com.beckn.policyadmin.repository.PolicyRepository;
+import com.beckn.policyadmin.utility.CheckLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PolicyAdminService {
@@ -25,6 +26,9 @@ public class PolicyAdminService {
 
     @Autowired
     private PolicyDtoToPolicyMapper mapper;
+
+    @Autowired
+    private CheckLocation checkLocation;
 
     public Policy getPolicyById(String policyId) {
 
@@ -101,5 +105,35 @@ public class PolicyAdminService {
         }
         throw new PolicyException("", "", "E-101", "Policy ID was not found in Database: " + inputPolicy.getPolicy().getId());
 
+    }
+
+    public ViolationResponce checkViolation(LocationRequest locationRequest) {
+
+
+        List<Policy> policyList = policyRepository.findAll();
+        Map<String, List<String>> policyLocationMap = new HashMap<>();
+        for (Policy policy : policyList) {
+            policyLocationMap.put(policy.getId(), policy.getPolygon());
+        }
+
+        List<LocationPolicyViolation> locationPolicyViolations = new ArrayList<>();
+
+        for (String location : locationRequest.getLocations()) {
+            List<String> violatedPolicies = new ArrayList<>();
+            LocationPolicyViolation locationPolicyViolation = new LocationPolicyViolation(location,false,violatedPolicies);
+            for (Map.Entry<String, List<String>> entry : policyLocationMap.entrySet()) {
+                if(CheckLocation.checkInside(entry.getValue(), location) == 1 )
+                {
+                    if(!locationPolicyViolation.getViolation())
+                        locationPolicyViolation.setViolation(true);
+                    violatedPolicies.add(entry.getKey());
+                }
+            }
+            locationPolicyViolation.setViolatedPolicies(violatedPolicies);
+            locationPolicyViolations.add(locationPolicyViolation);
+        }
+        ViolationResponce responce = new ViolationResponce();
+        responce.setPolicyCheckResult(locationPolicyViolations);
+        return responce;
     }
 }
