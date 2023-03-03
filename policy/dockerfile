@@ -1,11 +1,11 @@
 FROM maven:3.8.5-amazoncorretto-17 as build
 
-COPY . /sources/eventsCollector
+COPY . /sources/mobility-bap-policy
 # Move into the directory.
-WORKDIR /sources/eventsCollector
+WORKDIR /sources/mobility-bap-policy
+RUN rm dockerfile
 # Build the package.
 RUN mvn clean package
-
 # -- Execute stage --
 
 # Use JDK 11
@@ -13,9 +13,9 @@ FROM openjdk:11-jre-slim
 
 # Copy over the built jar and configuration from the build stage.
 WORKDIR /app
-COPY --from=build /sources/eventsCollector/target/policy*.*.*-SNAPSHOT.jar /app/policy.jar
-COPY --from=build /sources/eventsCollector/src/main/resources/application.properties /app/application.properties
-# Run the eventsCollector jar.
+COPY --from=build /sources/mobility-bap-policy/target/policy*.*.*-SNAPSHOT.jar /app/policy.jar
+COPY --from=build /sources/mobility-bap-policy/src/main/resources/application.properties /app/application.properties
+# Run the mobility-bap-policy jar.
 ENTRYPOINT [ "bash", "-c", "java -jar /app/policy.jar -spring.config.location=file:///app/application.properties" ]
 # Expose the port 8082 to the world, that is experience app is listening for API calls.
 EXPOSE 8082
