@@ -44,7 +44,7 @@ public class PolicyBroadcastController {
         }
 
         try {
-            Policy policy = policyAdminService.updatePolicy(inputPolicy);
+            Policy policy = policyAdminService.updatePolicy(inputPolicy.getMessage());
             BroadcastResponce broadcastResponce = new BroadcastResponce();
             broadcastResponce.setContext(inputPolicy.getContext());
             broadcastResponce.setMessage(new MessageResponce(new Acknowledge(new PolicyResponce(policy.getId(), policy.getStatus()))));

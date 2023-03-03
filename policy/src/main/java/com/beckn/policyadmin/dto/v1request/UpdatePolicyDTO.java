@@ -13,5 +13,5 @@ import org.springframework.stereotype.Component;
 @Setter
 public class UpdatePolicyDTO {
     private Context context;
-    private MessageRequest message;
+    private UpdatePolicyRequest message;
 }
