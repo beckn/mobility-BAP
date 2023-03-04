@@ -138,15 +138,22 @@
               </SfButton>
             </div>
             <div>
-              <div class="modal-heading">Alert</div>
+              <div class="modal-heading">Alert   <SfImage
+                  src="/icons/Alert.png"
+                  :width="15"
+                  :height="15"
+                  alt="Rectangle bar"
+                /> </div>
               <div><hr class="sf-divider" /></div>
             </div>
             <div class="modal-body">
               <div class="option-container">
                 <p class="warningtext">
                   Warning! Entering into a restricted zone. <br />
-                  Mobility services may be limited.<br />
+                  Mobility services may be limited.
+                  <br /><br />
                   To know more, read the policy at :
+                  <br/><br/>
                 </p>
                 <button class="color-primary btnclass1" @click="openSearch">
                   <div class="f-btn-text">
@@ -161,56 +168,64 @@
         </ContactSupportSlider>
       </template>
     </div>
-    <div class="location-content">
-      <BottomSlider :visible="isShow">
-        <template>
-          <div class="bar-pos" @click="toggleIsShow">
-            <SfButton class="sf-button--pure rect-bar-style">
-              <SfImage
-                src="/icons/Rectangle-bar.png"
-                :width="60"
-                :height="5.5"
-                alt="Rectangle bar"
-              />
-            </SfButton>
-          </div>
+    <keep-alive>
+      <div class="location-content">
+        <BottomSlider :visible="isShow">
+          <template>
+            <div class="bar-pos" @click="toggleIsShow">
+              <SfButton class="sf-button--pure rect-bar-style">
+                <SfImage
+                  src="/icons/Rectangle-bar.png"
+                  :width="60"
+                  :height="5.5"
+                  alt="Rectangle bar"
+                />
+              </SfButton>
+            </div>
 
-          <div>
             <div>
               <div>
-                <div class="modal-heading">Terms & Conditions</div>
-                <div><hr class="sf-divider" /></div>
-              </div>
-              <div>
-                <br />
-                <div class="option-container">
-                  we have updated our terms and conditions. <br />
-                  Request you to kindly go through and accept. <br />
-                  Terms & Condition
+                <div>
+                  <div class="modal-heading1">Terms & Conditions</div>
+                  <div><hr class="sf-divider" /></div>
                 </div>
-                <div style="margin: 13px;">
-                  <button class="color-primary btnclass1" @click="toggleIsShow">
-                    <div class="f-btn-text">
-                      <label style="color: antiquewhite;font-weight: 700;"
-                        >Accept & Continue</label
-                      >
-                    </div>
-                  </button>
+                <div>
                   <br />
-                  <button class="color-primary btnclass" @click="toggleIsShow">
-                    <div class="f-btn-text">
-                      <label style="color:#f37a20;font-weight: 700;"
-                        >I do not accept</label
-                      >
-                    </div>
-                  </button>
+                  <div class="option-container">
+                    we have updated our terms and conditions. <br /><br>
+                    Request you to kindly go through and accept. <br /><br/>
+                    Terms & Condition
+                  </div>
+                  <div style="margin: 13px;">
+                    <button
+                      class="color-primary btnclass1"
+                      @click="toggleIsShow"
+                    >
+                      <div class="f-btn-text">
+                        <label style="color: antiquewhite;font-weight: 700;"
+                          >Accept & Continue</label
+                        >
+                      </div>
+                    </button>
+                    <br />
+                    <button
+                      class="color-primary btnclass"
+                      @click="toggleIsShow"
+                    >
+                      <div class="f-btn-text">
+                        <label style="color:#f37a20;font-weight: 700;"
+                          >I do not accept</label
+                        >
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </template>
-      </BottomSlider>
-    </div>
+          </template>
+        </BottomSlider>
+      </div>
+    </keep-alive>
   </div>
 </template>
 
@@ -253,7 +268,7 @@ export default {
     const contactSupport = () => {
       isContactSupport.value = !isContactSupport.value;
     };
-  
+
     const isShow = ref(true);
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
@@ -289,7 +304,6 @@ export default {
           .catch((e) => console.error(e));
       }
     });
-    
 
     const edit = () => {
       if (location.value) {
@@ -491,14 +505,15 @@ export default {
 //   top: 107px;
 // }
 .option-container {
-  padding: 0 10px 60px;
+  padding: 0 10px 20px;
   font-family: 'SF Pro Text';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
   text-align: center;
   letter-spacing: 0.6px;
+
+  color: #000000;
 
   color: #000000;
   .option-head {
@@ -510,18 +525,28 @@ export default {
     font-size: 15px;
   }
 }
-.modal-heading {
-  margin: 20px;
+.modal-heading1{
+  margin: 13px;
   font-size: 20px;
   font-weight: 500;
   text-align: center;
 }
+.modal-heading{
+  margin: 13px;
+  font-size: 20px;
+  font-weight: 500;
+  
+}
 .btnclass {
+  border-radius: 3px;
   width: 100%;
   height: 48px;
   border: 1px solid rgba(243, 122, 32, 1);
+  background: rgba(255, 255, 255, 1);
+
 }
 .btnclass1 {
+  border-radius: 3px;
   width: 100%;
   height: 48px;
   background: rgba(243, 122, 32, 1);
@@ -536,12 +561,26 @@ export default {
   padding: 20px;
   color: #37474f;
   .option-container {
+    font-family: 'SF Pro Text';
+    font-family: 'SF Pro Text';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    letter-spacing: 0.6px;
+    padding-bottom: 0px;
+    word-spacing: 1.8px;
+    
+
+    color: #000000;
     // TO DO chat with us button
     //padding: 0 10px 60px;
     .option-head {
       font-weight: 400;
       font-size: 15px;
       padding-bottom: 20px;
+     
     }
     .sf-radio {
       font-size: 15px;

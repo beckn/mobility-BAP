@@ -11,27 +11,24 @@
       </div>
     </div>
     <div id="map"></div>
-    <div>
+    <div style=" margin: 8px;">
       <SfButton
-            id="btn2"
-            class="button-pos sf-button--pure color-primary"
-            @click="goHome"
-            v-e2e="'home-search-button'"
-            ><label for="btn">Go Back to Home</label>
-          </SfButton>
-
+        id="btn2"
+        class="button-pos sf-button--pure color-primary"
+        @click="goHome"
+        v-e2e="'home-search-button'"
+        ><label for="btn">Go Back to Home</label>
+      </SfButton>
     </div>
   </div>
 </template>
 <script>
-import { SfButton ,SfIcon} from '@storefront-ui/vue';
-
+import { SfButton, SfIcon } from '@storefront-ui/vue';
 
 export default {
   components: {
     SfButton,
-    SfIcon,
-  
+    SfIcon
   },
 
   data: () => ({
@@ -45,9 +42,7 @@ export default {
       { lat: 51.177168, lng: 9.328837 },
       { lat: 51.175446, lng: 9.328837 },
       { lat: 51.175537, lng: 9.321198 },
-      { lat: 51.175567, lng: 9.321698 },
-      
-      
+      { lat: 51.175567, lng: 9.321698 }
     ]
   }),
 
@@ -55,7 +50,6 @@ export default {
     this.Map();
   },
   methods: {
- 
     Map() {
       const myPolygon = new google.maps.Polygon({
         paths: this.polygoneCoords,
@@ -85,32 +79,29 @@ export default {
     const goBack = () => {
       root.$router.back();
     };
-    const goHome=()=>{
+    const goHome = () => {
       root.$router.push('/');
-    }
+    };
 
     return {
       goBack,
       goHome
-
     };
   }
 };
 </script>
 <style lang="scss" scoped>
-
 div#map {
   @media (max-height: 667px) {
     height: 300px;
   }
-  height:550px;
+  height: 550px;
   width: 100%;
   overflow: hidden;
 }
 .top-bar {
   padding-right: 35%;
   padding-left: 10px;
-  margin-bottom: 25px;
   align-items: center;
   display: flex;
   font-size: 18px;
@@ -127,7 +118,6 @@ div#map {
   border-radius: 4px;
   width: 100%;
   margin-top: 5%;
-  
 
   label {
     font-weight: 600;

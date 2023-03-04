@@ -11,9 +11,14 @@
       </div>
     </div>
 
-    <div style="padding: 10px;" >
-      <label for="Filter"> <span>Filter:</span>  </label>
-      <select class="custom-select" name="Filter" id="Filter" @change="switchSelect($event)">
+    <div style="padding: 10px;">
+      <label for="Filter"> <span>Filter:</span> </label>
+      <select
+        class="custom-select"
+        name="Filter"
+        id="Filter"
+        @change="switchSelect($event)"
+      >
         <option value="All"> All</option>
         <option value="New">
           New
@@ -24,7 +29,7 @@
         <option value="Disputed">Disputed</option>
       </select>
     </div>
-<hr>
+    <hr />
 
     <div v-if="Applied">
       <div
@@ -33,9 +38,12 @@
         :key="idx"
       >
         <PolicyCard
+          :Applied="true"
           :pImage="policy.Icon"
           :pTittle="policy.tittle"
-          :pSubtittle="policy.subtittle"
+          :pType="policy.Type"
+          :Edate="policy.Edate"
+          :Sdate="policy.Sdate"
           @goToForm="goToForm"
         />
       </div>
@@ -47,9 +55,12 @@
         :key="idx"
       >
         <PolicyCard
+          :Disputed="true"
           :pImage="policy.Icon"
           :pTittle="policy.tittle"
-          :pSubtittle="policy.subtittle"
+          :pType="policy.Type"
+          :Edate="policy.Edate"
+          :Sdate="policy.Sdate"
           @goToForm="goToForm"
         />
       </div>
@@ -57,9 +68,12 @@
     <div v-if="New">
       <div style="padding:15px;" v-for="(policy, idx) in NewArray" :key="idx">
         <PolicyCard
+          :New="true"
           :pImage="policy.Icon"
           :pTittle="policy.tittle"
           :pSubtittle="policy.subtittle"
+          :Edate="policy.Edate"
+          :Sdate="policy.Sdate"
           @goToForm="goToForm"
         />
       </div>
@@ -80,61 +94,87 @@ export default {
     SfRadio
   },
   setup(_, context) {
-    // TODO REMOVE MOCK DATA AFTER INTIGRATING API 
+    // TODO REMOVE MOCK DATA AFTER INTIGRATING API
     let AppliedArray = reactive([
       {
-        Icon: '/icons/Corona.png',
+        Icon: '/icons/document.png',
         tittle: 'Quarantine Zone',
-        subtittle: 'Lorem ipsum dolor sit amet consectetur. Blandit.'
+        Type: ' Geofence',
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       },
       {
-        Icon: '',
+        Icon: '/icons/document.png',
         tittle: 'Applied policy 2',
-        subtittle: 'Applied policy 2 subtitle....'
+        Type: ' Geofence',
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       },
       {
-        Icon: '',
+        Icon: '/icons/document.png',
         tittle: 'policy 3',
-        subtittle: 'policy 3 subtitle....'
+        Type: ' Geofence',
+        Sdate: '11-2-2022',
+
+        Edate: '21-5-2023'
       }
     ]);
-     // TODO REMOVE MOCK DATA AFTER INTIGRATING API 
+    // TODO REMOVE MOCK DATA AFTER INTIGRATING API
     let DisputedArray = reactive([
       {
-        Icon: '/icons/Corona.png',
+        Icon: '/icons/document.png',
         tittle: 'Disputed policy',
-        subtittle: 'Lorem ipsum dolor sit amet consectetur. Blandit.'
+        Type: ' Geofence',
+
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       },
       {
-        Icon: '',
+        Icon: '/icons/document.png',
         tittle: 'Disputed policy 2',
-        subtittle: 'Disputed policy 2 subtitle....'
+        Type: ' Geofence',
+
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       },
       {
-        Icon: '',
+        Icon: '/icons/document.png',
         tittle: 'Disputed policy 3',
-        subtittle: 'Disputed policy 3 subtitle....'
+        Type: ' Geofence',
+
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       }
     ]);
-     // TODO REMOVE MOCK DATA AFTER INTIGRATING API 
+    // TODO REMOVE MOCK DATA AFTER INTIGRATING API
     let NewArray = reactive([
       {
-        Icon: '/icons/Corona.png',
+        Icon: '/icons/document.png',
         tittle: 'New policy',
-        subtittle: 'Lorem ipsum dolor sit amet consectetur. Blandit.'
+        Type: ' Geofence',
+        Sdate: '11-2-2022',
+
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       },
       {
-        Icon: '',
+        Icon: '/icons/document.png',
         tittle: 'New policy 2',
-        subtittle: 'New policy 2 subtitle....'
+        Type: ' Geofence',
+
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       },
       {
-        Icon: '',
+        Icon: '/icons/document.png',
         tittle: 'New policy 3',
-        subtittle: 'New policy 3 subtitle....'
+        Type: ' Geofence',
+
+        Sdate: '11-2-2022',
+        Edate: '21-5-2023'
       }
     ]);
-    
+
     const switchSelect = (event) => {
       if (event.target.value === 'All') {
         Allpolicy();
@@ -178,8 +218,6 @@ export default {
       console.log('hi sujit');
     };
 
-
-
     return {
       AppliedArray,
       DisputedArray,
@@ -216,31 +254,31 @@ export default {
 }
 .custom-select {
   width: 133px;
-height: 35px;
-background: #FFFFFF;
-border: 1px solid #9C9C9C;
-border-radius: 5px;
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 15px;
-/* identical to box height */
-
-
-
+  height: 35px;
+  background: #ffffff;
+  border: 1px solid #9c9c9c;
+  border-radius: 5px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
 }
-.select-items div:hover {
-  background-color: black;
+//.custom-select  option :hover{ color:orangered; }
+
+option {
+  box-shadow: 0 0 10px 100px orangered;
 }
 
-hr{
-
-height: 0px;
-border: 1px solid linear-gradient(90deg, rgba(0, 78, 146, 0.3) 0.42%, rgba(0, 4, 40, 0.3) 100%);
-
- ;
-
+hr {
+  height: 0px;
+  border: 1px solid
+    linear-gradient(
+      90deg,
+      rgba(0, 78, 146, 0.3) 0.42%,
+      rgba(0, 4, 40, 0.3) 100%
+    );
 }
 .top-bar {
   padding-right: 42%;
@@ -255,16 +293,15 @@ border: 1px solid linear-gradient(90deg, rgba(0, 78, 146, 0.3) 0.42%, rgba(0, 4,
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
 }
-span{
+span {
   font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 15px;
-/* identical to box height */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
 
-
-color: #333333;
+  color: #333333;
 }
 
 .inactive {

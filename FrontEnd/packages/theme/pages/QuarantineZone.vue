@@ -97,7 +97,7 @@
             <input
               class="flexinputbox"
               disabled="true"
-              :value="PolicyDate"
+              :value="FromDate"
               errorMessage="errer"
               type="date"
               placeholder="date"
@@ -109,7 +109,7 @@
             <input
               class="flexinputbox"
               disabled="true"
-              :value="PolicyDate"
+              :value="ToDate"
               errorMessage="errer"
               type="date"
               placeholder="date"
@@ -186,9 +186,12 @@
               <div class="modal-body">
                 <div class="option-container">
                   <p class="warningtext">
+                    <br />
                     To raise a dispute against this policy,<br />
                     please send an email to <br />
                     policy@openmobilitynetwork.com
+                    <br />
+                    <br />
                   </p>
                   <SfButton
                     class="support-btns"
@@ -255,7 +258,7 @@
 </template>
 <script>
 import { reactive, ref } from '@vue/composition-api';
-import { SfIcon, SfRadio, SfButton,SfImage } from '@storefront-ui/vue';
+import { SfIcon, SfRadio, SfButton, SfImage } from '@storefront-ui/vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 
 export default {
@@ -278,7 +281,9 @@ export default {
     const City = ref();
     const Applicable = ref();
     const Document = ref();
-    const PolicyDate = ref();
+    const FromDate = ref();
+    const ToDate = ref();
+    const Owner = ref();
     const Name = ref();
     const goBack = () => {
       context.root.$router.back();
@@ -319,25 +324,32 @@ export default {
       City,
       Applicable,
       Document,
-      PolicyDate,
+      FromDate,
       Name,
       isContactSupport,
-      contactSupport
+      contactSupport,
+      Owner,
+      ToDate
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.btnclass{
+.btnclass {
   width: 100%;
   height: 48px;
+  color: rgba(243, 122, 32, 1);
   border: 1px solid rgba(243, 122, 32, 1);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
 .quarantine_page {
   margin: 13px;
 }
 .Form {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
 textarea {
   border: none;
@@ -349,6 +361,8 @@ textarea {
   width: 100%;
   color: #000000;
   padding: 5px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
 .warningtext {
   font-family: 'SF Pro Text';
@@ -358,14 +372,15 @@ textarea {
   line-height: 17px;
   text-align: center;
   letter-spacing: 0.6px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 
   color: #000000;
 }
 .modal-heading {
-     margin: 20px;
-    font-size: 20px;
-    font-weight: 500;
-
+  margin: 14px;
+  font-size: 20px;
+  font-weight: 500;
 }
 .rect-bar-style {
   padding-left: 45%;
@@ -385,7 +400,11 @@ textarea {
   .sf-button {
     width: -webkit-fill-available;
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    height: 48px;
+    margin-left: 15px;
+    margin-right: 15px;
+    text-transform: none;
   }
 }
 #btn {
@@ -394,7 +413,7 @@ textarea {
   background: #f37a20;
   border-radius: 4px;
   width: 100%;
-  margin-top:5%;
+  margin-top: 10%;
 
   label {
     font-weight: 600;
@@ -409,7 +428,6 @@ textarea {
   background: #f37a20;
   border-radius: 4px;
   width: 100%;
-  
 
   label {
     font-weight: 600;
@@ -431,16 +449,23 @@ textarea {
   font-size: 13px;
   line-height: 14px;
   color: #37474f;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
 .lableclass {
   border: none;
-  font-family: 'Roboto';
+
+  font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
-  font-size: 13px;
-  line-height: 14px;
-  color: #37474f;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+
+  color: #000000;
   padding: 4px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
 .link {
   border: none;
@@ -462,54 +487,16 @@ textarea {
   border: 0;
   outline: 0;
   border: none;
-  margin: 7px;
-  width: 70%;
+  width: 80%;
   font-size: 13px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
-@media (max-width: 350px) {
+@media (max-width: 388px) {
   .flexform {
     display: flex;
     flex-direction: column;
   }
-}
-.toggle-date {
-  display: flex;
-  justify-content: space-evenly;
-}
-.toggleSwitch1 {
-  border-top: 1px solid rgba(67, 70, 78, 1);
-  border-right: 0px solid rgba(67, 70, 78, 1);
-  border-bottom: 1px solid rgba(67, 70, 78, 1);
-  border-left: 1px solid rgba(67, 70, 78, 1);
-  border-radius: 2.5px;
-}
-.toggleSwitch2 {
-  border-top: 1px solid rgba(67, 70, 78, 1);
-  border-right: 1px solid rgba(67, 70, 78, 1);
-  border-bottom: 1px solid rgba(67, 70, 78, 1);
-  border-left: 0px solid rgba(67, 70, 78, 1);
-  border-radius: 2.5px;
-}
-.active {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 10px;
-  padding: 5px;
-  //line-height: 15px;
-  color: #393939;
-  background-color: rgba(243, 122, 32, 0.6);
-  border-radius: 2.5px;
-}
-.inactive {
-  padding: 5px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 10px;
-  //line-height: 15px;
-  color: #393939;
-  background-color: whitesmoke;
 }
 
 .top-bar {
