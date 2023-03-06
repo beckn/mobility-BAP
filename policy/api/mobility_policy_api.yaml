@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.0.3
+  version: 0.1.0
   title: Mobility Policy Implementation API
   description: API to manage policy flow.
 paths:
@@ -287,12 +287,116 @@ components:
           type: string
         domain:
           type: string
-        country:
-          type: string
-        city:
-          type: string
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            city:
+              type: string
         version:
           type: string
+    PolicyBroadcast:
+      description: Schema for Policy broadcast object
+      type: object
+      required:
+        - domain
+      properties:
+        id:
+          description: Policy id
+          type: string
+        owner:
+          type: object
+          properties:
+            descriptor:
+              type: object
+              properties:
+                name:
+                  description: Policy owner name
+                  type: string
+                contact:
+                  type: object
+                  properties:
+                    email:
+                      description: Policy owner contact email
+                      type: string
+        descriptor:
+          type: object
+          properties:
+            name:
+              description : Policy name
+              type: string
+            short_desc:
+              description: Policy description
+              type: string
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaData'
+        type:
+          description: Policy type
+          type: string
+        coverage:
+          type: array
+          items:
+            type: object 
+            properties:
+              spatial:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    country:
+                      description: Policy applied to country
+                      type: string
+                    city:
+                      description: Policy applied to city
+                      type: string
+              temporal:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    range:
+                      type: object
+                      properties:
+                        start:
+                          description: Policy start date
+                          type: string
+                        end:
+                          description: Policy end date
+                          type: string
+              subscribers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      description: Policy applicable to
+                      type: string
+        geofences:
+          type: array
+          items:
+            type: object
+            properties:
+              polygon:
+                description: Policy polygon to apply policy
+                type: array
+                items:
+                  type: string
+        rules:
+          description: Policy rules json
+          type: object
+    MediaData:
+      description: Media Data
+      type: object
+      properties:
+        mimetype:
+          type: string
+          description: mimetype
+        url:
+          type: string
+          description: mimetype
     Policy:
       description: Schema for Policy object
       type: object
@@ -387,12 +491,12 @@ components:
       properties:
         context:
           $ref: '#/components/schemas/Context'
-        policy:
+        message:
           type: object
-          allOf:  
-            - $ref: '#/components/schemas/PolicyId'
-            - $ref: '#/components/schemas/Policy'
-            - $ref: '#/components/schemas/PolicyStatus'
+          properties:
+            policy:
+              allOf:  
+                - $ref: '#/components/schemas/PolicyBroadcast'
     UpdatePolicyBroadcastStatus:
       description: Schema for Policy status update via broadcasted message
       type: object
