@@ -12,6 +12,7 @@ import com.beckn.policyadmin.model.Policy;
 import com.beckn.policyadmin.repository.PolicyRepository;
 import com.beckn.policyadmin.utility.CheckLocation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -35,14 +36,19 @@ public class PolicyAdminService {
         if (optionalPolicy.isPresent()) {
             return optionalPolicy.get();
         }
-        throw new PolicyException("", "", "E-101", "No data found in database for PolicyId : " + policyId);
-
+        throw new PolicyException(
+                "Application error", HttpStatus.NOT_FOUND, "", "No data found for the Policy id: " + policyId
+        );
     }
 
     public List<PolicyMetaData> getPolicies() {
 
         List<PolicyMetaData> policyMetaDataList = new ArrayList<>();
         List<Policy> policyList = policyRepository.findAll();
+        if (policyList.isEmpty())
+            throw new PolicyException(
+                    "Application error", HttpStatus.NOT_FOUND, "", "No data found in the DB."
+            );
 
         for (Policy policy : policyList) {
             PolicyMetaData policyMetaData = new PolicyMetaData(
@@ -83,14 +89,19 @@ public class PolicyAdminService {
             }
             return policyRepository.save(policy);
         }
-        throw new PolicyException("", "", "E-101", "Policy ID was not found in Database: " + inputPolicy.getPolicy().getId());
-
+        throw new PolicyException(
+                "Application error", HttpStatus.NOT_FOUND, "", "No data found for the Policy id: " + inputPolicy.getPolicy().getId()
+        );
     }
 
     public ViolationResponce checkViolation(LocationRequest locationRequest) {
 
 
-        List<Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(),"applied");
+        List<Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(), "applied");
+        if (policyList.isEmpty())
+            throw new PolicyException(
+                    "Application error", HttpStatus.NOT_FOUND, "", "No data found in DB."
+            );
         Map<String, List<String>> policyLocationMap = new HashMap<>();
         for (Policy policy : policyList) {
             policyLocationMap.put(policy.getId(), policy.getPolygon());
@@ -100,11 +111,10 @@ public class PolicyAdminService {
 
         for (String location : locationRequest.getLocations()) {
             List<String> violatedPolicies = new ArrayList<>();
-            LocationPolicyViolation locationPolicyViolation = new LocationPolicyViolation(location,false,violatedPolicies);
+            LocationPolicyViolation locationPolicyViolation = new LocationPolicyViolation(location, false, violatedPolicies);
             for (Map.Entry<String, List<String>> entry : policyLocationMap.entrySet()) {
-                if(CheckLocation.checkInside(entry.getValue(), location) == 1 )
-                {
-                    if(!locationPolicyViolation.getViolation())
+                if (CheckLocation.checkInside(entry.getValue(), location) == 1) {
+                    if (!locationPolicyViolation.getViolation())
                         locationPolicyViolation.setViolation(true);
                     violatedPolicies.add(entry.getKey());
                 }
