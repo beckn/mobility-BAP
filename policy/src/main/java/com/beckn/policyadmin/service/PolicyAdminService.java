@@ -90,7 +90,7 @@ public class PolicyAdminService {
     public ViolationResponce checkViolation(LocationRequest locationRequest) {
 
 
-        List<Policy> policyList = policyRepository.findAll();
+        List<Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(),"applied");
         Map<String, List<String>> policyLocationMap = new HashMap<>();
         for (Policy policy : policyList) {
             policyLocationMap.put(policy.getId(), policy.getPolygon());
