@@ -92,6 +92,7 @@ SfImage{
 }
 
 .tag {
+  z-index: +1;
   background: rgba(112, 198, 121, 1);
   border-radius: 3px;
   color: #999;
@@ -112,6 +113,7 @@ SfImage{
   color: #ffffff;
 }
 .tag1 {
+  z-index: +1;
   background: rgba(243, 122, 32, 1);
   border-radius: 3px;
   color: #999;
@@ -132,6 +134,7 @@ SfImage{
   color: #ffffff;
 }
 .tag2 {
+  z-index: +1;
   background: rgba(239, 121, 121, 1);
   border-radius: 3px;
   color: #999;

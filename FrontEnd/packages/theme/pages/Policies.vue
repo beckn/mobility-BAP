@@ -8,6 +8,10 @@
       </div>
       <div>
         Policies
+        <span
+          style="background-color: #F37A20; color: aliceblue;border-radius: 50%; font-weight: 400; display: inline-block; width: 15px;text-align: center;"
+          >{{ notification }}</span
+        >
       </div>
     </div>
 
@@ -27,6 +31,7 @@
           Applied
         </option>
         <option value="Disputed">Disputed</option>
+        <option value="Inactive">Inactive</option>
       </select>
     </div>
     <hr />
@@ -39,12 +44,12 @@
       >
         <PolicyCard
           :Applied="true"
-          :pImage="policy.Icon"
-          :pTittle="policy.tittle"
-          :pType="policy.Type"
-          :Edate="policy.Edate"
-          :Sdate="policy.Sdate"
-          @goToForm="goToForm"
+          :pImage="Icon"
+          :pTittle="policy.name"
+          :pType="policy.type"
+          :Edate="convertdate(policy.endDate)"
+          :Sdate="convertdate(policy.startDate)"
+          @goToForm="goToForm(policy.id)"
         />
       </div>
     </div>
@@ -56,12 +61,12 @@
       >
         <PolicyCard
           :Disputed="true"
-          :pImage="policy.Icon"
-          :pTittle="policy.tittle"
-          :pType="policy.Type"
-          :Edate="policy.Edate"
-          :Sdate="policy.Sdate"
-          @goToForm="goToForm"
+          :pImage="Icon"
+          :pTittle="policy.name"
+          :pType="policy.type"
+          :Edate="convertdate(policy.endDate)"
+          :Sdate="convertdate(policy.startDate)"
+          @goToForm="goToForm(policy.id)"
         />
       </div>
     </div>
@@ -69,21 +74,38 @@
       <div style="padding:15px;" v-for="(policy, idx) in NewArray" :key="idx">
         <PolicyCard
           :New="true"
-          :pImage="policy.Icon"
-          :pTittle="policy.tittle"
-          :pSubtittle="policy.subtittle"
-          :Edate="policy.Edate"
-          :Sdate="policy.Sdate"
-          @goToForm="goToForm"
+          :pImage="Icon"
+          :pTittle="policy.name"
+          :pType="policy.type"
+          :Edate="convertdate(policy.endDate)"
+          :Sdate="convertdate(policy.startDate)"
+          @goToForm="goToForm(policy.id)"
+        />
+      </div>
+    </div>
+    <div v-if="Inactive">
+      <div
+        style="padding:15px;"
+        v-for="(policy, idx) in inactiveArray"
+        :key="idx"
+      >
+        <PolicyCard
+          :pImage="Icon"
+          :pTittle="policy.name"
+          :pType="policy.type"
+          :Edate="convertdate(policy.endDate)"
+          :Sdate="convertdate(policy.startDate)"
+          @goToForm="goToForm(policy.id)"
         />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { reactive, ref } from '@vue/composition-api';
+import { ref, onMounted, computed } from '@vue/composition-api';
 import { SfIcon, SfRadio } from '@storefront-ui/vue';
 import PolicyCard from '~/components/PolicyCard.vue';
+import superAgent from 'superagent';
 
 export default {
   name: 'Policies',
@@ -94,86 +116,47 @@ export default {
     SfRadio
   },
   setup(_, context) {
-    // TODO REMOVE MOCK DATA AFTER INTIGRATING API
-    let AppliedArray = reactive([
-      {
-        Icon: '/icons/document.png',
-        tittle: 'Quarantine Zone',
-        Type: ' Geofence',
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      },
-      {
-        Icon: '/icons/document.png',
-        tittle: 'Applied policy 2',
-        Type: ' Geofence',
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      },
-      {
-        Icon: '/icons/document.png',
-        tittle: 'policy 3',
-        Type: ' Geofence',
-        Sdate: '11-2-2022',
+    let AppliedArray = ref([]);
+    let DisputedArray = ref([]);
+    let NewArray = ref([]);
+    let inactiveArray = ref([]);
+    const convertdate = (dateString) => {
+      let dateObject = new Date(dateString);
+      let mnth = ('0' + (dateObject.getMonth() + 1)).slice(-2);
+      let day = ('0' + dateObject.getDate()).slice(-2);
+      return [day, mnth, dateObject.getFullYear()].join('/');
+    };
 
-        Edate: '21-5-2023'
+    //     export const convertUtcToYYMMDD = (dateString: string) => {​​
+    //   let date = new Date(dateString),
+    //     mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    //     day = ("0" + date.getDate()).slice(-2);
+    //   return [date.getFullYear(), mnth, day].join("-");
+    // }​​;
+
+    const Icon = ref('/icons/document.png');
+    const myFunction = (policy) => {
+      if (policy.status === 'new') {
+        NewArray.value.push(policy);
+      } else if (policy.status === 'inactive') {
+        inactiveArray.value.push(policy);
+      } else if (policy.status === 'disputed') {
+        DisputedArray.value.push(policy);
+      } else if (policy.status === 'applied') {
+        AppliedArray.value.push(policy);
       }
-    ]);
-    // TODO REMOVE MOCK DATA AFTER INTIGRATING API
-    let DisputedArray = reactive([
-      {
-        Icon: '/icons/document.png',
-        tittle: 'Disputed policy',
-        Type: ' Geofence',
-
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      },
-      {
-        Icon: '/icons/document.png',
-        tittle: 'Disputed policy 2',
-        Type: ' Geofence',
-
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      },
-      {
-        Icon: '/icons/document.png',
-        tittle: 'Disputed policy 3',
-        Type: ' Geofence',
-
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
+    };
+    const notification = computed(() => NewArray.value.length);
+    onMounted(async () => {
+      try {
+        const res = await superAgent.get(
+          'http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy'
+        );
+        res.body.forEach(myFunction);
+      } catch (err) {
+        console.log(err);
       }
-    ]);
-    // TODO REMOVE MOCK DATA AFTER INTIGRATING API
-    let NewArray = reactive([
-      {
-        Icon: '/icons/document.png',
-        tittle: 'New policy',
-        Type: ' Geofence',
-        Sdate: '11-2-2022',
-
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      },
-      {
-        Icon: '/icons/document.png',
-        tittle: 'New policy 2',
-        Type: ' Geofence',
-
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      },
-      {
-        Icon: '/icons/document.png',
-        tittle: 'New policy 3',
-        Type: ' Geofence',
-
-        Sdate: '11-2-2022',
-        Edate: '21-5-2023'
-      }
-    ]);
+    });
 
     const switchSelect = (event) => {
       if (event.target.value === 'All') {
@@ -184,38 +167,55 @@ export default {
         Appliedpolicy();
       } else if (event.target.value === 'Disputed') {
         Disputedpolicy();
+      } else if ((event.target.value = 'Inactive')) {
+        inactivepolicy();
       }
     };
     const goBack = () => {
       context.root.$router.back();
     };
-    const goToForm = () => {
-      context.root.$router.push('QuarantineZone');
+    const goToForm = (Id) => {
+      context.root.$router.push({
+        name: 'QuarantineZone',
+        params: {
+          id: Id
+        }
+      });
     };
+    const Inactive = ref(true);
     const Applied = ref(true);
     const New = ref(true);
     const Disputed = ref(true);
 
+    const inactivepolicy = () => {
+      Applied.value = false;
+      New.value = false;
+      Disputed.value = false;
+      Inactive.value = true;
+    };
     const Appliedpolicy = () => {
       Applied.value = true;
       New.value = false;
       Disputed.value = false;
+      Inactive.value = false;
     };
     const Newpolicy = () => {
       Applied.value = false;
       New.value = true;
       Disputed.value = false;
+      Inactive.value = false;
     };
     const Disputedpolicy = () => {
       Applied.value = false;
       New.value = false;
       Disputed.value = true;
+      Inactive.value = false;
     };
     const Allpolicy = () => {
       Applied.value = true;
       New.value = true;
       Disputed.value = true;
-      console.log('hi sujit');
+      Inactive.value = true;
     };
 
     return {
@@ -225,13 +225,19 @@ export default {
       Applied,
       New,
       Disputed,
+      Inactive,
+      inactiveArray,
+      Icon,
       Appliedpolicy,
       Newpolicy,
       Disputedpolicy,
       Allpolicy,
       goBack,
       switchSelect,
-      goToForm
+      goToForm,
+      inactivepolicy,
+      notification,
+      convertdate
     };
   }
 };

@@ -24,6 +24,7 @@
 </template>
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
+import { ref, onMounted } from '@vue/composition-api';
 
 export default {
   components: {
@@ -37,23 +38,39 @@ export default {
       lag: 9.327271
     },
     zoom: 15,
+
     polygoneCoords: [
-      { lat: 51.177329, lng: 9.321499 },
-      { lat: 51.177168, lng: 9.328837 },
-      { lat: 51.175446, lng: 9.328837 },
-      { lat: 51.175537, lng: 9.321198 },
-      { lat: 51.175567, lng: 9.321698 }
+      { lat:'', lng:''},
+      { lat: '', lng: '' },
+      { lat: '', lng: ''},
+      { lat: '', lng: ''},
+      { lat: '', lng: ''}
     ]
   }),
 
   mounted() {
+    
+    const polygon = sessionStorage.getItem('poligon').split(',');
+    console.log(polygon);
+    this.mapCenter.lat=parseFloat(polygon[0]);
+    this.mapCenter.lag= parseFloat(polygon[1]); 
+    this.polygoneCoords[0].lat = parseFloat(polygon[0]);
+    this.polygoneCoords[0].lng = parseFloat(polygon[1]);
+    this.polygoneCoords[1].lat = parseFloat(polygon[2]);
+    this.polygoneCoords[1].lng = parseFloat(polygon[3]);
+    this.polygoneCoords[2].lat = parseFloat(polygon[4]);
+    this.polygoneCoords[2].lng = parseFloat(polygon[5]);
+    this.polygoneCoords[3].lat = parseFloat(polygon[6]);
+    this.polygoneCoords[3].lng = parseFloat(polygon[7]);
+    this.polygoneCoords[4].lat = parseFloat(polygon[8]);
+    this.polygoneCoords[4].lng = parseFloat(polygon[9]);
+    console.log(this.polygoneCoords);
     this.Map();
   },
   methods: {
     Map() {
       const myPolygon = new google.maps.Polygon({
         paths: this.polygoneCoords,
-        editable: true,
         strokeColor: 'rgba(0, 0, 0, 1)',
         strokeOpacity: 0.8,
         strokeWeight: 2,
@@ -75,12 +92,13 @@ export default {
     //   }
   },
   name: 'Geofence',
-  setup(_, { root }) {
+  setup(_, context) {
     const goBack = () => {
-      root.$router.back();
+      context.root.$router.back();
     };
+
     const goHome = () => {
-      root.$router.push('/');
+      context.root.$router.push('/');
     };
 
     return {

@@ -10,7 +10,7 @@
           @Currentlocation="Currentlocation"
         />
       </div>
-      <div class="open-search header-top-space">
+      <div v-if="!enableLoader" class="open-search header-top-space">
         <div class="open-search-input">
           <div class="inputBox">
             <div class="input1 input-opensearch">
@@ -65,7 +65,7 @@
             <SfButton
               id="btn"
               class="button-pos sf-button--pure color-primary"
-              @click="contactSupport"
+              @click="voilationcheck"
               :disabled="
                 !selectedLocation.latitude || !selectedLocation.longitude
               "
@@ -81,6 +81,12 @@
         <div v-if="errorMsg2" class="error-msg">
           Pickup and Drop locations are same!.
         </div>
+      </div>
+      <div v-if="enableLoader" key="loadingCircle" class="loader-circle">
+        <br /><br /><br />
+        <LoadingCircle :enable="enableLoader" />
+        <br />
+        <p class="warningtext">Please wait! Searching for cabs..</p>
       </div>
       <template>
         <div class="location-blk d-flex w-100">
@@ -122,12 +128,9 @@
     </div>
     <div>
       <template>
-        <ContactSupportSlider
-          :visible="isContactSupport"
-          @close="isContactSupport = false"
-        >
+        <ContactSupportSlider :visible="isAlert" @close="isAlert = false">
           <template>
-            <div class="bar-pos" @click="contactSupport">
+            <div class="bar-pos" @click="Alertmodal">
               <SfButton class="sf-button--pure rect-bar-style">
                 <SfImage
                   src="/icons/Rectangle-bar.png"
@@ -138,12 +141,15 @@
               </SfButton>
             </div>
             <div>
-              <div class="modal-heading">Alert   <SfImage
+              <div class="modal-heading">
+                Alert
+                <SfImage
                   src="/icons/Alert.png"
                   :width="15"
                   :height="15"
                   alt="Rectangle bar"
-                /> </div>
+                />
+              </div>
               <div><hr class="sf-divider" /></div>
             </div>
             <div class="modal-body">
@@ -153,9 +159,12 @@
                   Mobility services may be limited.
                   <br /><br />
                   To know more, read the policy at :
-                  <br/><br/>
+                  <br /><br />
                 </p>
-                <button class="color-primary btnclass1" @click="openSearch">
+                <button
+                  class="color-primary btnclass1"
+                  @click="isAlert = false"
+                >
                   <div class="f-btn-text">
                     <label style="color: antiquewhite; font-weight: 700;"
                       >Ok, I Understand</label
@@ -170,9 +179,9 @@
     </div>
     <keep-alive>
       <div class="location-content">
-        <BottomSlider :visible="isShow">
+        <BottomSlider :visible="TC_modal">
           <template>
-            <div class="bar-pos" @click="toggleIsShow">
+            <div class="bar-pos" @click="TC_toggle">
               <SfButton class="sf-button--pure rect-bar-style">
                 <SfImage
                   src="/icons/Rectangle-bar.png"
@@ -192,15 +201,12 @@
                 <div>
                   <br />
                   <div class="option-container">
-                    we have updated our terms and conditions. <br /><br>
-                    Request you to kindly go through and accept. <br /><br/>
+                    we have updated our terms and conditions. <br /><br />
+                    Request you to kindly go through and accept. <br /><br />
                     Terms & Condition
                   </div>
                   <div style="margin: 13px;">
-                    <button
-                      class="color-primary btnclass1"
-                      @click="toggleIsShow"
-                    >
+                    <button class="color-primary btnclass1" @click="TC_toggle">
                       <div class="f-btn-text">
                         <label style="color: antiquewhite;font-weight: 700;"
                           >Accept & Continue</label
@@ -208,10 +214,7 @@
                       </div>
                     </button>
                     <br />
-                    <button
-                      class="color-primary btnclass"
-                      @click="toggleIsShow"
-                    >
+                    <button class="color-primary btnclass" @click="TC_toggle">
                       <div class="f-btn-text">
                         <label style="color:#f37a20;font-weight: 700;"
                           >I do not accept</label
@@ -239,7 +242,7 @@ import superAgent from 'superagent';
 import CurrentLocationMap from './CurrentLocationMap.vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 import BottomSlider from '../components/ConfirmBottomSlider.vue';
-
+import LoadingCircle from '~/components/LoadingCircle';
 const { selectedLocation, updateLocation, qurantinetData } = useUiState();
 
 export default {
@@ -252,7 +255,8 @@ export default {
     SfImage,
     CurrentLocationMap,
     ContactSupportSlider,
-    BottomSlider
+    BottomSlider,
+    LoadingCircle
   },
 
   setup(_, context) {
@@ -264,16 +268,57 @@ export default {
     const errorMsg2 = ref(false);
     const upadateMap = ref('');
     console.log(context.root.$store.state.sLocation);
-    const isContactSupport = ref(false);
-    const contactSupport = () => {
-      isContactSupport.value = !isContactSupport.value;
+    const isAlert = ref(false);
+    const Alertmodal = () => {
+      isAlert.value = !isAlert.value;
     };
+    const enableLoader = ref(false);
 
-    const isShow = ref(true);
-    const toggleIsShow = () => {
-      isShow.value = !isShow.value;
+    onMounted(() => {
+      if (localStorage.getItem('reloaded')) {
+        TC_modal.value = true;
+        // The page was just reloaded. Clear the value from local storage
+        // so that it will reload the next time this page is visited.
+        localStorage.removeItem('reloaded');
+      } else {
+        // Set a flag so that we know not to reload the page twice.
+        localStorage.setItem('reloaded', '1');
+        TC_modal.value = false;
+      }
+      // TC_modal.value = true;
+    });
+
+    const TC_modal = ref();
+    const TC_toggle = () => {
+      TC_modal.value = !TC_modal.value;
     };
+    const voilationcheck = async () => {
+      enableLoader.value = true;
 
+      try {
+        superAgent
+          .post(
+            'http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/checkViolation/location'
+          )
+          .set('Content-Type', 'application/json')
+          .send({
+            locations: [
+              `${context.root.$store.state.dLocation.late},${context.root.$store.state.dLocation.lng}`
+            ]
+          })
+          .then((res) => {
+            if (res.body.policyCheckResult[0].violation === false) {
+              enableLoader.value = false;
+              openSearch();
+            } else if (res.body.policyCheckResult[0].violation === true) {
+              enableLoader.value = false;
+              Alertmodal();
+            }
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
     onBeforeMount(async () => {
       let URL = window.location.href;
 
@@ -491,10 +536,12 @@ export default {
       edit,
       Currentlocation,
       upadateMap,
-      isContactSupport,
-      contactSupport,
-      toggleIsShow,
-      isShow
+      isAlert,
+      Alertmodal,
+      TC_toggle,
+      TC_modal,
+      enableLoader,
+      voilationcheck
     };
   }
 };
@@ -525,17 +572,16 @@ export default {
     font-size: 15px;
   }
 }
-.modal-heading1{
+.modal-heading1 {
   margin: 13px;
   font-size: 20px;
   font-weight: 500;
   text-align: center;
 }
-.modal-heading{
+.modal-heading {
   margin: 13px;
   font-size: 20px;
   font-weight: 500;
-  
 }
 .btnclass {
   border-radius: 3px;
@@ -543,7 +589,6 @@ export default {
   height: 48px;
   border: 1px solid rgba(243, 122, 32, 1);
   background: rgba(255, 255, 255, 1);
-
 }
 .btnclass1 {
   border-radius: 3px;
@@ -571,7 +616,6 @@ export default {
     letter-spacing: 0.6px;
     padding-bottom: 0px;
     word-spacing: 1.8px;
-    
 
     color: #000000;
     // TO DO chat with us button
@@ -580,7 +624,6 @@ export default {
       font-weight: 400;
       font-size: 15px;
       padding-bottom: 20px;
-     
     }
     .sf-radio {
       font-size: 15px;

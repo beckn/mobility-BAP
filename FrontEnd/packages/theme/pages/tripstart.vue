@@ -212,7 +212,7 @@ export default {
       return statusResults.value;
     });
 
-    const transactionId = root.$store.state.TransactionId; // localStorage.getItem('transactionId');
+    const transactionId = root.$store.state.TransactionId; 
     const bpp_id = root.$store.state.cartItem.bpp_id;
     const bpp_uri = root.$store.state.cartItem.bpp_uri;
     const orderID = root.$store.state.confirmDatas.order.id;

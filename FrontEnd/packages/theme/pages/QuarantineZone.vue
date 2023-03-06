@@ -99,7 +99,7 @@
               disabled="true"
               :value="FromDate"
               errorMessage="errer"
-              type="date"
+              type="text"
               placeholder="date"
             />
           </div>
@@ -111,22 +111,24 @@
               disabled="true"
               :value="ToDate"
               errorMessage="errer"
-              type="date"
+              type="text"
               placeholder="date"
             />
           </div>
         </div>
 
         <div>
+          <br />
           <label class="lableclass">Policy Document </label>
           <br />
-          <a class="link" v-bind:href="url"
+          <!-- <a class="link" v-bind:href="url"
             >https:beckn.in/quarantinezone.pdf 1
           </a>
           <br />
           <a class="link" v-bind:href="url"
             >https:beckn.in/T&C/quarantinezone.pdf 1
-          </a>
+          </a> -->
+          <p class="link">{{ Document }}</p>
         </div>
         <br />
         <div>
@@ -144,32 +146,28 @@
         <div>
           <label class="lableclass">Geofence: </label>
           <br />
-          <nuxt-link :to="localePath('Geofence')"
-            ><label class="link">Click to View</label></nuxt-link
-          >
+
+          <label class="link" @click="Geo">Click to View</label>
         </div>
         <SfButton
           id="btn"
           class="button-pos sf-button--pure color-primary"
-          @click="contactSupport"
+          @click="Applyslider"
           v-e2e="'home-search-button'"
           ><label for="btn">Apply</label>
         </SfButton>
         <br />
         <div>
-          <button class="color-primary btnclass" @click="goBack()">
+          <button class="color-primary btnclass" @click="desputeslider">
             <div class="f-btn-text"><label> Dispute</label></div>
           </button>
         </div>
       </div>
       <div>
         <template>
-          <ContactSupportSlider
-            :visible="isContactSupport"
-            @close="isContactSupport = false"
-          >
+          <ContactSupportSlider :visible="isApply" @close="isApply = false">
             <template>
-              <div class="bar-pos" @click="contactSupport">
+              <div class="bar-pos" @click="Applyslider">
                 <SfButton class="sf-button--pure rect-bar-style">
                   <SfImage
                     src="/icons/Rectangle-bar.png"
@@ -180,16 +178,24 @@
                 </SfButton>
               </div>
               <div>
-                <div class="modal-heading">Dispute Policy</div>
+                <div class="modal-heading" v-if="Dispute">Dispute Policy</div>
+                <div class="modal-heading" v-if="Applied">Policy Applied</div>
                 <div><hr class="sf-divider" /></div>
               </div>
               <div class="modal-body">
                 <div class="option-container">
-                  <p class="warningtext">
+                  <p class="warningtext" v-if="Dispute">
                     <br />
                     To raise a dispute against this policy,<br />
                     please send an email to <br />
                     policy@openmobilitynetwork.com
+                    <br />
+                    <br />
+                  </p>
+                  <p v-if="Applied" class="warningtext">
+                    <br />
+                    Quarantine Zone Policy <br />
+                    has been applied successfully!
                     <br />
                     <br />
                   </p>
@@ -257,10 +263,10 @@
   </div>
 </template>
 <script>
-import { reactive, ref } from '@vue/composition-api';
+import { reactive, ref, onMounted } from '@vue/composition-api';
 import { SfIcon, SfRadio, SfButton, SfImage } from '@storefront-ui/vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
-
+import superAgent from 'superagent';
 export default {
   name: '',
 
@@ -285,15 +291,62 @@ export default {
     const ToDate = ref();
     const Owner = ref();
     const Name = ref();
+    const url = ref('www.google.com');
+    const Status = ref();
+    const Polygon = ref();
+    const Applied = ref(false);
+    const Dispute = ref(false);
+    const convertdate = (dateString) => {
+      let dateObject = new Date(dateString);
+      let mnth = ('0' + (dateObject.getMonth() + 1)).slice(-2);
+      let day = ('0' + dateObject.getDate()).slice(-2);
+      return [day, mnth, dateObject.getFullYear()].join('/');
+    };
+
+    const Id = ref(context.root.$route.params.id);
+    console.log(Id.value);
+    onMounted(async () => {
+      try {
+        const res = await superAgent.get(
+          `http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/${Id.value}`
+        );
+        const obj = res.body;
+        console.log(obj);
+        Description.value = obj.description;
+        Type.value = obj.type;
+        Domain.value = obj.domain;
+        Country.value = obj.country;
+        City.value = obj.city;
+        FromDate.value = convertdate(obj.startDate);
+        ToDate.value = convertdate(obj.endDate);
+        Applicable.value = obj.applicableTo;
+        Owner.value = obj.owner;
+        Polygon.value = obj.polygon;
+        Status.value = obj.status;
+        Document.value = obj.policyDocuments;
+
+        console.log(Status.value);
+
+        sessionStorage.setItem('poligon', Polygon.value);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
     const goBack = () => {
       context.root.$router.back();
     };
+
     const showForm = ref(true);
     const showMap = () => {
       showForm.value = false;
     };
     const goHome = () => {
       context.root.$router.push('/');
+    };
+
+    const Geo = () => {
+      context.root.$router.push('Geofence');
     };
     const ActivePolicy = ref(true);
     const inactivepolicy = () => {
@@ -302,9 +355,37 @@ export default {
     const activepolicy = () => {
       ActivePolicy.value = true;
     };
-    const isContactSupport = ref(false);
-    const contactSupport = () => {
-      isContactSupport.value = !isContactSupport.value;
+    const isApply = ref(false);
+    const desputeslider=()=>{
+      if (Status.value === 'disputed') {
+        isApply.value = true;
+        Dispute.value = true;
+      }
+    }
+    const Applyslider = async () => {
+      if (Status.value === 'new') {
+        try {
+          superAgent
+            .put(
+              'http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy'
+            )
+            .set('Content-Type', 'application/json')
+            .send({
+              policy: {
+                id: `${Id.value}`,
+                status: 'applied'
+              }
+            })
+            .then((res) => {
+              if (res.body.status === 'applied') {
+                isApply.value = true;
+                Applied.value = true;
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      } 
     };
 
     return {
@@ -326,10 +407,19 @@ export default {
       Document,
       FromDate,
       Name,
-      isContactSupport,
-      contactSupport,
+      isApply,
+      Applyslider,
       Owner,
-      ToDate
+      ToDate,
+      url,
+      Id,
+      Polygon,
+      Geo,
+      convertdate,
+      Status,
+      Applied,
+      Dispute,
+      desputeslider
     };
   }
 };
@@ -413,7 +503,7 @@ textarea {
   background: #f37a20;
   border-radius: 4px;
   width: 100%;
-  margin-top: 10%;
+  margin-top: 13%;
 
   label {
     font-weight: 600;
