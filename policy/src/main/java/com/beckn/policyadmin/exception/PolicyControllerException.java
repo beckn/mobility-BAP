@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PolicyException extends RuntimeException{
+public class PolicyControllerException {
     private String type;
-    private HttpStatus code;
+    private String code;
     private String path;
     private String message;
 }
