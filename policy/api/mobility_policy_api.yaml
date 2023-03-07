@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.1.0
+  version: 0.1.1
   title: Mobility Policy Implementation API
   description: API to manage policy flow.
 paths:
@@ -96,11 +96,103 @@ paths:
                   data: "Additional error message/logs"
                   type: "System error"
                   path: "/v1/policy/broadcast/update"
+  /v2/policy/broadcast:
+    post:
+      tags:
+        - Policy Broadcast
+      summary: Process Policy v2
+      requestBody:
+        description: Policy details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyBroadcastV2'
+      responses:
+        '200':
+          description: Policy processed by subscriber
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AcknowledgementV2'
+        '404':
+          description: Policy could not be processed by subscriber
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "404"
+                  message: "Policy could not be processed by subscriber"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v2/policy/broadcast"
+        '500':
+          description: Policy could not be processed by subscriber due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "500"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v2/policy/broadcast"
+  /v2/policy/broadcast/update:
+    post:
+      tags:
+        - Policy Broadcast
+      summary: Update Policy Status v2
+      requestBody:
+        description: Policy status update details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePolicyBroadcastStatus'
+      responses:
+        '200':
+          description: Policy status updates processed by subscriber
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AcknowledgementV2'
+        '404':
+          description: Policy status updates could not be processed by subscriber
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "404"
+                  message: "Policy could not be processed by subscriber"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v1/policy/broadcast/update"
+        '500':
+          description: Policy status updates could not be processed by subscriber due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "500"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v1/policy/broadcast/update"
   /v1/policy:
     get:
       tags:
         - Mobility Policy Admin
-      summary: Get All Policies 
+      summary: Get All Policies
       responses:
         '200':
           description: Requested policies retrieved
@@ -182,7 +274,7 @@ paths:
     get:
       tags:
         - Mobility Policy Admin
-      summary: Get Policy Details 
+      summary: Get Policy Details
       parameters:
         - name: policyId
           description: Policy Id
@@ -271,6 +363,181 @@ paths:
                   data: "Additional error message/logs"
                   type: "System error"
                   path: "/v1/policy/checkViolation/location"
+  /v2/policy:
+    get:
+      tags:
+        - Mobility Policy Admin
+      summary: Get All Policies v2
+      responses:
+        '200':
+          description: Requested policies retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllPoliciesResponse'
+        '404':
+          description: Requested policies could not be retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "404"
+                  message: "Requested policies could not be retrieved"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v2/policy"
+        '500':
+          description: Requestd policies could not be retrieved due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "500"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v2/policy"
+    patch:
+      tags:
+        - Mobility Policy Admin
+      summary: Update Policy Status v2
+      requestBody:
+        description: Policy status update by mobility admin
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePolicyStatus'
+      responses:
+        '200':
+          description: Policy status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePolicyStatus'
+        '404':
+          description: Policy status update failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "404"
+                  message: "Policy status could not be updated"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v2/policy"
+        '500':
+          description: Policy status could not be updated due to unexpected error
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "500"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v2/policy"
+  /v2/policy/{policyId}:
+    get:
+      tags:
+        - Mobility Policy Admin
+      summary: Get Policy Details v2
+      parameters:
+        - name: policyId
+          description: Policy Id
+          in: path
+          required: true
+          schema:
+            type: string
+          example:
+            "123456"
+      responses:
+        '200':
+          description: Policy details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyDetailsV2'
+        '404':
+          description: Policy details could not be retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "404"
+                  message: "Policy details could not be retrieved"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v2/policy/{policyId}"
+        '500':
+          description: Policy details could not be retrieved due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "500"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v2/policy/{policyId}"
+  /v2/policy/checkViolation/location:
+    post:
+      tags:
+        - Policy Violation Check
+      summary: Check location policy violation v2
+      requestBody:
+        description: Location coordinates
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationCoordinates'
+      responses:
+        '200':
+          description: Location policy violation validated for provided coordinates
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/LocationPolicyCheckResult'
+        '404':
+          description: Location policy violation could not be validated for provided coordinates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "404"
+                  message: "Location policy violation could not be validated for provided coordinates"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v1/policy/checkViolation/location"
+        '500':
+          description: Location policy violation could not be validated for provided coordinates due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "500"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v1/policy/checkViolation/location"
 components:
   schemas:
     Context:
@@ -296,7 +563,7 @@ components:
               type: string
         version:
           type: string
-    PolicyBroadcast:
+    PolicyV2:
       description: Schema for Policy broadcast object
       type: object
       required:
@@ -304,6 +571,12 @@ components:
       properties:
         id:
           description: Policy id
+          type: string
+        status:
+          description: Policy status
+          type: string
+        domain:
+          description: Policy domain
           type: string
         owner:
           type: object
@@ -491,12 +764,12 @@ components:
       properties:
         context:
           $ref: '#/components/schemas/Context'
-        message:
+        policy:
           type: object
-          properties:
-            policy:
-              allOf:  
-                - $ref: '#/components/schemas/PolicyBroadcast'
+          allOf:  
+            - $ref: '#/components/schemas/PolicyId'
+            - $ref: '#/components/schemas/Policy'
+            - $ref: '#/components/schemas/PolicyStatus'
     UpdatePolicyBroadcastStatus:
       description: Schema for Policy status update via broadcasted message
       type: object
@@ -627,6 +900,53 @@ components:
             properties:
               id:
                 $ref: '#/components/schemas/PolicyId'
+    PolicyBroadcastV2:
+      description: Schema to add new Policy - Broadcasted policy
+      type: object
+      required:
+        - context
+        - policy
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        message:
+          type: object
+          properties:
+            policy:
+              allOf:  
+                - $ref: '#/components/schemas/PolicyV2'
+    PolicyUpdateBroadcastV2:
+      description: Schema for Policy status update via broadcasted message
+      type: object
+      required:
+        - context
+        - policy
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        message:
+          type: object
+          properties:
+            policy:
+              allOf:  
+                - $ref: '#/components/schemas/PolicyV2'
+    PolicyDetailsV2:
+      description: Schema for Policy details
+      type: object
+      properties:
+        policy:
+          type: object
+          required:
+            - id
+            - status
+            - domain
+            - owner
+            - descriptor
+            - type
+            - coverage
+            - geofences
+          allOf:  
+            - $ref: '#/components/schemas/PolicyV2'
     Acknowledgement:
       type: object
       required:
@@ -646,6 +966,22 @@ components:
                   allOf:  
                     - $ref: '#/components/schemas/PolicyId'
                     - $ref: '#/components/schemas/PolicyStatus'
+    AcknowledgementV2:
+      type: object
+      required:
+        - message
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        message:
+          description: Message object
+          type: object
+          properties:
+            policy:
+              type: object
+              allOf:  
+                - $ref: '#/components/schemas/PolicyId'
+                - $ref: '#/components/schemas/PolicyStatus'
     Error:
       type: object
       properties:
