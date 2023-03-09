@@ -308,7 +308,7 @@ export default {
     onMounted(async () => {
       try {
         const res = await superAgent.get(
-          `https://api.mobility-bap-policy.becknprotocol.io/policy/${Id.value}`
+          `https://api.mobility-bap-policy.becknprotocol.io/v1/policy/${Id.value}`
         );
         const obj = res.body;
         console.log(obj);
@@ -356,19 +356,17 @@ export default {
       ActivePolicy.value = true;
     };
     const isApply = ref(false);
-    const desputeslider=()=>{
+    const desputeslider = () => {
       if (Status.value === 'applied') {
         isApply.value = true;
         Dispute.value = true;
       }
-    }
+    };
     const Applyslider = async () => {
       if (Status.value === 'new') {
         try {
           superAgent
-            .put(
-              'https://api.mobility-bap-policy.becknprotocol.io/v1/policy'
-            )
+            .put('https://api.mobility-bap-policy.becknprotocol.io/v1/policy')
             .set('Content-Type', 'application/json')
             .send({
               policy: {
@@ -385,7 +383,7 @@ export default {
         } catch (err) {
           console.log(err);
         }
-      } 
+      }
     };
 
     return {
