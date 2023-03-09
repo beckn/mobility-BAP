@@ -1,11 +1,10 @@
 package com.beckn.policyadmin.controller;
 
-import com.beckn.policyadmin.dto.v1request.Acknowledge;
 import com.beckn.policyadmin.dto.v1request.V2PolicyDTO;
 import com.beckn.policyadmin.dto.v1request.V2UpdatePolicyDTO;
-import com.beckn.policyadmin.dto.v1response.MessageResponce;
 import com.beckn.policyadmin.dto.v1response.PolicyResponce;
 import com.beckn.policyadmin.dto.v1response.V2BroadcastResponce;
+import com.beckn.policyadmin.dto.v1response.V2MessageResponce;
 import com.beckn.policyadmin.exception.PolicyControllerException;
 import com.beckn.policyadmin.exception.PolicyException;
 import com.beckn.policyadmin.model.V2Policy;
@@ -32,7 +31,7 @@ public class V2PolicyBroadcastController {
             V2Policy policy = policyAdminService.broadcastPolicy(inputPolicy);
             V2BroadcastResponce broadcastResponce = new V2BroadcastResponce();
             broadcastResponce.setContext(inputPolicy.getContext());
-            broadcastResponce.setMessage(new MessageResponce(new Acknowledge(new PolicyResponce(policy.getId(), policy.getStatus()))));
+            broadcastResponce.setMessage(new V2MessageResponce(new PolicyResponce(policy.getId(), policy.getStatus())));
             return ResponseEntity.ok(broadcastResponce);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,7 +69,7 @@ public class V2PolicyBroadcastController {
             V2Policy policy = policyAdminService.updatePolicy(inputPolicy.getMessage());
             V2BroadcastResponce broadcastResponce = new V2BroadcastResponce();
             broadcastResponce.setContext(inputPolicy.getContext());
-            broadcastResponce.setMessage(new MessageResponce(new Acknowledge(new PolicyResponce(policy.getId(), policy.getStatus()))));
+            broadcastResponce.setMessage(new V2MessageResponce(new PolicyResponce(policy.getId(), policy.getStatus())));
             return ResponseEntity.ok(broadcastResponce);
         } catch (PolicyException e) {
             PolicyControllerException ex = new PolicyControllerException(

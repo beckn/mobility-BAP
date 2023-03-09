@@ -1,6 +1,6 @@
 package com.beckn.policyadmin.dto.v1response;
 
-import com.beckn.policyadmin.dto.v1request.V2Context;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Getter
 @Setter
-public class V2BroadcastResponce {
-    private V2Context context;
-    private V2MessageResponce message;
+public class V2MessageResponce {
+    private PolicyResponce policy;
 }
