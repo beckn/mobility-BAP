@@ -3,6 +3,7 @@ package com.beckn.policyadmin.controller;
 import com.beckn.policyadmin.dto.v1request.UpdatePolicyRequest;
 import com.beckn.policyadmin.dto.v1response.PolicyMetaData;
 import com.beckn.policyadmin.dto.v1response.PolicyResponce;
+import com.beckn.policyadmin.dto.v1response.V2PolicyResponce;
 import com.beckn.policyadmin.exception.PolicyControllerException;
 import com.beckn.policyadmin.exception.PolicyException;
 import com.beckn.policyadmin.model.V2Policy;
@@ -30,7 +31,7 @@ public class V2PolicyAdminController {
             return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
         }
         try {
-            V2Policy policy = policyAdminService.getPolicyById(policyId);
+            V2PolicyResponce policy = policyAdminService.getPolicyById(policyId);
             return ResponseEntity.ok(policy);
         } catch (PolicyException e) {
             PolicyControllerException ex = new PolicyControllerException(
