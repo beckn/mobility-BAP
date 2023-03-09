@@ -298,7 +298,7 @@ export default {
       try {
         superAgent
           .post(
-            'http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/checkViolation/location'
+            'https://api.mobility-bap-policy.becknprotocol.io/v1/policy/checkViolation/location'
           )
           .set('Content-Type', 'application/json')
           .send({

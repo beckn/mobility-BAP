@@ -9,20 +9,14 @@
       <div>
         Policies
         <span
-          style="background-color: #F37A20; color: aliceblue;border-radius: 50%; font-weight: 400; display: inline-block; width: 15px;text-align: center;"
-          >{{ notification }}</span
-        >
+          style="background-color: #F37A20; color: aliceblue;border-radius: 50%; font-weight: 400; display: inline-block; width: 15px;text-align: center;">{{
+            notification }}</span>
       </div>
     </div>
 
     <div style="padding: 10px;">
       <label for="Filter"> <span>Filter:</span> </label>
-      <select
-        class="custom-select"
-        name="Filter"
-        id="Filter"
-        @change="switchSelect($event)"
-      >
+      <select class="custom-select" name="Filter" id="Filter" @change="switchSelect($event)">
         <option value="All"> All</option>
         <option value="New">
           New
@@ -37,66 +31,27 @@
     <hr />
 
     <div v-if="Applied">
-      <div
-        style="padding:15px;"
-        v-for="(policy, idx) in AppliedArray"
-        :key="idx"
-      >
-        <PolicyCard
-          :Applied="true"
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+      <div style="padding:15px;" v-for="(policy, idx) in AppliedArray" :key="idx">
+        <PolicyCard :Applied="true" :pImage="Icon" :pTittle="policy.name" :pType="policy.type"
+          :Edate="convertdate(policy.endDate)" :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
     <div v-if="Disputed">
-      <div
-        style="padding:15px;"
-        v-for="(policy, idx) in DisputedArray"
-        :key="idx"
-      >
-        <PolicyCard
-          :Disputed="true"
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+      <div style="padding:15px;" v-for="(policy, idx) in DisputedArray" :key="idx">
+        <PolicyCard :Disputed="true" :pImage="Icon" :pTittle="policy.name" :pType="policy.type"
+          :Edate="convertdate(policy.endDate)" :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
     <div v-if="New">
       <div style="padding:15px;" v-for="(policy, idx) in NewArray" :key="idx">
-        <PolicyCard
-          :New="true"
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+        <PolicyCard :New="true" :pImage="Icon" :pTittle="policy.name" :pType="policy.type"
+          :Edate="convertdate(policy.endDate)" :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
     <div v-if="Inactive">
-      <div
-        style="padding:15px;"
-        v-for="(policy, idx) in inactiveArray"
-        :key="idx"
-      >
-        <PolicyCard
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+      <div style="padding:15px;" v-for="(policy, idx) in inactiveArray" :key="idx">
+        <PolicyCard :pImage="Icon" :pTittle="policy.name" :pType="policy.type" :Edate="convertdate(policy.endDate)"
+          :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
   </div>
@@ -150,7 +105,7 @@ export default {
     onMounted(async () => {
       try {
         const res = await superAgent.get(
-          'http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy'
+          'https://api.mobility-bap-policy.becknprotocol.io/v1/policy'
         );
         res.body.forEach(myFunction);
       } catch (err) {
@@ -258,6 +213,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 0px;
 }
+
 .custom-select {
   width: 133px;
   height: 35px;
@@ -271,6 +227,7 @@ export default {
   line-height: 15px;
   /* identical to box height */
 }
+
 //.custom-select  option :hover{ color:orangered; }
 
 option {
@@ -279,13 +236,11 @@ option {
 
 hr {
   height: 0px;
-  border: 1px solid
-    linear-gradient(
-      90deg,
+  border: 1px solid linear-gradient(90deg,
       rgba(0, 78, 146, 0.3) 0.42%,
-      rgba(0, 4, 40, 0.3) 100%
-    );
+      rgba(0, 4, 40, 0.3) 100%);
 }
+
 .top-bar {
   padding-right: 42%;
   padding-left: 10px;
@@ -299,6 +254,7 @@ hr {
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
 }
+
 span {
   font-family: 'Inter';
   font-style: normal;
