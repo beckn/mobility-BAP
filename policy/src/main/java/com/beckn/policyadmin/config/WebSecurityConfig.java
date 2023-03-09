@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Collections.singletonList("*"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Origin", "Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);

@@ -32,7 +32,6 @@ public class V2PolicyAdminService {
 
     public V2Policy broadcastPolicy(V2PolicyDTO inputPolicy) {
         V2Policy policy = mapper.mapPolicyDtoToPolicy(inputPolicy);
-        //policy.setStatus("new");
         policy.setCreatedBy("System");
         policy.setLastModifiedBy("System");
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
