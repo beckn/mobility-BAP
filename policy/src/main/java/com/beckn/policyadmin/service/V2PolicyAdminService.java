@@ -5,9 +5,11 @@ import com.beckn.policyadmin.dto.v1request.UpdatePolicyRequest;
 import com.beckn.policyadmin.dto.v1request.V2PolicyDTO;
 import com.beckn.policyadmin.dto.v1response.LocationPolicyViolation;
 import com.beckn.policyadmin.dto.v1response.PolicyMetaData;
+import com.beckn.policyadmin.dto.v1response.V2PolicyResponce;
 import com.beckn.policyadmin.dto.v1response.ViolationResponce;
 import com.beckn.policyadmin.exception.PolicyException;
 import com.beckn.policyadmin.mapper.V2PolicyBroadcastToPolicyMapper;
+import com.beckn.policyadmin.mapper.V2PolicyToPolicyResponceMapper;
 import com.beckn.policyadmin.model.V2Policy;
 import com.beckn.policyadmin.repository.V2PolicyRepository;
 import com.beckn.policyadmin.utility.CheckLocation;
@@ -28,6 +30,9 @@ public class V2PolicyAdminService {
     private V2PolicyBroadcastToPolicyMapper mapper;
 
     @Autowired
+    private V2PolicyToPolicyResponceMapper policyToPolicyResponceMapper;
+
+    @Autowired
     private CheckLocation checkLocation;
 
     public V2Policy broadcastPolicy(V2PolicyDTO inputPolicy) {
@@ -45,11 +50,11 @@ public class V2PolicyAdminService {
         return policyRepository.save(policy);
     }
 
-    public V2Policy getPolicyById(String policyId) {
+    public V2PolicyResponce getPolicyById(String policyId) {
 
         Optional<V2Policy> optionalPolicy = policyRepository.findById(policyId);
         if (optionalPolicy.isPresent()) {
-            return optionalPolicy.get();
+            return policyToPolicyResponceMapper.mapPolicyToPolicyResponce(optionalPolicy.get());
         }
         throw new PolicyException(
                 "Application error", HttpStatus.NOT_FOUND, "", "No data found for the Policy id: " + policyId
