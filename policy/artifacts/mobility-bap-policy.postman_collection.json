@@ -458,15 +458,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://api.mobility-bap-policy.becknprotocol.io:8082/v2/policy/checkViolation/location",
-							"protocol": "http",
+							"raw": "https://api.mobility-bap-policy.becknprotocol.io/v2/policy/checkViolation/location",
+							"protocol": "https",
 							"host": [
 								"api",
 								"mobility-bap-policy",
 								"becknprotocol",
 								"io"
 							],
-							"port": "8082",
 							"path": [
 								"v2",
 								"policy",
