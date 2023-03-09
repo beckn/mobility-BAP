@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Policy {
-    private String id;//input- yes
+    private String id;
     private String domain;
     private String type;
     private String country;
@@ -30,6 +30,6 @@ public class Policy {
     private Date endDate;
     private List<String> applicableTo;
     private List<String> polygon;
-    private String rules; // should be json object check
+    private String rules;
     private String status;
 }
