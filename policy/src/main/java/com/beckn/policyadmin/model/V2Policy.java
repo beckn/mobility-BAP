@@ -1,7 +1,6 @@
 package com.beckn.policyadmin.model;
 
-import com.beckn.policyadmin.dto.v1request.Media;
-import com.beckn.policyadmin.dto.v1request.Subscriber;
+import com.beckn.policyadmin.dto.v1request.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,21 +20,16 @@ import java.util.List;
 public class V2Policy {
     @Id
     private String id;
-    private String domain;
-    private String type;
-    private String country;
-    private String city;
-    private String name;
-    private String description;
-    private String owner;
-    private String contactEmail;
-    private List<Media> policyDocuments;
-    private Date startDate;
-    private Date endDate;
-    private List<Subscriber> applicableTo;
-    private List<String> polygon;
-    private JSONObject rules;
     private String status;
+    private String domain;
+    private Owner owner;
+    private Descriptor descriptor;
+    private List<Media> media;
+    private String type;
+    private List<Coverage> coverage;
+    private List<Geofence> geofences;
+    private Date start;
+    private Date end;
     private String createdBy;
     private Date createdAt;
     private String lastModifiedBy;

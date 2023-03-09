@@ -17,11 +17,12 @@ import java.util.List;
 @Setter
 public class V2Policy {
     private String id;
+    private String status;
+    private String domain;
     private Owner owner;
     private Descriptor descriptor;
     private List<Media> media;
     private String type;
     private List<Coverage> coverage;
     private List<Geofence> geofences;
-    private JSONObject rules;
 }
