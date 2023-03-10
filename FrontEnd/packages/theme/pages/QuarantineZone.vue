@@ -327,7 +327,7 @@ export default {
 
         console.log(Status.value);
 
-        sessionStorage.setItem('poligon', Polygon.value);
+        sessionStorage.setItem('poligon', JSON.stringify(Polygon.value));
       } catch (err) {
         console.log(err);
       }

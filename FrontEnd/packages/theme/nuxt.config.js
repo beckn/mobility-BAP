@@ -14,7 +14,7 @@ export default {
     fallback: true
   },
   head: {
-    title: 'Beckn storefront',
+    title: 'Travel Buddy',
     script: [
       {
         src: `https://maps.googleapis.com/maps/api/js?key=${mapsKey}&callback=Function.prototype&libraries=places`,

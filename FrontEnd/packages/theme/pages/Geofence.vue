@@ -34,37 +34,28 @@ export default {
 
   data: () => ({
     mapCenter: {
-      lat: 51.173791,
-      lag: 9.327271
+      lat: null,
+      lag: null
     },
-    zoom: 15,
-
-    polygoneCoords: [
-      { lat:'', lng:''},
-      { lat: '', lng: '' },
-      { lat: '', lng: ''},
-      { lat: '', lng: ''},
-      { lat: '', lng: ''}
-    ]
+    zoom: 10,
+    polygoneCoords: null
   }),
 
   mounted() {
-    
-    const polygon = sessionStorage.getItem('poligon').split(',');
-    console.log(polygon);
-    this.mapCenter.lat=parseFloat(polygon[0]);
-    this.mapCenter.lag= parseFloat(polygon[1]); 
-    this.polygoneCoords[0].lat = parseFloat(polygon[0]);
-    this.polygoneCoords[0].lng = parseFloat(polygon[1]);
-    this.polygoneCoords[1].lat = parseFloat(polygon[2]);
-    this.polygoneCoords[1].lng = parseFloat(polygon[3]);
-    this.polygoneCoords[2].lat = parseFloat(polygon[4]);
-    this.polygoneCoords[2].lng = parseFloat(polygon[5]);
-    this.polygoneCoords[3].lat = parseFloat(polygon[6]);
-    this.polygoneCoords[3].lng = parseFloat(polygon[7]);
-    this.polygoneCoords[4].lat = parseFloat(polygon[8]);
-    this.polygoneCoords[4].lng = parseFloat(polygon[9]);
+    const arr1 = sessionStorage.getItem('poligon');
+    const arr = JSON.parse(arr1);
+    console.log(arr);
+
+    const polygon1 = arr.map((coord) => coord.split(',').map(Number));
+    console.log(polygon1);
+
+    const objArr = polygon1.map((pair) => ({ lat: pair[0], lng: pair[1] }));
+
+    this.polygoneCoords = objArr;
     console.log(this.polygoneCoords);
+    this.mapCenter.lat = parseFloat(objArr[0].lat);
+    this.mapCenter.lag = parseFloat(objArr[0].lng);
+
     this.Map();
   },
   methods: {
