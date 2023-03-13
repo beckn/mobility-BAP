@@ -442,7 +442,14 @@ export default {
 
 <style lang="scss" scoped>
 .link1 {
-  color: rgba(0, 78, 146, 1);
+  border: none;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 14px;
+  color: #004e92;
+  padding: 6px;
   pointer-events: none;
 }
 .btnclass {
