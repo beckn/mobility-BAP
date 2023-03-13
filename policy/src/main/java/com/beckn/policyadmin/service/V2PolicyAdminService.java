@@ -103,10 +103,6 @@ public class V2PolicyAdminService {
 
 
         List<V2Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(), "applied");
-        if (policyList.isEmpty())
-            throw new PolicyException(
-                    "Application error", HttpStatus.NOT_FOUND, "", "No data found in DB."
-            );
         Map<String, List<String>> policyLocationMap = new HashMap<>();
         for (V2Policy policy : policyList) {
             policyLocationMap.put(policy.getId(), policy.getGeofences().get(0).getPolygon());
