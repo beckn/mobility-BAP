@@ -98,10 +98,6 @@ public class PolicyAdminService {
 
 
         List<Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(), "applied");
-        if (policyList.isEmpty())
-            throw new PolicyException(
-                    "Application error", HttpStatus.NOT_FOUND, "", "No data found in DB."
-            );
         Map<String, List<String>> policyLocationMap = new HashMap<>();
         for (Policy policy : policyList) {
             policyLocationMap.put(policy.getId(), policy.getPolygon());
