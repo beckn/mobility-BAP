@@ -89,7 +89,7 @@ export default {
     };
 
     const goHome = () => {
-      context.root.$router.push('/');
+      context.root.$router.push('Policies');
     };
 
     return {
