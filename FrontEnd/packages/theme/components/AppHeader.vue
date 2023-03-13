@@ -21,19 +21,19 @@
           </h3>
         </div>
         <div>
-          <div class="profile-icon" v-if="!isAuthenticatedUser">
+          <!-- <div class="profile-icon" v-if="!isAuthenticatedUser">
             <nuxt-link :to="localePath('/Policies')"
               ><SfIcon icon="profile" />
             </nuxt-link>
-          </div>
+          </div> -->
         </div>
 
         <div>
-          <nuxt-link :to="localePath('/Login')">
+          <!-- <nuxt-link :to="localePath('/Login')">
             <div class="sign-in-text" v-if="!isAuthenticatedUser">
               <span></span> Sign In
             </div>
-          </nuxt-link>
+          </nuxt-link> -->
         </div>
       </div>
       <LoadingBar

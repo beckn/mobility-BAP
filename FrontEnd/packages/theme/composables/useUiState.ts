@@ -21,34 +21,11 @@ const state = reactive({
   clearCartPopup: false,
   enableLoadindBar: false,
   explorePageData: null,
-  // sLocation: {
-  //   lat: '',
-  //   long: '',
-  //   addres: ''
-  // },
-  // dLocation: {
-  //   late: '',
-  //   lng: '',
-  //   addresss: ''
-  // },
-  // Name: '',
-  // // phoneNo: '',
-  // trackLat: '',
-  // trackLong: '',
-  //quoteData: '',
-  //TransactionId: '',
-  //cartItem: '',
-  //token: '',
-  //confirmDatas: '',
-  // confirmDataContext: '',
   cartData: '',
-  //initResult: '',
-  // experienceId: ''
+  TC_modal:true
 });
 
 const useUiState = () => {
-  // const initResult = computed(() => state.initResult);
-  // const setinitResult = (data) => (state.initResult = data);
   const cartData = computed(() => {
     state.cartData;
   });
@@ -56,19 +33,11 @@ const useUiState = () => {
     state.cartData = data;
   };
 
-  // const confirmDataContext = computed(() => state.confirmDataContext);
-  // const setconfirmDataContext = (data) => (state.confirmDataContext = data);
+  const TC_modal = computed(() => state.TC_modal);
+  const TC_toggle = () => {
+    state.TC_modal = !state.TC_modal;
+  };
 
-  // const confirmDatas = computed(() => state.confirmDatas);
-  // const setconfirmData = (data) => (state.confirmDatas = data);
-  // const token = computed(() => state.token);
-  // const settoken = (data) => {
-  //   state.token = data;
-  // };
-
-  // const cartItem = computed(() => state.cartItem);
-  // const setcartItem = (data) => (state.cartItem = data);
-  // const TransactionId = computed(() => state.TransactionId);
   // const setTransactionId = (data) => {
   //   state.TransactionId = data;
   // };
@@ -167,11 +136,6 @@ const useUiState = () => {
     state.explorePageData = data;
   };
 
-  // const experienceId = computed(() => state.experienceId);
-  // const setExperienceId = (id: string) => {
-  //   state.experienceId = id;
-  // };
-
   return {
     isCartSidebarOpen,
     isWishlistSidebarOpen,
@@ -198,36 +162,11 @@ const useUiState = () => {
     changeClearCart,
     toggleLoadindBar,
     updateExpPageData,
-    // sLocation,
-    // updatesLocation,
-    // dLocation,
-    // updatedLocation,
-    // Name,
-    // setName,
-    // phoneNo,
-    // setphoneNo,
-    // trackLat,
-    // trackLong,
-    // settrackLong,
-    // settrackLat,
-    // quoteData,
-    // // setquoteData,
-    // TransactionId,
-    // setTransactionId,
-    // cartItem,
-    // setcartItem,
-    // token,
-    // settoken,
-    // confirmDatas,
-    // setconfirmData,
-    // confirmDataContext,
-    // setconfirmDataContext,
+
     cartData,
     setcartData,
-    // initResult,
-    // setinitResult,
-    // experienceId,
-    // setExperienceId
+    TC_modal,
+    TC_toggle
   };
 };
 

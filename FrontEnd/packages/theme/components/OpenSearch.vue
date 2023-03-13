@@ -159,7 +159,33 @@
                   Mobility services may be limited.
                   <br /><br />
                   To know more, read the policy at :
-                  <br /><br />
+                  <br />
+                  <br />
+                  <!-- TODO pointer event disables of bellow link in class link -->
+
+                  <a
+                    href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
+                    target="_blank"
+                    class="link"
+                  >
+                    Statewise requirements of Quarantine</a
+                  >
+                  <br />
+                  <a
+                    href="https://www.mohfw.gov.in/pdf/SOPonCOVID19Containment&ManagementinPeriurbanRural&tribalareas.pdf"
+                    target="_blank"
+                    class="link"
+                    >SOP of containment & management</a
+                  >
+                  <br />
+                  <a
+                    href="https://www.mohfw.gov.in/pdf/ContainmentandSurveillanceManualforSupervisorsincontainmentzones.pdf"
+                    class="link"
+                    target="_blank"
+                    dis
+                    >Containment & surveillance guidelines</a
+                  >
+                  <br />
                 </p>
                 <button
                   class="color-primary btnclass1"
@@ -203,7 +229,9 @@
                   <div class="option-container">
                     we have updated our terms and conditions. <br /><br />
                     Request you to kindly go through and accept. <br /><br />
-                    Terms & Condition
+                    <span style="color: rgba(243, 122, 32, 1);">
+                      Terms & Condition</span
+                    >
                   </div>
                   <div style="margin: 13px;">
                     <button class="color-primary btnclass1" @click="TC_toggle">
@@ -243,7 +271,13 @@ import CurrentLocationMap from './CurrentLocationMap.vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 import BottomSlider from '../components/ConfirmBottomSlider.vue';
 import LoadingCircle from '~/components/LoadingCircle';
-const { selectedLocation, updateLocation, qurantinetData } = useUiState();
+const {
+  selectedLocation,
+  updateLocation,
+  qurantinetData,
+  TC_modal,
+  TC_toggle
+} = useUiState();
 
 export default {
   components: {
@@ -274,24 +308,6 @@ export default {
     };
     const enableLoader = ref(false);
 
-    onMounted(() => {
-      if (localStorage.getItem('reloaded')) {
-        TC_modal.value = true;
-        // The page was just reloaded. Clear the value from local storage
-        // so that it will reload the next time this page is visited.
-        localStorage.removeItem('reloaded');
-      } else {
-        // Set a flag so that we know not to reload the page twice.
-        localStorage.setItem('reloaded', '1');
-        TC_modal.value = false;
-      }
-      // TC_modal.value = true;
-    });
-
-    const TC_modal = ref();
-    const TC_toggle = () => {
-      TC_modal.value = !TC_modal.value;
-    };
     const voilationcheck = async () => {
       enableLoader.value = true;
 
@@ -548,12 +564,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.link {
+  color: rgba(0, 78, 146, 1);
+  pointer-events: none;
+}
 // .header-top-space{
 //   top: 107px;
 // }
 .option-container {
   padding: 0 10px 20px;
-  font-family: 'SF Pro Text';
+  //font-family: 'SF Pro Text';
   font-weight: 300;
   font-size: 12px;
   line-height: 14px;
@@ -606,7 +626,6 @@ export default {
   padding: 20px;
   color: #37474f;
   .option-container {
-    font-family: 'SF Pro Text';
     font-family: 'SF Pro Text';
     font-style: normal;
     font-weight: 300;

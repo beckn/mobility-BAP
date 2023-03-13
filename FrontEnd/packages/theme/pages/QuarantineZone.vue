@@ -121,13 +121,30 @@
           <br />
           <label class="lableclass">Policy Document </label>
           <br />
-          <!-- <a class="link" v-bind:href="url"
-            >https:beckn.in/quarantinezone.pdf 1
-          </a>
+          <a
+            href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
+            target="_blank"
+            class="link1"
+          >
+            Statewise requirements of Quarantine</a
+          >
           <br />
-          <a class="link" v-bind:href="url"
-            >https:beckn.in/T&C/quarantinezone.pdf 1
-          </a> -->
+          <a
+            href="https://www.mohfw.gov.in/pdf/SOPonCOVID19Containment&ManagementinPeriurbanRural&tribalareas.pdf"
+            target="_blank"
+            class="link1"
+            >SOP of containment & management</a
+          >
+          <br />
+          <a
+            href="https://www.mohfw.gov.in/pdf/ContainmentandSurveillanceManualforSupervisorsincontainmentzones.pdf"
+            class="link1"
+            target="_blank"
+            dis
+            >Containment & surveillance guidelines</a
+          >
+          <br />
+
           <p class="link">{{ Document }}</p>
         </div>
         <br />
@@ -342,7 +359,7 @@ export default {
       showForm.value = false;
     };
     const goHome = () => {
-      context.root.$router.push('/');
+      context.root.$router.push('Policies');
     };
 
     const Geo = () => {
@@ -424,6 +441,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.link1 {
+  color: rgba(0, 78, 146, 1);
+  pointer-events: none;
+}
 .btnclass {
   width: 100%;
   height: 48px;
@@ -564,6 +585,7 @@ textarea {
   line-height: 14px;
   color: rgba(0, 78, 146, 1);
   padding: 6px;
+  cursor: pointer;
 }
 
 .flexform {

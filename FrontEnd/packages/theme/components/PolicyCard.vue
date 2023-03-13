@@ -83,14 +83,11 @@ export default {
 div.card:hover {
   border: 1px solid rgba(243, 122, 32, 1);
   border-radius: 5px;
+  cursor: pointer;
 }
 .card-content {
   display: flex;
 }
-SfImage{
-  
-}
-
 .tag {
   z-index: +1;
   background: rgba(112, 198, 121, 1);
