@@ -284,6 +284,7 @@ import { reactive, ref, onMounted } from '@vue/composition-api';
 import { SfIcon, SfRadio, SfButton, SfImage } from '@storefront-ui/vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 import superAgent from 'superagent';
+
 export default {
   name: '',
 
@@ -320,9 +321,11 @@ export default {
       return [day, mnth, dateObject.getFullYear()].join('/');
     };
 
-    const Id = ref(context.root.$route.params.id);
-    console.log(Id.value);
+    const Id = ref(JSON.parse(sessionStorage.getItem('policyId')));
+
+  
     onMounted(async () => {
+      console.log(Id.value);
       try {
         const res = await superAgent.get(
           `https://api.mobility-bap-policy.becknprotocol.io/v1/policy/${Id.value}`
@@ -331,6 +334,7 @@ export default {
         console.log(obj);
         Description.value = obj.description;
         Type.value = obj.type;
+        Name.value = obj.name;
         Domain.value = obj.domain;
         Country.value = obj.country;
         City.value = obj.city;
