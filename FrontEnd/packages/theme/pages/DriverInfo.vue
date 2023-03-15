@@ -739,7 +739,7 @@ body {
 
 .button-pos1,
 .bar-pos {
-  display: flex;
+  //display: flex;
   align-items: center;
   //align-content: center;
   height: 5px;

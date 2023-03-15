@@ -201,6 +201,7 @@
                           <div>
                             <div class="">
                               <template>
+                                <div>
                                 <div class="location-content">
                                   <div
                                     class="provider-head aline-center side-padding "
@@ -395,6 +396,12 @@
                                       <LoadingCircle :enable="enableLoader" />
                                     </div>
                                     <!-- <nuxt-link :to="localePath('/payment')"> -->
+                                    
+                                  </div>
+                                
+                                  <!-- </nuxt-link> -->
+                                </div>
+                                <div>
                                     <SfButton
                                       :class="{
                                         [_value]: Boolean(_value)
@@ -409,8 +416,7 @@
                                       Confirm & Proceed</SfButton
                                     >
                                   </div>
-                                  <!-- </nuxt-link> -->
-                                </div>
+                                  </div>
                               </template>
                             </div>
                           </div>
