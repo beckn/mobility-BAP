@@ -6,7 +6,7 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div>
+      <div class="pagetittle">
         Geofence
       </div>
     </div>
@@ -109,7 +109,7 @@ div#map {
   overflow: hidden;
 }
 .top-bar {
-  padding-right: 35%;
+  padding-right: 40%;
   padding-left: 10px;
   align-items: center;
   display: flex;
@@ -119,6 +119,18 @@ div#map {
   font-weight: 500;
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
+}
+.pagetittle {
+
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 29px;
+  /* identical to box height, or 181% */
+
+  text-align: center;
+
+  color: #181725;
 }
 #btn2 {
   width: 328px;

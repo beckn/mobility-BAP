@@ -147,7 +147,7 @@
 
           <p class="link">{{ Document }}</p>
         </div>
-        <br />
+
         <div>
           <label class="lableclass">Applicable to </label>
           <br />
@@ -323,7 +323,6 @@ export default {
 
     const Id = ref(JSON.parse(sessionStorage.getItem('policyId')));
 
-  
     onMounted(async () => {
       console.log(Id.value);
       try {
@@ -533,7 +532,7 @@ textarea {
   background: #f37a20;
   border-radius: 4px;
   width: 100%;
-  margin-top: 13%;
+  margin-top: 5%;
 
   label {
     font-weight: 600;
@@ -604,6 +603,7 @@ textarea {
 }
 
 .flexinputbox {
+  color: rgba(0, 0, 0, 1);
   padding: 5px;
   border: 0;
   outline: 0;

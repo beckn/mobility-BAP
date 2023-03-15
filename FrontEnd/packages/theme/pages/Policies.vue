@@ -6,7 +6,7 @@
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
       </div>
-      <div>
+      <div class="pagetittle">
         Policies
         <span
           style="background-color: #F37A20; color: aliceblue;border-radius: 50%; font-weight: 400; display: inline-block; width: 15px;text-align: center;"
@@ -38,7 +38,7 @@
 
     <div v-if="Applied">
       <div
-        style="padding:15px;"
+        style="padding:10px;"
         v-for="(policy, idx) in AppliedArray"
         :key="idx"
       >
@@ -55,7 +55,7 @@
     </div>
     <div v-if="Disputed">
       <div
-        style="padding:15px;"
+        style="padding:10px;"
         v-for="(policy, idx) in DisputedArray"
         :key="idx"
       >
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div v-if="New">
-      <div style="padding:15px;" v-for="(policy, idx) in NewArray" :key="idx">
+      <div style="padding:10px;" v-for="(policy, idx) in NewArray" :key="idx">
         <PolicyCard
           :New="true"
           :pImage="Icon"
@@ -85,7 +85,7 @@
     </div>
     <div v-if="Inactive">
       <div
-        style="padding:15px;"
+        style="padding:10px;"
         v-for="(policy, idx) in inactiveArray"
         :key="idx"
       >
@@ -314,6 +314,19 @@ span {
   /* identical to box height */
 
   color: #333333;
+}
+
+.pagetittle {
+
+font-style: normal;
+font-weight: 300;
+font-size: 16px;
+line-height: 29px;
+/* identical to box height, or 181% */
+
+text-align: center;
+
+color: #181725;
 }
 
 .inactive {

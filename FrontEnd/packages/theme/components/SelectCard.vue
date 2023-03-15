@@ -1,7 +1,7 @@
 <template>
   <div class="dv">
     <div class="layout-container driver-data">
-      <div class="location-content">
+      <div class="">
         <client-only>
           <div class="location-icon">
             <slot>
@@ -27,7 +27,7 @@
                     <div class="">
                       <template>
                         <div>
-                          <div class="form-class aline-center ">
+                          <div class="form-class location-content ">
                             <div class="flexy">
                               <img
                                 src="/icons/car.png"
@@ -64,7 +64,9 @@
                                  <option value="Recurring">Recurring</option>-->
                             </select>
                           </div>
-                          <div class="loc1">
+                          <!-- <div class="loc1">
+
+
                             <div class="form-class">
                               <div class="flexy">
                                 <SfIcon
@@ -120,6 +122,52 @@
                                 <br />
                               </div>
                             </div>
+                          </div> -->
+                          <div>
+                            <div class="location-box">
+                              <div style="display: flex;align-items: center; ">
+                                <SfIcon
+                                  class="locationicon"
+                                  color="#f37a20"
+                                  size="10px"
+                                  icon="marker"
+                                />
+
+                                <span class="s-name">Source</span>
+                              </div>
+                              <div>
+                                <span class="text1">
+                                  <input
+                                    type="text"
+                                    :value="_SourceLocation"
+                                    disabled
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                            <br />
+
+                            <div class="location-box">
+                              <div style="display: flex; align-items: center;">
+                                <SfIcon
+                                  class="locationicon"
+                                  color="#2081F3"
+                                  size="20px"
+                                  icon="marker"
+                                />
+
+                                <span class="s-name"> Destination</span>
+                              </div>
+                              <div>
+                                <span class="text1">
+                                  <input
+                                    type="text"
+                                    :value="_destloc"
+                                    disabled
+                                  />
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </template>
@@ -132,7 +180,7 @@
         </client-only>
         <div>
           <template>
-            <div class="location-content">
+            <div class="">
               <BottomSlider :visible="isShow" @close="closeModal">
                 <template>
                   <div class="bar" @click="toggleIsShow">
@@ -153,7 +201,7 @@
                           <div>
                             <div class="">
                               <template>
-                                <div>
+                                <div class="location-content">
                                   <div
                                     class="provider-head aline-center side-padding "
                                   >
@@ -193,7 +241,7 @@
                                          <option value="Recurring">Recurring</option>-->
                                     </select>
                                   </div>
-                                  <div class="loc">
+                                  <!-- <div class="loc">
                                     <div class="form-class">
                                       <div class="flexy">
                                         <SfIcon
@@ -247,13 +295,62 @@
                                         </div>
                                       </div>
                                     </div>
+                                  </div> -->
+                                  <div>
+                                    <div class="location-box">
+                                      <div
+                                        style="display: flex; align-items: center;"
+                                      >
+                                        <SfIcon
+                                          class="locationicon"
+                                          color="#f37a20"
+                                          size="10px"
+                                          icon="marker"
+                                        />
+
+                                        <span class="s-name">Source</span>
+                                      </div>
+                                      <div>
+                                        <span class="text1">
+                                          <input
+                                            type="text"
+                                            :value="_SourceLocation"
+                                            disabled
+                                          />
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div class="location-box">
+                                      <div
+                                        style="display: flex;align-items: center; "
+                                      >
+                                        <SfIcon
+                                          class="locationicon"
+                                          color="#2081F3"
+                                          size="20px"
+                                          icon="marker"
+                                        />
+
+                                        <span class="s-name"> Destination</span>
+                                      </div>
+                                      <div>
+                                        <span class="text1">
+                                          <input
+                                            type="text"
+                                            :value="_destloc"
+                                            disabled
+                                          />
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
                                   <div>
                                     <p class="bookfor">Book for :</p>
                                     <select class="form-select">
                                       <option selected>MySelf</option>
                                     </select>
-                                    <div class="form">
+                                    <div class="location-box">
                                       <p class="s-name">Name:</p>
                                       <input
                                         @click="enterName"
@@ -382,7 +479,7 @@ export default {
     const _pCount = computed(() => props.pCount);
 
     const enterName = async () => {
-      if (root.$store.state.experienceId!== null) {
+      if (root.$store.state.experienceId !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -560,9 +657,12 @@ export default {
           if (helpers.shouldStopPooling(onInitRes, 'order')) {
             stopPolling();
 
-            root.$store.dispatch('setTransactionId',(onInitRes[0].context.transaction_id));
+            root.$store.dispatch(
+              'setTransactionId',
+              onInitRes[0].context.transaction_id
+            );
 
-            root.$store.dispatch('setinitResult',(onInitRes));
+            root.$store.dispatch('setinitResult', onInitRes);
 
             enableLoader.value = false;
             if (root.$store.state.experienceId !== null) {
@@ -630,6 +730,14 @@ export default {
 <style lang="scss" scoped>
 .loader-circle {
   margin-bottom: 20px;
+}
+.location-box1 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.location-box {
+  padding-left: 35px;
+  padding-right: 45px;
 }
 
 .form-class {
@@ -717,8 +825,8 @@ export default {
 }
 
 .bookfor {
-  padding-left: 15%;
-
+  padding-top: 10px;
+  padding-left: 45px;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 600;
@@ -760,7 +868,7 @@ export default {
   align-items: center;
   align-content: center;
   height: 5px;
-  padding-left: 18%;
+  //padding-left: 18%;
   justify-content: center;
 }
 
@@ -792,7 +900,7 @@ div#cafe-map {
 }
 
 input {
-  width: 140%;
+  width: 100%;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
@@ -805,20 +913,6 @@ input {
 
 input:hover {
   border-bottom: 2px solid rgb(227, 90, 40);
-}
-
-@media screen and (max-width: 375px) {
-  input {
-    width: 100%;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    color: #37474f;
-    line-height: 14px;
-    border: none;
-    border-bottom: 2px solid #65696ae8;
-  }
 }
 
 .subtext {
@@ -845,9 +939,9 @@ input:hover {
 
 .locationicon {
   // left: 10%;
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  //margin-right: 10px;
 }
 
 .form-select {
@@ -897,6 +991,7 @@ input:hover {
 
 img {
   border-radius: 9px;
+  padding-left: 15px;
 }
 
 .s-name {

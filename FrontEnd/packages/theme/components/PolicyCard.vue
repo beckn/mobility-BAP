@@ -2,7 +2,7 @@
   <div>
     <div class="card" @click="$emit('goToForm')">
       <div class="card-content">
-        <div style="    padding-right: 10px;">
+        <div style=" padding-right: 10px;">
           <SfImage :src="_pImage" alt="product img" :width="30" :height="40" />
         </div>
         <div>

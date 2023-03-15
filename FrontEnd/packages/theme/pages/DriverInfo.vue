@@ -741,10 +741,10 @@ body {
 .bar-pos {
   display: flex;
   align-items: center;
-  align-content: center;
+  //align-content: center;
   height: 5px;
   padding-left: 158px;
-  justify-content: center;
+  //justify-content: center;
 }
 
 .bar-pos {
