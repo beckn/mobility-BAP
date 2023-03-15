@@ -386,7 +386,7 @@
                                     <br />
 
                                     <div>
-                                      <hr class="sf-divider" />
+                                      
                                     </div>
                                     <div
                                       v-if="enableLoader"
