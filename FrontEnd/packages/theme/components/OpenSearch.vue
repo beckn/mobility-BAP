@@ -155,15 +155,15 @@
             <div class="modal-body">
               <div class="option-container">
                 <p class="warningtext">
-                  Warning! Entering into a restricted zone. <br />
-                  Mobility services may be limited.
-                  <br /><br />
-                  To know more, read the policy at :
+                  This Area has extremely high traffic, <br />
+                  Recommend alternate modes of transport. <br /><br />
+                  To know more, read the guidelines at :
                   <br />
                   <br />
                   <!-- TODO pointer event disables of bellow link in class link -->
+                  <span class="link"> Traffic guidelines in Karnataka</span>
 
-                  <a
+                  <!-- <a
                     href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
                     target="_blank"
                     class="link"
@@ -185,7 +185,7 @@
                     dis
                     >Containment & surveillance guidelines</a
                   >
-                  <br />
+                  <br /> -->
                 </p>
                 <button
                   class="color-primary btnclass1"
@@ -203,7 +203,10 @@
         </ContactSupportSlider>
       </template>
     </div>
-    <keep-alive>
+
+<!-- TODO TERM AND CONDITION MODEL UNCOMMENT IF NEDEDD IN FUTUR -->
+
+    <!-- <keep-alive>
       <div class="location-content">
         <BottomSlider :visible="TC_modal">
           <template>
@@ -256,7 +259,7 @@
           </template>
         </BottomSlider>
       </div>
-    </keep-alive>
+    </keep-alive> -->
   </div>
 </template>
 
