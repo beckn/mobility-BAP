@@ -105,7 +105,7 @@ export default {
     onMounted(async () => {
       try {
         const res = await superAgent.get(
-          'https://api.mobility-bap-policy.becknprotocol.io/v1/policy'
+          'https://api.mobility-bap-policy-demo.becknprotocol.io/v1/policy'
         );
         res.body.forEach(myFunction);
       } catch (err) {

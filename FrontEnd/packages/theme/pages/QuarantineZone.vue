@@ -241,7 +241,7 @@ export default {
 
       try {
         const res = await superAgent.get(
-          `https://api.mobility-bap-policy.becknprotocol.io/v1/policy/${context.root._route.query.policyId}`
+          `https://api.mobility-bap-policy-demo.becknprotocol.io/v1/policy/${context.root._route.query.policyId}`
         );
         const obj = res.body;
 
@@ -298,7 +298,7 @@ export default {
       if (Status.value === 'new') {
         try {
           superAgent
-            .put('https://api.mobility-bap-policy.becknprotocol.io/v1/policy')
+            .put('https://api.mobility-bap-policy-demo.becknprotocol.io/v1/policy')
             .set('Content-Type', 'application/json')
             .send({
               policy: {

@@ -263,7 +263,7 @@ export default {
       try {
         superAgent
           .post(
-            'https://api.mobility-bap-policy.becknprotocol.io/v1/policy/checkViolation/location'
+            'https://api.mobility-bap-policy-demo.becknprotocol.io/v1/policy/checkViolation/location'
           )
           .set('Content-Type', 'application/json')
           .send({
