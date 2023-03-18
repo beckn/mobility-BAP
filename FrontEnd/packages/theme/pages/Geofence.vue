@@ -37,7 +37,7 @@ export default {
       lat: null,
       lag: null
     },
-    zoom: 10,
+    zoom: 14,
     polygoneCoords: null
   }),
 

@@ -3,35 +3,20 @@
     <div>
       <div class="open-search"></div>
       <div>
-        <CurrentLocationMap
-          :enable="true"
-          :disablepulse="true"
-          :upadateMap="upadateMap"
-          @Currentlocation="Currentlocation"
-        />
+        <CurrentLocationMap :enable="true" :disablepulse="true" :upadateMap="upadateMap"
+          @Currentlocation="Currentlocation" />
       </div>
       <div v-if="!enableLoader" class="open-search header-top-space">
         <div class="open-search-input">
           <div class="inputBox">
             <div class="input1 input-opensearch">
-              <SfImage
-                id="icon"
-                src="/icons/Vector.png"
-                alt="Vue Storefront Next"
-              />
+              <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
 
               <label>Pickup: </label>
 
               <!-- v-on:keyup.enter="openSearch" -->
-              <input
-                @click="pickupLocation"
-                v-model="pickup"
-                :valid="false"
-                errorMessage="errer"
-                type="text"
-                placeholder="Enter Pickup"
-                v-e2e="'home-search-input'"
-              />
+              <input @click="pickupLocation" v-model="pickup" :valid="false" errorMessage="errer" type="text"
+                placeholder="Enter Pickup" v-e2e="'home-search-input'" />
             </div>
             <!-- <div class="hr">  <hr style="width:100%;" />
         <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
@@ -43,34 +28,16 @@
             </div>
 
             <div class="input">
-              <SfImage
-                id="icon"
-                src="/icons/Vector.png"
-                alt="Vue Storefront Next"
-              />
+              <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
               <label for=""> Dropoff: </label>
 
-              <input
-                @click="dropLocation"
-                v-model="message"
-                v-on:keyup.enter="openSearch"
-                :valid="false"
-                errorMessage="errer"
-                type="text"
-                placeholder="Enter Destination"
-                v-e2e="'home-search-input'"
-              />
+              <input @click="dropLocation" v-model="message" v-on:keyup.enter="openSearch" :valid="false"
+                errorMessage="errer" type="text" placeholder="Enter Destination" v-e2e="'home-search-input'" />
             </div>
 
-            <SfButton
-              id="btn"
-              class="button-pos sf-button--pure color-primary"
-              @click="voilationcheck"
-              :disabled="
-                !selectedLocation.latitude || !selectedLocation.longitude
-              "
-              v-e2e="'home-search-button'"
-              ><label for="btn">Search Rides</label>
+            <SfButton id="btn" class="button-pos sf-button--pure color-primary" @click="voilationcheck" :disabled="
+              !selectedLocation.latitude || !selectedLocation.longitude
+            " v-e2e="'home-search-button'"><label for="btn">Search Rides</label>
               <!-- <span class="sf-search-bar__icon"> contactSupport
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
           </span> -->
@@ -92,22 +59,12 @@
         <div class="location-blk d-flex w-100">
           <div class="layout-container">
             <div id="location" class="location-content">
-              <SfSidebar
-                :visible="!!isLocationdropOpen"
-                :button="false"
-                title="Set Location"
-                @close="toggleLocationDrop"
-                class="sidebar sf-sidebar--right"
-              >
+              <SfSidebar :visible="!!isLocationdropOpen" :button="false" title="Set Location" @close="toggleLocationDrop"
+                class="sidebar sf-sidebar--right">
                 <transition name="fade">
                   <client-only>
-                    <LocationSearchBar
-                      :buttonlocation="buttonlocation"
-                      @locationSelected="locationSelected"
-                      @toggleLocationDrop="toggleLocationDrop"
-                      @edit="edit"
-                      v-e2e="'app-location-sidebar'"
-                    />
+                    <LocationSearchBar :buttonlocation="buttonlocation" @locationSelected="locationSelected"
+                      @toggleLocationDrop="toggleLocationDrop" @edit="edit" v-e2e="'app-location-sidebar'" />
                   </client-only>
                 </transition>
               </SfSidebar>
@@ -132,36 +89,30 @@
           <template>
             <div class="bar-pos" @click="Alertmodal">
               <SfButton class="sf-button--pure rect-bar-style">
-                <SfImage
-                  src="/icons/Rectangle-bar.png"
-                  :width="60"
-                  :height="5.5"
-                  alt="Rectangle bar"
-                />
+                <SfImage src="/icons/Rectangle-bar.png" :width="60" :height="5.5" alt="Rectangle bar" />
               </SfButton>
             </div>
             <div>
               <div class="modal-heading">
                 Alert
-                <SfImage
-                  src="/icons/Alert.png"
-                  :width="15"
-                  :height="15"
-                  alt="Rectangle bar"
-                />
+                <SfImage src="/icons/Alert.png" :width="15" :height="15" alt="Rectangle bar" />
               </div>
-              <div><hr class="sf-divider" /></div>
+              <div>
+                <hr class="sf-divider" />
+              </div>
             </div>
             <div class="modal-body">
               <div class="option-container">
                 <p class="warningtext">
                   This Area has extremely high traffic, <br />
                   Recommend alternate modes of transport. <br /><br />
-                  To know more, read the guidelines at :
+                  To know more, read the details at :
                   <br />
                   <br />
                   <!-- TODO pointer event disables of bellow link in class link -->
-                  <span class="link"> Traffic guidelines in Karnataka</span>
+                  <a style="cursor: pointer; color: blue;" target="_blank"
+                    href="https://tourism-app.becknprotocol.io/QuarantineZone?policyId=3887e290-d83d-4bb1-839d-8f39d19f6899">
+                    Traffic Advisory</a>
 
                   <!-- <a
                     href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
@@ -187,14 +138,9 @@
                   >
                   <br /> -->
                 </p>
-                <button
-                  class="color-primary btnclass1"
-                  @click="isAlert = false"
-                >
+                <button class="color-primary btnclass1" @click="isAlert = false">
                   <div class="f-btn-text">
-                    <label style="color: antiquewhite; font-weight: 700;"
-                      >Ok, I Understand</label
-                    >
+                    <label style="color: antiquewhite; font-weight: 700;">Ok, I Understand</label>
                   </div>
                 </button>
               </div>
@@ -204,7 +150,7 @@
       </template>
     </div>
 
-<!-- TODO TERM AND CONDITION MODEL UNCOMMENT IF NEDEDD IN FUTUR -->
+    <!-- TODO TERM AND CONDITION MODEL UNCOMMENT IF NEDEDD IN FUTUR -->
 
     <!-- <keep-alive>
       <div class="location-content">
@@ -571,6 +517,7 @@ export default {
   color: rgba(0, 78, 146, 1);
   pointer-events: none;
 }
+
 // .header-top-space{
 //   top: 107px;
 // }
@@ -586,26 +533,31 @@ export default {
   color: #000000;
 
   color: #000000;
+
   .option-head {
     font-weight: 600;
     font-size: 17px;
     padding-bottom: 20px;
   }
+
   .sf-radio {
     font-size: 15px;
   }
 }
+
 .modal-heading1 {
   margin: 13px;
   font-size: 20px;
   font-weight: 500;
   text-align: center;
 }
+
 .modal-heading {
   margin: 13px;
   font-size: 20px;
   font-weight: 500;
 }
+
 .btnclass {
   border-radius: 3px;
   width: 100%;
@@ -613,6 +565,7 @@ export default {
   border: 1px solid rgba(243, 122, 32, 1);
   background: rgba(255, 255, 255, 1);
 }
+
 .btnclass1 {
   border-radius: 3px;
   width: 100%;
@@ -625,9 +578,11 @@ export default {
   padding-left: 45%;
   padding-top: 5px;
 }
+
 .modal-body {
   padding: 20px;
   color: #37474f;
+
   .option-container {
     font-family: 'SF Pro Text';
     font-style: normal;
@@ -640,6 +595,7 @@ export default {
     word-spacing: 1.8px;
 
     color: #000000;
+
     // TO DO chat with us button
     //padding: 0 10px 60px;
     .option-head {
@@ -647,9 +603,11 @@ export default {
       font-size: 15px;
       padding-bottom: 20px;
     }
+
     .sf-radio {
       font-size: 15px;
     }
+
     .sf-button {
       width: -webkit-fill-available;
       border-radius: 5px;
@@ -657,6 +615,7 @@ export default {
     }
   }
 }
+
 .open-search {
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
@@ -690,6 +649,7 @@ export default {
       font-size: 17px;
     }
   }
+
   #btn1 {
     width: 328px;
     height: 48px;
@@ -854,6 +814,7 @@ export default {
     }
   }
 }
+
 .warningtext {
   font-family: 'SF Pro Text';
   font-style: normal;

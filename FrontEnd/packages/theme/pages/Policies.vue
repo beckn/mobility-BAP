@@ -9,20 +9,14 @@
       <div class="pagetittle">
         Policies
         <span
-          style="background-color: #F37A20; color: aliceblue;border-radius: 50%; font-weight: 400; display: inline-block; width: 15px;text-align: center;"
-          >{{ notification }}</span
-        >
+          style="background-color: #F37A20; color: aliceblue;border-radius: 50%; font-weight: 400; display: inline-block; width: 15px;text-align: center;">{{
+            notification }}</span>
       </div>
     </div>
 
     <div style="padding: 10px;">
       <label for="Filter"> <span>Filter:</span> </label>
-      <select
-        class="custom-select"
-        name="Filter"
-        id="Filter"
-        @change="switchSelect($event)"
-      >
+      <select class="custom-select" name="Filter" id="Filter" @change="switchSelect($event)">
         <option value="All"> All</option>
         <option value="New">
           New
@@ -37,66 +31,27 @@
     <hr />
 
     <div v-if="Applied">
-      <div
-        style="padding:10px;"
-        v-for="(policy, idx) in AppliedArray"
-        :key="idx"
-      >
-        <PolicyCard
-          :Applied="true"
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+      <div style="padding:10px;" v-for="(policy, idx) in AppliedArray" :key="idx">
+        <PolicyCard :Applied="true" :pImage="Icon" :pTittle="policy.name" :pType="policy.type"
+          :Edate="convertdate(policy.endDate)" :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
     <div v-if="Disputed">
-      <div
-        style="padding:10px;"
-        v-for="(policy, idx) in DisputedArray"
-        :key="idx"
-      >
-        <PolicyCard
-          :Disputed="true"
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+      <div style="padding:10px;" v-for="(policy, idx) in DisputedArray" :key="idx">
+        <PolicyCard :Disputed="true" :pImage="Icon" :pTittle="policy.name" :pType="policy.type"
+          :Edate="convertdate(policy.endDate)" :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
     <div v-if="New">
       <div style="padding:10px;" v-for="(policy, idx) in NewArray" :key="idx">
-        <PolicyCard
-          :New="true"
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+        <PolicyCard :New="true" :pImage="Icon" :pTittle="policy.name" :pType="policy.type"
+          :Edate="convertdate(policy.endDate)" :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
     <div v-if="Inactive">
-      <div
-        style="padding:10px;"
-        v-for="(policy, idx) in inactiveArray"
-        :key="idx"
-      >
-        <PolicyCard
-          :pImage="Icon"
-          :pTittle="policy.name"
-          :pType="policy.type"
-          :Edate="convertdate(policy.endDate)"
-          :Sdate="convertdate(policy.startDate)"
-          @goToForm="goToForm(policy.id)"
-        />
+      <div style="padding:10px;" v-for="(policy, idx) in inactiveArray" :key="idx">
+        <PolicyCard :pImage="Icon" :pTittle="policy.name" :pType="policy.type" :Edate="convertdate(policy.endDate)"
+          :Sdate="convertdate(policy.startDate)" @goToForm="goToForm(policy.id)" />
       </div>
     </div>
   </div>
@@ -179,8 +134,8 @@ export default {
 
       context.root.$router.push({
         name: 'QuarantineZone',
-        params: {
-          id: Id
+        query: {
+          policyId: Id
         }
       });
     };
@@ -283,12 +238,9 @@ option {
 
 hr {
   height: 0px;
-  border: 1px solid
-    linear-gradient(
-      90deg,
+  border: 1px solid linear-gradient(90deg,
       rgba(0, 78, 146, 0.3) 0.42%,
-      rgba(0, 4, 40, 0.3) 100%
-    );
+      rgba(0, 4, 40, 0.3) 100%);
 }
 
 .top-bar {
@@ -318,15 +270,15 @@ span {
 
 .pagetittle {
 
-font-style: normal;
-font-weight: 300;
-font-size: 16px;
-line-height: 29px;
-/* identical to box height, or 181% */
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 29px;
+  /* identical to box height, or 181% */
 
-text-align: center;
+  text-align: center;
 
-color: #181725;
+  color: #181725;
 }
 
 .inactive {

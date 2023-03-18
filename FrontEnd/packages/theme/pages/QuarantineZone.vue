@@ -7,7 +7,7 @@
         </span>
       </div>
       <div>
-        Quarantine Zone
+        Traffic Zone
       </div>
     </div>
 
@@ -17,51 +17,24 @@
           <div>
             <label class="lableclass">Name</label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="Name"
-              errorMessage="errer"
-              type="text"
-              placeholder="Quarantine Zone"
-            />
+            <input class="flexinputbox" disabled="true" :value="Name" errorMessage="errer" type="text" placeholder="" />
           </div>
           <div>
             <label class="lableclass">Owner </label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="Owner"
-              errorMessage="errer"
-              type="text"
-              placeholder="Ministry of Transport"
-            />
+            <input class="flexinputbox" disabled="true" :value="Owner" errorMessage="errer" type="text" placeholder="" />
           </div>
           <div>
             <label class="lableclass">Type </label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="Type"
-              errorMessage="errer"
-              type="text"
-              placeholder="Geofence "
-            />
+            <input class="flexinputbox" disabled="true" :value="Type" errorMessage="errer" type="text" placeholder="" />
           </div>
         </div>
         <br />
         <div>
           <label class="lableclass">Description </label>
           <br />
-          <textarea
-            disabled="true"
-            :value="Description"
-            errorMessage="errer"
-            type="text"
-            placeholder="Lorem ipsum dolor sit amet consectetur. Non et quisque praesent justo phasellus. Gravida malesuada donec sit ultrices. Non pharetra dictumst nunc fringilla. Nunc facilisi."
-          />
+          <textarea disabled="true" :value="Description" errorMessage="errer" type="text" placeholder="" />
         </div>
         <br />
 
@@ -69,51 +42,25 @@
           <div>
             <label class="lableclass">Country </label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="Country"
-              errorMessage="errer"
-              type="text"
-              placeholder="India"
-            />
+            <input class="flexinputbox" disabled="true" :value="Country" errorMessage="errer" type="text"
+              placeholder="" />
           </div>
 
           <div>
             <label class="lableclass">City :</label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="City"
-              errorMessage="errer"
-              type="text"
-              placeholder="Gurugram"
-            />
+            <input class="flexinputbox" disabled="true" :value="City" errorMessage="errer" type="text" placeholder="" />
           </div>
           <div>
             <label class="lableclass">From </label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="FromDate"
-              errorMessage="errer"
-              type="text"
-              placeholder="date"
-            />
+            <input class="flexinputbox" disabled="true" :value="FromDate" errorMessage="errer" type="text"
+              placeholder="" />
           </div>
           <div>
             <label class="lableclass">To </label>
             <br />
-            <input
-              class="flexinputbox"
-              disabled="true"
-              :value="ToDate"
-              errorMessage="errer"
-              type="text"
-              placeholder="date"
-            />
+            <input class="flexinputbox" disabled="true" :value="ToDate" errorMessage="errer" type="text" placeholder="" />
           </div>
         </div>
 
@@ -121,28 +68,15 @@
           <br />
           <label class="lableclass">Policy Document </label>
           <br />
-          <a
-            href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
-            target="_blank"
-            class="link1"
-          >
-            Statewise requirements of Quarantine</a
-          >
+          <a href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
+            target="_blank" class="link1">
+            Statewise requirements of Quarantine</a>
           <br />
-          <a
-            href="https://www.mohfw.gov.in/pdf/SOPonCOVID19Containment&ManagementinPeriurbanRural&tribalareas.pdf"
-            target="_blank"
-            class="link1"
-            >SOP of containment & management</a
-          >
+          <a href="https://www.mohfw.gov.in/pdf/SOPonCOVID19Containment&ManagementinPeriurbanRural&tribalareas.pdf"
+            target="_blank" class="link1">SOP of containment & management</a>
           <br />
-          <a
-            href="https://www.mohfw.gov.in/pdf/ContainmentandSurveillanceManualforSupervisorsincontainmentzones.pdf"
-            class="link1"
-            target="_blank"
-            dis
-            >Containment & surveillance guidelines</a
-          >
+          <a href="https://www.mohfw.gov.in/pdf/ContainmentandSurveillanceManualforSupervisorsincontainmentzones.pdf"
+            class="link1" target="_blank" dis>Containment & surveillance guidelines</a>
           <br />
 
           <p class="link">{{ Document }}</p>
@@ -151,14 +85,8 @@
         <div>
           <label class="lableclass">Applicable to </label>
           <br />
-          <input
-            class="flexinputbox"
-            disabled="true"
-            :value="Applicable"
-            errorMessage="errer"
-            type="text"
-            placeholder="BAP; BPP"
-          />
+          <input class="flexinputbox" disabled="true" :value="Applicable" errorMessage="errer" type="text"
+            placeholder="" />
         </div>
         <div>
           <label class="lableclass">Geofence: </label>
@@ -166,12 +94,8 @@
 
           <label class="link" @click="Geo">Click to View</label>
         </div>
-        <SfButton
-          id="btn"
-          class="button-pos sf-button--pure color-primary"
-          @click="Applyslider"
-          v-e2e="'home-search-button'"
-          ><label for="btn">Apply</label>
+        <SfButton id="btn" class="button-pos sf-button--pure color-primary" @click="Applyslider"
+          v-e2e="'home-search-button'"><label for="btn">Apply</label>
         </SfButton>
         <br />
         <div>
@@ -186,18 +110,15 @@
             <template>
               <div class="bar-pos" @click="Applyslider">
                 <SfButton class="sf-button--pure rect-bar-style">
-                  <SfImage
-                    src="/icons/Rectangle-bar.png"
-                    :width="60"
-                    :height="5.5"
-                    alt="Rectangle bar"
-                  />
+                  <SfImage src="/icons/Rectangle-bar.png" :width="60" :height="5.5" alt="Rectangle bar" />
                 </SfButton>
               </div>
               <div>
                 <div class="modal-heading" v-if="Dispute">Dispute Policy</div>
                 <div class="modal-heading" v-if="Applied">Policy Applied</div>
-                <div><hr class="sf-divider" /></div>
+                <div>
+                  <hr class="sf-divider" />
+                </div>
               </div>
               <div class="modal-body">
                 <div class="option-container">
@@ -216,13 +137,8 @@
                     <br />
                     <br />
                   </p>
-                  <SfButton
-                    class="support-btns"
-                    @click="goHome"
-                    aria-label="Close modal"
-                    type="button"
-                    >Go back to Home</SfButton
-                  >
+                  <SfButton class="support-btns" @click="goHome" aria-label="Close modal" type="button">Go back to Home
+                  </SfButton>
                 </div>
               </div>
             </template>
@@ -280,7 +196,7 @@
   </div>
 </template>
 <script>
-import { reactive, ref, onMounted } from '@vue/composition-api';
+import { reactive, ref, onMounted, onBeforeMount } from '@vue/composition-api';
 import { SfIcon, SfRadio, SfButton, SfImage } from '@storefront-ui/vue';
 import ContactSupportSlider from '../components/ContactSupportSlider.vue';
 import superAgent from 'superagent';
@@ -321,16 +237,14 @@ export default {
       return [day, mnth, dateObject.getFullYear()].join('/');
     };
 
-    const Id = ref(JSON.parse(sessionStorage.getItem('policyId')));
-
     onMounted(async () => {
-      console.log(Id.value);
+
       try {
         const res = await superAgent.get(
-          `https://api.mobility-bap-policy.becknprotocol.io/v1/policy/${Id.value}`
+          `https://api.mobility-bap-policy.becknprotocol.io/v1/policy/${context.root._route.query.policyId}`
         );
         const obj = res.body;
-        console.log(obj);
+
         Description.value = obj.description;
         Type.value = obj.type;
         Name.value = obj.name;
@@ -344,8 +258,6 @@ export default {
         Polygon.value = obj.polygon;
         Status.value = obj.status;
         Document.value = obj.policyDocuments;
-
-        console.log(Status.value);
 
         sessionStorage.setItem('poligon', JSON.stringify(Polygon.value));
       } catch (err) {
@@ -390,7 +302,7 @@ export default {
             .set('Content-Type', 'application/json')
             .send({
               policy: {
-                id: `${Id.value}`,
+                id: `${context.root._route.query.policyId}`,
                 status: 'applied'
               }
             })
@@ -430,7 +342,7 @@ export default {
       Owner,
       ToDate,
       url,
-      Id,
+      // Id,
       Polygon,
       Geo,
       convertdate,
@@ -455,6 +367,7 @@ export default {
   padding: 6px;
   pointer-events: none;
 }
+
 .btnclass {
   width: 100%;
   height: 48px;
@@ -463,13 +376,16 @@ export default {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
+
 .quarantine_page {
   margin: 13px;
 }
+
 .Form {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
+
 textarea {
   border: none;
   font-family: 'Poppins';
@@ -483,6 +399,7 @@ textarea {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
+
 .warningtext {
   font-family: 'SF Pro Text';
   font-style: normal;
@@ -496,16 +413,20 @@ textarea {
 
   color: #000000;
 }
+
 .modal-heading {
   margin: 14px;
   font-size: 20px;
   font-weight: 500;
 }
+
 .rect-bar-style {
   padding-left: 45%;
   padding-top: 5px;
 }
+
 .option-container {
+
   // TO DO chat with us button
   //padding: 0 10px 60px;
   .option-head {
@@ -513,9 +434,11 @@ textarea {
     font-size: 15px;
     padding-bottom: 20px;
   }
+
   .sf-radio {
     font-size: 15px;
   }
+
   .sf-button {
     width: -webkit-fill-available;
     border-radius: 5px;
@@ -526,6 +449,7 @@ textarea {
     text-transform: none;
   }
 }
+
 #btn {
   width: 328px;
   height: 48px;
@@ -541,6 +465,7 @@ textarea {
     color: aliceblue;
   }
 }
+
 #btn2 {
   width: 328px;
   height: 48px;
@@ -555,6 +480,7 @@ textarea {
     color: aliceblue;
   }
 }
+
 .inputbox {
   border: 0;
   outline: 0;
@@ -571,6 +497,7 @@ textarea {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
+
 .lableclass {
   border: none;
 
@@ -586,6 +513,7 @@ textarea {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
+
 .link {
   border: none;
   font-family: 'Roboto';
@@ -613,6 +541,7 @@ textarea {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
     linear-gradient(0deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55));
 }
+
 @media (max-width: 388px) {
   .flexform {
     display: flex;
