@@ -111,7 +111,7 @@
                   <br />
                   <!-- TODO pointer event disables of bellow link in class link -->
                   <a style="cursor: pointer; color: blue;" target="_blank"
-                    href="https://travelbuddy.becknprotocol.io/QuarantineZone?policyId=3887e290-d83d-4bb1-839d-8f39d19f6899">
+                    href="https://travelbuddy.becknprotocol.io/QuarantineZone?policyId=2338f373-b4b5-46b9-b6cc-9e3963b488fa">
                     Traffic Advisory</a>
 
                   <!-- <a
