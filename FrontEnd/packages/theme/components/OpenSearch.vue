@@ -821,8 +821,6 @@ export default {
 }
 
 .warningtext {
-  font-family: 'SF Pro Text';
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
