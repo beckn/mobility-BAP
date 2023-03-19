@@ -112,7 +112,7 @@
                   <!-- TODO pointer event disables of bellow link in class link -->
                   <a style="cursor: pointer; color: blue; pointer-events: none;" target="_blank"
                     href="https://travelbuddy.becknprotocol.io/QuarantineZone?policyId=2338f373-b4b5-46b9-b6cc-9e3963b488fa">
-                    Traffic Advisory</a>
+                    Heavy Traffic Advisory</a>
 
                   <!-- <a
                     href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
@@ -138,7 +138,7 @@
                   >
                   <br /> -->
                 </p>
-                <button class="color-primary btnclass1" @click="isAlert = false">
+                <button class="color-primary btnclass1" @click="underStandButtonHandler">
                   <div class="f-btn-text">
                     <label style="color: antiquewhite; font-weight: 700;">Ok, I Understand</label>
                   </div>
@@ -252,6 +252,10 @@ export default {
     const upadateMap = ref('');
     console.log(context.root.$store.state.sLocation);
     const isAlert = ref(false);
+    const underStandButtonHandler = () => {
+      isAlert.value = false;
+      openSearch();
+    }
     const Alertmodal = () => {
       isAlert.value = !isAlert.value;
     };
@@ -263,7 +267,7 @@ export default {
       try {
         superAgent
           .post(
-            'https://api.mobility-bap-policy-demo.becknprotocol.io/v1/policy/checkViolation/location'
+            'http://ec2-3-110-194-223.ap-south-1.compute.amazonaws.com:8082/v1/policy/checkViolation/location'
           )
           .set('Content-Type', 'application/json')
           .send({
@@ -506,7 +510,8 @@ export default {
       TC_toggle,
       TC_modal,
       enableLoader,
-      voilationcheck
+      voilationcheck,
+      underStandButtonHandler
     };
   }
 };
@@ -584,7 +589,7 @@ export default {
   color: #37474f;
 
   .option-container {
-    font-family: 'SF Pro Text';
+    // font-family: 'SF Pro Text';
     font-style: normal;
     font-weight: 300;
     font-size: 12px;
