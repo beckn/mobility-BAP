@@ -7,15 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class LocationPolicyViolation {
-    private String location;
-    private Boolean violation;
-    private List<ViolatedPolicy> violatedPolicies;
+public class ViolatedPolicy {
+    private String id;
+    private String name;
 }
