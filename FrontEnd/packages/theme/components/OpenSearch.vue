@@ -112,7 +112,7 @@
                   <!-- TODO pointer event disables of bellow link in class link -->
                   <a style="cursor: pointer; color: blue; pointer-events: none;" target="_blank"
                     href="https://travelbuddy.becknprotocol.io/QuarantineZone?policyId=2338f373-b4b5-46b9-b6cc-9e3963b488fa">
-                    Heavy Traffic Advisory</a>
+                    {{ violatedPolicyName }}</a>
 
                   <!-- <a
                     href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
@@ -252,6 +252,7 @@ export default {
     const upadateMap = ref('');
     console.log(context.root.$store.state.sLocation);
     const isAlert = ref(false);
+    const violatedPolicyName = ref('')
     const underStandButtonHandler = () => {
       isAlert.value = false;
       openSearch();
@@ -281,6 +282,7 @@ export default {
               openSearch();
             } else if (res.body.policyCheckResult[0].violation === true) {
               enableLoader.value = false;
+              violatedPolicyName.value = res.body.policyCheckResult[0].violatedPolicies[0].name
               Alertmodal();
             }
           });
@@ -511,7 +513,8 @@ export default {
       TC_modal,
       enableLoader,
       voilationcheck,
-      underStandButtonHandler
+      underStandButtonHandler,
+      violatedPolicyName
     };
   }
 };
