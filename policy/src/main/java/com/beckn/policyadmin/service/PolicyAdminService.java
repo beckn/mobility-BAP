@@ -2,9 +2,11 @@ package com.beckn.policyadmin.service;
 
 import com.beckn.policyadmin.dto.v1request.LocationRequest;
 import com.beckn.policyadmin.dto.v1request.PolicyDTO;
+import com.beckn.policyadmin.dto.v1request.PolicyLocation;
 import com.beckn.policyadmin.dto.v1request.UpdatePolicyRequest;
 import com.beckn.policyadmin.dto.v1response.LocationPolicyViolation;
 import com.beckn.policyadmin.dto.v1response.PolicyMetaData;
+import com.beckn.policyadmin.dto.v1response.ViolatedPolicy;
 import com.beckn.policyadmin.dto.v1response.ViolationResponce;
 import com.beckn.policyadmin.exception.PolicyException;
 import com.beckn.policyadmin.mapper.PolicyDtoToPolicyMapper;
@@ -98,21 +100,21 @@ public class PolicyAdminService {
 
 
         List<Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(), "applied");
-        Map<String, List<String>> policyLocationMap = new HashMap<>();
+        Map<String, PolicyLocation> policyLocationMap = new HashMap<>();
         for (Policy policy : policyList) {
-            policyLocationMap.put(policy.getId(), policy.getPolygon());
+            policyLocationMap.put(policy.getId(), new PolicyLocation(policy.getName(), policy.getPolygon()));
         }
 
         List<LocationPolicyViolation> locationPolicyViolations = new ArrayList<>();
 
         for (String location : locationRequest.getLocations()) {
-            List<String> violatedPolicies = new ArrayList<>();
+            List<ViolatedPolicy> violatedPolicies = new ArrayList<>();
             LocationPolicyViolation locationPolicyViolation = new LocationPolicyViolation(location, false, violatedPolicies);
-            for (Map.Entry<String, List<String>> entry : policyLocationMap.entrySet()) {
-                if (CheckLocation.checkInside(entry.getValue(), location) == 1) {
+            for (Map.Entry<String, PolicyLocation> entry : policyLocationMap.entrySet()) {
+                if (CheckLocation.checkInside(entry.getValue().getLocations(), location) == 1) {
                     if (!locationPolicyViolation.getViolation())
                         locationPolicyViolation.setViolation(true);
-                    violatedPolicies.add(entry.getKey());
+                    violatedPolicies.add(new ViolatedPolicy(entry.getKey(), entry.getValue().getName()));
                 }
             }
             locationPolicyViolation.setViolatedPolicies(violatedPolicies);

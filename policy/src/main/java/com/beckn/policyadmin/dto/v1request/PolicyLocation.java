@@ -1,4 +1,4 @@
-package com.beckn.policyadmin.dto.v1response;
+package com.beckn.policyadmin.dto.v1request;
 
 
 import lombok.AllArgsConstructor;
@@ -14,8 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LocationPolicyViolation {
-    private String location;
-    private Boolean violation;
-    private List<ViolatedPolicy> violatedPolicies;
+public class PolicyLocation {
+    private String name;
+    private List<String> locations;
 }
