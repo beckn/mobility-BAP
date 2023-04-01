@@ -3,21 +3,14 @@
     <slot name="locationInput">
       <div class="position-relative">
         <div v-if="show">
-          <input
-            ref="locationAutocomplete"
-            v-model="location"
-            type="text"
-            placeholder="Enter Location"
-            aria-label="Select Location"
-            class="
-            sf-header__search
-            be-search-location
-            sf-search-bar
-            sf-header__search
-            be-search-location
-          "
-            v-e2e="'app-location-sidebar-input'"
-          />
+          <input ref="locationAutocomplete" v-model="location" type="text" placeholder="Enter Location"
+            aria-label="Select Location" class="
+              sf-header__search
+              be-search-location
+              sf-search-bar
+              sf-header__search
+              be-search-location
+            " v-e2e="'app-location-sidebar-input'" />
           <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
               <div style="padding-top: 15px;">
@@ -28,12 +21,8 @@
         </div>
       </div>
       <ul class="location-list" v-if="show">
-        <li
-          v-for="(result, i) in searchResults"
-          :key="i"
-          @click="getLocationDetails(result)"
-          v-e2e="'app-location-sidebar-input-options'"
-        >
+        <li v-for="(result, i) in searchResults" :key="i" @click="getLocationDetails(result)"
+          v-e2e="'app-location-sidebar-input-options'">
           <SfButton class="button-pos sf-button--pure ">
             <span class="sf-search-bar__icon">
               <SfIcon color="var(--c-text)" size="18px" icon="marker" />
@@ -64,16 +53,13 @@
                     </div>
 
                     <hr class="sf-divider" />
-                    <h6
-                      style="font-weight:400; font-size:14px;margin-bottom: 0px;margin-top: 0px;"
-                    >
+                    <h6 style="font-weight:400; font-size:14px;margin-bottom: 0px;margin-top: 0px;">
                       {{ this.location }}
                     </h6>
                     <hr style="width:100%;" />
                     <div style="padding-bottom:8%;">
                       <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
-                        Set Location</SfButton
-                      >
+                        Set Location</SfButton>
                     </div>
                     <!-- <SfButton @click="$emit('toggleLocationDrop')" id="btn1">
                       Set Location</SfButton
@@ -187,11 +173,11 @@ export default {
 
     markerpos() {
       const that = this;
-      google.maps.event.addListener(this.marker, 'dragstart', function(evt) {
+      google.maps.event.addListener(this.marker, 'dragstart', function (evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
         that.mapCenter.lag = evt.latLng.lng().toFixed(3);
       });
-      google.maps.event.addListener(this.marker, 'dragend', function(evt) {
+      google.maps.event.addListener(this.marker, 'dragend', function (evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
         that.mapCenter.lag = evt.latLng.lng().toFixed(3);
         that.codeLatLng(that.mapCenter.lat, that.mapCenter.lag);
@@ -250,9 +236,7 @@ export default {
         this.service
           .getPlacePredictions({
             input: this.location,
-            componentRestrictions: {
-              country: 'IN',
-            }
+
           })
           .then((r) => {
             this.searchResults = r.predictions;
@@ -278,6 +262,7 @@ export default {
   top: 0;
   bottom: 20px;
 }
+
 // .sf-search-bar__icon {
 //   padding-left: 70%;
 // }
@@ -285,6 +270,7 @@ div#taxi-map {
   @media (max-height: 667px) {
     height: 400px;
   }
+
   width: 100%;
   height: 500px;
   overflow: hidden;
