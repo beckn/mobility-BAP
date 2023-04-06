@@ -102,7 +102,7 @@ public class PolicyAdminService {
         List<Policy> policyList = policyRepository.findActivePoliciesOfCurrentDate(new Date(), "applied");
         Map<String, PolicyLocation> policyLocationMap = new HashMap<>();
         for (Policy policy : policyList) {
-            policyLocationMap.put(policy.getId(), new PolicyLocation(policy.getName(), policy.getPolygon()));
+            policyLocationMap.put(policy.getId(), new PolicyLocation(policy.getName(), policy.getDescription(), policy.getPolygon()));
         }
 
         List<LocationPolicyViolation> locationPolicyViolations = new ArrayList<>();
@@ -114,7 +114,7 @@ public class PolicyAdminService {
                 if (CheckLocation.checkInside(entry.getValue().getLocations(), location) == 1) {
                     if (!locationPolicyViolation.getViolation())
                         locationPolicyViolation.setViolation(true);
-                    violatedPolicies.add(new ViolatedPolicy(entry.getKey(), entry.getValue().getName()));
+                    violatedPolicies.add(new ViolatedPolicy(entry.getKey(), entry.getValue().getName(), entry.getValue().getDescription()));
                 }
             }
             locationPolicyViolation.setViolatedPolicies(violatedPolicies);

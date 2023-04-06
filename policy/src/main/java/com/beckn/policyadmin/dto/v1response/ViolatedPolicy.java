@@ -15,4 +15,5 @@ import org.springframework.stereotype.Component;
 public class ViolatedPolicy {
     private String id;
     private String name;
+    private String description;
 }

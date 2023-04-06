@@ -16,5 +16,6 @@ import java.util.List;
 @Setter
 public class PolicyLocation {
     private String name;
+    private String description;
     private List<String> locations;
 }
