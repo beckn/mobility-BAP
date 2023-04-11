@@ -3,6 +3,7 @@ package org.beckn.one.sandbox.bap.client.shared.dtos
 import org.beckn.protocol.schemas.ProtocolContext
 import org.beckn.protocol.schemas.ProtocolError
 import org.beckn.protocol.schemas.ProtocolOnSelectMessageSelected
+import org.beckn.protocol.schemas.ProtocolOrder
 
 data class ClientQuoteResponse(
   override val context: ProtocolContext?,
@@ -11,5 +12,5 @@ data class ClientQuoteResponse(
 ) : ClientResponse
 
 data class ClientQuoteResponseMessage(
-  val quote: ProtocolOnSelectMessageSelected? = null
+  val quote: ProtocolOrder? = null
 )
