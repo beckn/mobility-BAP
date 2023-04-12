@@ -21,7 +21,6 @@ data class ProtocolContext @Default constructor(
   val timestamp: OffsetDateTime = OffsetDateTime.now(clock),
   val key: String? = null,
   val ttl: String? = null,
-  val max_callbacks: Int? = 1,
 ) {
   enum class Action(val value: String) {
     @JsonProperty("search")

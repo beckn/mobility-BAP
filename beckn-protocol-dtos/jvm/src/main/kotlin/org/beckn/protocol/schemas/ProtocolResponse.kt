@@ -52,7 +52,7 @@ data class ProtocolOnSelect @Default constructor(
 ) : ProtocolResponse
 
 data class ProtocolOnSelectMessage @Default constructor(
-  val order: ProtocolOrder? = null
+  val order: ProtocolOnSelectMessageSelected? = null
 )
 
 
@@ -63,7 +63,7 @@ data class ProtocolOnInit @Default constructor(
 ) : ProtocolResponse
 
 data class ProtocolOnInitMessage @Default constructor(
-  val order: ProtocolOrder? = null
+  val order: ProtocolOnInitMessageInitialized? = null
 )
 
 data class ProtocolOnConfirm @Default constructor(
