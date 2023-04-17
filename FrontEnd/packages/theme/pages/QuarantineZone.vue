@@ -68,18 +68,10 @@
           <br />
           <label class="lableclass">Policy Document </label>
           <br />
-          <a href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
-            target="_blank" class="link1">
-            Statewise requirements of Quarantine</a>
+          <a class="policy-document-link" :href='Document' target="_blank">{{ Document }}</a>
           <br />
-          <a href="https://www.mohfw.gov.in/pdf/SOPonCOVID19Containment&ManagementinPeriurbanRural&tribalareas.pdf"
-            target="_blank" class="link1">SOP of containment & management</a>
-          <br />
-          <a href="https://www.mohfw.gov.in/pdf/ContainmentandSurveillanceManualforSupervisorsincontainmentzones.pdf"
-            class="link1" target="_blank" dis>Containment & surveillance guidelines</a>
           <br />
 
-          <p class="link">{{ Document }}</p>
         </div>
 
         <div>
@@ -356,7 +348,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.link1 {
+.policy-document-link {
   border: none;
   font-family: 'Roboto';
   font-style: normal;
@@ -365,7 +357,6 @@ export default {
   line-height: 14px;
   color: #004e92;
   padding: 6px;
-  pointer-events: none;
 }
 
 .btnclass {
