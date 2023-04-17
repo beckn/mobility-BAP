@@ -543,7 +543,7 @@ textarea {
 @media (max-width: 388px) {
   .flexform {
     display: flex;
-    flex-direction: column;
+    //flex-direction: column;
   }
 }
 
