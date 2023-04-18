@@ -5,12 +5,12 @@
         <div v-if="show">
           <input ref="locationAutocomplete" v-model="location" type="text" placeholder="Enter Location"
             aria-label="Select Location" class="
-              sf-header__search
-              be-search-location
-              sf-search-bar
-              sf-header__search
-              be-search-location
-            " v-e2e="'app-location-sidebar-input'" />
+                                                    sf-header__search
+                                                    be-search-location
+                                                    sf-search-bar
+                                                    sf-header__search
+                                                    be-search-location
+                                                  " v-e2e="'app-location-sidebar-input'" />
           <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
               <div style="padding-top: 15px;">
@@ -196,7 +196,7 @@ export default {
           this.codeLatLng(this.mapCenter.lat, this.mapCenter.lag);
         },
         (error) => {
-          console.log(error.message);
+          console.error(error.message);
         }
       );
       this.visible = false;
@@ -211,7 +211,6 @@ export default {
             if (results[1]) {
               //formatted address
               this.location = results[0].formatted_address;
-
               this.$emit(
                 'locationSelected',
                 lat,
@@ -231,19 +230,54 @@ export default {
 
   watch: {
     location(newValue) {
+
+
       //TODO :- To check after getting input from Ravi
       if (newValue) {
+        const pickupLocation = JSON.parse(
+          localStorage.getItem('SourceLocation')
+        );
+
+
+        if (!this.buttonlocation && pickupLocation.hasOwnProperty('geometry')) {
+          const radius = 100;
+          const bounds = new google.maps.Circle({
+            center: {
+              lat: pickupLocation.geometry.location.lat,
+              lng: pickupLocation.geometry.location.lng
+            },
+            radius: radius
+          }).getBounds();
+
+          return this.service
+            .getPlacePredictions({
+              input: this.location,
+              bounds: bounds,
+              strictbounds: true
+            })
+            .then((r) => {
+
+              this.searchResults = r.predictions;
+            })
+            .catch((error) =>
+              console.error(`error while fetching search predictions ${error}`)
+            );
+        }
+
         this.service
           .getPlacePredictions({
-            input: this.location,
-
+            input: this.location
+            // bounds: bounds
           })
           .then((r) => {
+
             this.searchResults = r.predictions;
           })
           .catch((error) =>
             console.error(`error while fetching search predictions ${error}`)
           );
+
+
       }
     }
   },
