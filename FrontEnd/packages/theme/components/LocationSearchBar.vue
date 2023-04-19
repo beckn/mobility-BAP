@@ -5,12 +5,12 @@
         <div v-if="show">
           <input ref="locationAutocomplete" v-model="location" type="text" placeholder="Enter Location"
             aria-label="Select Location" class="
-                                                    sf-header__search
-                                                    be-search-location
-                                                    sf-search-bar
-                                                    sf-header__search
-                                                    be-search-location
-                                                  " v-e2e="'app-location-sidebar-input'" />
+                                                      sf-header__search
+                                                      be-search-location
+                                                      sf-search-bar
+                                                      sf-header__search
+                                                      be-search-location
+                                                    " v-e2e="'app-location-sidebar-input'" />
           <SfButton class="button-pos sf-button--pure">
             <span class="sf-search-bar__icon">
               <div style="padding-top: 15px;">
@@ -240,7 +240,9 @@ export default {
 
 
         if (!this.buttonlocation && pickupLocation.hasOwnProperty('geometry')) {
-          const radius = 100;
+          const radius = process.env.RADIUS_KEY
+            ? process.env.RADIUS_KEY
+            : 100;
           const bounds = new google.maps.Circle({
             center: {
               lat: pickupLocation.geometry.location.lat,
