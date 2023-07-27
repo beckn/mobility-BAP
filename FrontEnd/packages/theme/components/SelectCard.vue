@@ -27,7 +27,7 @@
                     <div class="">
                       <template>
                         <div>
-                          <div class="provider-head aline-center ">
+                          <div class="form-class aline-center ">
                             <div class="flexy">
                               <img
                                 src="/icons/car.png"
@@ -54,7 +54,9 @@
                             </div>
                           </div>
 
-                          <div><hr class="sf-divider" /></div>
+                          <div>
+                            <hr class="sf-divider" />
+                          </div>
                           <div>
                             <select class="form-select">
                               <option selected>Ride Now</option>
@@ -63,7 +65,7 @@
                             </select>
                           </div>
                           <div class="loc1">
-                            <div class=" ">
+                            <div class="form-class">
                               <div class="flexy">
                                 <SfIcon
                                   class="locationicon"
@@ -91,7 +93,7 @@
                                 <br />
                               </div>
                             </div>
-                            <div class="">
+                            <div class="form-class">
                               <div class="flexy">
                                 <SfIcon
                                   class="locationicon"
@@ -181,7 +183,9 @@
                                     </div>
                                   </div>
 
-                                  <div><hr class="sf-divider" /></div>
+                                  <div>
+                                    <hr class="sf-divider" />
+                                  </div>
                                   <div>
                                     <select class="form-select">
                                       <option selected>Ride Now</option>
@@ -190,9 +194,7 @@
                                     </select>
                                   </div>
                                   <div class="loc">
-                                    <div
-                                      class=" provider-head aline-cente side-padding"
-                                    >
+                                    <div class="form-class">
                                       <div class="flexy">
                                         <SfIcon
                                           class="locationicon"
@@ -219,9 +221,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div
-                                      class="provider-head aline-center side-padding"
-                                    >
+                                    <div class=" form-class">
                                       <div class="flexy">
                                         <SfIcon
                                           class="locationicon"
@@ -254,7 +254,6 @@
                                       <option selected>MySelf</option>
                                     </select>
                                     <div class="form">
-                                      <form></form>
                                       <p class="s-name">Name:</p>
                                       <input
                                         @click="enterName"
@@ -262,7 +261,6 @@
                                         class="text1"
                                         type="text"
                                         placeholder="Enter Name"
-                                        @keyup="validateName"
                                       />
                                       <div
                                         class="invalid-warning"
@@ -279,7 +277,6 @@
                                         class="text1"
                                         type="text"
                                         placeholder="Enter phone number"
-                                        @keyup="validatePhoneNumber"
                                       />
                                       <div
                                         class="invalid-warning"
@@ -290,7 +287,9 @@
                                     </div>
                                     <br />
 
-                                    <div><hr class="sf-divider" /></div>
+                                    <div>
+                                      <hr class="sf-divider" />
+                                    </div>
                                     <div
                                       v-if="enableLoader"
                                       key="loadingCircle"
@@ -305,12 +304,7 @@
                                           ? ''
                                           : 'is-disabled--button'
                                       }"
-                                      :disabled="
-                                        !name ||
-                                          !phoneNo ||
-                                          !isValidPhoneNumber ||
-                                          !isValidName
-                                      "
+                                      :disabled="!name || !phoneNo"
                                       type="submit"
                                       id="btn"
                                       @click="onConfirmProc"
@@ -351,6 +345,7 @@ import LoadingCircle from './LoadingCircle';
 import { createInitOrderRequest } from '../helpers/helpers';
 import helpers from '../helpers/helpers';
 import BottomSlider from '../components/ConfirmBottomSlider.vue';
+import { useUiState } from '~/composables';
 import { root } from 'postcss';
 /* eslint camelcase: 0 */
 export default {
@@ -385,13 +380,9 @@ export default {
     // const _pImage = '/icons/car.svg';
     const enableLoader = ref(false);
     const _pCount = computed(() => props.pCount);
-    const _SourceLocation = ref(JSON.parse(localStorage.getItem('slocation')));
-    const _destloc = ref(
-      JSON.parse(localStorage.getItem('destinationLocation'))
-    );
 
     const enterName = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -404,7 +395,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_init_details1',
                   eventAction: 'entering name',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -422,7 +413,7 @@ export default {
     };
 
     const enterphoneNo = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -435,7 +426,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_init_details2',
                   eventAction: 'entering phone number',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -452,6 +443,20 @@ export default {
       }
     };
 
+    const {
+      dLocation,
+      sLocation,
+      quoteData,
+      TransactionId,
+      setTransactionId,
+      cartItem,
+      token,
+      setinitResult,
+      initResult,
+      experienceId
+    } = useUiState();
+    const _SourceLocation = ref(sLocation?.value?.addres);
+    const _destloc = ref(dLocation?.value?.addresss);
     const validatePhoneNumber = () => {
       const validationRegex = /^\d{10}$/;
       if (phoneNo.value.match(validationRegex)) {
@@ -475,9 +480,9 @@ export default {
       init,
       stopPolling
     } = useInitOrder();
-    const quoteItems = JSON.parse(localStorage.getItem('quoteData'));
-    const transactionId = localStorage.getItem('transactionId');
-    const cartItem = JSON.parse(localStorage.getItem('cartItem'));
+    const quoteItems = JSON.parse(quoteData.value);
+    const transactionId = TransactionId.value; //localStorage.getItem('transactionId');
+    const cartitem = JSON.parse(cartItem.value);
     const isShow = ref(false);
     const toggleIsShow = () => {
       isShow.value = !isShow.value;
@@ -485,21 +490,26 @@ export default {
     const closeModal = () => {
       isShow.value = false;
     };
-
+    const { setphoneNo, setName } = useUiState();
     const onConfirmProc = async () => {
-      localStorage.setItem('Name', JSON.stringify(name.value));
-      localStorage.setItem('phoneNo', JSON.stringify(phoneNo.value));
-      console.log(name.value, phoneNo.value);
+      validateName();
+      validatePhoneNumber();
+      if (!isValidPhoneNumber.value || !isValidName.value) {
+        return;
+      }
+      setphoneNo(phoneNo.value);
+      setName(name.value);
+
       enableLoader.value = true;
-      if (quoteItems && transactionId && cartItem) {
+      if (quoteItems && transactionId && cartitem) {
         const params = createInitOrderRequest(
           transactionId,
           quoteItems.quote,
-          cartItem,
+          cartitem,
           '12.9063433,77.5856825'
         );
-        const response = await init(params, localStorage.getItem('token'));
-        if (localStorage.getItem('experienceId') !== null) {
+        const response = await init(params, token.value);
+        if (experienceId.value !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -512,7 +522,7 @@ export default {
                   redirect: 'follow',
                   referrerPolicy: 'no-referrer',
                   body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
+                    experienceId: experienceId.value,
                     eventCode: 'mbtb_init_ride',
                     eventAction: 'initiating ride',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -534,9 +544,8 @@ export default {
             // eslint-disable-next-line camelcase
             messageIds: response[0].context.message_id
           },
-          localStorage.getItem('token')
+          token.value
         );
-        //console.log(onInitResult);
       }
 
       watch(
@@ -550,10 +559,13 @@ export default {
           }
           if (helpers.shouldStopPooling(onInitRes, 'order')) {
             stopPolling();
-            localStorage.setItem('initResult', JSON.stringify(onInitRes));
+
+            setTransactionId(onInitRes[0].context.transaction_id);
+
+            setinitResult(onInitRes);
 
             enableLoader.value = false;
-            if (localStorage.getItem('experienceId') !== null) {
+            if (experienceId.value !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -566,7 +578,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: localStorage.getItem('experienceId'),
+                        experienceId: experienceId.value,
                         eventCode: 'mbth_sent_fnl_quote',
                         eventAction: 'sent final quote',
                         eventSourceId:
@@ -619,16 +631,65 @@ export default {
 .loader-circle {
   margin-bottom: 20px;
 }
+
+.form-class {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+
+  .p-name {
+    font-size: 19px;
+    font-weight: 600;
+    margin-right: 5px;
+    color: #37474f;
+  }
+
+  .provide-img {
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    box-shadow: 0px 4px 88px #f5f5f5;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    padding: 5px;
+
+    img {
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .text-padding {
+    font-weight: 600;
+    color: #37474f;
+    line-height: 22px;
+
+    span {
+      font-weight: 400;
+      margin-right: 5px;
+    }
+  }
+
+  .p-distance {
+    font-size: 12px;
+    font-weight: 400;
+    color: #8d9091;
+  }
+}
+
 .invalid-warning {
   // margin: 10px auto;
   color: red;
 }
+
 .search-bar {
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
 }
+
 .top-bar {
   align-items: center;
   display: flex;
@@ -638,6 +699,7 @@ export default {
   font-weight: 500;
   background: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.07);
+
   .icon_back {
     position: absolute;
     left: 0;
@@ -648,10 +710,12 @@ export default {
 .inputs-container {
   margin-bottom: 28px;
 }
+
 .form {
-  width: 55%;
+  width: 50%;
   padding-left: 11%;
 }
+
 .bookfor {
   padding-left: 15%;
 
@@ -675,9 +739,11 @@ export default {
   height: 32px;
   opacity: 1;
 }
+
 .close:hover {
   opacity: 1;
 }
+
 .close:before,
 .close:after {
   position: absolute;
@@ -687,6 +753,7 @@ export default {
   width: 2px;
   background-color: #333;
 }
+
 .button-pos1,
 .bar-pos {
   display: flex;
@@ -696,6 +763,7 @@ export default {
   padding-left: 18%;
   justify-content: center;
 }
+
 .bar {
   padding-left: 40%;
 }
@@ -703,30 +771,42 @@ export default {
 .close:before {
   transform: rotate(45deg);
 }
+
 .close:after {
   transform: rotate(-45deg);
 }
+
 div#cafe-map {
   width: 100%;
   height: 500px;
   position: fixed;
 }
+
 .loc {
   padding-left: 21px;
 }
+
 .loc1 {
   padding-left: 21px;
   padding-bottom: 25px;
 }
+
 input {
   width: 140%;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  color: #37474f;
+  //color: #37474f;
   line-height: 14px;
+  border: none;
+  border-bottom: 2px solid #65696ae8;
 }
+
+input:hover {
+  border-bottom: 2px solid rgb(227, 90, 40);
+}
+
 @media screen and (max-width: 375px) {
   input {
     width: 100%;
@@ -736,8 +816,11 @@ input {
     font-size: 14px;
     color: #37474f;
     line-height: 14px;
+    border: none;
+    border-bottom: 2px solid #65696ae8;
   }
 }
+
 .subtext {
   font-family: 'Roboto';
   font-style: normal;
@@ -745,11 +828,11 @@ input {
   font-size: 13px;
   color: #8a8d8e;
 }
-// .text1{
-//   width: 100%;
-//   border-bottom: 2px solid
-// rgba(67, 70, 78, 1);
-// }
+
+.text1 {
+  padding: 10px;
+}
+
 #btn {
   //top:112px;
   width: 63px;
@@ -759,12 +842,14 @@ input {
   font-weight: 600;
   text-transform: capitalize;
 }
+
 .locationicon {
   // left: 10%;
   width: 30px;
   height: 30px;
   margin-right: 10px;
 }
+
 .form-select {
   width: 80%;
   height: 36px;
@@ -774,35 +859,46 @@ input {
   background: #ffffff;
   border: 1px solid #e6e6e6;
   border-radius: 4px;
+  font-family: 'SF Pro Text';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
 }
+
 .s-p-price {
-  padding: 5px;
+  //padding-left: 20%;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  // position: absolute;
+  position: absolute;
   right: 10%;
   width: 100px;
   text-align: right;
   color: #f37a20;
 }
+
 .loc-input {
   font-size: 12px;
   height: 0px;
 }
+
 .location-block {
   margin-left: 25px;
 }
+
 .display-map {
   height: 250px;
   width: 100%;
   background-color: antiquewhite;
 }
+
 img {
   border-radius: 9px;
 }
+
 .s-name {
   font-family: 'Roboto';
   font-style: normal;
@@ -810,6 +906,7 @@ img {
   font-size: 11px;
   color: #37474f;
 }
+
 /*.sf-search-bar{
     left: ;
   }*/

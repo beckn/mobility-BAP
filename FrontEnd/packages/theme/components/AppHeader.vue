@@ -6,39 +6,43 @@
   <div class="header-container">
     <div class="fixed-head">
       <div class="fixed-head-height"></div>
-      <div class="header h-padding">
-        <nuxt-link :to="localePath('/')">
-          <SfImage
-            src="/icons/beckn.png"
-            :width="63"
-            :height="20"
-            alt="Vue Storefront Next"
-          />
-        </nuxt-link>
+      <div class="head-class">
+        <div class="title">
+          <nuxt-link :to="localePath('/')">
+            <SfImage src="/icons/Group.png" :width="25" :height="20" alt="Vue Storefront Next" />
+          </nuxt-link>
+          <h3>
+            Travel Buddy
+          </h3>
+        </div>
+        <div>
+          <nuxt-link :to="localePath('/Login')">
+            <div class="profile-icon" v-show="isAuthenticatedUser">
+              <SfIcon icon="profile" />
+            </div>
+
+            <div class="sign-in-text" v-show="!isAuthenticatedUser">Sign In</div>
+          </nuxt-link>
+        </div>
       </div>
-      <LoadingBar
-        :enable="
-          enableLoadindBar &&
-            ['Product', 'cart', 'Search'].includes($route.name)
-        "
-      />
-      <div
-        v-if="['home', 'Search'].includes($route.name)"
-        class="location-btn h-padding flexy"
-      >
-        <div
+      <LoadingBar :enable="
+        enableLoadindBar &&
+        ['Product', 'cart', 'Search'].includes($route.name)
+      " />
+      <div v-if="['home', 'Search'].includes($route.name)" class="h-padding  flexy">
+        <!-- <div
           v-if="['Search'].includes($route.name)"
           class="icon-padding circle-centre"
           @click="goBack"
         >
           <SfIcon color="var(--c-text)" size="20px" icon="chevron_left" />
-        </div>
-        <Location
+        </div> -->
+        <!-- <Location
           :isDisabled="false"
           :class="{ 'disable-location': false }"
           class="location-section aline-center"
           v-e2e="'app-header-location'"
-        />
+        /> -->
       </div>
     </div>
   </div>
@@ -64,7 +68,7 @@ export default {
     SfBottomModal,
     Location,
     LoadingBar,
-    Card
+    Card,
   },
   directives: { clickOutside },
   setup(props, { root }) {
@@ -73,6 +77,7 @@ export default {
     const { isAuthenticated, load: loadUser } = useUser();
     const { load: loadWishlist } = useWishlist();
     const { stopPolling } = useSearch('search');
+    const currentUser = root.$store.$fire.auth.currentUser;
 
     const accountIcon = computed(() =>
       isAuthenticated.value ? 'profile_fill' : 'profile'
@@ -106,8 +111,14 @@ export default {
       setTermForUrl,
       LoadingBar,
       enableLoadindBar,
-      goBack
+      goBack,
+      currentUser,
     };
+  },
+  computed: {
+    isAuthenticatedUser() {
+      return this.currentUser !== null;
+    }
   }
 };
 </script>
@@ -115,6 +126,7 @@ export default {
 <style lang="scss" scoped>
 .header-container {
   background-color: #ffffff;
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -123,23 +135,60 @@ export default {
     padding: 10px 0;
     border-bottom: 0.5px solid #f1f1f1;
   }
+
   .h-padding {
     padding-left: var(--spacer-sm);
     padding-right: var(--spacer-sm);
   }
+
   .search-bar {
     width: 100%;
     margin-top: 15px;
   }
 
+  .title {
+    display: flex;
+    flex-direction: row;
+    padding: 13px;
+    align-items: center;
+    // justify-content: center;
+  }
+
+  .head-class {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .icon-padding {
     padding-right: 10px;
     cursor: pointer;
+
     .sf-icon {
       --icon-color: #f37a20 !important;
       width: 20px;
       height: 20px;
     }
+  }
+
+  h3 {
+    font-style: normal;
+    font-family: 'SF Pro Text';
+    font-weight: 500;
+    font-size: 20px;
+    padding-right: 7px;
+    padding-left: 3px;
+    //line-height: 110%;
+    //font-weight: 800;
+    //font-size: 55px;
+    // line-height: 110%;
+    text-align: center;
+
+    // padding-top: 10px;
+    letter-spacing: -0.03em;
+
+    color: #f37a20;
   }
 
   .location-btn {
@@ -149,10 +198,12 @@ export default {
     position: relative;
     // z-index: 99;
     background-color: #fbfcff;
+
     .selected-location {
       font-size: 13px;
       font-weight: 500;
     }
+
     .location-text {
       font-size: 11px;
     }
@@ -166,8 +217,10 @@ export default {
 .header-on-top {
   z-index: 2;
 }
+
 .nav-item {
   --header-navigation-item-margin: 0 var(--spacer-base);
+
   .sf-header-navigation-item__item--mobile {
     display: none;
   }
@@ -182,5 +235,15 @@ export default {
   position: absolute;
   bottom: 40%;
   left: 40%;
+}
+
+.sign-in-text {
+  color: #f37a20;
+  font-weight: 600;
+  padding-right: 10px;
+}
+
+.profile-icon {
+  padding-right: 10px;
 }
 </style>

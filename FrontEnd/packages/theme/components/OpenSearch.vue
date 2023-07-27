@@ -1,72 +1,47 @@
 <template>
   <div>
-    <div class="open-search">
-      <h3>
-        Travel Buddy
-      </h3>
+    <div class="open-search"></div>
+    <div>
+      <CurrentLocationMap :enable="true" :disablepulse="true" :upadateMap="upadateMap"
+        @Currentlocation="Currentlocation" />
     </div>
     <div class="open-search header-top-space">
       <div class="open-search-input">
-        <div class="input1">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
+        <div class="inputBox">
+          <div class="input1 input-opensearch">
+            <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
 
-          <label>Pickup: </label>
+            <label>Pickup: </label>
 
-          <!-- v-on:keyup.enter="openSearch" -->
-          <input
-            @click="pickupLocation"
-            v-model="pickup"
-            :valid="false"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Pickup"
-            v-e2e="'home-search-input'"
-          />
-        </div>
-        <!-- <div class="hr">  <hr style="width:100%;" />
-        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
-        <div class="hr-theme-slash-2">
-          <div class="hr-line"></div>
-          <div class="hr-icon">
-            <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+            <!-- v-on:keyup.enter="openSearch" -->
+            <input @click="pickupLocation" v-model="pickup" :valid="false" errorMessage="errer" type="text"
+              placeholder="Enter Pickup" v-e2e="'home-search-input'" />
           </div>
-        </div>
+          <!-- <div class="hr">  <hr style="width:100%;" />
+        <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /></div> -->
+          <div class="hr-theme-slash-2">
+            <div class="hr-line"></div>
+            <div class="hr-icon">
+              <!-- <SfImage src="/icons/Transport.svg" alt="Vue Storefront Next" /> -->
+            </div>
+          </div>
 
-        <div class="input">
-          <SfImage
-            id="icon"
-            src="/icons/Vector.png"
-            alt="Vue Storefront Next"
-          />
-          <label for=""> Dropoff: </label>
+          <div class="input">
+            <SfImage id="icon" src="/icons/Vector.png" alt="Vue Storefront Next" />
+            <label for=""> Dropoff: </label>
 
-          <input
-            @click="dropLocation"
-            v-model="message"
-            v-on:keyup.enter="openSearch"
-            :valid="false"
-            errorMessage="errer"
-            type="text"
-            placeholder="Enter Destination"
-            v-e2e="'home-search-input'"
-          />
-        </div>
+            <input @click="dropLocation" v-model="message" v-on:keyup.enter="openSearch" :valid="false"
+              errorMessage="errer" type="text" placeholder="Enter Destination" v-e2e="'home-search-input'" />
+          </div>
 
-        <SfButton
-          id="btn"
-          class="button-pos sf-button--pure color-primary"
-          @click="openSearch"
-          :disabled="!selectedLocation.latitude || !selectedLocation.longitude"
-          v-e2e="'home-search-button'"
-          ><label for="btn">Search Rides</label>
-          <!-- <span class="sf-search-bar__icon">
+          <SfButton id="btn" class="button-pos sf-button--pure color-primary" @click="openSearch"
+            :disabled="!selectedLocation.latitude || !selectedLocation.longitude" v-e2e="'home-search-button'"><label
+              for="btn">Search Rides</label>
+            <!-- <span class="sf-search-bar__icon">
             <SfIcon color="var(--c-text)" size="18px" icon="search" />
           </span> -->
-        </SfButton>
+          </SfButton>
+        </div>
       </div>
       <div v-if="errorMsg" class="error-msg">Please fill out this field.</div>
       <div v-if="errorMsg2" class="error-msg">
@@ -77,22 +52,12 @@
       <div class="location-blk d-flex w-100">
         <div class="layout-container">
           <div id="location" class="location-content">
-            <SfSidebar
-              :visible="!!isLocationdropOpen"
-              :button="false"
-              title="Set Location"
-              @close="toggleLocationDrop"
-              class="sidebar sf-sidebar--right"
-            >
+            <SfSidebar :visible="!!isLocationdropOpen" :button="false" title="Set Location" @close="toggleLocationDrop"
+              class="sidebar sf-sidebar--right">
               <transition name="fade">
                 <client-only>
-                  <LocationSearchBar
-                    :buttonlocation="buttonlocation"
-                    @locationSelected="locationSelected"
-                    @toggleLocationDrop="toggleLocationDrop"
-                    @edit="edit"
-                    v-e2e="'app-location-sidebar'"
-                  />
+                  <LocationSearchBar :buttonlocation="buttonlocation" @locationSelected="locationSelected"
+                    @toggleLocationDrop="toggleLocationDrop" @edit="edit" v-e2e="'app-location-sidebar'" />
                 </client-only>
               </transition>
             </SfSidebar>
@@ -120,8 +85,16 @@ import { SfFooter } from '@storefront-ui/vue';
 import { ref, onBeforeMount } from '@vue/composition-api';
 import LocationSearchBar from './LocationSearchBar.vue';
 import superAgent from 'superagent';
+import CurrentLocationMap from './CurrentLocationMap.vue';
 
-const { selectedLocation, updateLocation } = useUiState();
+const {
+  selectedLocation,
+  updateLocation,
+  updatesLocation,
+  updatedLocation,
+  setExperienceId,
+  experienceId
+} = useUiState();
 
 export default {
   components: {
@@ -130,7 +103,8 @@ export default {
     SfFooter,
     LocationSearchBar,
     SfSidebar,
-    SfImage
+    SfImage,
+    CurrentLocationMap
   },
 
   setup(_, context) {
@@ -140,13 +114,13 @@ export default {
     const message = ref('');
     const errorMsg = ref(false);
     const errorMsg2 = ref(false);
-
+    const upadateMap = ref('')
     onBeforeMount(async () => {
       let URL = window.location.href;
 
       if (URL.includes('?')) {
         let experienceId = URL.slice(URL.indexOf('?') + 1);
-        localStorage.setItem('experienceId', experienceId);
+        setExperienceId(experienceId)
       } else {
         await fetch(
           'https://api.eventcollector.becknprotocol.io/v2/event/experience',
@@ -163,7 +137,7 @@ export default {
             return res.text();
           })
           .then((result) => {
-            localStorage.setItem('experienceId', result);
+            setExperienceId(result)
           })
           .catch((e) => console.error(e));
       }
@@ -180,20 +154,40 @@ export default {
         isLocationdropOpen.value = !isLocationdropOpen.value;
       }
     };
+    const Currentlocation = (latitude, longitude, address) => {
+      pickup.value = address;
+      updatesLocation({
+        lat: latitude,
+        long: longitude,
+        addres: address
+      });
+    };
+
     const locationSelected = (latitude, longitude, address) => {
       if (location.value) {
+        updatesLocation({
+          lat: latitude,
+          long: longitude,
+          addres: address
+        });
         pickup.value = address;
-
-        localStorage.setItem('slocation', JSON.stringify(pickup.value));
-        localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
+        upadateMap.value = address
+        //updatesLocation(pickup.value)
+        //localStorage.setItem('slocation', JSON.stringify(pickup.value));
+        //localStorage.setItem('pickUpLatAndLong', `${latitude},${longitude}`);
       } else if (!location.value) {
         message.value = address;
+        updatedLocation({
+          late: latitude,
+          lng: longitude,
+          addresss: address
+        });
 
-        localStorage.setItem(
-          'destinationLocation',
-          JSON.stringify(message.value)
-        );
-        localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
+        // localStorage.setItem(
+        //   'destinationLocation',
+        //   JSON.stringify(message.value)
+        // );
+        // localStorage.setItem('dropLatAndLong', `${latitude},${longitude}`);
       } else if (pickup.value === message.value) {
         message.value = '';
       }
@@ -210,7 +204,7 @@ export default {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const pickupLocation = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -223,7 +217,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_pickup_loc',
                   eventAction: 'selecting pickup location',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -243,7 +237,7 @@ export default {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
     const dropLocation = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -256,7 +250,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_drop_loc',
                   eventAction: 'selecting drop-off location',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -277,7 +271,7 @@ export default {
     };
 
     const openSearch = async () => {
-      if (localStorage.getItem('experienceId') !== null) {
+      if (experienceId.value !== null) {
         setTimeout(async () => {
           try {
             await fetch(
@@ -290,7 +284,7 @@ export default {
                 redirect: 'follow', // manual, *follow, error
                 referrerPolicy: 'no-referrer', // no-referrer,
                 body: JSON.stringify({
-                  experienceId: localStorage.getItem('experienceId'),
+                  experienceId: experienceId.value,
                   eventCode: 'mbtb_srch_init',
                   eventAction: 'search initiated',
                   eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -339,7 +333,9 @@ export default {
       dropLocation,
       toggleLocationDrop,
       buttonlocation,
-      edit
+      edit,
+      Currentlocation,
+      upadateMap
     };
   }
 };
@@ -350,21 +346,34 @@ export default {
 //   top: 107px;
 // }
 .open-search {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+
   @media (min-width: 560px) {
     padding-top: 40px;
     width: 50%;
     margin: auto;
+
   }
+
+  .inputBox {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+
+  }
+
   #icon {
     padding-right: 5px;
     padding-top: 3px;
   }
+
   #btn {
     width: 328px;
     height: 48px;
     background: #f37a20;
     border-radius: 4px;
     width: 100%;
+
     label {
       font-weight: 600;
       letter-spacing: 0.8px;
@@ -379,10 +388,11 @@ export default {
     .hr-line {
       width: 100%;
       position: relative;
-
-      margin: 11px;
+      padding: 7px;
+      margin: 9px;
       border-bottom: 1px solid rgba(196, 196, 196, 0.4);
     }
+
     .hr-icon {
       position: relative;
       top: 11px;
@@ -391,47 +401,42 @@ export default {
 
   .input {
     display: flex;
-    padding-top: 5%;
+    //padding-top: 5%;
     padding-right: 5%;
-    padding-bottom: 15%;
+    padding-bottom: 5%;
+
     input::placeholder {
       font-weight: 300;
       font-size: 14px;
     }
   }
+
   .input1 {
     display: flex;
-    padding-top: 15%;
+    padding-top: 8%;
     padding-right: 5%;
+
     input::placeholder {
       font-weight: 300;
       font-size: 14px;
     }
   }
+
   .location-drop input {
     font-size: 15px;
     font-weight: 600;
     height: 35px;
   }
 
-  padding: 40px 20px;
-  h3 {
-    font-style: normal;
-    font-weight: 800;
-    font-size: 55px;
-    line-height: 110%;
-    text-align: center;
-    padding-top: 10px;
-    letter-spacing: -0.03em;
+  padding: 0px 20px;
 
-    color: #f37a20;
-  }
   h4 {
     text-align: center;
     font-size: 27px;
     font-weight: 800;
     line-height: 30px;
   }
+
   p {
     font-size: 15px;
     font-weight: 400;
@@ -439,21 +444,27 @@ export default {
     color: #7c7c7c;
     margin-bottom: 30px;
   }
+
   .open-search-input {
+    border-top-left-radius: 25px;
     // display: flex;
     margin-bottom: 8px;
+
     // position: relative;
     &.disable {
       h4 {
         padding: 20px;
       }
+
       button {
         background: #bfbfbf;
+
         .sf-icon {
           --icon-color: #fff !important;
         }
       }
     }
+
     input {
       border-radius: 6px;
       width: 100%;
@@ -464,6 +475,7 @@ export default {
       font-size: 12px;
       padding: 2px 0 0 4px;
     }
+
     label {
       font-family: 'Inter', sans-serif;
       font-style: normal;
@@ -483,16 +495,19 @@ export default {
       border-radius: 6px;
       // border-bottom-right-radius: 6px;
       right: 0;
+
       .sf-icon {
         --icon-color: #fff !important;
       }
     }
   }
+
   .error-msg {
     font-size: 14px;
     color: #d12727;
   }
 }
+
 .sf-footer {
   text-align: center;
   background: #fbfcff !important;
@@ -500,12 +515,15 @@ export default {
   bottom: 0px;
   width: 100%;
   padding: 0;
+
   p {
     margin: 0;
+
     span {
       font-size: 17px;
       position: relative;
       top: -6px;
+
       &.powered-by {
         font-size: 10px;
         top: -1px !important;
@@ -513,6 +531,7 @@ export default {
     }
   }
 }
+
 .layout-container {
   display: flex;
   justify-content: space-between;

@@ -88,7 +88,7 @@ import {
 } from '@storefront-ui/vue';
 import { useCart, cartGetters, useQuote } from '@vue-storefront/beckn';
 //import ProductCard from '~/components/ProductCard';
-import SelectCard from '../components/SelectCard.vue';
+import SelectCard from './SelectCard.vue';
 import { ref, onBeforeMount, watch } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 import LoadingCircle from '~/components/LoadingCircle';
@@ -115,7 +115,7 @@ export default {
     const openModal = ref(false);
     const modelOpenIndex = ref(-1);
     const itemNumber = ref(null);
-    const { toggleSearchVisible } = useUiState();
+    const { toggleSearchVisible,TransactionId } = useUiState();
 
     const errOutOfStock = ref(false);
     const errUpdateCount = ref(false);
@@ -126,9 +126,9 @@ export default {
     toggleSearchVisible(false);
     
     const matchQuote = async () => {
-      if (cart.value.totalItems > 0 && localStorage.getItem('transactionId')) {
+      if (cart.value.totalItems > 0 && TransactionId.value ) {
         enableLoader.value = true;
-        const transactionId = localStorage.getItem('transactionId');
+        const transactionId =TransactionId.value                                                       //localStorage.getItem('transactionId');
         const cartItems = await cart.value.items.map((item) => {
           return {
             id: item.id,

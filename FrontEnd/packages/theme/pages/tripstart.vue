@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="top-bar header-top">
-      <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
+      <!-- TODO  enable back button later -->
+      <!-- <div @click="goBack" class="sf-chevron--left sf-chevron icon_back">
         <span class="sf-search-bar__icon">
           <SfIcon color="var(--c-primary)" size="20px" icon="chevron_left" />
         </span>
-      </div>
+      </div> -->
       <div v-if="isFulfillmentAvailable">{{ tripStatusVal }}</div>
     </div>
     <div id="cafe-map"></div>
@@ -28,9 +29,24 @@
 <script>
 import { SfButton, SfIcon } from '@storefront-ui/vue';
 import DriverInfo from '../pages/DriverInfo.vue';
+import { useUiState } from '~/composables';
 import { ref, watch, onBeforeMount, computed } from '@vue/composition-api';
 import { useOrderStatus, useTrack } from '@vue-storefront/beckn';
 import superAgent from 'superagent';
+
+const {
+  trackLat,
+  trackLong,
+  settrackLong,
+  settrackLat,
+  TransactionId,
+  cartItem,
+  token,
+  confirmDatas,
+  confirmDataContext,
+  initResult,
+  experienceId
+} = useUiState();
 
 export default {
   data: () => ({
@@ -50,8 +66,9 @@ export default {
   },
 
   mounted() {
-    this.SourceLocation = JSON.parse(localStorage.getItem('slocation'));
-    this.destloc = JSON.parse(localStorage.getItem('destinationLocation'));
+    const { dLocation, sLocation } = useUiState();
+    this.SourceLocation = `${sLocation?.value?.addres}`;
+    this.destloc = `${dLocation?.value?.addresss}`;
 
     this.getlocation();
     this.driverposition();
@@ -109,13 +126,9 @@ export default {
       this.marker = new google.maps.Marker({
         //varible of markers lat and long are hardcoded .
         position: {
-          lat: localStorage.getItem('trackLat')
-            ? parseFloat(localStorage.getItem('trackLat'))
-            : 0,
+          lat: trackLat.value ? parseFloat(trackLat.value) : 0,
 
-          lng: localStorage.getItem('trackLong')
-            ? parseFloat(localStorage.getItem('trackLong'))
-            : 0
+          lng: trackLong.value ? parseFloat(trackLong.value) : 0
         },
         map: this.map,
         icon: movingIcon
@@ -158,7 +171,7 @@ export default {
           tripStatusVal.value = statusResults.value[0].message.order.state;
         }
         if (tripStatusVal.value === 'Ended') {
-          if (localStorage.getItem('experienceId') !== null) {
+          if (experienceId.value !== null) {
             setTimeout(async () => {
               try {
                 await fetch(
@@ -171,7 +184,7 @@ export default {
                     redirect: 'follow', // manual, *follow, error
                     referrerPolicy: 'no-referrer', // no-referrer,
                     body: JSON.stringify({
-                      experienceId: localStorage.getItem('experienceId'),
+                      experienceId: experienceId.value,
                       eventCode: 'mbtb_payment_endride',
                       eventAction: 'ending ride',
                       eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -187,7 +200,7 @@ export default {
               }
             }, 1000);
           }
-          setTimeout(function() {
+          setTimeout(function () {
             root.$router.push('/orderSuccess');
           }, 5000);
         }
@@ -198,10 +211,10 @@ export default {
       return statusResults.value;
     });
 
-    const transactionId = localStorage.getItem('transactionId');
-    const bpp_id = JSON.parse(localStorage.getItem('cartItem')).bpp_id;
-    const bpp_uri = JSON.parse(localStorage.getItem('cartItem')).bpp_uri;
-    const orderID = JSON.parse(localStorage.getItem('confirmData')).order.id;
+    const transactionId = TransactionId.value; // localStorage.getItem('transactionId');
+    const bpp_id = cartItem.value.bpp_id;
+    const bpp_uri = cartItem.value.bpp_uri;
+    const orderID = confirmDatas.value.order.id;
 
     const lat = ref(12.9732);
     const long = ref(77.6089);
@@ -222,25 +235,25 @@ export default {
           }
         }
       ];
-      const response = await status(params, localStorage.getItem('token'));
-      await onStatus({ orderIds: orderID }, localStorage.getItem('token'));
+      const response = await status(params, token.value);
+      await onStatus({ orderIds: orderID }, token.value);
     };
 
     const tripTrack = async () => {
-      const formattedInitResult = JSON.parse(
-        localStorage.getItem('initResult')
-      );
+      const formattedInitResult =
+        initResult.value
+        ;
       const params = [
         {
-          context: JSON.parse(localStorage.getItem('confirmDataContext')),
+          context: confirmDataContext.value,
           message: {
             order_id: formattedInitResult[0].message.order.id
           }
         }
       ];
       try {
-        const response = await track(params, localStorage.getItem('token'));
-        if (localStorage.getItem('experienceId') !== null) {
+        const response = await track(params, token.value);
+        if (experienceId.value !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -253,7 +266,7 @@ export default {
                   redirect: 'follow', // manual, *follow, error
                   referrerPolicy: 'no-referrer', // no-referrer,
                   body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
+                    experienceId: experienceId.value,
                     eventCode: 'mbtb_tracking_driver',
                     eventAction: 'tracking ride',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -269,9 +282,10 @@ export default {
             }
           }, 1000);
         }
+
         await onTrack(
           { messageIds: response[0].context.message_id },
-          localStorage.getItem('token')
+          token.value
         );
       } catch (error) {
         console.error(error);
@@ -298,8 +312,11 @@ export default {
                 lat.value = coordinatesArray[0];
                 long.value = coordinatesArray[1];
 
-                localStorage.setItem('trackLat', lat.value);
-                localStorage.setItem('trackLong', long.value);
+                settrackLat(lat.value);
+                settrackLong(long.value);
+
+                // localStorage.setItem('trackLat', lat.value);
+                // localStorage.setItem('trackLong', long.value);
               } catch (error) {
                 console.error('location error', error);
               }
@@ -352,6 +369,10 @@ export default {
 }
 
 div#cafe-map {
+  @media (max-height: 667px) {
+    height: 400px;
+  }
+
   width: 100%;
   //height: 280px;
   height: 500px;

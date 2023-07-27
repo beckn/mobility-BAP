@@ -5,7 +5,7 @@
       <!-- <img src="/icons/cancelOrder.svg" alt="" /> -->
       <div class="head">Booking Cancelled</div>
       <!-- <div class="sub"> -->
-        <!-- Refund will be credited to your account as per refund policy. -->
+      <!-- Refund will be credited to your account as per refund policy. -->
       <!-- </div> -->
       <button class="sf-button color-primary" @click="goBack">
         <div>Go back Home</div>
@@ -18,6 +18,22 @@
 </template>
 <script>
 import { SfIcon, SfRadio } from '@storefront-ui/vue';
+import { useUiState } from '~/composables';
+const {
+  updatesLocation,
+  updatedLocation,
+  setName,
+  setphoneNo,
+  settrackLong,
+  settrackLat,
+  setquoteData,
+  setTransactionId,
+  setcartItem,
+  setconfirmData,
+  setconfirmDataContext,
+  setcartData,
+  setinitResult
+} = useUiState();
 
 export default {
   name: 'OrderCancelled',
@@ -26,7 +42,31 @@ export default {
     SfRadio
   },
   setup(_, context) {
-    const goBack = () => context.root.$router.push('/');
+    const goBack = () => {
+      updatesLocation({
+        lat: undefined,
+        long: undefined,
+        addres: undefined
+      });
+      updatedLocation({
+        late: undefined,
+        lng: undefined,
+        addresss: undefined
+      });
+      setName(undefined);
+      setphoneNo(undefined);
+      settrackLong(undefined);
+      settrackLat(undefined);
+      setquoteData(undefined);
+      setTransactionId(undefined);
+      setcartItem(undefined);
+      setconfirmData(undefined);
+      setconfirmDataContext(undefined);
+      setcartData(undefined);
+      setinitResult(undefined);
+
+      context.root.$router.push('/');
+    };
 
     return {
       goBack

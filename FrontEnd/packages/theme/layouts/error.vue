@@ -31,7 +31,7 @@ export default {
   setup(_, context) {
     const goHome = () => context.root.$router.push('/');
 
-    const goBack = () => context.root.$router.back();
+    const goBack = () =>{ context.root.$router.back();}
     return {
       goHome,
       goBack

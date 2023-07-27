@@ -2,53 +2,23 @@
   <client-only>
     <div class="location-content">
       <client-only>
-        <div class="s-p-addcart" @click="toggleLocationDrop">
-          <button
-            class="color-primary sf-button add-btn"
-            @click="changeItemNumber('add')"
-          >
+        <div v-if="!enableLoader" class="s-p-addcart" @click="toggleLocationDrop">
+          <button class="color-primary sf-button add-btn" @click="changeItemNumber('add')">
             Select
           </button>
         </div>
       </client-only>
-      <template>
-        <div>
-          <SfSidebar
-            :visible="!!isLocationdropOpen"
-            :button="false"
-            @click="goBack"
-            @close="toggleLocationDrop"
-            class="sidebar sf-sidebar--right"
-          >
-            <transition name="fade">
-              <client-only>
-                <div
-                  v-if="enableLoader"
-                  key="loadingCircle"
-                  class="loader-circle"
-                >
-                  <LoadingCircle :enable="enableLoader" />
-                </div>
-                <div v-if="isQuoteData" id="location" class="location-drop">
-                  <LocationSearch
-                    :b_name="b_name"
-                    @locationSelected="locationSelected"
-                    @toggleLocationDrop="toggleLocationDrop"
-                    v-e2e="'app-location-sidebar'"
-                  />
-                </div>
-              </client-only>
-            </transition>
-          </SfSidebar>
-        </div>
-      </template>
+
+      <div v-if="enableLoader" key="loadingCircle" class="loader-circle ">
+        <LoadingCircle :enable="enableLoader" />
+      </div>
     </div>
   </client-only>
 </template>
 <script>
 import { SfCircleIcon, SfButton, SfSidebar, SfIcon } from '@storefront-ui/vue';
 import { ref, watch } from '@vue/composition-api';
-import LocationSearch from '../components/LocationSearch.vue';
+import LocationSearch from './LocationSearch.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { useUiState } from '~/composables';
 import LoadingCircle from '../components/LoadingCircle';
@@ -84,7 +54,16 @@ export default {
     };
   },
   setup(props, { root, emit }) {
-    const { selectedLocation, updateLocation } = useUiState();
+    const {
+      selectedLocation,
+      updateLocation,
+      setquoteData,
+      setTransactionId,
+      cartItem,
+      token,
+      TransactionId,
+      experienceId
+    } = useUiState();
     const isLocationdropOpen = ref(false);
     const _value = ref(props.value);
     const _productIndex = ref(props.index);
@@ -93,7 +72,7 @@ export default {
     const enableLoader = ref(false);
     const location = ref(selectedLocation?.value?.address);
     const currentUser = root.$store.$fire.auth.currentUser;
-    const b_name = ref('selectcab');
+
     const toggleLocationDrop = () => {
       isLocationdropOpen.value = !isLocationdropOpen.value;
     };
@@ -120,16 +99,16 @@ export default {
     const getQuote = async (_productIndex) => {
       console.log('_productIndex.value', _productIndex.value);
       enableLoader.value = true;
-      const cartItems = JSON.parse(localStorage.getItem('cartItem'));
+      const cartItems = JSON.parse(cartItem.value);
       if (cartItems) {
         const getQuoteRequest = [
           {
             context: {
               // eslint-disable-next-line camelcase
-              bpp_id: cartItems.bpp_id,
+              bpp_id: cartItems[0].bpp_id,
               // eslint-disable-next-line camelcase
-              bpp_uri: cartItems.bpp_uri,
-              transaction_id: localStorage.getItem('transactionId')
+              bpp_uri: cartItems[0].bpp_uri,
+              transaction_id: TransactionId.value,
             },
             message: {
               cart: {
@@ -141,10 +120,10 @@ export default {
 
         const responseQuote = await init(
           getQuoteRequest,
-          localStorage.getItem('token')
+          token.value
         );
 
-        if (localStorage.getItem('experienceId') !== null) {
+        if (experienceId.value !== null) {
           setTimeout(async () => {
             try {
               await fetch(
@@ -157,7 +136,7 @@ export default {
                   redirect: 'follow', // manual, *follow, error
                   referrerPolicy: 'no-referrer', // no-referrer,
                   body: JSON.stringify({
-                    experienceId: localStorage.getItem('experienceId'),
+                    experienceId: experienceId.value,
                     eventCode: 'mbtb_ride_slectd',
                     eventAction: 'ride selected',
                     eventSourceId: 'mobilityreferencebap.becknprotocol.io',
@@ -173,8 +152,9 @@ export default {
             }
           }, 1000);
         }
+
         const msgId = responseQuote[0].context.message_id;
-        await poll({ messageIds: msgId }, localStorage.getItem('token'));
+        await poll({ messageIds: msgId }, token.value);
       }
       // Loops over the onGetQuote response and checks for error object. If any error then throws 'api fail'
       const handleOnGetQuoteError = (onGetQuoteRes) => {
@@ -196,13 +176,13 @@ export default {
 
           if (helpers.shouldStopPooling(onGetQuoteRes, 'quote')) {
             stopPolling();
-            localStorage.setItem(
-              'quoteData',
-              JSON.stringify(onGetQuoteRes[0].message)
-            );
+
+            setquoteData(JSON.stringify(onGetQuoteRes[0].message));
+
+            setTransactionId(onGetQuoteRes[0].context.transaction_id);
 
             enableLoader.value = false;
-            if (localStorage.getItem('experienceId') !== null) {
+            if (experienceId.value !== null) {
               setTimeout(async () => {
                 try {
                   await fetch(
@@ -215,7 +195,7 @@ export default {
                       redirect: 'follow', // manual, *follow, error
                       referrerPolicy: 'no-referrer', // no-referrer,
                       body: JSON.stringify({
-                        experienceId: localStorage.getItem('experienceId'),
+                        experienceId: experienceId.value,
                         eventCode: 'mbth_accept_ride',
                         eventAction: 'quotation sent',
                         eventSourceId:
@@ -233,6 +213,7 @@ export default {
               }, 1000);
             }
             isQuoteData.value = true;
+            root.$router.push('/LocationSearch');
           }
         }
       );
@@ -246,7 +227,7 @@ export default {
 
     return {
       isQuoteData,
-      b_name,
+
       changeItemNumber,
       _value,
       _productIndex,
@@ -285,26 +266,31 @@ export default {
 <style lang="scss" scoped>
 .loader-circle {
   margin-top: 37%;
+
 }
 
 .sf-circle-icon {
   --icon-color: #f37a20;
 }
+
 .layout-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
+
 .notShown {
   visibility: hidden !important;
   position: absolute;
 }
+
 .button-pos {
   display: flex;
   align-items: center;
   height: 5px;
   padding-left: 5px;
 }
+
 .location-icon {
   display: flex;
   width: 125px;
@@ -315,20 +301,25 @@ export default {
   letter-spacing: 0em;
   text-align: left;
 }
+
 .sign-in-text {
   color: #f37a20;
 }
+
 .userIcon {
   background-color: #f37a20;
 }
+
 .user-cart-content {
   display: flex;
   justify-content: space-between;
   width: 7rem;
 }
+
 .profile-tooltip {
   position: relative;
 }
+
 .profile-tooltip::before,
 .profile-tooltip::after {
   --scale: 0;
@@ -337,11 +328,11 @@ export default {
   position: absolute;
   top: -0.25rem;
   left: 50%;
-  transform: translateX(-50%) translateY(var(--translate-y, 0))
-    scale(var(--scale));
+  transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
   transition: 150ms transform;
   transform-origin: bottom center;
 }
+
 .profile-tooltip::before {
   --translate-y: calc(-100% - var(--arrow-size));
   content: attr(data-tooltip);
@@ -353,10 +344,12 @@ export default {
   margin-left: -2rem;
   background: var(--tooltip-color);
 }
+
 .profile-tooltip:hover::before,
 .profile-tooltip:hover::after {
   --scale: 1;
 }
+
 .profile-tooltip::after {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';

@@ -20,10 +20,90 @@ const state = reactive({
   },
   clearCartPopup: false,
   enableLoadindBar: false,
-  explorePageData: null
+  explorePageData: null,
+  sLocation: {
+    lat: '',
+    long: '',
+    addres: ''
+  },
+  dLocation: {
+    late: '',
+    lng: '',
+    addresss: ''
+  },
+  Name: '',
+  phoneNo: '',
+  trackLat: '',
+  trackLong: '',
+  quoteData: '',
+  TransactionId: '',
+  cartItem: '',
+  token: '',
+  confirmDatas: '',
+  confirmDataContext: '',
+  cartData: '',
+  initResult: '',
+  experienceId: ''
 });
 
 const useUiState = () => {
+  const initResult = computed(() => state.initResult);
+  const setinitResult = (data) => (state.initResult = data);
+  const cartData = computed(() => {
+    state.cartData;
+  });
+  const setcartData = (data) => {
+    state.cartData = data;
+  };
+
+  const confirmDataContext = computed(() => state.confirmDataContext);
+  const setconfirmDataContext = (data) => (state.confirmDataContext = data);
+
+  const confirmDatas = computed(() => state.confirmDatas);
+  const setconfirmData = (data) => (state.confirmDatas = data);
+  const token = computed(() => state.token);
+  const settoken = (data) => {
+    state.token = data;
+  };
+
+  const cartItem = computed(() => state.cartItem);
+  const setcartItem = (data) => (state.cartItem = data);
+  const TransactionId = computed(() => state.TransactionId);
+  const setTransactionId = (data) => {
+    state.TransactionId = data;
+  };
+
+  const quoteData = computed(() => state.quoteData);
+  const setquoteData = (data) => (state.quoteData = data);
+
+  const trackLat = computed(() => state.trackLat);
+  const trackLong = computed(() => state.trackLong);
+  const settrackLat = (data) => {
+    state.trackLat = data;
+  };
+  const settrackLong = (data) => {
+    state.trackLong = data;
+  };
+
+  const Name = computed(() => state.Name);
+  const setName = (data) => {
+    state.Name = data;
+  };
+  const phoneNo = computed(() => {
+    state.phoneNo;
+  });
+  const setphoneNo = (data) => {
+    state.phoneNo = data;
+  };
+
+  const sLocation = computed(() => state.sLocation);
+  const updatesLocation = (location) => {
+    state.sLocation = location;
+  };
+  const dLocation = computed(() => state.dLocation);
+  const updatedLocation = (location) => {
+    state.dLocation = location;
+  };
   const isCartSidebarOpen = computed(() => state.isCartSidebarOpen);
   const toggleCartSidebar = () => {
     state.isCartSidebarOpen = !state.isCartSidebarOpen;
@@ -60,7 +140,6 @@ const useUiState = () => {
   const searchString = computed(() => state.searchString);
   const changeSearchString = (data) => {
     state.searchString = data;
-
   };
 
   const IsSearchVisible = computed(() => state.IsSearchVisible);
@@ -88,6 +167,11 @@ const useUiState = () => {
     state.explorePageData = data;
   };
 
+  const experienceId = computed(() => state.experienceId);
+  const setExperienceId = (id:string) => {
+    state.experienceId = id;
+  };
+
   return {
     isCartSidebarOpen,
     isWishlistSidebarOpen,
@@ -113,7 +197,37 @@ const useUiState = () => {
     updateLocation,
     changeClearCart,
     toggleLoadindBar,
-    updateExpPageData
+    updateExpPageData,
+    sLocation,
+    updatesLocation,
+    dLocation,
+    updatedLocation,
+    Name,
+    setName,
+    phoneNo,
+    setphoneNo,
+    trackLat,
+    trackLong,
+    settrackLong,
+    settrackLat,
+    quoteData,
+    setquoteData,
+    TransactionId,
+    setTransactionId,
+    cartItem,
+    setcartItem,
+    token,
+    settoken,
+    confirmDatas,
+    setconfirmData,
+    confirmDataContext,
+    setconfirmDataContext,
+    cartData,
+    setcartData,
+    initResult,
+    setinitResult,
+    experienceId,
+    setExperienceId
   };
 };
 

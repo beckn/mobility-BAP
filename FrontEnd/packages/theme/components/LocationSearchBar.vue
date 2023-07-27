@@ -44,11 +44,11 @@
         </li>
       </ul>
 
-      <div v-if="visible" class="btn">
+      <!-- <div v-if="visible" class="btn">
         <SfButton id="btn" @click="enableLocation()"
           ><h5>Current-Location</h5></SfButton
         >
-      </div>
+      </div> -->
       <template>
         <div>
           <div id="taxi-map"></div>
@@ -63,7 +63,7 @@
                       <div class="close" @click="$emit('edit')"></div>
                     </div>
 
-                    <hr style="width:100%;" />
+                    <hr class="sf-divider" />
                     <h6
                       style="font-weight:400; font-size:14px;margin-bottom: 0px;margin-top: 0px;"
                     >
@@ -99,7 +99,6 @@ export default {
   data: () => ({
     location: '',
     visible: false,
-
     searchResults: [],
     service: null,
     geocodeService: null,
@@ -108,7 +107,7 @@ export default {
       lag: ''
     },
     map: null,
-    zoom: 14,
+    zoom: 18,
     show: true,
     marker: null
   }),
@@ -144,7 +143,6 @@ export default {
       this.searchResults = predictions;
     },
     getLocationDetails(selectedLocation) {
-      console.log('===>1');
       localStorage.setItem('SourceLocation', JSON.stringify(selectedLocation));
       this.location = selectedLocation.description;
       this.geocodeService
@@ -247,15 +245,21 @@ export default {
 
   watch: {
     location(newValue) {
+      //TODO :- To check after getting input from Ravi
       if (newValue) {
-        this.service.getQueryPredictions(
-          {
+        this.service
+          .getPlacePredictions({
             input: this.location,
-            types: ['geocode']
-            // componentRestrictions: { country: 'in' }
-          },
-          this.displaySuggestions
-        );
+            componentRestrictions: {
+              country: 'IN',
+            }
+          })
+          .then((r) => {
+            this.searchResults = r.predictions;
+          })
+          .catch((error) =>
+            console.error(`error while fetching search predictions ${error}`)
+          );
       }
     }
   },
@@ -278,10 +282,14 @@ export default {
 //   padding-left: 70%;
 // }
 div#taxi-map {
+  @media (max-height: 667px) {
+    height: 400px;
+  }
   width: 100%;
-  height: 450px;
+  height: 500px;
   overflow: hidden;
 }
+
 #btn1 {
   width: 100%;
   margin-bottom: 0%;
@@ -304,6 +312,12 @@ div#taxi-map {
   // height: 10%;
   padding-bottom: 0%;
 }
+
+.h1 {
+  width: 100%;
+  color: rgb(125, 118, 118);
+}
+
 .close {
   position: absolute;
   right: 0px;
@@ -312,9 +326,11 @@ div#taxi-map {
   height: 32px;
   opacity: 1;
 }
+
 .close:hover {
   opacity: 1;
 }
+
 .close:before,
 .close:after {
   position: absolute;
@@ -324,22 +340,27 @@ div#taxi-map {
   width: 2px;
   background-color: #333;
 }
+
 .close:before {
   transform: rotate(45deg);
 }
+
 .close:after {
   transform: rotate(-45deg);
 }
+
 .btn {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 #btn {
   border-radius: 4px;
   height: 44px;
   margin-bottom: 0%;
 }
+
 h5 {
   font-style: normal;
   font-weight: 600;
