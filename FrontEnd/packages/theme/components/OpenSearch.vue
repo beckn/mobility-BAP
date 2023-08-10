@@ -109,34 +109,10 @@
                   To know more, read the details at :
                   <br />
                   <br />
-                  <!-- TODO pointer event disables of bellow link in class link -->
-                  <a style="cursor: pointer; color: blue; pointer-events: none;" target="_blank"
-                    href="https://travelbuddy.becknprotocol.io/QuarantineZone?policyId=2338f373-b4b5-46b9-b6cc-9e3963b488fa">
-                    {{ violatedPolicyName }}</a>
 
-                  <!-- <a
-                    href="https://cdnbbsr.s3waas.gov.in/s3850af92f8d9903e7a4e0559a98ecc857/uploads/2021/04/2021040547.pdf"
-                    target="_blank"
-                    class="link"
-                  >
-                    Statewise requirements of Quarantine</a
-                  >
-                  <br />
-                  <a
-                    href="https://www.mohfw.gov.in/pdf/SOPonCOVID19Containment&ManagementinPeriurbanRural&tribalareas.pdf"
-                    target="_blank"
-                    class="link"
-                    >SOP of containment & management</a
-                  >
-                  <br />
-                  <a
-                    href="https://www.mohfw.gov.in/pdf/ContainmentandSurveillanceManualforSupervisorsincontainmentzones.pdf"
-                    class="link"
-                    target="_blank"
-                    dis
-                    >Containment & surveillance guidelines</a
-                  >
-                  <br /> -->
+                  <span @click="openViolatedPolicy" style="cursor: pointer; color: blue">
+                    {{ violatedPolicyName }}
+                  </span>
                 </p>
                 <button class="color-primary btnclass1" @click="underStandButtonHandler">
                   <div class="f-btn-text">
@@ -250,9 +226,10 @@ export default {
     const errorMsg = ref(false);
     const errorMsg2 = ref(false);
     const upadateMap = ref('');
-    console.log(context.root.$store.state.sLocation);
     const isAlert = ref(false);
     const violatedPolicyName = ref('')
+    const violatedPolicyId = ref('');
+
     const underStandButtonHandler = () => {
       isAlert.value = false;
       openSearch();
@@ -282,7 +259,8 @@ export default {
               openSearch();
             } else if (res.body.policyCheckResult[0].violation === true) {
               enableLoader.value = false;
-              violatedPolicyName.value = res.body.policyCheckResult[0].violatedPolicies[0].name
+              violatedPolicyName.value = res.body.policyCheckResult[0].violatedPolicies[0].name;
+              violatedPolicyId.value = res.body.policyCheckResult[0].violatedPolicies[0].id;
               Alertmodal();
             }
           });
@@ -490,6 +468,15 @@ export default {
       }
     };
 
+    const openViolatedPolicy = () => {
+      context.root.$router.push({
+        path: '/QuarantineZone',
+        query: {
+          policyId: violatedPolicyId.value
+        }
+      });
+    }
+
     return {
       pickupLocation,
       selectedLocation,
@@ -514,7 +501,9 @@ export default {
       enableLoader,
       voilationcheck,
       underStandButtonHandler,
-      violatedPolicyName
+      violatedPolicyName,
+      openViolatedPolicy,
+      violatedPolicyId
     };
   }
 };

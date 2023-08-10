@@ -74,11 +74,11 @@ export default {
     },
     markerpos() {
       const that = this;
-      google.maps.event.addListener(that.marker, 'dragstart', function(evt) {
+      google.maps.event.addListener(that.marker, 'dragstart', function (evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
         that.mapCenter.lag = evt.latLng.lng().toFixed(3);
       });
-      google.maps.event.addListener(that.marker, 'dragend', function(evt) {
+      google.maps.event.addListener(that.marker, 'dragend', function (evt) {
         that.mapCenter.lat = evt.latLng.lat().toFixed(3);
         that.mapCenter.lag = evt.latLng.lng().toFixed(3);
         that.codeLatLng(that.mapCenter.lat, that.mapCenter.lag);
@@ -91,6 +91,7 @@ export default {
         (results, status) => {
           if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
+              localStorage.setItem('SourceLocation', JSON.stringify(results[1]))
               //formatted address
               this.$emit(
                 'Currentlocation',
@@ -109,9 +110,8 @@ export default {
     }
   },
   watch: {
-    upadateMap: function(newVal, oldVal) {
+    upadateMap: function (newVal, oldVal) {
       // watch it
-      console.log('N:',newVal, 'O:',oldVal)
       this.setMap(
         parseFloat(`${this.$store.state.sLocation.lat}`),
         parseFloat(`${this.$store.state.sLocation.long}`)
@@ -126,6 +126,7 @@ div#map {
   @media (max-height: 667px) {
     height: 400px;
   }
+
   height: 500px;
   width: 100%;
   overflow: hidden;
