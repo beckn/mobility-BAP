@@ -37,7 +37,7 @@ class LoggingFactory @Autowired constructor(
     context_country = country,
     context_city = city,
     context_action = action?.value,
-    context_core_version = ProtocolVersion.V0_9_1.value,
+    context_core_version = ProtocolVersion.V0_9_4.value,
     context_bap_id = bapId,
     context_bap_uri = bapUrl,
     context_transaction_id = transactionId,

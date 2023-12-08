@@ -40,7 +40,7 @@ internal class ContextFactorySpec : DescribeSpec() {
         context.country shouldBe Country.India.value
         context.city shouldBe City.Pune.value
         context.action shouldBe ProtocolContext.Action.SEARCH
-        context.coreVersion shouldBe ProtocolVersion.V0_9_1.value
+        context.coreVersion shouldBe ProtocolVersion.V0_9_4.value
         context.bapId shouldBe "bap 1"
         context.bapUri shouldBe "bap1.com"
         context.bppId shouldBe null
